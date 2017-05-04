@@ -1,0 +1,1 @@
+ALTER TABLE usuario MODIFY ativo BOOLEAN NOT NULL;

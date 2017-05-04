@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+	
+	<head>
+	<meta charset="UTF-8"/>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+	<title>Bomfim</title>
+
+	<link rel="stylesheet" type="text/css" th:href="@{/layout/stylesheets/vendors.min.css}"/>
+	<link rel="stylesheet" type="text/css" th:href="@{/layout/stylesheets/algaworks.css}"/>
+	<link rel="stylesheet" type="text/css" th:href="@{/layout/stylesheets/application.css}"/>
+	<link rel="stylesheet" type="text/css" th:href="@{/stylesheets/brewer.css}"/>
+	<link rel="stylesheet" type="text/css" th:href="@{/stylesheets/vendors/bootstrap-datepicker.standalone.min.css}"/>
+	
+	<link rel="stylesheet" type="text/css" th:href="@{/stylesheets/vendors/bootstrap-switch.min.css}"/>
+	
+	<link rel="shortcut icon" th:href="@{/images/casa-icon.png}"/>
+	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+	<!--[if lt IE 9]>
+		<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+		<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+	<![endif]-->
+</head>
+
+<body>
+
+<input type="hidden" name="_crsf" th:value="${_csrf.token}">
+<input type="hidden" name="_crfs_header" th:value="${_csrf.headerName}"/>
+
+<div class="aw-layout-page">
+	<div th:replace="layout/fragments/BarraNavegacao :: barraNavegacao"></div>
+	<div th:replace="layout/fragments/BarraLateral :: barraLateral"></div>
+
+	<section class="aw-layout-content  js-content" layout:fragment="conteudo"></section>
+	<div th:replace="layout/fragments/Footer :: footer"></div>	
+</div>
+	
+	
+	
+	<script th:src="@{/javascripts/vendors/numeral.min.js}"></script>
+	<script th:src="@{/layout/javascripts/vendors.min.js}"></script>
+	<script th:src="@{/layout/javascripts/algaworks.min.js}"></script>
+	<script th:src="@{/javascripts/vendors/jquery.maskMoney.min.js}"></script>
+	<script th:src="@{/javascripts/brewer.js}"></script>
+	<script th:src="@{/javascripts/vendors/jquery.mask.min.js}"></script>
+	<script th:src="@{/javascripts/mascara-cpf-cnpj.js}"></script>
+	<script th:src="@{/javascripts/brewer.dialogo-excluir.js}"></script>
+	
+	<script th:src="@{/javascripts/vendors/bootstrap-datepicker.js}"></script>
+	<script th:src="@{/javascripts/vendors/bootstrap-datepicker.pt-BR.min.js}"></script>
+	<script th:src="@{/javascripts/vendors/bootstrap-switch.min.js}"></script>
+	<script>
+		$('.js-status').bootstrapSwitch();
+	</script>
+	
+	<th:block layout:fragment="javascript-extra"></th:block>
+</body>
+</html>
+	
