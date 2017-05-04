@@ -1,0 +1,152 @@
+/*
+##############
+# UTILITARIOS 
+###############
+*/
+.bw-glyphicon-large {
+	font-size: 18px;
+}
+
+.bw-required>.control-label:after {
+	content: "*"
+}
+
+/*
+##############
+# COMPONENTES 
+###############
+*/
+
+/* FIELD ACTION */
+.bw-field-action {
+	display: flex;
+}
+
+.bw-field-action_icon {
+	margin: 6px 0 0 5px;
+}
+
+/* Upload */
+.bw-upload {
+	padding: 15px;
+	border: 1px dashed #ddd;
+	border-radius: 4px;
+	background: #fafafa;
+	text-align: center;
+}
+
+.bw-upload-form-file {
+	display: inline-block;
+	vertical-align: middle;
+	position: relative;
+	overflow: hidden;
+	margin-bottom: 1px;
+}
+
+.bw-upload-form-file>input[type=file] {
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 1;
+	width: 100%;
+	opacity: 0;
+	cursor: pointer;
+	font-size: 500px;
+}
+
+/*Tabela simples */
+.bw-tabela-simples {
+	margin-top: 15px;
+}
+
+.bw-tabela-simples table tr th {
+	border-bottom-width: 1px;
+}
+
+.bw-tabela-simples table tr td {
+	border-top: none;
+	border-bottom: 1px solid #e7eaec;
+	padding: 10px;
+	vertical-aling: middle;
+}
+
+###################
+#
+PÁGINAS DO SISTEMA
+ ################### * /
+ 
+.table-col-acoes{
+	min-width: 50px;
+	width: 50px
+}
+ 
+	/* Colunas - Pesquisa de Imovel */  
+.table-imovel-col-foto {
+	min-width: 50px;
+	width: 50px
+}
+.table-col-acoes-imovel{
+	min-width: 100px;
+	width: 100px
+}
+
+.table-imovel-col-nome {
+	width: 35%;
+}
+
+.table-imovel-col-tipoImovel {
+	width: 20%;
+}
+
+.table-imovel-col-endereco {
+	width: 25%;
+}
+		/*Fim colunas imovel*/
+
+.table-estilo-col-acoes {
+	width: 10%;
+}
+
+.table-estilo-col-codigo {
+	width: 10%;
+}
+
+.table-estilo-col-nome {
+	width: 80%;
+}
+
+.table-cliente-col-12 {
+	text-align: right;
+	width: 12%;
+}
+
+.table-cliente-col-10-center {
+	text-align: center;
+	width: 10%;
+}
+
+.table-cliente-col-50 {
+	width: 50%;
+}
+
+.table-cidade-estado-45-right {
+	text-align: right;
+	width: 45%;
+}
+
+.table-cidade-nome-45 {
+	width: 45%;
+}
+
+/*
+#################################### 
+# CUSTOMIZAÇÃO DE COMPONENTES
+####################################
+*/
+
+.checkbox input[type="checkbox"]:checked + input + label::after {
+    font-family: 'FontAwesome';
+    content: "\f00c"; 
+}
+
+

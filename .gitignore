@@ -1,0 +1,12 @@
+/target/
+*.metadata/
+RemoteSystemsTempFiles
+*.idea/
+.project
+.bomfim.iml
+.gitignore.swp
+out/
+classes/
+ImovelControl.iml
+
+
