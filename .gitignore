@@ -8,5 +8,6 @@ RemoteSystemsTempFiles
 out/
 classes/
 ImovelControl.iml
+*.rebel.xml
 
 

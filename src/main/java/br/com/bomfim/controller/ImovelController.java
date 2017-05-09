@@ -3,6 +3,12 @@ package br.com.bomfim.controller;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
+import br.com.bomfim.controller.page.PageWrapper;
+import br.com.bomfim.model.Imovel;
+import br.com.bomfim.model.enuns.Estado;
+import br.com.bomfim.repository.Imoveis;
+import br.com.bomfim.service.CadastroImovelService;
+import br.com.bomfim.service.exception.ImpossivelExcluirEntidadeException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -18,13 +24,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import br.com.bomfim.controller.page.PageWrapper;
-import br.com.bomfim.model.Imovel;
-import br.com.bomfim.model.enuns.Estado;
-import br.com.bomfim.repository.Imoveis;
-import br.com.bomfim.service.CadastroImovelService;
-import br.com.bomfim.service.exception.ImpossivelExcluirEntidadeException;
 
 @Controller
 @RequestMapping("/imovel")
@@ -58,7 +57,7 @@ public class ImovelController {
 	}
 
 	@GetMapping
-	public ModelAndView pesquisar(Imovel imovel, BindingResult result, @PageableDefault(size=5) Pageable pageable, 
+	public ModelAndView pesquisar(Imovel imovel, BindingResult result, @PageableDefault(size=5) Pageable pageable,
 			HttpServletRequest httpServletRequest) {
 		ModelAndView modelAndView = new ModelAndView("imovel/PesquisaImovel");
 		setAllObjectsFromImovelToModelView(modelAndView);
@@ -66,7 +65,7 @@ public class ImovelController {
 		modelAndView.addObject("pagina", pagina);
 		return modelAndView;
 	}
-	
+
 
 	private void setAllObjectsFromImovelToModelView(ModelAndView modelAndView) {
 		modelAndView.addObject("estados", Estado.values());

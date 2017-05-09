@@ -1,129 +1,113 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" 
-xmlns:th="http://www.thymeleaf.org" 
-xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" 
-layout:decorator="'layout/LayoutPadrao'"
-xmlns:bomfim="http://bomfim.com.br"
-xmlns:data="http://www.thymeleaf.org/extras/data" >
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="'layout/LayoutPadrao'"
+      xmlns:bomfim="http://bomfim.com.br"
+>
 
 <head>
-<title>Cadastro de Imovel</title>
-
-	<link rel="stylesheet" th:href="@{/stylesheets/vendors/upload.min.css}"/>
+    <title>Cadastro de Imóvel</title>
+    <link rel="stylesheet" th:href="@{/stylesheets/vendors/upload.min.css}"/>
 </head>
 
 <body>
 
-	<section layout:fragment="conteudo">
+<section layout:fragment="conteudo">
 
-		<div class="page-header">
-			<div class="container-fluid">
-				<div class="row">
-					<div class="col-sm-10">
-						<h1 th:if= "${imovel.novo}">Cadastro Do Imovel</h1>
-						<h1 th:unless= "${imovel.novo}" th:text="|Edição do Imovel - ${imovel.nome}|">Cadastro Do Imovel</h1>
-					</div>
-					<div class="col-sm-2">
-						<div class="aw-page-header-controls">
-							 <a class="btn btn-default" th:href="@{/imovel}">
-								 <i class="glyphicon glyphicon-search"></i> <span class="hidden-xs  hidden-sm">Pesquisar Imoveis</span>
-							 </a>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
+    <div class="page-header">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-10">
+                    <h1 th:if="${imovel.novo}">Cadastro Do Imóvel</h1>
+                    <h1 th:unless="${imovel.novo}" th:text="|Edição do Imovel - ${imovel.nome}|">Cadastro Do Imóvel</h1>
+                </div>
+                <div class="col-sm-2">
+                    <div class="aw-page-header-controls">
+                        <a class="btn btn-default" th:href="@{/imovel}">
+                            <i class="glyphicon glyphicon-search"></i> <span class="hidden-xs  hidden-sm">Pesquisar Imóveis</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-		<div class="container-fluid">
-		
+    <div class="container-fluid">
 
-			
-			<form method="POST" th:object="${imovel}" class="form-vertical  js-form-loading" th:action="@{/imovel/novo}"> 
-			<bomfim:message/>
-			<input type="hidden" th:field="*{codigo}">
-			
-				<div class="row">
-					<div class="col-sm-12  form-group bw-required" bomfim:classforerror="nome">
-						<label for="nome" class="control-label">Nome</label> 
-						<input id="nome" type="text" class="form-control" th:field="*{nome}"/>
-					</div>
-				</div>
 
-				<div class="row">
-					<div class="col-sm-2  form-group bw-required" bomfim:classforerror="endereco.cep">
-						<label for="cep" class="control-label">Cep</label> 
-						<input id="cep" type="text" class="form-control" th:field="*{endereco.cep}"/>
-					</div>
-					<div class="col-sm-4  form-group bw-required" bomfim:classforerror="endereco.bairro">
-						<label for="bairro" class="control-label">Bairro</label>
-						<input id="bairro" type="text" class="form-control" th:field="*{endereco.bairro}"/>
-					</div>
-					<div class="col-sm-6  form-group bw-required" bomfim:classforerror="endereco.cidade">
-						<label for="cidade" class="control-label">Cidade</label> 
-						<input id="cidade" type="text" class="form-control" th:field="*{endereco.cidade}"/>
-					</div>
-				</div>
-				<div class="row">
-					<div class="form-group  col-sm-6 bw-required" bomfim:classforerror="endereco.estado">
-						<label class="control-label" for="estado">Estado</label> 
-						<select id="estado" class="form-control" th:field="*{endereco.estado}">
-		                    <option value="">Estado</option>
-		                    <option th:each="estado : ${estados}" th:value="${estado}" th:text="${estado.descricao}"></option>
-		                </select>
-					</div>
-					<div class="col-sm-6  ">
-						<label for="cidade" class="control-label">Complemento</label> 
-						<textarea id="cidade" rows="4" class="form-control" ></textarea>
-					</div>
-				</div>
-				<!-- <div class="row">
-					<div class="form-group  col-sm-12 bw-required">
-						<label class="control-label " for="tipoImovel" bomfim:classforerror="tipoImovel">Tipo do imovel</label> 
-						<div>
-							<th:block th:each="tipoImovel : ${tiposImoveis}">
-								<div class="radio  radio-inline">
-									<input type="radio" th:id="|id_${tipoImovel}|" name="tipoImovel" 
-									th:field="*{tipoImovel}" th:value="${tipoImovel}"
-									class="js-radio-tipo-imovel" data:documento="${tipoImovel.descricao}">
-									<label class="control-label" th:for="|id_${tipoImovel}|" th:text="${tipoImovel.descricao}">Casa</label>
-								</div>
-							</th:block>
-						</div>
-					
-					</div>
-				</div> -->
-				<div class="row">
-					<div class="form-group  col-sm-12">
-					<input type="hidden" th:field="*{foto}">
-					<input type="hidden" th:field="*{contentType}">
-						<label class="control-label">Foto</label>
-						
-						<div class="js-container-foto-imovel" th:attr="data-url-fotos=@{/fotos}">
-							<div id="upload-drop" class="bw-upload">
-								<i class="glyphicon  glyphicon-cloud-upload"></i>
-								<span>Arraste a foto aqui ou </span>
-								<a class="bw-upload-form-file">selecione <input id="upload-select" type="file" accept=".jpg,.jpeg,.png"/></a>
-							</div>
-						</div>
-					</div>
-				</div>
-				
-				<div class="form-group">
-					<button class="btn  btn-primary" type="submit">Salvar</button>
-				</div>
+        <form method="POST" th:object="${imovel}" class="form-vertical  js-form-loading" th:action="@{/imovel/novo}">
+            <bomfim:message/>
+            <input type="hidden" th:field="*{codigo}">
 
-			</form>
-		</div>
-		<th:block th:replace="handlebars/FotoImovel"></th:block>
-	</section>
-	
-	<th:block layout:fragment="javascript-extra">
-		<script th:src="@{/javascripts/vendors/uikit.min.js}"></script>
-		<script th:src="@{/javascripts/vendors/upload.min.js}"></script>
-		<script th:src="@{/javascripts/vendors/handlebars.min.js}"></script>
-		<script th:src="@{/javascripts/imovel-upload-foto.js}"></script>
-		<script th:src="@{/javascripts/change-tipo-imovel.js}"></script>
-	</th:block>
+            <div class="row">
+                <div class="col-sm-12  form-group bw-required" bomfim:classforerror="nome">
+                    <label for="nome" class="control-label">Nome</label>
+                    <input id="nome" type="text" class="form-control" th:field="*{nome}"/>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-2  form-group bw-required" bomfim:classforerror="endereco.cep">
+                    <label for="cep" class="control-label">Cep</label>
+                    <input id="cep" type="text" class="form-control" th:field="*{endereco.cep}"/>
+                </div>
+                <div class="col-sm-4  form-group bw-required" bomfim:classforerror="endereco.bairro">
+                    <label for="bairro" class="control-label">Bairro</label>
+                    <input id="bairro" type="text" class="form-control" th:field="*{endereco.bairro}"/>
+                </div>
+                <div class="col-sm-6  form-group bw-required" bomfim:classforerror="endereco.cidade">
+                    <label for="cidade" class="control-label">Cidade</label>
+                    <input id="cidade" type="text" class="form-control" th:field="*{endereco.cidade}"/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group  col-sm-6 bw-required" bomfim:classforerror="endereco.estado">
+                    <label class="control-label" for="estado">Estado</label>
+                    <select id="estado" class="form-control" th:field="*{endereco.estado}">
+                        <option value="">Estado</option>
+                        <option th:each="estado : ${estados}" th:value="${estado}"
+                                th:text="${estado.descricao}"></option>
+                    </select>
+                </div>
+                <div class="col-sm-6  ">
+                    <label for="complemento" class="control-label">Complemento</label>
+                    <textarea id="complemento" rows="4" class="form-control"></textarea>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group  col-sm-12">
+                    <input type="hidden" th:field="*{foto}">
+                    <input type="hidden" th:field="*{contentType}">
+                    <label class="control-label">Foto</label>
+
+                    <div class="js-container-foto-imovel" th:attr="data-url-fotos=@{/fotos}">
+                        <div id="upload-drop" class="bw-upload">
+                            <i class="glyphicon  glyphicon-cloud-upload"></i>
+                            <span>Arraste a foto aqui ou </span>
+                            <a class="bw-upload-form-file">selecione <input id="upload-select" type="file"
+                                                                            accept=".jpg,.jpeg,.png"/></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <button class="btn  btn-primary" type="submit">Salvar</button>
+            </div>
+
+        </form>
+    </div>
+    <th:block th:replace="handlebars/FotoImovel"></th:block>
+</section>
+
+<th:block layout:fragment="javascript-extra">
+    <script th:src="@{/javascripts/vendors/uikit.min.js}"></script>
+    <script th:src="@{/javascripts/vendors/upload.min.js}"></script>
+    <script th:src="@{/javascripts/vendors/handlebars.min.js}"></script>
+    <script th:src="@{/javascripts/imovel-upload-foto.js}"></script>
+    <script th:src="@{/javascripts/change-tipo-imovel.js}"></script>
+</th:block>
 </body>
 
 </html>

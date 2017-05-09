@@ -1,160 +1,151 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorator="'layout/LayoutPadrao'"
-	xmlns:bomfim="http://bomfim.com.br"
-	xmlns:data="http://www.thymeleaf.org/extras/data">
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="'layout/LayoutPadrao'"
+      xmlns:bomfim="http://bomfim.com.br"
+      xmlns:data="http://www.thymeleaf.org/extras/data">
 
 <body>
-	<div th:fragment="cadastroAluguel">
-			<form method="POST" th:object="${aluguel}"
-				class="form-vertical  js-form-loading" th:action="@{/aluguel/novo}">
-				<bomfim:message />
-
-				<input type="hidden" th:field="*{codigo}">
-				<div class="panel panel-info">
-					<div class="panel-heading">
-						<h3 class="panel-title">Dados do Aluguel</h3>
-					</div>
-					<div class="panel-body">
-						<div class="row">
-							<div class="form-group  col-sm-12 bw-required"
-								bomfim:classforerror="nome">
-								<label class="control-label" for="complemento">Nome</label> <input
-									type="text" class="form-control" th:field="*{nome}" id="nome" />
-							</div>
-						</div>
-						<div class="row">
-							<div class="form-group  col-sm-12">
-								<label class="control-label" for="complemento">Complemento</label>
-								<textarea rows="4" cols="50" class="form-control"
-									th:field="*{complemento}" id="complemento"></textarea>
-							</div>
-						</div>
-					</div>
-				</div>
-
-				<div class="panel panel-info">
-					<div class="panel-heading">
-						<h3 class="panel-title">Dados do Tipo do Imóvel</h3>
-					</div>
-
-					<div class="panel-body">
-						<div class="row">
-							<div class="form-group  col-sm-12 bw-required"
-								bomfim:classforerror="tipoImovel">
-								<label class="control-label " for="tipoImovel">Tipo do
-									imovel</label>
-								<div>
-									<th:block th:each="tipoImovel : ${tiposImoveis}">
-										<div class="radio  radio-inline">
-											<input type="radio" th:id="|id_${tipoImovel.codigo}|"
-												name="tipoImovel" th:value="${tipoImovel}"
-												class="js-radio-tipo-imovel" th:field="*{tipoImovel}"
-												data:documento="${tipoImovel.descricao}"> <label
-												class="control-label" th:for="|id_${tipoImovel.descricao}|"
-												th:text="${tipoImovel.descricao}">Casa</label>
-										</div>
-									</th:block>
-								</div>
-							</div>
-						</div>
-						<div class="row">
-							<div class="form-group  col-sm-6">
-								<label class="control-label" for="tamanhoArea">Tamanho
-									da área</label>
-								<div class="input-group">
-									<input type="text" class="form-control"
-										th:field="*{tamanhoArea}" id="tamanhoArea" />
-									<div class="input-group-addon">Metros²</div>
-								</div>
-							</div>
-						</div>
-
-					</div>
-				</div>
-
-				<div class="panel panel-info">
-					<div class="panel-heading">
-						<h3 class="panel-title">Informaçoes sobre recebimento do
-							Aluguel</h3>
-					</div>
-					<div class="panel-body">
-						<div class="row">
-							<div class="form-group  col-sm-6">
-
-								<label class="control-label bw-required" for="valor">Valor
-									Mensal</label>
-								<div class="input-group">
-									<input type="text" class="form-control"
-										th:field="*{formaPagamento.valor}" id="valor" />
-									<div class="input-group-addon">R$</div>
-								</div>
-							</div>
-						</div>
-						<div class="row">
-							<div class="form-group  col-sm-2">
-								<label class="control-label" for="aguaInclusa">Agua
-									Inclusa?</label>
-								<div>
-									<input type="checkbox" class="js-status"
-										th:field="*{formaPagamento.aguaInclusa}" data-size="small"
-										data-off-color="danger" data-on-text="Sim" data-off-text="Nao">
-								</div>
-							</div>
-							<div class="form-group  col-sm-2">
-								<label class="control-label" for="luzInclusa">Luz
-									Inclusa?</label>
-								<div>
-									<input type="checkbox" class="js-status"
-										th:field="*{formaPagamento.luzInclusa}" data-size="small"
-										data-off-color="danger" data-on-text="Sim" data-off-text="Nao">
-								</div>
-							</div>
-							<div class="form-group  col-sm-2">
-								<label class="control-label" for="internetInclusa">Internet
-									Inclusa?</label>
-								<div>
-									<input type="checkbox" class="js-status"
-										th:field="*{formaPagamento.internetInclusa}" data-size="small"
-										data-off-color="danger" data-on-text="Sim" data-off-text="Nao">
-								</div>
-							</div>
-							<div class="form-group  col-sm-2">
-								<label class="control-label" for="condominio">IPTU
-									Incluso?</label>
-								<div>
-									<input type="checkbox" class="js-status"
-										th:field="*{formaPagamento.possuiCondominio}"
-										data-size="small" data-off-color="danger" data-on-text="Sim"
-										data-off-text="Nao">
-								</div>
-							</div>
-							<div class="form-group  col-sm-2">
-								<label class="control-label" for="condominio">Possui
-									Condominio?</label>
-								<div>
-									<input type="checkbox" class="js-status"
-										th:field="*{formaPagamento.possuiCondominio}"
-										data-size="small" data-off-color="danger" data-on-text="Sim"
-										data-off-text="Nao">
-								</div>
-							</div>
-
-						</div>
-					</div>
-				</div>
+<div th:fragment="cadastroAluguel">
+    <form method="POST" th:object="${aluguel}"
+          class="form-vertical  js-form-loading" th:action="@{/imovel/aluguel/novo}">
+        <bomfim:message/>
 
 
-				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-					<button type="submit" class="btn btn-primary ">Salvar</button>
-				</div>
+        <input type="hidden" th:field="*{codigo}">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h3 class="panel-title">Dados do Aluguel</h3>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="form-group  col-sm-12 bw-required" bomfim:classforerror="nome">
+                        <label class="control-label" for="complemento">Nome</label> <input
+                            type="text" class="form-control" th:field="*{nome}" id="nome"/>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group  col-sm-12">
+                        <label class="control-label" for="complemento">Complemento</label>
+                        <textarea rows="4" cols="50" class="form-control"
+                                  th:field="*{complemento}" id="complemento"></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-			</form>
-		</div>
-	</div>
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h3 class="panel-title">Dados do Tipo do Imóvel</h3>
+            </div>
+
+            <div class="panel-body">
+                <div class="row">
+                    <div class="form-group  col-sm-12 bw-required"
+                         bomfim:classforerror="tipoImovel">
+                        <label class="control-label">Tipo do imovel</label>
+                        <div>
+                            <th:block th:each="tipoImovel : ${tiposImoveis}">
+                                <div class="radio  radio-inline">
+                                    <input type="radio" th:id="|id_${tipoImovel.codigo}|"
+                                           name="tipoImovel" th:value="${tipoImovel}"
+                                           class="js-radio-tipo-imovel" th:field="*{tipoImovel}"
+                                           data:documento="${tipoImovel.descricao}"> <label
+                                        class="control-label" th:for="|id_${tipoImovel.descricao}|"
+                                        th:text="${tipoImovel.descricao}">Casa</label>
+                                </div>
+                            </th:block>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group  col-sm-6">
+                        <label class="control-label" for="tamanhoArea">Tamanho da área</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control"
+                                   th:field="*{tamanhoArea}" id="tamanhoArea"/>
+                            <div class="input-group-addon">Metros²</div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h3 class="panel-title">Informaçoes sobre recebimento do Aluguel</h3>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="form-group  col-sm-6">
+
+                        <label class="control-label bw-required" for="valor">Valor Mensal</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control"
+                                   th:field="*{formaPagamento.valor}" id="valor"/>
+                            <div class="input-group-addon">R$</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group  col-sm-2">
+                        <label class="control-label">Agua Inclusa?</label>
+                        <div>
+                            <input type="checkbox" class="js-status"
+                                   th:field="*{formaPagamento.aguaInclusa}" data-size="small"
+                                   data-off-color="danger" data-on-text="Sim" data-off-text="Nao">
+                        </div>
+                    </div>
+                    <div class="form-group  col-sm-2">
+                        <label class="control-label">Luz Inclusa?</label>
+                        <div>
+                            <input type="checkbox" class="js-status"
+                                   th:field="*{formaPagamento.luzInclusa}" data-size="small"
+                                   data-off-color="danger" data-on-text="Sim" data-off-text="Nao">
+                        </div>
+                    </div>
+                    <div class="form-group  col-sm-2">
+                        <label class="control-label">Internet Inclusa?</label>
+                        <div>
+                            <input type="checkbox" class="js-status"
+                                   th:field="*{formaPagamento.internetInclusa}" data-size="small"
+                                   data-off-color="danger" data-on-text="Sim" data-off-text="Nao">
+                        </div>
+                    </div>
+                    <div class="form-group  col-sm-2">
+                        <label class="control-label">IPTU Incluso?</label>
+                        <div>
+                            <input type="checkbox" class="js-status"
+                                   th:field="*{formaPagamento.possuiCondominio}"
+                                   data-size="small" data-off-color="danger" data-on-text="Sim"
+                                   data-off-text="Nao">
+                        </div>
+                    </div>
+                    <div class="form-group  col-sm-2">
+                        <label class="control-label">Possui Condominio?</label>
+                        <div>
+                            <input type="checkbox" class="js-status"
+                                   th:field="*{formaPagamento.possuiCondominio}"
+                                   data-size="small" data-off-color="danger" data-on-text="Sim"
+                                   data-off-text="Nao">
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+            <button type="submit" class="btn btn-primary ">Salvar</button>
+        </div>
+
+    </form>
+</div>
+</div>
 
 </body>
 
