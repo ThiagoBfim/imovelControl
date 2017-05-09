@@ -3,6 +3,15 @@ package br.com.bomfim.controller;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
+import br.com.bomfim.controller.page.PageWrapper;
+import br.com.bomfim.model.FormaPagamento;
+import br.com.bomfim.model.enuns.TipoImovel;
+import br.com.bomfim.model.tipoimovel.Aluguel;
+import br.com.bomfim.repository.Alugueis;
+import br.com.bomfim.repository.Imoveis;
+import br.com.bomfim.service.CadastroAluguelService;
+import br.com.bomfim.service.FormaPagamentoService;
+import br.com.bomfim.service.exception.ImpossivelExcluirEntidadeException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -19,18 +28,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import br.com.bomfim.controller.page.PageWrapper;
-import br.com.bomfim.model.FormaPagamento;
-import br.com.bomfim.model.enuns.TipoImovel;
-import br.com.bomfim.model.tipoimovel.Aluguel;
-import br.com.bomfim.repository.Alugueis;
-import br.com.bomfim.repository.Imoveis;
-import br.com.bomfim.service.CadastroAluguelService;
-import br.com.bomfim.service.FormaPagamentoService;
-import br.com.bomfim.service.exception.ImpossivelExcluirEntidadeException;
-
 @Controller
-@RequestMapping("/aluguel")
+@RequestMapping("/imovel/aluguel")
 public class TipoImovelController {
 
 	@Autowired

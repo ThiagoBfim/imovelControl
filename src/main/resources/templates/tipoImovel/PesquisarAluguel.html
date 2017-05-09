@@ -58,13 +58,13 @@
 							<td th:text="${aluguel.tipoImovel.descricao}">Casa</td>
 							<td class="text-center"><a
 								class="btn  btn-link  btn-xs  js-tooltip" title="Editar"
-								th:href="@{/aluguel/editar/{codigo}(codigo=${aluguel.codigo})}">
+								th:href="@{/imovel/aluguel/editar/{codigo}(codigo=${aluguel.codigo})}">
 									<font color="#009900"> <i
 										class="glyphicon glyphicon-pencil"></i>
 								</font>
 							</a> <a class="btn  btn-link  btn-xs js-tooltip   js-exclusao-btn"
 								title="Excluir" href="#"
-								data:url="@{/aluguel/{codigo}(codigo=${aluguel.codigo})}"
+								data:url="@{/imovel/aluguel/{codigo}(codigo=${aluguel.codigo})}"
 								data:codigo="${aluguel.codigo}" data:objeto="${aluguel.nome}">
 									<font color="#009900"> <i
 										class="glyphicon glyphicon-remove"></i></font>

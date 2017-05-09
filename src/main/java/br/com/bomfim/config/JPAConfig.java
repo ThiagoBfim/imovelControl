@@ -3,6 +3,8 @@ package br.com.bomfim.config;
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 
+import br.com.bomfim.model.Usuario;
+import br.com.bomfim.repository.Usuarios;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -16,9 +18,6 @@ import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-import br.com.bomfim.model.Usuario;
-import br.com.bomfim.repository.Usuarios;
-
 @Configuration
 @ComponentScan(basePackageClasses = Usuarios.class)
 @EnableJpaRepositories(basePackageClasses = Usuarios.class, enableDefaultTransactions = false)
@@ -29,7 +28,7 @@ public class JPAConfig {
 	public DataSource dataSource(){
 		JndiDataSourceLookup dataSourceLookup = new JndiDataSourceLookup();
 		dataSourceLookup.setResourceRef(true);
-		return dataSourceLookup.getDataSource("jdbc/BomfimDB");
+		return dataSourceLookup.getDataSource("jdbc/ImovelDB");
 	}
 	
 	@Bean
