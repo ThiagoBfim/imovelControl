@@ -1,0 +1,8 @@
+CREATE TABLE GASTO_ADICIONAL (
+	codigo BIGINT(20) PRIMARY KEY AUTO_INCREMENT,
+  valorGasto DECIMAL(10, 2) NOT NULL,
+	comentarioGasto varchar(100),
+	dataMensal DATE,
+  codPagamento BIGINT(20) NOT NULL,
+  FOREIGN KEY (codPagamento) REFERENCES INFORMACAO_PAGAMENTO(codigo)
+)
