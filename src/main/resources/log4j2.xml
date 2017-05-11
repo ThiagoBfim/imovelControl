@@ -8,7 +8,7 @@
 	</Appenders>
 	
 	<Loggers>
-		<Logger name="br.com.bomfim" level="debug"/>
+		<Logger name="br.com.imovelcontrol" level="debug"/>
 		<Logger name="org.hibernate.SQL" level="debug"/>
 	
 	

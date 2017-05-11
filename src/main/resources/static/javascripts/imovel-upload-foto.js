@@ -50,7 +50,7 @@ Bomfim.UploadFoto = (function() {
 			this.inputNomeFoto.val('');
 			this.inputContentType.val('');
 			$.ajax({
-				url : '/bomfim/fotos/tmp/' + resposta.nome,
+				url : '/imovelcontrol/fotos/tmp/' + resposta.nome,
 				method : 'DELETE'
 			});
 		}

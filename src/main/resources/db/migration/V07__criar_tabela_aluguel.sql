@@ -15,6 +15,6 @@ CREATE TABLE ALUGUEL (
     suites int,
     tipo CHAR(2),
     FOREIGN KEY (codigo_imovel) REFERENCES IMOVEL(codigo),
-    FOREIGN KEY (codigo_forma_pagamento) REFERENCES FORMA_PAGAMENTO(codigo)
+    FOREIGN KEY (codigo_forma_pagamento) REFERENCES TEMPLATE_FORMA_PAGAMENTO(codigo)
     
 )
