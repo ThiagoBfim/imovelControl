@@ -2,11 +2,20 @@ package br.com.imovelcontrol.model;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.MappedSuperclass;
 
 /**
  * Created by Usuario on 09/05/2017.
  */
-public class TemplateFormaPagamento implements Serializable {
+@MappedSuperclass
+public abstract class TemplateFormaPagamento implements Serializable {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long codigo;
 
     private BigDecimal valor;
 
@@ -66,5 +75,13 @@ public class TemplateFormaPagamento implements Serializable {
 
     public void setPossuiCondominio(Boolean possuiCondominio) {
         this.possuiCondominio = possuiCondominio;
+    }
+
+    public Long getCodigo() {
+        return codigo;
+    }
+
+    public void setCodigo(Long codigo) {
+        this.codigo = codigo;
     }
 }

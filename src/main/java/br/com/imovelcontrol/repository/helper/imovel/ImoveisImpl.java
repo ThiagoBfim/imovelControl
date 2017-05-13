@@ -19,47 +19,50 @@ import org.springframework.util.StringUtils;
 
 public class ImoveisImpl implements ImoveisQuerys {
 
-	@PersistenceContext
-	private EntityManager entityManager;
+    @PersistenceContext
+    private EntityManager entityManager;
 
-	@Autowired
-	private PaginacaoUtil paginacaoUtil;
+    @Autowired
+    private PaginacaoUtil paginacaoUtil;
 
-	@SuppressWarnings("unchecked")
-	@Transactional(readOnly = true)
-	@Override
-	public Page<Imovel> filtrar(Imovel filtro, Pageable pageable) {
-		Criteria criteria = entityManager.unwrap(Session.class).createCriteria(Imovel.class);
+    @SuppressWarnings("unchecked")
+    @Transactional(readOnly = true)
+    @Override
+    public Page<Imovel> filtrar(Imovel filtro, Pageable pageable) {
+        Criteria criteria = entityManager.unwrap(Session.class).createCriteria(Imovel.class);
 
-		adicionarFiltro(filtro, criteria);
-		paginacaoUtil.paginacao(pageable, criteria);
-		return new PageImpl<>(criteria.list(), pageable, total(filtro));
-	}
+        adicionarFiltro(filtro, criteria);
+        paginacaoUtil.paginacao(pageable, criteria);
+        return new PageImpl<>(criteria.list(), pageable, total(filtro));
+    }
 
-	private Long total(Imovel filtro) {
-		Criteria criteria = entityManager.unwrap(Session.class).createCriteria(Imovel.class);
-		adicionarFiltro(filtro, criteria);
-		criteria.setProjection(Projections.rowCount());
-		return (Long) criteria.uniqueResult();
-	}
+    private Long total(Imovel filtro) {
+        Criteria criteria = entityManager.unwrap(Session.class).createCriteria(Imovel.class);
+        adicionarFiltro(filtro, criteria);
+        criteria.setProjection(Projections.rowCount());
+        return (Long) criteria.uniqueResult();
+    }
 
-	private void adicionarFiltro(Imovel filtro, Criteria criteria) {
-		if (filtro != null) {
-			if (!StringUtils.isEmpty(filtro.getNome())) {
-				criteria.add(Restrictions.ilike("nome", filtro.getNome(), MatchMode.ANYWHERE));
-			}
-			if (filtro.getEndereco() != null) {
+    private void adicionarFiltro(Imovel filtro, Criteria criteria) {
+        if (filtro != null) {
+            if (!StringUtils.isEmpty(filtro.getNome())) {
+                criteria.add(Restrictions.ilike("nome", filtro.getNome(), MatchMode.ANYWHERE));
+            }
+            if (filtro.getEndereco() != null) {
                 if (!StringUtils.isEmpty(filtro.getEndereco().getCep())) {
-                    criteria.add(Restrictions.ilike("endereco.cep", "%" + filtro.getEndereco().getCep() + "%" ));
+                    criteria.add(Restrictions.ilike("endereco.cep", "%"
+                            + filtro.getEndereco().getCep() + "%"));
                 }
-				if (!StringUtils.isEmpty(filtro.getEndereco().getCidade())) {
-					criteria.add(Restrictions.ilike("endereco.cidade", "%" + filtro.getEndereco().getCidade()+ "%"));
-				}
-				if (!StringUtils.isEmpty(filtro.getEndereco().getBairro())) {
-					criteria.add(Restrictions.ilike("endereco.bairro", "%" + filtro.getEndereco().getBairro()+ "%"));
-				}
-			}
-		}
-	}
+                if (!StringUtils.isEmpty(filtro.getEndereco().getCidade())) {
+                    criteria.add(Restrictions.ilike("endereco.cidade", "%"
+                            + filtro.getEndereco().getCidade() + "%"));
+                }
+                if (!StringUtils.isEmpty(filtro.getEndereco().getBairro())) {
+                    criteria.add(Restrictions.ilike("endereco.bairro", "%"
+                            + filtro.getEndereco().getBairro() + "%"));
+                }
+            }
+        }
+    }
 
 }

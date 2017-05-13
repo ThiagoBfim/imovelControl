@@ -84,7 +84,7 @@
                         </div>
                         <div class="col-sm-6">
                             <label for="complemento" class="control-label">Complemento</label>
-                            <textarea id="complemento" rows="4" class="form-control" maxlength="150"></textarea>
+                            <textarea id="complemento" rows="4" class="form-control" th:field="*{endereco.complemento}" maxlength="150"></textarea>
                         </div>
                     </div>
                 </div>
@@ -107,7 +107,7 @@
                 </div>
             </div>
 
-            <div class="form-group">
+            <div class="form-group" style="text-align: right">
                 <button class="btn  btn-primary" type="submit">Salvar</button>
             </div>
 
