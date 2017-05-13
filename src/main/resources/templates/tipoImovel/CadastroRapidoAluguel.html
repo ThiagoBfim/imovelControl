@@ -14,6 +14,7 @@
 
 
         <input type="hidden" th:field="*{codigo}">
+        <input type="hidden" th:field="*{formaPagamento.codigo}">
         <div class="panel panel-info">
             <div class="panel-heading">
                 <h3 class="panel-title">Dados do Aluguel</h3>
@@ -79,9 +80,9 @@
             </div>
             <div class="panel-body">
                 <div class="row">
-                    <div class="form-group  col-sm-6">
+                    <div class="form-group  col-sm-6 bw-required"   bomfim:classforerror="formaPagamento.valor">
 
-                        <label class="control-label bw-required" for="valor">Valor Mensal</label>
+                        <label class="control-label" for="valor">Valor Mensal</label>
                         <div class="input-group">
                             <input type="text" class="form-control"
                                    th:field="*{formaPagamento.valor}" id="valor"/>
@@ -118,7 +119,7 @@
                         <label class="control-label">IPTU Incluso?</label>
                         <div>
                             <input type="checkbox" class="js-status"
-                                   th:field="*{formaPagamento.possuiCondominio}"
+                                   th:field="*{formaPagamento.iptuIncluso}"
                                    data-size="small" data-off-color="danger" data-on-text="Sim"
                                    data-off-text="Nao">
                         </div>
@@ -139,7 +140,8 @@
 
 
         <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+            <a class="btn btn-default" href="#"
+               th:href="@{/imovel/aluguel/{codigo}(codigo=${aluguel.imovel.codigo})}">Cancelar</a>
             <button type="submit" class="btn btn-primary ">Salvar</button>
         </div>
 

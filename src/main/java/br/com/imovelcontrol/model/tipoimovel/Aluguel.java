@@ -46,7 +46,7 @@ public class Aluguel implements Serializable {
 	@Valid
 	@ManyToOne
 	@JoinColumn(name = "codigo_forma_pagamento")
-	private FormaPagamento formaPagamento;
+	private FormaPagamento formaPagamento = new FormaPagamento();
 
 	@Column(name = "tipo_imovel")
 	@NotNull(message = "Tipo do Imovel Obrigatório")

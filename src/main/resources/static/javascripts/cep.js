@@ -13,7 +13,9 @@ Bomfim.BuscarCep = (function () {
     }
 
     BuscarCep.prototype.iniciar = function () {
-        disabledAll();
+        if (inputCep.val() == '') {
+            disabledAll();
+        }
         labelCepInvalido.hide();
         inputCep.blur(pesquisacep.bind(this));
 

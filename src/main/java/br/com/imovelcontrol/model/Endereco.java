@@ -30,7 +30,7 @@ public class Endereco implements Serializable {
     @Size(min = 2, max = 2, message = "O tamanho do Estado deve ser 2 caracteres ")
     private String uf;
 
-    @Size(min = 5, max = 100, message = "O tamanho do complemento deve estar entre 5 e 150")
+    @Size(max = 150, message = "O tamanho máximo do complemento é de 150 caracteres")
     private String complemento;
 
     public String getCep() {
