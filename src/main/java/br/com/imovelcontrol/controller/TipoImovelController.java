@@ -129,7 +129,8 @@ public class TipoImovelController {
         } catch (ImpossivelExcluirEntidadeException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
-
+        aluguel = new Aluguel();
+        aluguel.setImovel(imoveis.findOne(codigoImovel));
         return ResponseEntity.ok().build();
     }
 
