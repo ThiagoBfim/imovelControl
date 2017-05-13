@@ -49,11 +49,14 @@ public class ImoveisImpl implements ImoveisQuerys {
 				criteria.add(Restrictions.ilike("nome", filtro.getNome(), MatchMode.ANYWHERE));
 			}
 			if (filtro.getEndereco() != null) {
-				if (filtro.getEndereco().getCidade() != null) {
-					criteria.add(Restrictions.eq("endereco.cidade", filtro.getEndereco().getCidade()));
+                if (!StringUtils.isEmpty(filtro.getEndereco().getCep())) {
+                    criteria.add(Restrictions.ilike("endereco.cep", "%" + filtro.getEndereco().getCep() + "%" ));
+                }
+				if (!StringUtils.isEmpty(filtro.getEndereco().getCidade())) {
+					criteria.add(Restrictions.ilike("endereco.cidade", "%" + filtro.getEndereco().getCidade()+ "%"));
 				}
-				if (filtro.getEndereco().getBairro() != null) {
-					criteria.add(Restrictions.eq("endereco.bairro", filtro.getEndereco().getBairro()));
+				if (!StringUtils.isEmpty(filtro.getEndereco().getBairro())) {
+					criteria.add(Restrictions.ilike("endereco.bairro", "%" + filtro.getEndereco().getBairro()+ "%"));
 				}
 			}
 		}

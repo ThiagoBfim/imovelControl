@@ -2,75 +2,84 @@ package br.com.imovelcontrol.model;
 
 import java.io.Serializable;
 import javax.persistence.Embeddable;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import br.com.imovelcontrol.model.enuns.Estado;
 import org.hibernate.validator.constraints.NotBlank;
 
 @SuppressWarnings("serial")
 @Embeddable
 public class Endereco implements Serializable {
 
-	@NotBlank(message = "CEP Obrigatório")
-	private String cep;
-	
-	@NotBlank(message = "Cidade Obrigatório")
-	private String cidade;
+    @NotBlank(message = "CEP Obrigatório")
+    private String cep;
+
+    @NotBlank(message = "Cidade Obrigatório")
+    private String cidade;
 
 
-	@NotBlank(message = "Bairro Obrigatório")
-	@Size(min = 5, max = 100, message = "O tamanho do bairro deve estar entre 5 e 100")
-	private String bairro;
-	
-	@NotNull(message = "Estado Obrigatório")
-	@Enumerated(EnumType.STRING)
-	private Estado estado;
-	
-	@Size(min = 5, max = 100, message = "O tamanho do complemento deve estar entre 5 e 150")
-	private String complemento;
+    @NotBlank(message = "Bairro Obrigatório")
+    @Size(min = 5, max = 100, message = "O tamanho do bairro deve estar entre 5 e 100")
+    private String bairro;
 
-	public String getCep() {
-		return cep;
-	}
 
-	public void setCep(String cep) {
-		this.cep = cep;
-	}
+    @NotBlank(message = "Rua Obrigatório")
+    @Size(min = 5, max = 60, message = "O tamanho do bairro deve estar entre 5 e 60")
+    private String rua;
 
-	public String getCidade() {
-		return cidade;
-	}
+    @NotBlank(message = "Estado Obrigatório")
+    @Size(min = 2, max = 2, message = "O tamanho do Estado deve ser 2 caracteres ")
+    private String uf;
 
-	public void setCidade(String cidade) {
-		this.cidade = cidade;
-	}
+    @Size(min = 5, max = 100, message = "O tamanho do complemento deve estar entre 5 e 150")
+    private String complemento;
 
-	public String getBairro() {
-		return bairro;
-	}
+    public String getCep() {
+        return cep;
+    }
 
-	public void setBairro(String bairro) {
-		this.bairro = bairro;
-	}
+    public void setCep(String cep) {
+        this.cep = cep;
+    }
 
-	public Estado getEstado() {
-		return estado;
-	}
+    public String getCidade() {
+        return cidade;
+    }
 
-	public void setEstado(Estado estado) {
-		this.estado = estado;
-	}
+    public void setCidade(String cidade) {
+        this.cidade = cidade;
+    }
 
-	public String getComplemento() {
-		return complemento;
-	}
+    public String getBairro() {
+        return bairro;
+    }
 
-	public void setComplemento(String complemento) {
-		this.complemento = complemento;
-	}	
-	
-	
+    public void setBairro(String bairro) {
+        this.bairro = bairro;
+    }
+
+    public String getRua() {
+        return rua;
+    }
+
+    public void setRua(String rua) {
+        this.rua = rua;
+    }
+
+    public String getUf() {
+        return uf;
+    }
+
+    public void setUf(String uf) {
+        this.uf = uf;
+    }
+
+    public String getComplemento() {
+        return complemento;
+    }
+
+    public void setComplemento(String complemento) {
+        this.complemento = complemento;
+    }
+
+
 }

@@ -1,118 +1,119 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" 
-xmlns:th="http://www.thymeleaf.org" 
-xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" 
-layout:decorator="'layout/LayoutPadrao'"
-xmlns:bomfim="http://bomfim.com.br"
-xmlns:data="http://www.thymeleaf.org/extras/data">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="'layout/LayoutPadrao'"
+      xmlns:bomfim="http://bomfim.com.br"
+      xmlns:data="http://www.thymeleaf.org/extras/data">
 
 <head>
-<title>Pesquisa de Imoveis</title>
+    <title>Pesquisa de Imoveis</title>
 
 </head>
 
 <body>
 
-	<section layout:fragment="conteudo">
+<section layout:fragment="conteudo">
 
-		<div class="page-header">
-			<div class="container-fluid">
-				<div class="row">
-					<div class="col-xs-10">
-						<h1>Pesquisa de Imoveis</h1>
-					</div>
-					<div class="col-xs-2">
-						<div class="aw-page-header-controls">
-							 <a class="btn btn-default" th:href="@{/imovel/novo}">
-								 <i class="glyphicon  glyphicon-plus-sign"></i> <span class="hidden-xs  hidden-sm">Novo imovel</span>
-							 </a>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
+    <div class="page-header">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-xs-10">
+                    <h1>Pesquisa de Imoveis</h1>
+                </div>
+                <div class="col-xs-2">
+                    <div class="aw-page-header-controls">
+                        <a class="btn btn-default" th:href="@{/imovel/novo}">
+                            <i class="glyphicon  glyphicon-plus-sign"></i> <span class="hidden-xs  hidden-sm">Novo imovel</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-		<div class="container-fluid">
-			<form method="GET" th:object="${imovel}" class="form-vertical">
-				<div class="row">
-					<div class="form-group  col-sm-12">
-						<label class="control-label" for="nome">Nome</label>
-						<input type="text" class="form-control" id="nome" autofocus="autofocus" th:field="*{nome}"/>
-					</div>
-	
-				</div>
+    <div class="container-fluid">
+        <form method="GET" th:object="${imovel}" class="form-vertical">
+            <div class="row">
+                <div class="form-group  col-sm-12">
+                    <label class="control-label" for="nome">Nome</label>
+                    <input type="text" class="form-control" id="nome" autofocus="autofocus" th:field="*{nome}"/>
+                </div>
 
-					<div class="panel panel-info">
-						<div class="panel-heading">
-							<h3 class="panel-title">Endereço</h3>
-						</div>
+            </div>
+            <div class="row">
+                <div class="form-group  col-sm-2">
+                    <label class="control-label" for="endereco">Cep</label>
+                    <input type="text" class="form-control js-cep" id="endereco" th:field="*{endereco.cep}" maxlength="9"/>
+                </div>
+                <div class="form-group  col-sm-5">
+                    <label class="control-label" for="cidade">Cidade</label>
+                    <input type="text" class="form-control" id="cidade" th:field="*{endereco.cidade}" maxlength="100"/>
+                </div>
+                <div class="form-group  col-sm-5">
+                    <label class="control-label" for="bairro">Bairro</label>
+                    <input type="text" class="form-control" id="bairro" th:field="*{endereco.bairro}" maxlength="100"/>
+                </div>
+            </div>
 
-						<div class="panel-body">
-							<div class="form-group  col-sm-6">
-								<label class="control-label" for="endereco">Cep</label> 
-								<input type="text" class="form-control" id="endereco" th:field="*{endereco.cep}" />
-							</div>
-							<div class="form-group  col-sm-6">
-								<label class="control-label" for="estado">Estado</label> 
-								<input type="text" class="form-control" id="estado" th:field="*{endereco.estado}" />
-							</div>
-						</div>
-					</div>
-				
-				<button type="submit" class="btn  btn-primary">Pesquisar</button>
-			</form>
-				
-		<div class="table-responsive  bw-tabela-simples">
-			<table class="table  table-hover">
-				<thead>
-					<tr>
-						<th class="table-imovel-col-foto">Foto</th>
-						<th class="table-imovel-col-nome"> 	
-							<bomfim:order page="${pagina}" field="nome" text="Nome"/>
-						</th>
-						<th class=".table-imovel-col-endereco">Endereço</th>
-						<th class="table-col-acoes-imovel"></th>
-					</tr>
-				</thead>
-				
-				<tbody >
-					<tr th:each="imovel : ${pagina.conteudo}">
-						<td class="text-center">
-							<img th:src="@{/fotos/thumbnail.{foto}(foto=${imovel.fotoOrMock})}" class="img-responsive"/>
-						</td>
-						<td th:text="${imovel.nome}">Casa de taguatinga</td>
-						<td th:text="${imovel.endereco.cidade}">Taguatinga</td>
-						<td class="text-center">
-						    <a class="btn  btn-link  btn-xs  js-tooltip" title="Editar"
-						    th:href="@{imovel/{codigo}(codigo=${imovel.codigo})}">
-							<font color="#009900">	<i class="glyphicon glyphicon-pencil"></i> </font>
-							</a>
-							<a class="btn  btn-link  btn-xs js-tooltip   js-exclusao-btn" title="Excluir" href="#"
-								data:url="@{imovel/{codigo}(codigo=${imovel.codigo})}"
-								data:codigo="${imovel.codigo}"
-								data:objeto="${imovel.nome}">
-							<font color="#009900">	<i class="glyphicon glyphicon-remove"></i> </font>
-							</a>
-							<a class="btn  btn-link  btn-xs js-tooltip " title="Adicionar Aluguel" href="#"
-								 th:href="@{/imovel/aluguel/{codigo}(codigo=${imovel.codigo})}">
-							<font color="#009900">	<i class="glyphicon glyphicon-plus"></i> </font>
-							</a>
-						</td>
-					</tr>
-					<tr th:if="${pagina.vazia}">
-						<td colspan="2">Nenhum imovel encontrado</td>
-					</tr>
-				</tbody>
-			</table>
-		</div>
-		<bomfim:pagination page="${pagina}"/>
-		
-		</div>
-		
-		
-		
-	</section>
-	
+            <button type="submit" class="btn  btn-primary">Pesquisar</button>
+        </form>
+
+        <div class="table-responsive  bw-tabela-simples">
+            <table class="table  table-hover">
+                <thead>
+                <tr>
+                    <th class="table-imovel-col-foto">Foto</th>
+                    <th class="table-imovel-col-nome">
+                        <span th:if="${pagina.vazia}">Nome</span>
+                        <bomfim:order page="${pagina}" field="nome" text="Nome"/>
+                    </th>
+                    <th class=".table-imovel-col-endereco">Endereço</th>
+                    <th class="table-col-acoes-imovel"></th>
+                </tr>
+                </thead>
+
+                <tbody>
+                <tr th:each="imovel : ${pagina.conteudo}">
+                    <td class="text-center">
+                        <img th:src="@{/fotos/thumbnail.{foto}(foto=${imovel.fotoOrMock})}" class="img-responsive"/>
+                    </td>
+                    <td th:text="${imovel.nome}">Casa de taguatinga</td>
+                    <td th:text="|${imovel.endereco.cep} - ${imovel.endereco.cidade} - ${imovel.endereco.bairro}|">Taguatinga</td>
+                    <td class="text-center">
+                        <a class="btn  btn-link  btn-xs  js-tooltip" title="Editar"
+                           th:href="@{imovel/{codigo}(codigo=${imovel.codigo})}">
+                            <font color="#009900"> <i class="glyphicon glyphicon-pencil"></i> </font>
+                        </a>
+                        <a class="btn  btn-link  btn-xs js-tooltip   js-exclusao-btn" title="Excluir" href="#"
+                           data:url="@{imovel/{codigo}(codigo=${imovel.codigo})}"
+                           data:codigo="${imovel.codigo}"
+                           data:objeto="${imovel.nome}">
+                            <font color="#009900"> <i class="glyphicon glyphicon-remove"></i> </font>
+                        </a>
+                        <a class="btn  btn-link  btn-xs js-tooltip " title="Adicionar Aluguel" href="#"
+                           th:href="@{/imovel/aluguel/{codigo}(codigo=${imovel.codigo})}">
+                            <font color="#009900"> <i class="glyphicon glyphicon-plus"></i> </font>
+                        </a>
+                    </td>
+                </tr>
+                <tr th:if="${pagina.vazia}">
+                    <td colspan="4">Nenhum imovel encontrado</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <bomfim:pagination page="${pagina}"/>
+
+    </div>
+
+
+</section>
+
+<th:block layout:fragment="javascript-extra">
+    <script th:src="@{/javascripts/mascara.js}"></script>
+</th:block>
+
 </body>
 
 </html>
