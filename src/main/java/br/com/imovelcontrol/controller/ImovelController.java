@@ -5,7 +5,6 @@ import javax.validation.Valid;
 
 import br.com.imovelcontrol.controller.page.PageWrapper;
 import br.com.imovelcontrol.model.Imovel;
-import br.com.imovelcontrol.model.enuns.Estado;
 import br.com.imovelcontrol.repository.Imoveis;
 import br.com.imovelcontrol.service.CadastroImovelService;
 import br.com.imovelcontrol.service.exception.ImpossivelExcluirEntidadeException;
@@ -38,7 +37,6 @@ public class ImovelController {
 	@RequestMapping("/novo")
 	public ModelAndView novo(Imovel imovel) {
 		ModelAndView mAndView = new ModelAndView("imovel/CadastroImovel");
-		setAllObjectsFromImovelToModelView(mAndView);
 
 		return mAndView;
 	}
@@ -60,15 +58,9 @@ public class ImovelController {
 	public ModelAndView pesquisar(Imovel imovel, BindingResult result, @PageableDefault(size=5) Pageable pageable,
 			HttpServletRequest httpServletRequest) {
 		ModelAndView modelAndView = new ModelAndView("imovel/PesquisaImovel");
-		setAllObjectsFromImovelToModelView(modelAndView);
 		PageWrapper<Imovel> pagina = new PageWrapper<>(imoveis.filtrar(imovel, pageable), httpServletRequest);
 		modelAndView.addObject("pagina", pagina);
 		return modelAndView;
-	}
-
-
-	private void setAllObjectsFromImovelToModelView(ModelAndView modelAndView) {
-		modelAndView.addObject("estados", Estado.values());
 	}
 	
 	@DeleteMapping("/{codigo}")
@@ -88,7 +80,6 @@ public class ImovelController {
 	public ModelAndView editar(@PathVariable Long codigo) {
 		Imovel imovel = imoveis.findOne(codigo);
 		ModelAndView mAndView = novo(imovel);
-		setAllObjectsFromImovelToModelView(mAndView);
 		mAndView.addObject(imovel);
 		return mAndView;
 	}
