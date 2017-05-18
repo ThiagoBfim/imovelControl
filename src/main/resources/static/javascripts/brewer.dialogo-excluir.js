@@ -1,70 +1,81 @@
 var Brewer = Brewer || {};
 
-Brewer.DialogoExcluir = (function() {
+Brewer.DialogoExcluir = (function () {
 
-	function DialogoExcluir() {
-		this.exclusaoBtn = $('.js-exclusao-btn');
+    function DialogoExcluir() {
+        this.exclusaoBtn = $('.js-exclusao-btn');
 
-		var token = $("input[name='_crsf']").val();
-		var header = "X-CSRF-TOKEN";
-		$(document).ajaxSend(function(e, xhr, options) {
-			xhr.setRequestHeader(header, token);
-		});
-	}
+        var token = $("input[name='_crsf']").val();
+        var header = "X-CSRF-TOKEN";
+        $(document).ajaxSend(function (e, xhr, options) {
+            xhr.setRequestHeader(header, token);
+        });
+    }
 
-	DialogoExcluir.prototype.iniciar = function() {
-		this.exclusaoBtn.on('click', onExcluirClicado.bind(this));
+    DialogoExcluir.prototype.iniciar = function () {
+        this.exclusaoBtn.on('click', onExcluirClicado.bind(this));
 
-		if (window.location.search.indexOf('excluido') > -1) {
-			swal('Pronto', 'Excluído com seuceso!', 'success');
-		}
-	}
+        if (window.location.search.indexOf('excluido') > -1) {
+            swal({
+                    title: 'Pronto',
+                    text: 'Excluído com seuceso!',
+                    showCancelButton: false,
+                    confirmButtonText: 'OK'
+                },
+                onRemoveExcluido.bind(this));
 
-	function onExcluirClicado(evento) {
-		event.preventDefault();
-		var botaoClicado = $(evento.currentTarget);
-		var url = botaoClicado.data('url');
-		var objeto = botaoClicado.data('objeto');
+        }
+    }
+    function onRemoveExcluido() {
+        var urlAtual = window.location.href;
+        window.location = urlAtual.replace('?excluido', '');
+    }
 
-		swal({
-			title : 'Tem certeza?',
-			text : 'Excluir "' + objeto
-					+ '"? Você não poderá recuperar depois.',
-			showCancelButton : true,
-			confirmButtonColor : '#DD6855',
-			confirmButtonText : 'Sim, exclua agora!',
-			closeOnConfirm: false
-		}, onExcluirConfirmado.bind(this, url));
-	}
+    function onExcluirClicado(evento) {
+        event.preventDefault();
+        var botaoClicado = $(evento.currentTarget);
+        var url = botaoClicado.data('url');
+        var objeto = botaoClicado.data('objeto');
 
-	function onExcluirConfirmado(url) {
-		$.ajax({
-			url : url,
-			method : 'DELETE',
-			success : onExcluidoSucesso.bind(this),
-			error : onErrorExcluir.bind(this)
-		})
-	}
+        swal({
+            title: 'Tem certeza?',
+            text: 'Excluir "' + objeto
+            + '"? Você não poderá recuperar depois.',
+            showCancelButton: true,
+            confirmButtonColor: '#DD6855',
+            confirmButtonText: 'Sim, exclua agora!',
+            closeOnConfirm: false
+        }, onExcluirConfirmado.bind(this, url));
+    }
 
-	function onExcluidoSucesso() {
-		var urlAtual = window.location.href;
-		var separador = urlAtual.indexOf('?') > -1 ? '&' : '?';
-		var novaUrl = urlAtual.indexOf('excluido') > -1 ? urlAtual : urlAtual
-				+ separador + 'excluido';
+    function onExcluirConfirmado(url) {
+        $.ajax({
+            url: url,
+            method: 'DELETE',
+            success: onExcluidoSucesso.bind(this),
+            error: onErrorExcluir.bind(this)
+        })
+    }
 
-		window.location = novaUrl;
-	}
+    function onExcluidoSucesso() {
+        var urlAtual = window.location.href;
+        var separador = urlAtual.indexOf('?') > -1 ? '&' : '?';
+        var novaUrl = urlAtual.indexOf('excluido') > -1 ? urlAtual : urlAtual
+            + separador + 'excluido';
 
-	function onErrorExcluir(e) {
-		swal('Oops!', e.responseText, 'error');
-	}
+        window.location = novaUrl;
+    }
 
-	return DialogoExcluir;
+    function onErrorExcluir(e) {
+        swal('Oops!', e.responseText, 'error');
+    }
+
+    return DialogoExcluir;
 
 }());
 
-$(function() {
-	var dialogoExcluir = new Brewer.DialogoExcluir();
-	dialogoExcluir.iniciar();
+$(function () {
+    var dialogoExcluir = new Brewer.DialogoExcluir();
+    dialogoExcluir.iniciar();
 
 });

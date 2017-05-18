@@ -52,6 +52,10 @@ public class TipoImovelController {
     @RequestMapping("/novo")
     public ModelAndView novo(Aluguel aluguel) {
         ModelAndView modelAndView = new ModelAndView("tipoImovel/CadastroAluguel");
+        if (aluguel.getImovel() == null) {
+            return new ModelAndView("redirect:/imovel/aluguel/" + codigoImovel + "?excluido");
+
+        }
         modelAndView.addObject(aluguel);
         setAllObjectsFromImovelToModelView(modelAndView);
         return modelAndView;
@@ -74,7 +78,7 @@ public class TipoImovelController {
 
         cadastroAluguelService.salvar(aluguel);
         aluguel = new Aluguel();
-        aluguel.setImovel(imoveis.findOne(codigoImovel));
+        setImovelAluguel(aluguel);
 
         modelAndView.addObject(aluguel);
         modelAndView.addObject("codigo", codigoImovel);
@@ -95,20 +99,10 @@ public class TipoImovelController {
         setAllObjectsFromImovelToModelView(modelAndView);
         codigoImovel = codigo;
         aluguel = new Aluguel();
-        aluguel.setImovel(imoveis.findOne(codigo));
+        setImovelAluguel(aluguel);
         PageWrapper<Aluguel> pagina = new PageWrapper<>(alugueis.filtrarByImovel(codigo, pageable), httpServletRequest);
         modelAndView.addObject("pagina", pagina);
         modelAndView.addObject("aluguel", aluguel);
-        return modelAndView;
-    }
-
-    @GetMapping
-    public ModelAndView pesquisar(Aluguel aluguel, BindingResult result, @PageableDefault(size = 5) Pageable pageable,
-            HttpServletRequest httpServletRequest) {
-        ModelAndView modelAndView = new ModelAndView("tipoImovel/PesquisarAluguel");
-        setAllObjectsFromImovelToModelView(modelAndView);
-        PageWrapper<Aluguel> pagina = new PageWrapper<>(alugueis.filtrar(aluguel, pageable), httpServletRequest);
-        modelAndView.addObject("pagina", pagina);
         return modelAndView;
     }
 
@@ -125,9 +119,15 @@ public class TipoImovelController {
     public RedirectView excluir(@PathVariable("codigo") Long codigo) {
         Aluguel aluguel = alugueis.findOne(codigo);
         cadastroAluguelService.excluir(aluguel);
-        RedirectView modelAndView = new RedirectView("redirect:/imovel/aluguel/" + codigoImovel, false);
+        RedirectView modelAndView = new RedirectView("/imovel/aluguel/" + codigoImovel, false);
         modelAndView.setStatusCode(HttpStatus.OK);
         return modelAndView;
+    }
+
+    private void setImovelAluguel(Aluguel aluguel) {
+        if (aluguel.getImovel() == null) {
+            aluguel.setImovel(imoveis.findOne(codigoImovel));
+        }
     }
 
     private void setAllObjectsFromImovelToModelView(ModelAndView modelAndView) {
