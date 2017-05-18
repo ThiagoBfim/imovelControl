@@ -14,21 +14,6 @@ Brewer.DialogoExcluir = (function () {
 
     DialogoExcluir.prototype.iniciar = function () {
         this.exclusaoBtn.on('click', onExcluirClicado.bind(this));
-
-        if (window.location.search.indexOf('excluido') > -1) {
-            swal({
-                    title: 'Pronto',
-                    text: 'Excluído com seuceso!',
-                    showCancelButton: false,
-                    confirmButtonText: 'OK'
-                },
-                onRemoveExcluido.bind(this));
-
-        }
-    }
-    function onRemoveExcluido() {
-        var urlAtual = window.location.href;
-        window.location = urlAtual.replace('?excluido', '');
     }
 
     function onExcluirClicado(evento) {
@@ -58,12 +43,18 @@ Brewer.DialogoExcluir = (function () {
     }
 
     function onExcluidoSucesso() {
-        var urlAtual = window.location.href;
-        var separador = urlAtual.indexOf('?') > -1 ? '&' : '?';
-        var novaUrl = urlAtual.indexOf('excluido') > -1 ? urlAtual : urlAtual
-            + separador + 'excluido';
+        swal({
+                title: 'Pronto',
+                text: 'Excluído com seuceso!',
+                showCancelButton: false,
+                confirmButtonText: 'OK'
+            },
+            onRemoveExcluido.bind(this));
 
-        window.location = novaUrl;
+    }
+
+    function onRemoveExcluido() {
+        window.location = window.location.href;
     }
 
     function onErrorExcluir(e) {
