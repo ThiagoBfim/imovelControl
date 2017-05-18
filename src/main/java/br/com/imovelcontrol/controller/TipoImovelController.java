@@ -53,7 +53,7 @@ public class TipoImovelController {
     public ModelAndView novo(Aluguel aluguel) {
         ModelAndView modelAndView = new ModelAndView("tipoImovel/CadastroAluguel");
         if (aluguel.getImovel() == null) {
-            return new ModelAndView("redirect:/imovel/aluguel/" + codigoImovel + "?excluido");
+            return new ModelAndView("redirect:/imovel/aluguel/" + codigoImovel);
 
         }
         modelAndView.addObject(aluguel);
