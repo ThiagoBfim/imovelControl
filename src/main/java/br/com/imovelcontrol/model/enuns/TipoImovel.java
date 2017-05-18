@@ -2,12 +2,11 @@ package br.com.imovelcontrol.model.enuns;
 
 public enum TipoImovel {
 
-	SALA("SL", "Sala"),
 	KIT("KT","Kit"),
 	CASA("CS","Casa"),
 	APARTAMENTO("AP","Apartamento"),
 	LOJA("LJ", "Loja"),
-	SALAO("SA", "Salao");
+	SALAO("SA", "Salão");
 	
 	private String codigo;
 	private String descricao;

@@ -1,95 +1,98 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorator="'layout/LayoutPadrao'"
-	xmlns:bomfim="http://bomfim.com.br"
-	xmlns:data="http://www.thymeleaf.org/extras/data">
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="'layout/LayoutPadrao'"
+      xmlns:bomfim="http://bomfim.com.br"
+      xmlns:data="http://www.thymeleaf.org/extras/data">
 
 <head>
-<title>Pesquisa de Imoveis</title>
+    <title>Pesquisa de Imoveis</title>
 
 </head>
 
 <body>
 
-	<section layout:fragment="conteudo">
+<section layout:fragment="conteudo">
 
-		<div class="page-header">
-			<div class="container-fluid">
-				<div class="row">
-					<div class="col-xs-10">
-						<h1>Pesquisa de Alugueis</h1>
-					</div>
-					<div class="col-xs-2">
-						<div class="aw-page-header-controls">
-							<a class="btn btn-default" th:href="@{/imovel}"> <i
-								class="glyphicon glyphicon-arrow-left"></i> <span
-								class="hidden-xs  hidden-sm">Voltar para os Imóveis</span>
-							</a>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
+    <div class="page-header">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-xs-10">
+                    <h1>Pesquisa de Alugueis</h1>
+                </div>
+                <div class="col-xs-2">
+                    <div class="aw-page-header-controls">
+                        <a class="btn btn-default" th:href="@{/imovel}"> <i
+                                class="glyphicon glyphicon-arrow-left"></i> <span
+                                class="hidden-xs  hidden-sm">Voltar para os Imóveis</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-		<div class="container-fluid">
-			<button class="btn btn-default" data-toggle="collapse"
-				data-target="#novoAluguel">
-				Adicionar novo Aluguel <i class="glyphicon  glyphicon-plus-sign"></i>
-			</button>
-			<br></br>
-			<div id="novoAluguel" class="collapse">
-				<div th:replace="tipoImovel/CadastroRapidoAluguel :: cadastroAluguel"></div>
-			</div>
-			<div class="table-responsive  bw-tabela-simples">
-				<table class="table  table-hover">
-					<thead>
-						<tr>
-							<th class=".table-imovel-col-endereco">Nome do Aluguel</th>
-							<th class=".table-imovel-col-tipoImovel">Tipo do Imovel</th>
-							<th class="table-col-acoes-imovel"></th>
-						</tr>
-					</thead>
+    <div class="container-fluid">
+        <button class="btn btn-default" data-toggle="collapse"
+                data-target="#novoAluguel">
+            Adicionar novo Aluguel <i class="glyphicon  glyphicon-plus-sign"></i>
+        </button>
+        <br></br>
+        <div id="novoAluguel" class="collapse">
+            <div th:replace="tipoImovel/CadastroRapidoAluguel :: cadastroAluguel"></div>
+        </div>
+        <div class="table-responsive  bw-tabela-simples">
+            <table class="table  table-hover">
+                <thead>
+                <tr>
+                    <th class=".table-imovel-col-endereco">Nome do Aluguel</th>
+                    <th class=".table-imovel-col-tipoImovel">Tipo do Imovel</th>
+                    <th class="table-col-acoes-imovel"></th>
+                </tr>
+                </thead>
 
-					<tbody>
-						<tr th:each="aluguel : ${pagina.conteudo}">
-							<td th:text="${aluguel.nome}">Aluguel Taguatinga</td>
-							<td th:text="${aluguel.tipoImovel.descricao}">Casa</td>
-							<td class="text-center"><a
-								class="btn  btn-link  btn-xs  js-tooltip" title="Editar"
-								th:href="@{/imovel/aluguel/editar/{codigo}(codigo=${aluguel.codigo})}">
-									<font color="#009900"> <i
-										class="glyphicon glyphicon-pencil"></i>
-								</font>
-							</a> <a class="btn  btn-link  btn-xs js-tooltip   js-exclusao-btn"
-								title="Excluir" href="#"
-								data:url="@{/imovel/aluguel/{codigo}(codigo=${aluguel.codigo})}"
-								data:codigo="${aluguel.codigo}" data:objeto="${aluguel.nome}">
-									<font color="#009900"> <i
-										class="glyphicon glyphicon-remove"></i></font>
-							</a> <a class="bw-field-action_icon" href="#" data-toggle="modal"
-								data-target="#modalCadastroRapidoAluguel"> <font
-									color="#009900"> <i class="glyphicon glyphicon-plus"></i>
-								</font>
-							</a></td>
-						</tr>
-						<tr th:if="${pagina.vazia}">
-							<td colspan="2">Nenhum Aluguel encontrado</td>
-						</tr>
-					</tbody>
-				</table>
-			</div>
-			<bomfim:pagination page="${pagina}" />
+                <tbody>
+                <tr th:each="aluguel : ${pagina.conteudo}">
+                    <td th:text="${aluguel.nome}">Aluguel Taguatinga</td>
+                    <td th:text="${aluguel.tipoImovel.descricao}">Casa</td>
+                    <td class="text-center">
+                        <a
+                                class="btn  btn-link  btn-xs  js-tooltip" title="Editar"
+                                th:href="@{/imovel/aluguel/editar/{codigo}(codigo=${aluguel.codigo})}">
+                            <font color="#009900"> <i
+                                    class="glyphicon glyphicon-pencil"></i>
+                            </font>
+                        </a>
+                        <a class="btn  btn-link  btn-xs js-tooltip   js-exclusao-btn"
+                           title="Excluir" href="#"
+                           data:url="@{/imovel/aluguel/{codigo}(codigo=${aluguel.codigo})}"
+                           data:codigo="${aluguel.codigo}" data:objeto="${aluguel.nome}">
+                            <font color="#009900"> <i
+                                    class="glyphicon glyphicon-remove"></i></font>
+                        </a>
+                        <a class="bw-field-action_icon" href="#" data-toggle="modal"
+                           data-target="#modalCadastroRapidoAluguel"> <font
+                                color="#009900"> <i class="glyphicon glyphicon-plus"></i>
+                        </font>
+                        </a>
+                    </td>
+                </tr>
+                <tr th:if="${pagina.vazia}">
+                    <td colspan="3">Nenhum Aluguel encontrado</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <bomfim:pagination page="${pagina}"/>
 
-		</div>
+    </div>
 
-	</section>
+</section>
 
-	<th:block layout:fragment="javascript-extra">
-		<script th:src="@{/javascripts/aluguel.cadastro-rapido.js}"></script>
-
-	</th:block>
+<th:block layout:fragment="javascript-extra">
+    <script th:src="@{/javascripts/change-tipo-imovel.js}"></script>
+</th:block>
 
 </body>
 

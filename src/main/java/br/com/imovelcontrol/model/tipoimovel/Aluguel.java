@@ -2,17 +2,12 @@ package br.com.imovelcontrol.model.tipoimovel;
 
 import java.io.Serializable;
 import javax.persistence.Column;
-import javax.persistence.DiscriminatorColumn;
-import javax.persistence.DiscriminatorType;
-import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.validation.Valid;
@@ -21,98 +16,164 @@ import javax.validation.constraints.NotNull;
 import br.com.imovelcontrol.model.FormaPagamento;
 import br.com.imovelcontrol.model.Imovel;
 import br.com.imovelcontrol.model.enuns.TipoImovel;
+import br.com.imovelcontrol.model.tipoimovel.enuns.TipoForro;
+import br.com.imovelcontrol.model.tipoimovel.enuns.TipoPiso;
 import org.hibernate.validator.constraints.NotBlank;
 
 @SuppressWarnings("serial")
 @Entity
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "tipo", length = 2, discriminatorType = DiscriminatorType.STRING)
-@DiscriminatorValue("AL")
 public class Aluguel implements Serializable {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long codigo;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long codigo;
 
-	@NotBlank(message = "Nome Obrigatório")
-	private String nome;
+    @NotBlank(message = "Nome Obrigatório")
+    private String nome;
 
-	private String complemento;
+    private String complemento;
 
-	@ManyToOne
-	@JoinColumn(name = "codigo_imovel")
-	private Imovel imovel;
+    @ManyToOne
+    @JoinColumn(name = "codigo_imovel")
+    private Imovel imovel;
 
-	@Valid
-	@ManyToOne
-	@JoinColumn(name = "codigo_forma_pagamento")
-	private FormaPagamento formaPagamento;
+    @Valid
+    @ManyToOne
+    @JoinColumn(name = "codigo_forma_pagamento")
+    private FormaPagamento formaPagamento;
 
-	@Column(name = "tipo_imovel")
-	@NotNull(message = "Tipo do Imovel Obrigatório")
-	@Enumerated(EnumType.STRING)
-	private TipoImovel tipoImovel;
+    @Column(name = "tipo_imovel")
+    @NotNull(message = "Tipo do Imovel Obrigatório")
+    @Enumerated(EnumType.STRING)
+    private TipoImovel tipoImovel;
 
-	private Long tamanhoArea;
+    @Column(name = "tipo_forro")
+    @Enumerated(EnumType.STRING)
+    private TipoForro tipoForro;
 
-	public Long getCodigo() {
-		return codigo;
-	}
+    @Column(name = "tipo_piso")
+    @Enumerated(EnumType.STRING)
+    private TipoPiso tipoPiso;
 
-	public void setCodigo(Long codigo) {
-		this.codigo = codigo;
-	}
+    @Column(name = "quantidade_quartos")
+    private Integer quantidadeQuartos;
 
-	public String getComplemento() {
-		return complemento;
-	}
+    @Column(name = "quantidade_banheiros")
+    private Integer quantidadeBanheiros;
 
-	public void setComplemento(String complemento) {
-		this.complemento = complemento;
-	}
+    @Column(name = "suites")
+    private Integer suites;
 
-	public Imovel getImovel() {
-		return imovel;
-	}
+    @Column(name = "vagas_garagem")
+    private Integer vagasGaragem;
 
-	public void setImovel(Imovel imovel) {
-		this.imovel = imovel;
-	}
+    private Long tamanhoArea;
 
-	public FormaPagamento getFormaPagamento() {
-		return formaPagamento;
-	}
+    public Long getCodigo() {
+        return codigo;
+    }
 
-	public void setFormaPagamento(FormaPagamento formaPagamento) {
-		this.formaPagamento = formaPagamento;
-	}
+    public void setCodigo(Long codigo) {
+        this.codigo = codigo;
+    }
 
-	public TipoImovel getTipoImovel() {
-		return tipoImovel;
-	}
+    public String getComplemento() {
+        return complemento;
+    }
 
-	public void setTipoImovel(TipoImovel tipoImovel) {
-		this.tipoImovel = tipoImovel;
-	}
+    public void setComplemento(String complemento) {
+        this.complemento = complemento;
+    }
 
-	public Long getTamanhoArea() {
-		return tamanhoArea;
-	}
+    public Imovel getImovel() {
+        return imovel;
+    }
 
-	public void setTamanhoArea(Long tamanhoArea) {
-		this.tamanhoArea = tamanhoArea;
-	}
+    public void setImovel(Imovel imovel) {
+        this.imovel = imovel;
+    }
 
-	public String getNome() {
-		return nome;
-	}
+    public FormaPagamento getFormaPagamento() {
+        return formaPagamento;
+    }
 
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
+    public void setFormaPagamento(FormaPagamento formaPagamento) {
+        this.formaPagamento = formaPagamento;
+    }
 
-	public boolean isNovo() {
-		return getCodigo() == null;
-	}
+    public TipoImovel getTipoImovel() {
+        return tipoImovel;
+    }
 
+    public void setTipoImovel(TipoImovel tipoImovel) {
+        this.tipoImovel = tipoImovel;
+    }
+
+    public Long getTamanhoArea() {
+        return tamanhoArea;
+    }
+
+    public void setTamanhoArea(Long tamanhoArea) {
+        this.tamanhoArea = tamanhoArea;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public boolean isNovo() {
+        return getCodigo() == null;
+    }
+
+    public TipoForro getTipoForro() {
+        return tipoForro;
+    }
+
+    public void setTipoForro(TipoForro tipoForro) {
+        this.tipoForro = tipoForro;
+    }
+
+    public TipoPiso getTipoPiso() {
+        return tipoPiso;
+    }
+
+    public void setTipoPiso(TipoPiso tipoPiso) {
+        this.tipoPiso = tipoPiso;
+    }
+
+    public Integer getQuantidadeQuartos() {
+        return quantidadeQuartos;
+    }
+
+    public void setQuantidadeQuartos(Integer quantidadeQuartos) {
+        this.quantidadeQuartos = quantidadeQuartos;
+    }
+
+    public Integer getQuantidadeBanheiros() {
+        return quantidadeBanheiros;
+    }
+
+    public void setQuantidadeBanheiros(Integer quantidadeBanheiros) {
+        this.quantidadeBanheiros = quantidadeBanheiros;
+    }
+
+    public Integer getSuites() {
+        return suites;
+    }
+
+    public void setSuites(Integer suites) {
+        this.suites = suites;
+    }
+
+    public Integer getVagasGaragem() {
+        return vagasGaragem;
+    }
+
+    public void setVagasGaragem(Integer vagasGaragem) {
+        this.vagasGaragem = vagasGaragem;
+    }
 }
