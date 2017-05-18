@@ -7,15 +7,16 @@ import br.com.imovelcontrol.controller.page.PageWrapper;
 import br.com.imovelcontrol.model.FormaPagamento;
 import br.com.imovelcontrol.model.enuns.TipoImovel;
 import br.com.imovelcontrol.model.tipoimovel.Aluguel;
+import br.com.imovelcontrol.model.tipoimovel.enuns.TipoForro;
+import br.com.imovelcontrol.model.tipoimovel.enuns.TipoPiso;
 import br.com.imovelcontrol.repository.Alugueis;
 import br.com.imovelcontrol.repository.Imoveis;
 import br.com.imovelcontrol.service.CadastroAluguelService;
 import br.com.imovelcontrol.service.FormaPagamentoService;
-import br.com.imovelcontrol.service.exception.ImpossivelExcluirEntidadeException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -24,9 +25,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.view.RedirectView;
 
 @Controller
 @RequestMapping("/imovel/aluguel")
@@ -121,21 +122,18 @@ public class TipoImovelController {
     }
 
     @DeleteMapping("/{codigo}")
-    public @ResponseBody
-    ResponseEntity<?> excluir(@PathVariable Long codigo) {
+    public RedirectView excluir(@PathVariable("codigo") Long codigo) {
         Aluguel aluguel = alugueis.findOne(codigo);
-        try {
-            cadastroAluguelService.excluir(aluguel);
-        } catch (ImpossivelExcluirEntidadeException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
-        aluguel = new Aluguel();
-        aluguel.setImovel(imoveis.findOne(codigoImovel));
-        return ResponseEntity.ok().build();
+        cadastroAluguelService.excluir(aluguel);
+        RedirectView modelAndView = new RedirectView("redirect:/imovel/aluguel/" + codigoImovel, false);
+        modelAndView.setStatusCode(HttpStatus.OK);
+        return modelAndView;
     }
 
     private void setAllObjectsFromImovelToModelView(ModelAndView modelAndView) {
         modelAndView.addObject("tiposImoveis", TipoImovel.values());
+        modelAndView.addObject("tiposPiso", TipoPiso.values());
+        modelAndView.addObject("tiposForro", TipoForro.values());
     }
 
 }

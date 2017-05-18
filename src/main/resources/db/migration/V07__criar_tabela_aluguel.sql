@@ -13,7 +13,6 @@ CREATE TABLE ALUGUEL (
     quantidade_quartos int,
     vagas_garagem int,
     suites int,
-    tipo CHAR(2),
     FOREIGN KEY (codigo_imovel) REFERENCES IMOVEL(codigo),
     FOREIGN KEY (codigo_forma_pagamento) REFERENCES TEMPLATE_FORMA_PAGAMENTO(codigo)
     

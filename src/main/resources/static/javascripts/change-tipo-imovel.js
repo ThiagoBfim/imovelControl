@@ -1,36 +1,77 @@
 var Bomfim = Bomfim || {};
 
-Bomfim.ChangeTipoImovel = (function() {
+Bomfim.ChangeTipoImovel = (function () {
 
-	function ChangeTipoImovel() {
-		this.radioTipoPessoa = $('.js-radio-tipo-imovel');
-		this.campoTipoImovel = $('.js-campoTipoImovel');
-		this.inputCpfCnpj = $('.js-inputDocumento');
-	}
+    function ChangeTipoImovel() {
+        this.radioTipoImovel = $('.js-radio-tipo-imovel');
+        this.inputQuarto = $('.js-quarto');
+        this.inputBanheiro = $('.js-banheiro');
+        this.inputVaga = $('.js-vaga');
+        this.inputSuite = $('.js-suites');
+        this.inputForro = $('.js-forro');
+        this.inputPiso = $('.js-piso');
+    }
 
-	ChangeTipoImovel.prototype.iniciar = function() {
-		this.radioTipoPessoa.on('change', onTipoPessoaAlterado.bind(this));
-		var tipoPessoaSelecionada = this.radioTipoPessoa.filter(':checked')[0];
-		if (tipoPessoaSelecionada) {
-			aplicarMascara.call(this, $(tipoPessoaSelecionada));
-		}
-	}
+    ChangeTipoImovel.prototype.iniciar = function () {
+        this.radioTipoImovel.on('change', onTipoImovelChange.bind(this));
+    }
 
-	function onTipoPessoaAlterado(evento) {
-		var tipoPessoaSelecionada = $(evento.currentTarget);
-		aplicarMascara.call(this, tipoPessoaSelecionada);
-		this.inputCpfCnpj.val('');
-	}
+    function onTipoImovelChange(evento) {
+        var tipoPessoaSelecionada = $(evento.currentTarget);
+        switch (tipoPessoaSelecionada.val()) {
+            case 'CASA' : {
+                this.inputQuarto.show();
+                this.inputBanheiro.show();
+                this.inputVaga.show();
+                this.inputSuite.show();
+                this.inputForro.show();
+                this.inputPiso.show();
+                break;
+            }
+            case 'APARTAMENTO' : {
+                this.inputQuarto.show();
+                this.inputBanheiro.show();
+                this.inputVaga.show();
+                this.inputSuite.show();
+                this.inputForro.hide();
+                this.inputPiso.hide();
+                break;
+            }
+            case 'KIT' : {
+                this.inputQuarto.show();
+                this.inputBanheiro.show();
+                this.inputForro.show();
+                this.inputPiso.show();
+                this.inputSuite.hide();
+                this.inputVaga.hide();
+                break;
+            }
+            case 'LOJA' : {
+                this.inputBanheiro.show();
+                this.inputForro.show();
+                this.inputPiso.show();
+                this.inputQuarto.hide();
+                this.inputSuite.hide();
+                this.inputVaga.hide();
+                break;
+            }
+            case 'SALAO' : {
+                this.inputBanheiro.show();
+                this.inputForro.show();
+                this.inputPiso.show();
+                this.inputQuarto.hide();
+                this.inputSuite.hide();
+                this.inputVaga.hide();
+                break;
+            }
+        }
+    }
 
-	function aplicarMascara(tipoPessoaSelecionada) {
-		this.campoTipoImovel.show();
-	}
-
-	return ChangeTipoImovel;
+    return ChangeTipoImovel;
 }());
 
-$(function() {
-	var changeTipoImovel = new Bomfim.ChangeTipoImovel();
-	changeTipoImovel.iniciar();
+$(function () {
+    var changeTipoImovel = new Bomfim.ChangeTipoImovel();
+    changeTipoImovel.iniciar();
 
 });
