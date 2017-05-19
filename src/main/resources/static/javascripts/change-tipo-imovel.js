@@ -4,64 +4,86 @@ Bomfim.ChangeTipoImovel = (function () {
 
     function ChangeTipoImovel() {
         this.radioTipoImovel = $('.js-radio-tipo-imovel');
-        this.inputQuarto = $('.js-quarto');
-        this.inputBanheiro = $('.js-banheiro');
-        this.inputVaga = $('.js-vaga');
-        this.inputSuite = $('.js-suites');
-        this.inputForro = $('.js-forro');
-        this.inputPiso = $('.js-piso');
     }
 
     ChangeTipoImovel.prototype.iniciar = function () {
         this.radioTipoImovel.on('change', onTipoImovelChange.bind(this));
+        var tipoPessoaSelecionada = this.radioTipoImovel.filter(':checked')[0];
+        if (tipoPessoaSelecionada) {
+            changeTipoImovel(tipoPessoaSelecionada.value);
+        }
     }
 
     function onTipoImovelChange(evento) {
         var tipoPessoaSelecionada = $(evento.currentTarget);
-        switch (tipoPessoaSelecionada.val()) {
+        changeTipoImovel(tipoPessoaSelecionada.val());
+    }
+
+    function changeTipoImovel(tipoPessoaSelecionada) {
+        var inputQuarto = $('.js-quarto');
+        var inputBanheiro = $('.js-banheiro');
+        var inputVaga = $('.js-vaga');
+        var inputSuite = $('.js-suites');
+        var inputForro = $('.js-forro');
+        var inputPiso = $('.js-piso');
+        switch (tipoPessoaSelecionada) {
             case 'CASA' : {
-                this.inputQuarto.show();
-                this.inputBanheiro.show();
-                this.inputVaga.show();
-                this.inputSuite.show();
-                this.inputForro.show();
-                this.inputPiso.show();
+                inputQuarto.show();
+                inputBanheiro.show();
+                inputVaga.show();
+                inputSuite.show();
+                inputForro.show();
+                inputPiso.show();
                 break;
             }
             case 'APARTAMENTO' : {
-                this.inputQuarto.show();
-                this.inputBanheiro.show();
-                this.inputVaga.show();
-                this.inputSuite.show();
-                this.inputForro.hide();
-                this.inputPiso.hide();
+                inputQuarto.show();
+                inputBanheiro.show();
+                inputVaga.show();
+                inputSuite.show();
+                inputForro.hide();
+                inputPiso.hide();
+
+                inputForro.val('');
+                inputPiso.val('');
                 break;
             }
             case 'KIT' : {
-                this.inputQuarto.show();
-                this.inputBanheiro.show();
-                this.inputForro.show();
-                this.inputPiso.show();
-                this.inputSuite.hide();
-                this.inputVaga.hide();
+                inputQuarto.show();
+                inputBanheiro.show();
+                inputForro.show();
+                inputPiso.show();
+                inputSuite.hide();
+                inputVaga.hide();
+
+                inputSuite.val('');
+                inputVaga.val('');
                 break;
             }
             case 'LOJA' : {
-                this.inputBanheiro.show();
-                this.inputForro.show();
-                this.inputPiso.show();
-                this.inputQuarto.hide();
-                this.inputSuite.hide();
-                this.inputVaga.hide();
+                inputBanheiro.show();
+                inputForro.show();
+                inputPiso.show();
+                inputQuarto.hide();
+                inputSuite.hide();
+                inputVaga.hide();
+
+                inputQuarto.val('');
+                inputSuite.val('');
+                inputVaga.val('');
                 break;
             }
             case 'SALAO' : {
-                this.inputBanheiro.show();
-                this.inputForro.show();
-                this.inputPiso.show();
-                this.inputQuarto.hide();
-                this.inputSuite.hide();
-                this.inputVaga.hide();
+                inputBanheiro.show();
+                inputForro.show();
+                inputPiso.show();
+                inputQuarto.hide();
+                inputSuite.hide();
+                inputVaga.hide();
+
+                inputQuarto.val('');
+                inputSuite.val('');
+                inputVaga.val('');
                 break;
             }
         }
