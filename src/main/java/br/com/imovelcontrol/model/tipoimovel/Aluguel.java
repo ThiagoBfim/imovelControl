@@ -67,7 +67,7 @@ public class Aluguel implements Serializable {
     @Column(name = "vagas_garagem")
     private Integer vagasGaragem;
 
-    private Long tamanhoArea;
+    private Integer tamanhoArea;
 
     public Long getCodigo() {
         return codigo;
@@ -109,11 +109,11 @@ public class Aluguel implements Serializable {
         this.tipoImovel = tipoImovel;
     }
 
-    public Long getTamanhoArea() {
+    public Integer getTamanhoArea() {
         return tamanhoArea;
     }
 
-    public void setTamanhoArea(Long tamanhoArea) {
+    public void setTamanhoArea(Integer tamanhoArea) {
         this.tamanhoArea = tamanhoArea;
     }
 
