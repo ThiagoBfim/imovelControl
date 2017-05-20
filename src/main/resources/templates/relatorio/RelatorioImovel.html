@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="'layout/LayoutPadrao'"
+      xmlns:brewer="http://brewer.algaworks.com">
+
+<head>
+    <title>Relatório - Imóvel</title>
+</head>
+
+<section layout:fragment="conteudo">
+
+    <div class="page-header">
+        <div class="container-fluid">
+            <h1>
+                Relatório dos imóveis
+            </h1>
+        </div>
+    </div>
+
+    <div class="container-fluid">
+        <form method="POST" th:object="${periodoRelatorioDTO}" th:action="@{/relatorios/gastosImovel}">
+
+            <brewer:message/>
+            <div class="form-group col-sm-12">
+                <div class="row">
+                    <label class="col-sm-3" style="text-align: right" for="nomeImovel">Nome do Imóvel: </label>
+                    <div class="form-inline">
+                        <input type="text" class="form-control aw-form-control-inline-sm-doble"
+                               id="nomeImovel" th:field="*{nomeImovel}">
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <label class="col-sm-3" style="text-align: right" for="dataInicio">Data de criação: </label>
+
+                    <div class="form-inline">
+                        <input type="text" class="form-control  js-date aw-form-control-inline-sm"
+                               id="dataInicio" th:field="*{dataInicio}" autocomplete="off"/>
+                        <label class="aw-form-label-between">a</label>
+                        <input type="text" class="form-control  js-date js-date aw-form-control-inline-sm"
+                               id="dataFim" th:field="*{dataFim}" autocomplete="off"/>
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit" class="btn  btn-primary">Emitir</button>
+        </form>
+    </div>
+</section>
+
+</html>

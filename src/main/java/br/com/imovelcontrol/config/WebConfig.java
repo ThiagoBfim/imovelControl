@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
+import javax.sql.DataSource;
 
 import br.com.imovelcontrol.controller.ImovelController;
 import br.com.imovelcontrol.controller.converter.GrupoConverter;
@@ -33,6 +34,8 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.i18n.FixedLocaleResolver;
+import org.springframework.web.servlet.view.jasperreports.JasperReportsMultiFormatView;
+import org.springframework.web.servlet.view.jasperreports.JasperReportsViewResolver;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.extras.springsecurity4.dialect.SpringSecurityDialect;
 import org.thymeleaf.spring4.SpringTemplateEngine;
@@ -77,11 +80,24 @@ public class WebConfig extends WebMvcConfigurerAdapter implements ApplicationCon
 		return engine;
 	}
 
+    @Bean
+    public ViewResolver jasperReportsViewResolver(DataSource dataSource) {
+        JasperReportsViewResolver resolver = new JasperReportsViewResolver();
+        resolver.setPrefix("classpath:/relatorios/");
+        resolver.setSuffix(".jasper");
+        resolver.setViewNames("relatorio_*");
+        resolver.setViewClass(JasperReportsMultiFormatView.class);
+        resolver.setJdbcDataSource(dataSource);
+        resolver.setOrder(0);
+        return resolver;
+    }
+
 	@Bean
 	public ViewResolver viewResolver() {
 		ThymeleafViewResolver resolver = new ThymeleafViewResolver();
 		resolver.setTemplateEngine(templateEngine());
 		resolver.setCharacterEncoding("UTF-8");
+        resolver.setOrder(1);
 		return resolver;
 	}
 
@@ -93,9 +109,6 @@ public class WebConfig extends WebMvcConfigurerAdapter implements ApplicationCon
 	@Bean
 	public FormattingConversionService mvcConversionService() {
 		DefaultFormattingConversionService conversionService = new DefaultFormattingConversionService();
-//		conversionService.addConverter(new EstiloConverter());
-//		conversionService.addConverter(new CidadeConverter());
-//		conversionService.addConverter(new EstadoConverter());
 		conversionService.addConverter(new GrupoConverter());
 
 		NumberStyleFormatter bigDecimalFormatter = new NumberStyleFormatter("#,##0.00");
