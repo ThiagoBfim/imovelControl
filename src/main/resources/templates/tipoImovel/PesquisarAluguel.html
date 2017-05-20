@@ -7,7 +7,7 @@
       xmlns:data="http://www.thymeleaf.org/extras/data">
 
 <head>
-    <title>Pesquisa de Imoveis</title>
+    <title>Pesquisa de Alugueis</title>
 
 </head>
 
@@ -46,14 +46,21 @@
             <table class="table  table-hover">
                 <thead>
                 <tr>
-                    <th class=".table-imovel-col-endereco">Nome do Aluguel</th>
-                    <th class=".table-imovel-col-tipoImovel">Tipo do Imovel</th>
+                    <th>
+                        <span th:if="${pagina.vazia}">Nome</span>
+                        <bomfim:order page="${pagina}" field="nome" text="Nome"/>
+                    </th>
+                    <th>
+                        <span th:if="${pagina.vazia}">Tipo do Imovel</span>
+                        <bomfim:order page="${pagina}" field="tipoImovel" text="Tipo do Imóvel"/>
+                    </th>
                     <th class="table-col-acoes-imovel"></th>
                 </tr>
                 </thead>
 
                 <tbody>
                 <tr th:each="aluguel : ${pagina.conteudo}">
+
                     <td th:text="${aluguel.nome}">Aluguel Taguatinga</td>
                     <td th:text="${aluguel.tipoImovel.descricao}">Casa</td>
                     <td class="text-center">
