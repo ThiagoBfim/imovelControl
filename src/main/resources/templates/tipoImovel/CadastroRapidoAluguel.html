@@ -130,13 +130,12 @@
             </div>
             <div class="panel-body">
                 <div class="row">
-                    <div class="form-group  col-sm-6 bw-required" bomfim:classforerror="formaPagamento.valor">
-
+                    <div class="form-group  col-sm-4 bw-required" bomfim:classforerror="formaPagamento.valor">
                         <label class="control-label" for="valor">Valor Mensal</label>
                         <div class="input-group">
+                            <div class="input-group-addon">R$</div>
                             <input type="text" class="form-control js-decimal" maxlength="10"
                                    th:field="*{formaPagamento.valor}" id="valor"/>
-                            <div class="input-group-addon">R$</div>
                         </div>
                     </div>
                 </div>

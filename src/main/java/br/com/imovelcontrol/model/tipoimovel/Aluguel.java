@@ -176,4 +176,19 @@ public class Aluguel implements Serializable {
     public void setVagasGaragem(Integer vagasGaragem) {
         this.vagasGaragem = vagasGaragem;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Aluguel)) return false;
+
+        Aluguel aluguel = (Aluguel) o;
+
+        return getCodigo() != null ? getCodigo().equals(aluguel.getCodigo()) : aluguel.getCodigo() == null;
+    }
+
+    @Override
+    public int hashCode() {
+        return getCodigo() != null ? getCodigo().hashCode() : 0;
+    }
 }
