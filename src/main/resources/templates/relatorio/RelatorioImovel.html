@@ -20,7 +20,7 @@
     </div>
 
     <div class="container-fluid">
-        <form method="POST" th:object="${periodoRelatorioDTO}" th:action="@{/relatorios/gastosImovel}">
+        <form method="GET" th:object="${periodoRelatorioDTO}" th:action="@{/relatorios/gastosImovel}">
 
             <brewer:message/>
             <div class="form-group col-sm-12">
@@ -45,7 +45,7 @@
                 </div>
             </div>
 
-            <button type="submit" class="btn  btn-primary">Emitir</button>
+            <a th:href="@{/relatorios/gastosImovel}" class="btn  btn-primary" target="blank_">Emitir</a>
         </form>
     </div>
 </section>
