@@ -12,7 +12,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+import sun.plugin.javascript.navig4.Link;
 
 @Controller
 @RequestMapping("/relatorios")
@@ -25,9 +28,10 @@ public class RelatorioController {
         return modelAndView;
     }
 
-    @PostMapping("/gastosImovel")
+    @GetMapping("/gastosImovel")
     public ModelAndView gerarRelatorio(PeriodoRelatorioDTO periodoRelatorioDTO) {
         Map<String, Object> parametros = new HashMap<>();
+         //TODO fazer para pegar a primeira data caso ela seja null.
         Date dataInicio = periodoRelatorioDTO.getDataInicio() != null
                 ? Date.from(LocalDateTime.of(periodoRelatorioDTO.getDataInicio(),
                 LocalTime.of(0, 0, 0)).atZone(ZoneId.systemDefault()).toInstant())
@@ -47,4 +51,5 @@ public class RelatorioController {
         parametros.put("nome_imovel", nomeImovel);
         return new ModelAndView("relatorio_gastos", parametros);
     }
+
 }
