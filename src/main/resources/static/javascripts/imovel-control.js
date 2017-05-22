@@ -1,6 +1,6 @@
-var Brewer = Brewer || {};
+var ImovelControl = ImovelControl || {};
 
-Brewer.MaskMoney = (function() {
+ImovelControl.MaskMoney = (function() {
 
 	function MaskMoney() {
 		this.decimal = $('.js-decimal');
@@ -21,7 +21,7 @@ Brewer.MaskMoney = (function() {
 
 }());
 
-Brewer.MaskPhoneNumber = (function() {
+ImovelControl.MaskPhoneNumber = (function() {
 
 	function MaskPhoneNumber() {
 		this.inputPhoneNumber = $('.js-phone-number');
@@ -46,7 +46,7 @@ Brewer.MaskPhoneNumber = (function() {
 
 }());
 
-Brewer.CepMask = (function() {
+ImovelControl.CepMask = (function() {
 
 	function CepMask() {
 		this.inputCep = $('.js-mascara-cep');
@@ -60,7 +60,7 @@ Brewer.CepMask = (function() {
 
 }());
 
-Brewer.MaskDate = (function() {
+ImovelControl.MaskDate = (function() {
 
 	function MaskDate() {
 		this.inputDate = $('.js-date');
@@ -79,7 +79,7 @@ Brewer.MaskDate = (function() {
 
 }());
 
-Brewer.Security = (function(){
+ImovelControl.Security = (function(){
 	
 	function Security(){
 		this.token = $('input[name=_csrf]').val();
@@ -99,19 +99,19 @@ Brewer.Security = (function(){
 }());
 
 $(function() {
-	var maskMoney = new Brewer.MaskMoney();
+	var maskMoney = new ImovelControl.MaskMoney();
 	maskMoney.enable();
 
-	var maskPhoneNumber = new Brewer.MaskPhoneNumber();
+	var maskPhoneNumber = new ImovelControl.MaskPhoneNumber();
 	maskPhoneNumber.enable();
 
-	var cepMask = new Brewer.CepMask();
+	var cepMask = new ImovelControl.CepMask();
 	cepMask.enable();
 
-	var maskDate = new Brewer.MaskDate();
+	var maskDate = new ImovelControl.MaskDate();
 	maskDate.enable();
 	
-	var security = new Brewer.Security();
+	var security = new ImovelControl.Security();
 	security.enable();
 
 });

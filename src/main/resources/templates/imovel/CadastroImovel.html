@@ -56,7 +56,7 @@
                     <div class="row">
                         <div class="col-sm-2  form-group bw-required" bomfim:classforerror="endereco.cep">
                             <label for="cep" class="control-label">Cep</label>
-                            <input id="cep" name="cep" type="text" class="form-control js-cep" maxlength="9"
+                            <input id="cep" name="cep" type="text" class="form-control  js-mascara-cep" maxlength="9"
                                    th:field="*{endereco.cep}"/>
                             <label id="cepInvalido" style="color:red" class="control-label"></label>
                         </div>
@@ -124,7 +124,6 @@
     <script th:src="@{/javascripts/imovel-upload-foto.js}"></script>
     <script th:src="@{/javascripts/change-tipo-imovel.js}"></script>
     <script th:src="@{/javascripts/cep.js}"></script>
-    <script th:src="@{/javascripts/mascara.js}"></script>
 </th:block>
 </body>
 
