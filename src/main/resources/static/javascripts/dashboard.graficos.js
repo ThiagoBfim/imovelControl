@@ -79,6 +79,9 @@ ImovelControl.GraficoVendaPorMes = (function () {
 
         var options = {
             title: 'Ganho Geral do Imóvel',
+            titleTextStyle: {
+                fontSize: 20
+            },
             is3D: true,
             titlePosition: 'center',
         };
