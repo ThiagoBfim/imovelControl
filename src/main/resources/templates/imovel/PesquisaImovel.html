@@ -44,7 +44,7 @@
             <div class="row">
                 <div class="form-group  col-sm-2">
                     <label class="control-label" for="endereco">Cep</label>
-                    <input type="text" class="form-control js-cep" id="endereco" th:field="*{endereco.cep}"
+                    <input type="text" class="form-control js-mascara-cep" id="endereco" th:field="*{endereco.cep}"
                            maxlength="9"/>
                 </div>
                 <div class="form-group  col-sm-5">
@@ -64,7 +64,7 @@
             <table class="table  table-hover">
                 <thead>
                 <tr>
-                    <th >Foto</th>
+                    <th>Foto</th>
                     <th>
                         <span th:if="${pagina.vazia}">Nome</span>
                         <bomfim:order page="${pagina}" field="nome" text="Nome"/>
@@ -80,7 +80,8 @@
                 <tbody>
                 <tr th:each="imovel : ${pagina.conteudo}">
                     <td class="text-center">
-                        <img style="width:50px;" th:src="@{/fotos/thumbnail.{foto}(foto=${imovel.fotoOrMock})}" class="img-responsive"/>
+                        <img style="width:50px;" th:src="@{/fotos/thumbnail.{foto}(foto=${imovel.fotoOrMock})}"
+                             class="img-responsive"/>
                     </td>
                     <td th:text="${imovel.nome}">Casa de taguatinga</td>
                     <td th:text="|${imovel.endereco.cep} - ${imovel.endereco.cidade} - ${imovel.endereco.bairro}|">
@@ -115,10 +116,6 @@
 
 
 </section>
-
-<th:block layout:fragment="javascript-extra">
-    <script th:src="@{/javascripts/mascara.js}"></script>
-</th:block>
 
 </body>
 
