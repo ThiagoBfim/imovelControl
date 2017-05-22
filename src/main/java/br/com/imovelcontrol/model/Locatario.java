@@ -1,8 +1,10 @@
 package br.com.imovelcontrol.model;
 
 import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.br.CPF;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 
 /**
  * Created by marcosfellipec on 18/05/17.
@@ -14,10 +16,12 @@ public class Locatario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long codigo;
-
+    @Size(max = 100, message = "Nome deve ter no máximo 100 caracteres")
     @NotBlank(message = "Nome Obrigatório")
     private String nome;
 
+    @CPF
+    @Size(max = 11, message = "CPF deve ter no máximo 11 caracteres")
     @NotBlank(message = "CPF Obrigatório")
     private String cpf;
 
