@@ -2,13 +2,13 @@ package br.com.imovelcontrol.service.exception;
 
 public class ImpossivelExcluirEntidadeException extends RuntimeException {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
 
-	public ImpossivelExcluirEntidadeException(String msg) {
-		super(msg);
-	}
+    public ImpossivelExcluirEntidadeException(String msg) {
+        super(msg);
+    }
 
 }
