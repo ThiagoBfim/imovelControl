@@ -67,7 +67,7 @@ public class Aluguel implements Serializable {
     @Column(name = "vagas_garagem")
     private Integer vagasGaragem;
 
-    private Long tamanhoArea;
+    private Integer tamanhoArea;
 
     public Long getCodigo() {
         return codigo;
@@ -109,11 +109,11 @@ public class Aluguel implements Serializable {
         this.tipoImovel = tipoImovel;
     }
 
-    public Long getTamanhoArea() {
+    public Integer getTamanhoArea() {
         return tamanhoArea;
     }
 
-    public void setTamanhoArea(Long tamanhoArea) {
+    public void setTamanhoArea(Integer tamanhoArea) {
         this.tamanhoArea = tamanhoArea;
     }
 
@@ -175,5 +175,20 @@ public class Aluguel implements Serializable {
 
     public void setVagasGaragem(Integer vagasGaragem) {
         this.vagasGaragem = vagasGaragem;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Aluguel)) return false;
+
+        Aluguel aluguel = (Aluguel) o;
+
+        return getCodigo() != null ? getCodigo().equals(aluguel.getCodigo()) : aluguel.getCodigo() == null;
+    }
+
+    @Override
+    public int hashCode() {
+        return getCodigo() != null ? getCodigo().hashCode() : 0;
     }
 }

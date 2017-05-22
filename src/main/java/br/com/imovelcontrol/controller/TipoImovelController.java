@@ -14,12 +14,12 @@ import br.com.imovelcontrol.repository.Imoveis;
 import br.com.imovelcontrol.service.CadastroAluguelService;
 import br.com.imovelcontrol.service.FormaPagamentoService;
 import br.com.imovelcontrol.service.exception.ImpossivelExcluirEntidadeException;
+import br.com.imovelcontrol.service.exception.NomeAluguelJaCadastradoException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,7 +28,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/imovel/aluguel")
@@ -64,11 +63,7 @@ public class TipoImovelController {
 
     // ver alguma maneira de não mudar a url.
     @RequestMapping(value = {"/novo"}, method = RequestMethod.POST)
-    public ModelAndView salvar(@Valid Aluguel aluguel, BindingResult result, Model model, RedirectAttributes attributes,
-            @PageableDefault(size = 5) Pageable pageable, HttpServletRequest httpServletRequest) {
-        ModelAndView modelAndView = new ModelAndView("tipoImovel/PesquisarAluguel");
-        setAllObjectsFromImovelToModelView(modelAndView);
-
+    public ModelAndView salvar(@Valid Aluguel aluguel, BindingResult result) {
         aluguel.setImovel(imoveis.findOne(codigoImovel));
         if (result.hasErrors()) {
             return novo(aluguel);
@@ -76,21 +71,17 @@ public class TipoImovelController {
 
         FormaPagamento formaPagamentoSession = formaPagamentoService.salvar(aluguel.getFormaPagamento());
         aluguel.setFormaPagamento(formaPagamentoSession);
-
-        cadastroAluguelService.salvar(aluguel);
+        try {
+            cadastroAluguelService.salvar(aluguel);
+        } catch (NomeAluguelJaCadastradoException e) {
+            result.rejectValue("nome", e.getMessage(), e.getMessage());
+            return novo(aluguel);
+        }
         aluguel = new Aluguel();
         setImovelAluguel(aluguel);
 
-        modelAndView.addObject(aluguel);
-        modelAndView.addObject("codigo", codigoImovel);
-        attributes.addFlashAttribute("mensagem", "Aluguel Salvo com sucesso!");
+        return new ModelAndView("redirect:/imovel/aluguel/" + codigoImovel);
 
-        PageWrapper<Aluguel> pagina = new PageWrapper<>(alugueis.filtrarByImovel(codigoImovel, pageable),
-                httpServletRequest);
-        modelAndView.addObject("pagina", pagina);
-        modelAndView.addObject("aluguel", aluguel);
-
-        return modelAndView;
     }
 
     @GetMapping("/{codigo}")

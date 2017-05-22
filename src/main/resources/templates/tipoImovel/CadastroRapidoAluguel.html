@@ -74,21 +74,21 @@
                     <div class="form-group  col-sm-4  js-quarto" style="display: none;">
                         <label class="control-label" for="tamanhoArea">Numero de quartos</label>
                         <div class="input-group col-sm-12 col-xs-12">
-                            <input type="text" class="form-control js-plain"
+                            <input type="text" class="form-control js-plain js-quarto"
                                    th:field="*{quantidadeQuartos}" id="quantidadeQuartos" maxlength="2"/>
                         </div>
                     </div>
                     <div class="form-group  col-sm-4  js-banheiro" style="display: none;">
                         <label class="control-label" for="tamanhoArea">Numero de banheiros</label>
                         <div class="input-group col-sm-12 col-xs-12">
-                            <input type="text" class="form-control js-plain"
+                            <input type="text" class="form-control js-plain js-banheiro"
                                    th:field="*{quantidadeBanheiros}" id="quantidadeBanheiros" maxlength="2"/>
                         </div>
                     </div>
                     <div class="form-group  col-sm-4  js-suites" style="display: none;">
-                        <label class="control-label" for="tamanhoArea">Numero de Suites</label>
+                        <label class="control-label" for="suites">Numero de Suites</label>
                         <div class="input-group col-sm-12 col-xs-12">
-                            <input type="text" class="form-control js-plain"
+                            <input type="text" class="form-control js-plain  js-suites"
                                    th:field="*{suites}" id="suites" maxlength="2"/>
                         </div>
                     </div>
@@ -97,17 +97,17 @@
                     <div class="form-group  col-sm-4  js-forro" style="display: none;">
                         <label class="control-label" for="tamanhoArea">Tipo de Forro</label>
                         <div class="input-group col-sm-12 col-xs-12">
-                            <select id="tipoForro" class="form-control" th:field="*{tipoForro}">
-                                <option value="">Tipo de Forro</option>
-                                <option th:each="tipoForro : ${tiposForro}" th:value="${tipoForro}"
-                                        th:text="${tipoForro.descricao}"></option>
+                            <select id="tipoForro" class="form-control js-forro" th:field="*{tipoForro}">
+                            <option value="">Tipo de Forro</option>
+                            <option th:each="tipoForro : ${tiposForro}" th:value="${tipoForro}"
+                                    th:text="${tipoForro.descricao}"></option>
                             </select>
                         </div>
                     </div>
                     <div class="form-group  col-sm-4  js-piso" style="display: none;">
                         <label class="control-label" for="tamanhoArea">Tipo de Piso</label>
 
-                        <select id="tipoPiso" class="form-control" th:field="*{tipoPiso}">
+                        <select id="tipoPiso" class="form-control js-piso" th:field="*{tipoPiso}">
                             <option value="">Tipo de Piso</option>
                             <option th:each="tipoPiso : ${tiposPiso}" th:value="${tipoPiso}"
                                     th:text="${tipoPiso.descricao}"></option>
@@ -115,8 +115,8 @@
                     </div>
                     <div class="form-group  col-sm-4  js-vaga" style="display: none;">
                         <label class="control-label" for="tamanhoArea">Numero de Vagas na Garagem</label>
-                        <div class="input-group col-sm-12 col-xs-12">
-                            <input type="text" class="form-control js-plain"
+                        <div class="input-group col-sm-12 col-xs-12 ">
+                            <input type="text" class="form-control js-plain js-vaga"
                                    th:field="*{vagasGaragem}" id="vagasGaragem" maxlength="2"/>
                         </div>
                     </div>
@@ -130,13 +130,12 @@
             </div>
             <div class="panel-body">
                 <div class="row">
-                    <div class="form-group  col-sm-6 bw-required" bomfim:classforerror="formaPagamento.valor">
-
+                    <div class="form-group  col-sm-4 bw-required" bomfim:classforerror="formaPagamento.valor">
                         <label class="control-label" for="valor">Valor Mensal</label>
                         <div class="input-group">
+                            <div class="input-group-addon">R$</div>
                             <input type="text" class="form-control js-decimal" maxlength="10"
                                    th:field="*{formaPagamento.valor}" id="valor"/>
-                            <div class="input-group-addon">R$</div>
                         </div>
                     </div>
                 </div>

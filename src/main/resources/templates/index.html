@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="'layout/LayoutPadrao'">
+
+<head>
+    <title>Relatório - Imóvel</title>
+
+    <style>
+        .ic-styleButton {
+            margin: 15px;
+        }
+    </style>
+</head>
+
+<section layout:fragment="conteudo">
+
+
+    <div class="page-header">
+        <div class="container-fluid">
+            <h1>
+                Imóvel Control
+            </h1>
+        </div>
+    </div>
+
+    <div class="container-fluid">
+
+        <div style="text-align: center;">
+            <button class="btn btn-primary  ic-styleButton" id="pizzaBtn">Gráfico de Pizza</button>
+            <button class="btn btn-danger  ic-styleButton" id="colunaBtn">Gráfico de Colunas</button>
+            <button class="btn btn-success  ic-styleButton">Gráfico de Linha</button>
+
+            <div class="row">
+                <div class="col-sm-6 col-sm-offset-3">
+                    <div id="chart" style="height: 400px;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<th:block layout:fragment="javascript-extra">
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script th:src="@{/javascripts/dashboard.graficos.js}"></script>
+</th:block>
+
+
+</html>

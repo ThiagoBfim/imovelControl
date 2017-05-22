@@ -69,7 +69,7 @@
 	padding: 10px;
 	vertical-aling: middle;
 }
-
+/*
 ###################
 #
 PÁGINAS DO SISTEMA
@@ -88,6 +88,10 @@ PÁGINAS DO SISTEMA
 .table-col-acoes-imovel{
 	min-width: 100px;
 	width: 100px
+}
+
+.table-col-imagem {
+    width: 3%;
 }
 
 .table-imovel-col-nome {

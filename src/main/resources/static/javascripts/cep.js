@@ -45,8 +45,6 @@ Bomfim.BuscarCep = (function () {
             inputCidade.val(conteudo.localidade);
             inputUf.val(conteudo.uf)
             labelCepInvalido.hide();
-
-
         } //end if.
         else {
             //CEP não Encontrado.
