@@ -1,0 +1,3 @@
+ALTER TABLE IMOVEL ADD  codigo_usuario BIGINT(20) NOT NULL DEFAULT 1;
+ALTER TABLE IMOVEL ADD CONSTRAINT fk_usuario_imovel FOREIGN KEY (codigo_usuario) REFERENCES usuario(codigo);
+
