@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.Valid;
 
@@ -33,6 +35,10 @@ public class Imovel implements Serializable {
 
 	@Column(name = "content_type")
 	private String contentType;
+
+	@ManyToOne
+    @JoinColumn(name = "codigo_usuario")
+	private Usuario donoImovel;
 	
 	public Long getCodigo() {
 		return codigo;
@@ -82,4 +88,11 @@ public class Imovel implements Serializable {
 		return getCodigo() == null;
 	}
 
+    public Usuario getDonoImovel() {
+        return donoImovel;
+    }
+
+    public void setDonoImovel(Usuario donoImovel) {
+        this.donoImovel = donoImovel;
+    }
 }
