@@ -5,10 +5,8 @@ ImovelControl.GraficoVendaPorMes = (function () {
     function GraficoVendaPorMes() {
         google.charts.load("current", {packages: ["corechart"]});
         google.charts.load('current', {'packages': ['bar']});
-        //  google.charts.setOnLoadCallback(drawChart);
         this.btnGraficoPizza = $('#pizzaBtn');
         this.btnGraficoColuna = $('#colunaBtn');
-
     }
 
     GraficoVendaPorMes.prototype.iniciar = function () {
@@ -19,7 +17,7 @@ ImovelControl.GraficoVendaPorMes = (function () {
 
     function drawColunaChart() {
         $.ajax({
-            url: 'totalPorMes',
+            url: 'totalPorMesColuna',
             method: 'GET',
             success: onDadosRecebidosColuna.bind(this)
         });
@@ -28,12 +26,12 @@ ImovelControl.GraficoVendaPorMes = (function () {
 
     function onDadosRecebidosColuna(vendaMes) {
 
-        var meses = [];
+        /*var meses = [];
         var valores = [];
         vendaMes.forEach(function (obj) {
             meses.push(obj.nome);
             valores.push(obj.cep);
-        });
+        });*/
         var data = google.visualization.arrayToDataTable([
             ['Year', 'Sales', 'Expenses', 'Profit'],
             ['2014', 1000, 400, 200],

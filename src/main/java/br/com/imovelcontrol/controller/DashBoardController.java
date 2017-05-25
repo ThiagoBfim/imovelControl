@@ -1,9 +1,11 @@
-package br.com.imovelcontrol.controller.page;
+package br.com.imovelcontrol.controller;
 
 import java.util.List;
 
 import br.com.imovelcontrol.dto.PeriodoRelatorioDTO;
 import br.com.imovelcontrol.model.Imovel;
+import br.com.imovelcontrol.model.tipoimovel.Aluguel;
+import br.com.imovelcontrol.repository.Alugueis;
 import br.com.imovelcontrol.repository.Imoveis;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,6 +23,10 @@ public class DashBoardController {
 
     @Autowired
     private Imoveis imoveis;
+
+    @Autowired
+    private Alugueis alugueis;
+
     @GetMapping
     public ModelAndView dashboard() {
         ModelAndView modelAndView = new ModelAndView("index");
@@ -30,7 +36,17 @@ public class DashBoardController {
 
     @GetMapping("/totalPorMes")
     public @ResponseBody
-    List<Imovel> listarTotalVendaPorMes(){
-        return imoveis.findAll();
+    List<Imovel> listarTotalVendaPorMes() {
+        List<Imovel> listImovel = imoveis.findAll();
+        listImovel.forEach(i -> {
+            System.out.println(i.getDonoImovel());
+        });
+        return listImovel;
+    }
+
+    @GetMapping("/totalPorMesColuna")
+    public @ResponseBody
+    List<Aluguel> listarTotalVendaPorMesColuna() {
+        return alugueis.findAll();
     }
 }
