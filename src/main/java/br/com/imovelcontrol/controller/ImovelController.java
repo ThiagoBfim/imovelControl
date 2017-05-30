@@ -1,17 +1,22 @@
 package br.com.imovelcontrol.controller;
 
+import java.util.Optional;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import br.com.imovelcontrol.controller.page.PageWrapper;
 import br.com.imovelcontrol.model.Imovel;
+import br.com.imovelcontrol.model.Usuario;
 import br.com.imovelcontrol.repository.Imoveis;
+import br.com.imovelcontrol.repository.Usuarios;
 import br.com.imovelcontrol.service.CadastroImovelService;
 import br.com.imovelcontrol.service.exception.ImpossivelExcluirEntidadeException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -21,7 +26,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/imovel")
@@ -32,6 +36,9 @@ public class ImovelController {
 
     @Autowired
     private CadastroImovelService cadastroImovelService;
+
+    @Autowired
+    private Usuarios usuarios;
 
     /**
      * Metodo para iniciar um novo imovel.
@@ -50,14 +57,14 @@ public class ImovelController {
      *
      * @param imovel     Imovel a ser criado.
      * @param result     Resultado do cadastro, caso tenha erro, serão exibidos.
-     * @param attributes Parametro obrigatorio, util para colcoar attributos na pagina.
      * @return Pagina de sucesso.
      */
     @RequestMapping(value = "/novo", method = RequestMethod.POST)
-    public ModelAndView cadastrar(@Valid Imovel imovel, BindingResult result,
-            RedirectAttributes attributes) {
+    public ModelAndView cadastrar(@Valid Imovel imovel, BindingResult result) {
         ModelAndView mAndView = new ModelAndView("imovel/CadastroImovel");
-
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Optional<Usuario> usuario = usuarios.findByLogin(auth.getName());
+        imovel.setDonoImovel(usuario.get());
         if (result.hasErrors()) {
             return novo(imovel);
         }

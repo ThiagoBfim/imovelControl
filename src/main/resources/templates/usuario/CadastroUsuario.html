@@ -41,7 +41,14 @@
 			<bomfim:message/>
 			
 			<input type="hidden" th:field="*{codigo}"/>
-				<div class="row">
+                <div class="row">
+                    <div class="col-sm-12  form-group bw-required" bomfim:classforerror="login">
+                        <label for="login" class="control-label">Login</label>
+                        <input id="login" type="text" class="form-control"  th:field="*{login}" />
+                    </div>
+                </div>
+
+                <div class="row">
 					<div class="col-sm-12  form-group bw-required" bomfim:classforerror="nome">
 						<label for="nome" class="control-label">Nome</label> 
 						<input id="nome" type="text" class="form-control"  th:field="*{nome}" />

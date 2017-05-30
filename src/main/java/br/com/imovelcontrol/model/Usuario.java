@@ -26,133 +26,145 @@ import org.hibernate.validator.constraints.NotBlank;
 @Table(name = "usuario")
 public class Usuario implements Serializable {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long codigo;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long codigo;
 
-	@NotBlank(message = "Nome Obrigatório")
-	@Size(max = 100, message = "Nome deve ter no máximo 100 caracteres")
-	private String nome;
+    @NotBlank(message = "Login Obrigatório")
+    @Size(max = 100, message = "Login deve ter no máximo 100 caracteres")
+    private String login;
 
-	@Email
-	@NotBlank(message = "E-mail Obrigatório")
-	@Size(max = 100, message = "Nome deve ter no máximo 100 caracteres")
-	private String email;
+    @NotBlank(message = "Nome Obrigatório")
+    @Size(max = 100, message = "Nome deve ter no máximo 100 caracteres")
+    private String nome;
 
-	@Size(max = 120, message = "Senha deve ter no máximo 30 caracteres")
-	private String senha;
+    @Email
+    @NotBlank(message = "E-mail Obrigatório")
+    @Size(max = 100, message = "Nome deve ter no máximo 100 caracteres")
+    private String email;
 
-	@Transient
-	private String confirmacaoSenha;
+    @Size(max = 120, message = "Senha deve ter no máximo 30 caracteres")
+    private String senha;
 
-	private Boolean ativo;
+    @Transient
+    private String confirmacaoSenha;
 
-	@Column(name = "data_nascimento")
-	private LocalDate dataNascimento;
+    private Boolean ativo;
 
-	@Size(min = 1, message = "Selecione pelo menos um grupo")
-	@ManyToMany
-	@JoinTable(name = "usuario_grupo", 
-	joinColumns = @JoinColumn(name = "codigo_usuario"), 
-	inverseJoinColumns = @JoinColumn(name = "codigo_grupo"))
-	private List<Grupo> grupos;
+    @Column(name = "data_nascimento")
+    private LocalDate dataNascimento;
 
-	@PreUpdate
-	private void preUpdate() {
-		this.confirmacaoSenha = senha;
-	}
-	
-	public Long getCodigo() {
-		return codigo;
-	}
+    @Size(min = 1, message = "Selecione pelo menos um grupo")
+    @ManyToMany
+    @JoinTable(name = "usuario_grupo",
+            joinColumns = @JoinColumn(name = "codigo_usuario"),
+            inverseJoinColumns = @JoinColumn(name = "codigo_grupo"))
+    private List<Grupo> grupos;
 
-	public void setCodigo(Long codigo) {
-		this.codigo = codigo;
-	}
+    @PreUpdate
+    private void preUpdate() {
+        this.confirmacaoSenha = senha;
+    }
 
-	public String getNome() {
-		return nome;
-	}
+    public Long getCodigo() {
+        return codigo;
+    }
 
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
+    public void setCodigo(Long codigo) {
+        this.codigo = codigo;
+    }
 
-	public String getEmail() {
-		return email;
-	}
+    public String getNome() {
+        return nome;
+    }
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
 
-	public String getSenha() {
-		return senha;
-	}
+    public String getEmail() {
+        return email;
+    }
 
-	public void setSenha(String senha) {
-		this.senha = senha;
-	}
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
-	public Boolean getAtivo() {
-		return ativo;
-	}
+    public String getSenha() {
+        return senha;
+    }
 
-	public void setAtivo(Boolean ativo) {
-		this.ativo = ativo;
-	}
+    public void setSenha(String senha) {
+        this.senha = senha;
+    }
 
-	public LocalDate getDataNascimento() {
-		return dataNascimento;
-	}
+    public Boolean getAtivo() {
+        return ativo;
+    }
 
-	public void setDataNascimento(LocalDate dataNascimento) {
-		this.dataNascimento = dataNascimento;
-	}
+    public void setAtivo(Boolean ativo) {
+        this.ativo = ativo;
+    }
 
-	public List<Grupo> getGrupos() {
-		return grupos;
-	}
+    public LocalDate getDataNascimento() {
+        return dataNascimento;
+    }
 
-	public void setGrupos(List<Grupo> grupos) {
-		this.grupos = grupos;
-	}
+    public void setDataNascimento(LocalDate dataNascimento) {
+        this.dataNascimento = dataNascimento;
+    }
 
-	public String getConfirmacaoSenha() {
-		return confirmacaoSenha;
-	}
+    public List<Grupo> getGrupos() {
+        return grupos;
+    }
 
-	public void setConfirmacaoSenha(String confirmacaoSenha) {
-		this.confirmacaoSenha = confirmacaoSenha;
-	}
+    public void setGrupos(List<Grupo> grupos) {
+        this.grupos = grupos;
+    }
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((codigo == null) ? 0 : codigo.hashCode());
-		return result;
-	}
+    public String getConfirmacaoSenha() {
+        return confirmacaoSenha;
+    }
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Usuario other = (Usuario) obj;
-		if (codigo == null) {
-			if (other.codigo != null)
-				return false;
-		} else if (!codigo.equals(other.codigo))
-			return false;
-		return true;
-	}
+    public void setConfirmacaoSenha(String confirmacaoSenha) {
+        this.confirmacaoSenha = confirmacaoSenha;
+    }
 
-	public boolean isNovo() {
-		return getCodigo() == null;
-	}
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((codigo == null) ? 0 : codigo.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Usuario other = (Usuario) obj;
+        if (codigo == null) {
+            if (other.codigo != null)
+                return false;
+        } else if (!codigo.equals(other.codigo))
+            return false;
+        return true;
+    }
+
+    public boolean isNovo() {
+        return getCodigo() == null;
+    }
 
 }
