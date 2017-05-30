@@ -9,11 +9,11 @@ import org.springframework.data.domain.Pageable;
 
 public interface UsuariosQueries {
 
-	public Page<Usuario> filtrar(Usuario filtro, Pageable pageable);
+    Page<Usuario> filtrar(Usuario filtro, Pageable pageable);
 
-	public Optional<Usuario> retrieveEmailAtivo(String email);
+    Optional<Usuario> retrieveLoginAtivo(String email);
 
-	public List<String> permissoes(Usuario usuario);
+    List<String> permissoes(Usuario usuario);
 
-	public Usuario buscarComGrupos(Long codigo);
+    Usuario buscarComGrupos(Long codigo);
 }

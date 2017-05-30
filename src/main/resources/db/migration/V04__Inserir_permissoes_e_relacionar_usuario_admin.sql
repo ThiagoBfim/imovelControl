@@ -1,4 +1,4 @@
-INSERT INTO usuario VALUES (0,'admin', 'root@gmail.com', '$2a$10$fC2sD8WrvtAfvbGGKgv51eQFU5q6BZJMnu1rshdQ0jacPOfD8PYoa', true, null);
+INSERT INTO usuario VALUES (1,'admin', 'root','root@gmail.com', '$2a$10$fC2sD8WrvtAfvbGGKgv51eQFU5q6BZJMnu1rshdQ0jacPOfD8PYoa', true, null);
 
 --Senha = admin
 INSERT INTO permissao VALUES (1, 'ROLE_CADASTRAR_USUARIO');
