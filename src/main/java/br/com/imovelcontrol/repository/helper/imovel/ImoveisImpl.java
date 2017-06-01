@@ -1,8 +1,12 @@
 package br.com.imovelcontrol.repository.helper.imovel;
 
+import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
+import br.com.imovelcontrol.dto.PeriodoRelatorioDTO;
+import br.com.imovelcontrol.dto.RelatorioImovelDTO;
 import br.com.imovelcontrol.model.Imovel;
 import br.com.imovelcontrol.repository.util.PaginacaoUtil;
 import org.hibernate.Criteria;
@@ -63,6 +67,23 @@ public class ImoveisImpl implements ImoveisQuerys {
                 }
             }
         }
+    }
+
+    @Transactional(readOnly = true)
+    public List<RelatorioImovelDTO> retrieveRelatorioImovelDTO(PeriodoRelatorioDTO periodoRelatorioDTO) {
+
+        String sql = "SELECT new " + RelatorioImovelDTO.class.getName() + " (imovel.nome, imovel.endereco.cep)"
+                + " FROM " + Imovel.class.getCanonicalName() + "  imovel"
+                + " where  imovel.nome like :nome";
+        Query query = entityManager.createQuery(sql);
+        query.setParameter("nome", '%' + periodoRelatorioDTO.getNomeImovel() + '%');
+        List<RelatorioImovelDTO> relatorioImovelDTOs = query.getResultList();
+
+
+        //     .addScalar("id", new LongType())
+        //          .addScalar("message", new StringType())
+        //           .setResultTransformer(Transformers.aliasToBean(MessageExtDto.class));
+        return relatorioImovelDTOs;
     }
 
 }
