@@ -1,7 +1,9 @@
 package br.com.imovelcontrol.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import br.com.imovelcontrol.dto.AluguelGraficoDTO;
 import br.com.imovelcontrol.dto.PeriodoRelatorioDTO;
 import br.com.imovelcontrol.model.Imovel;
 import br.com.imovelcontrol.model.tipoimovel.Aluguel;
@@ -36,12 +38,16 @@ public class DashBoardController {
 
     @GetMapping("/totalPorMes")
     public @ResponseBody
-    List<Imovel> listarTotalVendaPorMes() {
+    List<AluguelGraficoDTO> listarTotalVendaPorMes() {
+        List<AluguelGraficoDTO> aluguelGraficoDTOList = new ArrayList<>();
         List<Imovel> listImovel = imoveis.findAll();
         listImovel.forEach(i -> {
-            System.out.println(i.getDonoImovel());
+            AluguelGraficoDTO aluguelGraficoDTO = new AluguelGraficoDTO();
+            aluguelGraficoDTO.setNomeImovel(i.getNome());
+            aluguelGraficoDTOList.add(aluguelGraficoDTO);
         });
-        return listImovel;
+
+        return aluguelGraficoDTOList;
     }
 
     @GetMapping("/totalPorMesColuna")
