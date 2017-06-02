@@ -59,6 +59,18 @@ ImovelControl.CepMask = (function() {
 	return CepMask;
 
 }());
+ImovelControl.MaskCPF = (function(){
+    function MaskCPF(){
+        this.inputCPF = $('.js-mascara-cpf');
+    }
+
+    MaskCPF.prototype.enable = function(){
+        this.inputCPF.mask('000.000.000-00');
+
+    }
+    return MaskCPF
+
+}());
 
 ImovelControl.MaskDate = (function() {
 
@@ -110,8 +122,13 @@ $(function() {
 
 	var maskDate = new ImovelControl.MaskDate();
 	maskDate.enable();
-	
+
+	var maskCPF = new ImovelControl.MaskCPF();
+	maskCPF.enable();
+
 	var security = new ImovelControl.Security();
 	security.enable();
+
+
 
 });

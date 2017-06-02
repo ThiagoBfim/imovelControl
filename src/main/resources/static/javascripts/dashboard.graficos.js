@@ -4,7 +4,7 @@ ImovelControl.GraficoVendaPorMes = (function () {
 
     function GraficoVendaPorMes() {
         google.charts.load("current", {packages: ["corechart"]});
-        google.charts.load('current', {'packages': ['bar']});
+        google.charts.load('current', {packages: ['bar']});
         this.btnGraficoPizza = $('#pizzaBtn');
         this.btnGraficoColuna = $('#colunaBtn');
     }
@@ -64,7 +64,7 @@ ImovelControl.GraficoVendaPorMes = (function () {
         var ganhos = [1, 2, 3, 4, 5];
         var imoveis = [];
         vendaMes.forEach(function (obj) {
-            imoveis.push(obj.nome);
+            imoveis.push(obj.nomeImovel);
         });
 
         data = new google.visualization.DataTable();
