@@ -35,7 +35,6 @@ public class RelatorioController {
     @GetMapping("/gastosImovel")
     public ModelAndView gerarRelatorio(PeriodoRelatorioDTO periodoRelatorioDTO) {
 
-
         Map<String, Object> parametros = new HashMap<>();
         //TODO fazer para pegar a primeira data caso ela seja null.
         Date dataInicio = periodoRelatorioDTO.getDataInicio() != null
