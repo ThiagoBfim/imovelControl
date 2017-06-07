@@ -22,5 +22,6 @@ classes/
 
 ##Others
 *.rebel.xml
+rebel.xml
 *.context.xml
 src/main/webapp/META-INF/

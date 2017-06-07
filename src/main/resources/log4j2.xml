@@ -6,12 +6,12 @@
 			<PatternLayout pattern="%d{HH:mm:ss.SSS} %-5level %logger{36}: %msg%n" />
 		</Console>
 	</Appenders>
-	
+
 	<Loggers>
 		<Logger name="br.com.imovelcontrol" level="debug"/>
 		<Logger name="org.hibernate.SQL" level="debug"/>
-	
-	
+
+
 		<Root level="ERROR">
 			<AppenderRef ref="Console" />
 		</Root>
