@@ -1,6 +1,7 @@
 package br.com.imovelcontrol.controller;
 
-import br.com.imovelcontrol.model.Imovel;
+import javax.validation.Valid;
+
 import br.com.imovelcontrol.model.Locatario;
 import br.com.imovelcontrol.repository.Locatarios;
 import br.com.imovelcontrol.service.CadastroLocatarioService;
@@ -12,8 +13,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
-
-import javax.validation.Valid;
 
 /**
  * Created by marcosfellipec on 18/05/17.
@@ -30,7 +29,7 @@ public class LocatarioController {
     private CadastroLocatarioService cadastroLocatarioService;
 
     @RequestMapping("/novo")
-    public ModelAndView novo(Imovel imovel) {
+    public ModelAndView novo(Locatario locatario) {
         ModelAndView mAndView = new ModelAndView("locatario/CadastroLocatario");
         return mAndView;
     }
