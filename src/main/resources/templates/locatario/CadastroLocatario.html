@@ -39,14 +39,17 @@
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                         <h4 class="modal-title" id="myModalLabel">Cadastrar Locatário</h4>
                     </div>
-                    <div class="col-sm-12  form-group bw-required">
-                        <label for="nome" class="control-label">Nome</label>
-                        <input id="nome" type="text" class="form-control" maxlength="100"/>
-                    </div>
-                    <div class="col-sm-12  form-group bw-required">
-                        <label for="CPF" class="control-label" >CPF</label>
-                        <input id="CPF" type="cpf" class="form-control js-mascara-cpf" maxlength="14" />
-                    </div>
+                    <form method="POST" th:object="${locatario}" class="form-vertical  js-form-loading" th:action="@{/locatario/novo}">
+
+                        <div class="col-sm-12  form-group bw-required">
+                            <label for="nome" class="control-label">Nome</label>
+                            <input id="nome" type="text" class="form-control" th:field="*{nome}" maxlength="100" />
+                        </div>
+                        <div class="col-sm-12  form-group bw-required">
+                            <label for="CPF" class="control-label" >CPF</label>
+                            <input id="CPF" type="cpf" class="form-control js-mascara-cpf" maxlength="14" />
+                        </div>
+                    </form>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                     </div>
