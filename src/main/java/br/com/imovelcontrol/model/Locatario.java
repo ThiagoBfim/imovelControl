@@ -1,7 +1,9 @@
 package br.com.imovelcontrol.model;
 
+import br.com.imovelcontrol.model.tipoimovel.Aluguel;
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.br.CPF;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
@@ -20,19 +22,41 @@ public class Locatario {
     @NotBlank(message = "Nome Obrigatório")
     private String nome;
 
+//    @OneToOne(mappedBy = "codigo_alguel", optional = false)
+//    private Aluguel aluguel;
+
     @CPF
     @Size(max = 11, message = "CPF deve ter no máximo 11 caracteres")
     @NotBlank(message = "CPF Obrigatório")
     private String cpf;
 
-    private String fotoComprovanteRenda;
+    @Size(max=12, message = "Número de telefone inválido.")
+    @NotBlank
+    private  String telefone;
 
-    private String contentTypeComprovanteRenda;
+//    public Aluguel getAluguel() {
+//        return aluguel;
+//    }
+//
+//    public void setAluguel(Aluguel aluguel) {
+//        this.aluguel = aluguel;
+//    }
 
-    private String fotoContrato;
+    public String getCpf() {
+        return cpf;
+    }
 
-    private String contentTypeContrato;
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
+    }
 
+    public String getTelefone() {
+        return telefone;
+    }
+
+    public void setTelefone(String telefone) {
+        this.telefone = telefone;
+    }
 
     public Long getCodigo() {
         return codigo;
@@ -50,43 +74,5 @@ public class Locatario {
         this.nome = nome;
     }
 
-    public String getCpf() {
-        return cpf;
-    }
 
-    public void setCpf(String cpf) {
-        this.cpf = cpf;
-    }
-
-    public String getFotoComprovanteRenda() {
-        return fotoComprovanteRenda;
-    }
-
-    public void setFotoComprovanteRenda(String fotoComprovanteRenda) {
-        this.fotoComprovanteRenda = fotoComprovanteRenda;
-    }
-
-    public String getContentTypeComprovanteRenda() {
-        return contentTypeComprovanteRenda;
-    }
-
-    public void setContentTypeComprovanteRenda(String contentTypeComprovanteRenda) {
-        this.contentTypeComprovanteRenda = contentTypeComprovanteRenda;
-    }
-
-    public String getFotoContrato() {
-        return fotoContrato;
-    }
-
-    public void setFotoContrato(String fotoContrato) {
-        this.fotoContrato = fotoContrato;
-    }
-
-    public String getContentTypeContrato() {
-        return contentTypeContrato;
-    }
-
-    public void setContentTypeContrato(String contentTypeContrato) {
-        this.contentTypeContrato = contentTypeContrato;
-    }
 }

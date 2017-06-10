@@ -23,14 +23,14 @@ import javax.validation.Valid;
 @RequestMapping("/locatario")
 public class LocatarioController {
 
-    @Autowired
-    private Locatarios locatarios;
+//    @Autowired
+//    private Locatarios locatarios;
 
     @Autowired
     private CadastroLocatarioService cadastroLocatarioService;
 
     @RequestMapping("/novo")
-    public ModelAndView novo(Imovel imovel) {
+    public ModelAndView novo(Locatario locatario) {
         ModelAndView mAndView = new ModelAndView("locatario/CadastroLocatario");
         return mAndView;
     }
@@ -38,8 +38,6 @@ public class LocatarioController {
     @RequestMapping(value = "/novo", method = RequestMethod.POST)
     public ModelAndView cadastrar(@Valid Locatario locatario, BindingResult result) {
         ModelAndView mAndView = new ModelAndView("locatario/CadastroLocatario");
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-
         cadastroLocatarioService.salvar(locatario);
         mAndView.addObject("locatario", locatario);
         return mAndView;
