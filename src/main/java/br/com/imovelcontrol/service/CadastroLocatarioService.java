@@ -2,6 +2,7 @@ package br.com.imovelcontrol.service;
 
 import br.com.imovelcontrol.model.Locatario;
 import br.com.imovelcontrol.repository.Locatarios;
+import br.com.imovelcontrol.service.event.ImovelSalvoEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
@@ -28,3 +29,14 @@ public class CadastroLocatarioService {
         locatarios.delete(locatario);
     }
 }
+
+
+
+
+
+
+
+
+
+
+

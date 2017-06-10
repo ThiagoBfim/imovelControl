@@ -47,12 +47,19 @@
                         </div>
                         <div class="col-sm-12  form-group bw-required">
                             <label for="CPF" class="control-label" >CPF</label>
-                            <input id="CPF" type="cpf" class="form-control js-mascara-cpf" maxlength="14" />
+                            <input id="CPF" type="cpf" class="form-control js-mascara-cpf" th:field="*{cpf}" maxlength="14" />
                         </div>
+                        <div class="col-sm-12  form-group bw-required">
+                            <label for="telefone" class="control-label" >Telefone</label>
+                            <input id="telefone" type="telefone" class="form-control " th:field="*{telefone}" maxlength="15" />
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-prymary" >Salvar</button>
+                        </div>
+
                     </form>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    </div>
+
                 </div><!-- /.modal-content -->
             </div><!-- /.modal-dialog -->
         </div><!-- /.modal -->

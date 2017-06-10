@@ -1,0 +1,6 @@
+CREATE TABLE locatario (
+    codigo BIGINT(20) PRIMARY KEY AUTO_INCREMENT,
+    nome VARCHAR(100) NOT NULL,
+    telefone CHAR(12),
+    cpf CHAR(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
