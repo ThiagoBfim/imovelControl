@@ -22,8 +22,9 @@ public class Locatario {
     @NotBlank(message = "Nome Obrigatório")
     private String nome;
 
-//    @OneToOne(mappedBy = "codigo_alguel", optional = false)
-//    private Aluguel aluguel;
+    @OneToOne
+    @JoinColumn(name = "codigo_aluguel")
+    private Aluguel aluguel;
 
     @CPF
     @Size(max = 11, message = "CPF deve ter no máximo 11 caracteres")
@@ -34,13 +35,13 @@ public class Locatario {
     @NotBlank
     private  String telefone;
 
-//    public Aluguel getAluguel() {
-//        return aluguel;
-//    }
-//
-//    public void setAluguel(Aluguel aluguel) {
-//        this.aluguel = aluguel;
-//    }
+    public Aluguel getAluguel() {
+        return aluguel;
+    }
+
+    public void setAluguel(Aluguel aluguel) {
+        this.aluguel = aluguel;
+    }
 
     public String getCpf() {
         return cpf;
