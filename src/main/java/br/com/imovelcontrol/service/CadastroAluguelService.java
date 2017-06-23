@@ -35,4 +35,9 @@ public class CadastroAluguelService {
         alugueis.delete(aluguel);
         formasPagamentos.delete(aluguel.getFormaPagamento());
 	}
+
+    public Aluguel listById(long id) {
+	    Aluguel aluguel = alugueis.findOne(id);
+        return aluguel;
+	}
 }

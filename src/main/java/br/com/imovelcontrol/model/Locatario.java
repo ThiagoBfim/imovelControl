@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
+import java.io.Serializable;
 
 /**
  * Created by marcosfellipec on 18/05/17.
@@ -14,7 +15,7 @@ import javax.validation.constraints.Size;
 @SuppressWarnings("serial")
 @Entity
 @Table(name = "locatario")
-public class Locatario {
+public class Locatario implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long codigo;
@@ -36,6 +37,7 @@ public class Locatario {
     private  String telefone;
 
     public Aluguel getAluguel() {
+
         return aluguel;
     }
 
@@ -44,11 +46,19 @@ public class Locatario {
     }
 
     public String getCpf() {
-        return cpf;
+                return cpf;
     }
 
     public void setCpf(String cpf) {
-        this.cpf = cpf;
+        String cpfAux = "";
+        for (int i = 0; i < cpf.length(); i++ ){
+            if (cpf.charAt(i) != '-' && cpf.charAt(i) != '.') {
+                StringBuilder stringBuilder  = new StringBuilder();
+                stringBuilder.append(cpf.charAt(i));
+                cpfAux = cpfAux + stringBuilder;
+            }
+        }
+        this.cpf = cpfAux;
     }
 
     public String getTelefone() {
@@ -56,7 +66,15 @@ public class Locatario {
     }
 
     public void setTelefone(String telefone) {
-        this.telefone = telefone;
+        String telefoneAux = "";
+        for (int i = 0; i < telefone.length(); i++ ){
+            if (telefone.charAt(i) != '-' && telefone.charAt(i) != '(' && telefone.charAt(i) != ')') {
+                StringBuilder stringBuilder  = new StringBuilder();
+                stringBuilder.append(telefone.charAt(i));
+                telefoneAux = telefoneAux + stringBuilder;
+            }
+        }
+        this.telefone = telefoneAux;
     }
 
     public Long getCodigo() {

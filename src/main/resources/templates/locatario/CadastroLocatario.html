@@ -40,18 +40,20 @@
                         <h4 class="modal-title" id="myModalLabel">Cadastrar Locatário</h4>
                     </div>
                     <form method="POST" th:object="${locatario}" class="form-vertical  js-form-loading" th:action="@{/locatario/novo}">
-
+                        <bomfim:message/>
+                        <input type="hidden" th:field="*{codigo}"/>
+                        <!--<input type="hidden" th:field="*{aluguel}"/>-->
                         <div class="col-sm-12  form-group bw-required">
                             <label for="nome" class="control-label">Nome</label>
                             <input id="nome" type="text" class="form-control" th:field="*{nome}" maxlength="100" />
                         </div>
                         <div class="col-sm-12  form-group bw-required">
                             <label for="CPF" class="control-label" >CPF</label>
-                            <input id="CPF" type="cpf" class="form-control js-mascara-cpf" th:field="*{cpf}" maxlength="14" />
+                            <input id="CPF" type="text" class="form-control js-mascara-cpf" th:field="*{cpf}" maxlength="14" />
                         </div>
                         <div class="col-sm-12  form-group bw-required">
                             <label for="telefone" class="control-label" >Telefone</label>
-                            <input id="telefone" type="telefone" class="form-control " th:field="*{telefone}" maxlength="11" />
+                            <input id="telefone" type="text" class="form-control js-phone-number" th:field="*{telefone}" maxlength="15" />
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
