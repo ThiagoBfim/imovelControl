@@ -66,15 +66,8 @@ public class Locatario implements Serializable {
     }
 
     public void setTelefone(String telefone) {
-        String telefoneAux = "";
-        for (int i = 0; i < telefone.length(); i++ ){
-            if (telefone.charAt(i) != '-' && telefone.charAt(i) != '(' && telefone.charAt(i) != ')') {
-                StringBuilder stringBuilder  = new StringBuilder();
-                stringBuilder.append(telefone.charAt(i));
-                telefoneAux = telefoneAux + stringBuilder;
-            }
-        }
-        this.telefone = telefoneAux;
+//String fdfdf = "(";
+        this.telefone = telefone.replaceAll("[()-]","");
     }
 
     public Long getCodigo() {
