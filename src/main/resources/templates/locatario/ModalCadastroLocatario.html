@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:bomfim="http://bomfim.com.br">
+
+<body>
+<div class="modal fade" id="modalCadastroLocatario" tabindex="-1" role="dialog" th:fragment="modalCadastro">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">Cadastrar Locatário</h4>
+            </div>
+            <form method="POST" th:object="${locatario}" class="form-vertical  js-form-loading"
+                  th:action="@{/locatario/novo}">
+                <bomfim:message/>
+                <input type="hidden" id="codigoLocatario" th:field="*{codigo}"/>
+                <input type="hidden" id="codigoAluguel" th:field="*{aluguel.codigo}"/>
+                <div class="col-sm-12  form-group bw-required">
+                    <label for="nomeLocatario" class="control-label">Nome</label>
+                    <input id="nomeLocatario" type="text" class="form-control" th:field="*{nome}" maxlength="100"/>
+                </div>
+                <div class="col-sm-12  form-group bw-required">
+                    <label for="cpf" class="control-label">CPF</label>
+                    <input id="cpf" type="text" class="form-control js-mascara-cpf" th:field="*{cpf}" maxlength="14"/>
+                </div>
+                <div class="col-sm-12  form-group bw-required">
+                    <label for="telefone" class="control-label">Telefone</label>
+                    <input id="telefone" type="text" class="form-control js-phone-number" th:field="*{telefone}"
+                           maxlength="15"/>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-success">Salvar</button>
+                </div>
+
+            </form>
+
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+</div>
+
+</body>
+
+</html>
