@@ -1,5 +1,6 @@
 package br.com.imovelcontrol.controller;
 
+import java.util.Optional;
 import javax.validation.Valid;
 
 import br.com.imovelcontrol.controller.converter.FormatUtil;
@@ -56,10 +57,15 @@ public class LocatarioController {
     public @ResponseBody
     Locatario getLocatarioInJSON(@PathVariable String codigo) {
 
-        Locatario locatario = cadastroLocatarioService.retrieveByAluguel(codigo);
-        locatario.setAluguel(new Aluguel());
-        locatario.setCpf(FormatUtil.inserirCpfMascara(locatario.getCpf()));
-        locatario.setTelefone(FormatUtil.inserirTelefoneMascara(locatario.getTelefone()));
+
+        Optional<Locatario> locatarioOptional = cadastroLocatarioService.retrieveByAluguel(codigo);
+        Locatario locatario = new Locatario();
+        if (locatarioOptional.isPresent()) {
+            locatario = locatarioOptional.get();
+            locatario.setAluguel(new Aluguel());
+            locatario.setCpf(FormatUtil.inserirCpfMascara(locatario.getCpf()));
+            locatario.setTelefone(FormatUtil.inserirTelefoneMascara(locatario.getTelefone()));
+        }
         return locatario;
 
     }
