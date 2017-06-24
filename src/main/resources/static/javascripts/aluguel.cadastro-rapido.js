@@ -6,8 +6,6 @@ Brewer.AluguelCadastroRapido = (function () {
 
     function AluguelCadastroRapido() {
         this.botaoSalvar = $('.js-modal-locatario');
-        // this.inputComplemento = $('#complemento');
-        this.codigoAluguel = this.botaoSalvar.data('codigo');
         this.locatarioAluguel = $('#codigoAluguel');
 
 
@@ -22,14 +20,15 @@ Brewer.AluguelCadastroRapido = (function () {
         this.botaoSalvar.on('click', onBotaoSalvarClick.bind(this));
     }
 
-    function onBotaoSalvarClick() {
-        console.log(this.codigoAluguel);
-        $.getJSON('http://localhost:8080/ImovelControl/locatario/' + this.codigoAluguel, function (data) {
+    function onBotaoSalvarClick(evento) {
+        var botaoClicado = $(evento.currentTarget);
+        var codigoAluguel = botaoClicado.data('codigo');
+        $.getJSON('http://localhost:8080/ImovelControl/locatario/' + codigoAluguel, function (data) {
             meu_callback(data);
         });
 
 
-        this.locatarioAluguel.val(this.codigoAluguel);
+        this.locatarioAluguel.val(codigoAluguel);
     }
 
     function meu_callback(conteudo) {

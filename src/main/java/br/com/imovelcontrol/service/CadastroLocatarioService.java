@@ -1,5 +1,7 @@
 package br.com.imovelcontrol.service;
 
+import java.util.Optional;
+
 import br.com.imovelcontrol.model.Locatario;
 import br.com.imovelcontrol.model.tipoimovel.Aluguel;
 import br.com.imovelcontrol.repository.Locatarios;
@@ -29,10 +31,10 @@ public class CadastroLocatarioService {
     }
 
     @Transactional
-    public Locatario retrieveByAluguel(String codigo) {
+    public Optional<Locatario> retrieveByAluguel(String codigo) {
         Aluguel aluguel = new Aluguel();
         aluguel.setCodigo(Long.parseLong(codigo));
-        return locatarios.findByAluguel(aluguel).get();
+        return locatarios.findByAluguel(aluguel);
     }
 
     @Transactional
