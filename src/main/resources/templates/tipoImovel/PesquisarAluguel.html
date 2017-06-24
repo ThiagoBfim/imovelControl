@@ -64,24 +64,26 @@
                     <td th:text="${aluguel.nome}">Aluguel Taguatinga</td>
                     <td th:text="${aluguel.tipoImovel.descricao}">Casa</td>
                     <td class="text-center">
-                        <a
-                                class="btn  btn-link  btn-xs  js-tooltip" title="Editar"
-                                th:href="@{/imovel/aluguel/editar/{codigo}(codigo=${aluguel.codigo})}">
-                            <font color="#009900"> <i
-                                    class="glyphicon glyphicon-pencil"></i>
+                        <a class="btn  btn-link  btn-xs  js-tooltip" title="Editar"
+                           th:href="@{/imovel/aluguel/editar/{codigo}(codigo=${aluguel.codigo})}">
+                            <font color="#009900">
+                                <i class="glyphicon glyphicon-pencil"></i>
                             </font>
                         </a>
                         <a class="btn  btn-link  btn-xs js-tooltip   js-exclusao-btn"
                            title="Excluir" href="#"
                            data:url="@{/imovel/aluguel/{codigo}(codigo=${aluguel.codigo})}"
                            data:codigo="${aluguel.codigo}" data:objeto="${aluguel.nome}">
-                            <font color="#009900"> <i
-                                    class="glyphicon glyphicon-remove"></i></font>
+                            <font color="#009900">
+                                <i class="glyphicon glyphicon-remove"></i>
+                            </font>
                         </a>
-                        <a class="bw-field-action_icon" href="#" data-toggle="modal"
-                           data-target="#modalCadastroRapidoAluguel"> <font
-                                color="#009900"> <i class="glyphicon glyphicon-plus"></i>
-                        </font>
+                        <a href="#" data-toggle="modal"  title="Adicionar/Editar Locatario"
+                           class="btn  btn-link  btn-xs js-tooltip  js-modal-locatario"
+                           data:codigo="${aluguel.codigo}" >
+                            <font color="#009900">
+                                <i class="glyphicon glyphicon-plus"></i>
+                            </font>
                         </a>
                     </td>
                 </tr>
@@ -94,11 +96,13 @@
         <bomfim:pagination page="${pagina}"/>
 
     </div>
+    <div th:replace="locatario/ModalCadastroLocatario :: modalCadastro"></div>
 
 </section>
 
 <th:block layout:fragment="javascript-extra">
     <script th:src="@{/javascripts/change-tipo-imovel.js}"></script>
+    <script th:src="@{/javascripts/aluguel.cadastro-rapido.js}"></script>
 </th:block>
 
 </body>
