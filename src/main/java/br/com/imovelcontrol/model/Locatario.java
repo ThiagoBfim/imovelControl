@@ -1,5 +1,6 @@
 package br.com.imovelcontrol.model;
 
+import br.com.imovelcontrol.controller.converter.FormatUtil;
 import br.com.imovelcontrol.model.tipoimovel.Aluguel;
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.br.CPF;
@@ -50,15 +51,7 @@ public class Locatario implements Serializable {
     }
 
     public void setCpf(String cpf) {
-        String cpfAux = "";
-        for (int i = 0; i < cpf.length(); i++ ){
-            if (cpf.charAt(i) != '-' && cpf.charAt(i) != '.') {
-                StringBuilder stringBuilder  = new StringBuilder();
-                stringBuilder.append(cpf.charAt(i));
-                cpfAux = cpfAux + stringBuilder;
-            }
-        }
-        this.cpf = cpfAux;
+        this.cpf = FormatUtil.removerMascara(cpf);
     }
 
     public String getTelefone() {
@@ -66,8 +59,7 @@ public class Locatario implements Serializable {
     }
 
     public void setTelefone(String telefone) {
-//String fdfdf = "(";
-        this.telefone = telefone.replaceAll("[()-]","");
+        this.telefone = FormatUtil.removerMascara(telefone);
     }
 
     public Long getCodigo() {

@@ -33,9 +33,6 @@ public class LocatarioController {
 
     @Autowired
     private CadastroAluguelService cadastroAluguelService;
-
-//    private Locatarios locatarios;
-
     @Autowired
     private CadastroLocatarioService cadastroLocatarioService;
 
@@ -50,9 +47,6 @@ public class LocatarioController {
     @RequestMapping(value = "/novo", method = RequestMethod.POST)
     public ModelAndView cadastrar(@Valid Locatario locatario, BindingResult result){
         ModelAndView mAndView = new ModelAndView("locatario/CadastroLocatario");
-       // Optional<Aluguel> aluguel = alugueis.findByNome("1");
-
-//       locatario.setAluguel(cadastroAluguelService.listById((long)1));
         Aluguel aluguel = new Aluguel();
         aluguel.setCodigo(1l);
         locatario.setAluguel(aluguel);
