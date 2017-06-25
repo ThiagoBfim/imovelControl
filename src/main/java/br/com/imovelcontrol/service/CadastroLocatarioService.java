@@ -1,12 +1,11 @@
 package br.com.imovelcontrol.service;
 
+import java.util.Optional;
+
 import br.com.imovelcontrol.model.Locatario;
 import br.com.imovelcontrol.model.tipoimovel.Aluguel;
 import br.com.imovelcontrol.repository.Locatarios;
-import br.com.imovelcontrol.service.event.ImovelSalvoEvent;
-import br.com.imovelcontrol.service.event.LocatarioSalvoEvent;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,21 +20,27 @@ public class CadastroLocatarioService {
     @Autowired
     private Locatarios locatarios;
 
-    @Autowired
-    private ApplicationEventPublisher publisher;
     @Transactional
-    public void salvar(Locatario locatario){
+    public void salvar(Locatario locatario) {
         locatarios.save(locatario);
-        //publisher.publishEvent(new LocatarioSalvoEvent(locatario));
     }
 
     @Transactional
-    public void excluir(Locatario locatario){
+    public void excluir(Locatario locatario) {
         locatarios.delete(locatario);
     }
 
+    @Transactional
+    public Optional<Locatario> retrieveByAluguel(String codigo) {
+        Aluguel aluguel = new Aluguel();
+        aluguel.setCodigo(Long.parseLong(codigo));
+        return locatarios.findByAluguel(aluguel);
+    }
 
-
+    @Transactional
+    public Locatario retrieveById(Long codigo) {
+        return locatarios.findOne(codigo);
+    }
 }
 
 

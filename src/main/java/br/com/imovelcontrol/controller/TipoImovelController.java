@@ -5,6 +5,7 @@ import javax.validation.Valid;
 
 import br.com.imovelcontrol.controller.page.PageWrapper;
 import br.com.imovelcontrol.model.FormaPagamento;
+import br.com.imovelcontrol.model.Locatario;
 import br.com.imovelcontrol.model.enuns.TipoImovel;
 import br.com.imovelcontrol.model.tipoimovel.Aluguel;
 import br.com.imovelcontrol.model.tipoimovel.enuns.TipoForro;
@@ -95,6 +96,8 @@ public class TipoImovelController {
         PageWrapper<Aluguel> pagina = new PageWrapper<>(alugueis.filtrarByImovel(codigo, pageable), httpServletRequest);
         modelAndView.addObject("pagina", pagina);
         modelAndView.addObject("aluguel", aluguel);
+        Locatario locatario = new Locatario();
+        modelAndView.addObject("locatario", locatario);
         return modelAndView;
     }
 
