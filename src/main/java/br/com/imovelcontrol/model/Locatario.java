@@ -1,14 +1,24 @@
 package br.com.imovelcontrol.model;
 
+<<<<<<< HEAD
+=======
+import java.io.Serializable;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
+import javax.persistence.Table;
+import javax.validation.constraints.Size;
+
+>>>>>>> origin/master
 import br.com.imovelcontrol.controller.converter.FormatUtil;
 import br.com.imovelcontrol.model.tipoimovel.Aluguel;
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.br.CPF;
-import org.springframework.web.bind.annotation.RequestMapping;
-
-import javax.persistence.*;
-import javax.validation.constraints.Size;
-import java.io.Serializable;
 
 /**
  * Created by marcosfellipec on 18/05/17.
@@ -24,21 +34,27 @@ public class Locatario implements Serializable {
     @NotBlank(message = "Nome Obrigatório")
     private String nome;
 
-    @OneToOne
-    @JoinColumn(name = "codigo_aluguel")
-    private Aluguel aluguel;
-
     @CPF
     @Size(max = 11, message = "CPF deve ter no máximo 11 caracteres")
     @NotBlank(message = "CPF Obrigatório")
     private String cpf;
 
-    @Size(max=12, message = "Número de telefone inválido.")
+    @Size(max = 12, message = "Número de telefone inválido.")
     @NotBlank
-    private  String telefone;
+    private String telefone;
+
+    @OneToOne
+    @JoinColumn(name = "codigo_aluguel")
+    private Aluguel aluguel = new Aluguel();
+
+    @PrePersist
+    @PreUpdate
+    private void prePersistUpdate() {
+        this.setCpf(FormatUtil.removerMascara(this.getCpf()));
+        this.setTelefone(FormatUtil.removerMascara(this.getTelefone()));
+    }
 
     public Aluguel getAluguel() {
-
         return aluguel;
     }
 
@@ -47,11 +63,15 @@ public class Locatario implements Serializable {
     }
 
     public String getCpf() {
-                return cpf;
+        return cpf;
     }
 
     public void setCpf(String cpf) {
+<<<<<<< HEAD
         this.cpf = FormatUtil.removerMascara(cpf);
+=======
+        this.cpf = cpf;
+>>>>>>> origin/master
     }
 
     public String getTelefone() {
@@ -59,7 +79,11 @@ public class Locatario implements Serializable {
     }
 
     public void setTelefone(String telefone) {
+<<<<<<< HEAD
         this.telefone = FormatUtil.removerMascara(telefone);
+=======
+        this.telefone = telefone;
+>>>>>>> origin/master
     }
 
     public Long getCodigo() {
