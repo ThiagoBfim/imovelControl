@@ -26,11 +26,6 @@ import org.springframework.web.servlet.ModelAndView;
 public class LocatarioController {
 
     @Autowired
-<<<<<<< HEAD
-    private CadastroAluguelService cadastroAluguelService;
-    @Autowired
-=======
->>>>>>> origin/master
     private CadastroLocatarioService cadastroLocatarioService;
 
 
@@ -43,13 +38,6 @@ public class LocatarioController {
     @RequestMapping(value = "/novo", method = RequestMethod.POST)
     public ModelAndView cadastrar(@Valid Locatario locatario, BindingResult result) {
         ModelAndView mAndView = new ModelAndView("locatario/CadastroLocatario");
-<<<<<<< HEAD
-        Aluguel aluguel = new Aluguel();
-        aluguel.setCodigo(1l);
-        locatario.setAluguel(aluguel);
-        if (result.hasErrors()) {
-            return novo(locatario);
-=======
 
         Locatario locatarioRetrieve = locatario;
         if (locatario.getCodigo() != null) {
@@ -57,16 +45,12 @@ public class LocatarioController {
             locatarioRetrieve.setNome(locatario.getNome());
             locatarioRetrieve.setCpf(locatario.getCpf());
             locatarioRetrieve.setTelefone(locatario.getTelefone());
->>>>>>> origin/master
         }
         cadastroLocatarioService.salvar(locatarioRetrieve);
 
         mAndView.addObject("mensagem", "Imovel Salvo com sucesso!");
         return mAndView;
     }
-<<<<<<< HEAD
-}
-=======
 
     @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE,
             value = "{codigo}", method = RequestMethod.GET)
@@ -86,4 +70,3 @@ public class LocatarioController {
 
     }
 }
->>>>>>> origin/master

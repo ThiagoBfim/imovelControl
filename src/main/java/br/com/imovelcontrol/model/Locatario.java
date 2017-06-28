@@ -1,7 +1,5 @@
 package br.com.imovelcontrol.model;
 
-<<<<<<< HEAD
-=======
 import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -14,7 +12,6 @@ import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
->>>>>>> origin/master
 import br.com.imovelcontrol.controller.converter.FormatUtil;
 import br.com.imovelcontrol.model.tipoimovel.Aluguel;
 import org.hibernate.validator.constraints.NotBlank;
@@ -67,11 +64,7 @@ public class Locatario implements Serializable {
     }
 
     public void setCpf(String cpf) {
-<<<<<<< HEAD
-        this.cpf = FormatUtil.removerMascara(cpf);
-=======
         this.cpf = cpf;
->>>>>>> origin/master
     }
 
     public String getTelefone() {
@@ -79,11 +72,7 @@ public class Locatario implements Serializable {
     }
 
     public void setTelefone(String telefone) {
-<<<<<<< HEAD
-        this.telefone = FormatUtil.removerMascara(telefone);
-=======
         this.telefone = telefone;
->>>>>>> origin/master
     }
 
     public Long getCodigo() {
