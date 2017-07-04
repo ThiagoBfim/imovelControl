@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Size;
 
 /**
  * Created by Usuario on 09/05/2017.
@@ -24,12 +25,13 @@ public class GastoAdicional implements Serializable {
 
     private LocalDate dataMensal;
 
+    @Size(min = 5, max = 250, message = "O comentário precisa estar entre 5 e 250 carateres")
     private String comentarioGasto;
 
     private BigDecimal valorGasto;
 
     @ManyToOne
-    @JoinColumn(name="codPagamento")
+    @JoinColumn(name = "codPagamento")
     private InformacaoPagamento informacaoPagamento;
 
     public Long getCodigo() {

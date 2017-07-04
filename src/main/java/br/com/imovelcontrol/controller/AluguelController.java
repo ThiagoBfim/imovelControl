@@ -1,10 +1,14 @@
 package br.com.imovelcontrol.controller;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.util.Optional;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import br.com.imovelcontrol.controller.page.PageWrapper;
 import br.com.imovelcontrol.model.FormaPagamento;
+import br.com.imovelcontrol.model.InformacaoPagamento;
 import br.com.imovelcontrol.model.Locatario;
 import br.com.imovelcontrol.model.enuns.TipoImovel;
 import br.com.imovelcontrol.model.tipoimovel.Aluguel;
@@ -14,11 +18,13 @@ import br.com.imovelcontrol.repository.Alugueis;
 import br.com.imovelcontrol.repository.Imoveis;
 import br.com.imovelcontrol.service.CadastroAluguelService;
 import br.com.imovelcontrol.service.FormaPagamentoService;
+import br.com.imovelcontrol.service.InformacaoPagamentoService;
 import br.com.imovelcontrol.service.exception.ImpossivelExcluirEntidadeException;
 import br.com.imovelcontrol.service.exception.NomeAluguelJaCadastradoException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -32,7 +38,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @RequestMapping("/imovel/aluguel")
-public class TipoImovelController {
+public class AluguelController {
 
     @Autowired
     private Alugueis alugueis;
@@ -45,6 +51,9 @@ public class TipoImovelController {
 
     @Autowired
     private CadastroAluguelService cadastroAluguelService;
+
+    @Autowired
+    private InformacaoPagamentoService informacaoPagamentoService;
 
     private Long codigoImovel;
 
@@ -98,6 +107,8 @@ public class TipoImovelController {
         modelAndView.addObject("aluguel", aluguel);
         Locatario locatario = new Locatario();
         modelAndView.addObject("locatario", locatario);
+        InformacaoPagamento informacaoPagamento = new InformacaoPagamento();
+        modelAndView.addObject("informacaoPagamento", informacaoPagamento);
         return modelAndView;
     }
 
@@ -133,6 +144,34 @@ public class TipoImovelController {
         modelAndView.addObject("tiposImoveis", TipoImovel.values());
         modelAndView.addObject("tiposPiso", TipoPiso.values());
         modelAndView.addObject("tiposForro", TipoForro.values());
+    }
+
+    @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE,
+            value = "/pagamento/{codigo}", method = RequestMethod.GET)
+    public @ResponseBody
+    InformacaoPagamento getInformacaoPagamentoInJSON(@PathVariable String codigo) {
+
+
+        Optional<InformacaoPagamento> informacaoPagamentoOptional = informacaoPagamentoService.retrieveByAluguel(codigo);
+        InformacaoPagamento informacaoPagamento = new InformacaoPagamento();
+        if (informacaoPagamentoOptional.isPresent()) {
+            informacaoPagamento = informacaoPagamentoOptional.get();
+            informacaoPagamento.setAguaInclusa(informacaoPagamentoOptional.get().getAluguel().getFormaPagamento().getAguaInclusa());
+            informacaoPagamento.setInternetInclusa(informacaoPagamentoOptional.get().getAluguel().getFormaPagamento().getInternetInclusa());
+            informacaoPagamento.setAluguel(new Aluguel());
+        } else {
+            informacaoPagamento.setAluguel(new Aluguel());
+            informacaoPagamento.setAguaInclusa(Boolean.FALSE);
+            informacaoPagamento.setLuzInclusa(false);
+            informacaoPagamento.setInternetInclusa(Boolean.TRUE);
+            informacaoPagamento.setPago(false);
+            informacaoPagamento.setDataMensal(LocalDate.now());
+            informacaoPagamento.setIptuIncluso(false);
+            informacaoPagamento.setValor(BigDecimal.ZERO);
+            informacaoPagamento.setPossuiCondominio(false);
+        }
+        return informacaoPagamento;
+
     }
 
 }

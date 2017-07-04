@@ -1,22 +1,16 @@
-var Brewer = Brewer || {};
+var ImovelControl = ImovelControl || {};
 
-Brewer.AluguelCadastroRapido = (function () {
+ImovelControl.LocatarioCadastroRapido = (function () {
 
     var modal = $('#modalCadastroLocatario');
 
-    function AluguelCadastroRapido() {
+    function LocatarioCadastroRapido() {
         this.botaoSalvar = $('.js-modal-locatario');
         this.locatarioAluguel = $('#codigoAluguel');
 
-
-        var token = $("input[name='_crsf']").val();
-        var header = "X-CSRF-TOKEN";
-        $(document).ajaxSend(function (e, xhr, options) {
-            xhr.setRequestHeader(header, token);
-        });
     }
 
-    AluguelCadastroRapido.prototype.iniciar = function () {
+    LocatarioCadastroRapido.prototype.iniciar = function () {
         this.botaoSalvar.on('click', onBotaoSalvarClick.bind(this));
     }
 
@@ -51,12 +45,12 @@ Brewer.AluguelCadastroRapido = (function () {
         }
     }
 
-    return AluguelCadastroRapido;
+    return LocatarioCadastroRapido;
 
 }());
 
 $(function () {
-    var aluguelCadastroRapido = new Brewer.AluguelCadastroRapido();
-    aluguelCadastroRapido.iniciar();
+    var locatarioCadastroRapido = new ImovelControl.LocatarioCadastroRapido();
+    locatarioCadastroRapido.iniciar();
 
 })
