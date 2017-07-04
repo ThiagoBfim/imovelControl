@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:bomfim="http://bomfim.com.br">
+
+<body>
+<div class="modal fade" id="modalCadastroPagamento" tabindex="-1" role="dialog" th:fragment="modalCadastroPagamento">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">Informações de Pagamento Mensal</h4>
+            </div>
+
+            <form method="POST" th:object="${informacaoPagamento}" class="form-vertical  js-form-loading"
+                  th:action="@{/locatario/novo}">
+                <div class="modal-body">
+                    <bomfim:message/>
+                    <div class="row">
+                        <div class="form-group  col-sm-4 bw-required" bomfim:classforerror="valor">
+                            <label class="control-label" for="valor">Valor Pago pelo Locatario</label>
+                            <div class="input-group">
+                                <div class="input-group-addon">R$</div>
+                                <input type="text" class="form-control js-decimal" maxlength="10"
+                                       th:field="*{valor}" id="valor"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group  col-sm-2" id="aguaInclusa">
+                            <label class="control-label">Agua Inclusa?</label>
+                            <div>
+                                <input type="checkbox" class="js-status"
+                                       th:field="*{aguaInclusa}" data-size="small"
+                                       data-off-color="danger" data-on-text="Sim" data-off-text="Nao">
+                            </div>
+                        </div>
+                        <div class="form-group  col-sm-2" id="luzInclusa">
+                            <label class="control-label">Luz Inclusa?</label>
+                            <div>
+                                <input type="checkbox" class="js-status"
+                                       th:field="*{luzInclusa}" data-size="small"
+                                       data-off-color="danger" data-on-text="Sim" data-off-text="Nao">
+                            </div>
+                        </div>
+                        <div class="form-group  col-sm-2">
+                            <label class="control-label">Internet Inclusa?</label>
+                            <div>
+                                <input type="checkbox" class="js-status"
+                                       th:field="*{internetInclusa}" data-size="small"
+                                       data-off-color="danger" data-on-text="Sim" data-off-text="Nao">
+                            </div>
+                        </div>
+                        <div class="form-group  col-sm-2">
+                            <label class="control-label">IPTU Incluso?</label>
+                            <div>
+                                <input type="checkbox" class="js-status"
+                                       th:field="*{iptuIncluso}"
+                                       data-size="small" data-off-color="danger" data-on-text="Sim"
+                                       data-off-text="Nao">
+                            </div>
+                        </div>
+                        <div class="form-group  col-sm-2">
+                            <label class="control-label">Possui Condominio?</label>
+                            <div>
+                                <input type="checkbox" class="js-status"
+                                       th:field="*{possuiCondominio}"
+                                       data-size="small" data-off-color="danger" data-on-text="Sim"
+                                       data-off-text="Nao">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group  col-sm-4 col-md-4">
+                            <label class="control-label" for="gastosAdicionais">Gasto extra</label>
+                            <div class="input-group">
+                                <div class="input-group-addon">R$</div>
+                                <input type="text" class="form-control js-decimal" maxlength="10"
+                                       th:field="*{gastoAdicional.valorGasto}" id="gastosAdicionais"/>
+                            </div>
+                        </div>
+                        <div class="form-group  col-sm-8 col-md-8 ">
+                            <label class="control-label" for="comentarioGasto">Comentário sobre o gasto adicional</label>
+                            <div class="input-group">
+                                <textarea class="form-control" maxlength="250" rows="4" cols="50"
+                                          th:field="*{gastoAdicional.comentarioGasto}" id="comentarioGasto"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-success">Salvar</button>
+                </div>
+
+            </form>
+
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+</body>
+
+</html>
