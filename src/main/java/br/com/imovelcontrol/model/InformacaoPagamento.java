@@ -4,8 +4,13 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+
+import br.com.imovelcontrol.model.tipoimovel.Aluguel;
 
 /**
  * Created by Usuario on 09/05/2017.
@@ -18,9 +23,15 @@ public class InformacaoPagamento extends TemplateFormaPagamento {
 
     private LocalDate dataMensal;
 
+    @OneToOne
+    @JoinColumn(name = "codigo_aluguel")
+    private Aluguel aluguel;
+
     @OneToMany(mappedBy = "informacaoPagamento")
     private List<GastoAdicional> gastosAdicionais = new ArrayList<>();
 
+    @Transient
+    private GastoAdicional gastoAdicional;
 
     public Boolean getPago() {
         return pago;
@@ -44,6 +55,22 @@ public class InformacaoPagamento extends TemplateFormaPagamento {
 
     public void setGastosAdicionais(List<GastoAdicional> gastosAdicionais) {
         this.gastosAdicionais = gastosAdicionais;
+    }
+
+    public GastoAdicional getGastoAdicional() {
+        return gastoAdicional;
+    }
+
+    public void setGastoAdicional(GastoAdicional gastoAdicional) {
+        this.gastoAdicional = gastoAdicional;
+    }
+
+    public Aluguel getAluguel() {
+        return aluguel;
+    }
+
+    public void setAluguel(Aluguel aluguel) {
+        this.aluguel = aluguel;
     }
 }
 
