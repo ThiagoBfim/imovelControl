@@ -54,7 +54,7 @@
                         <span th:if="${pagina.vazia}">Tipo do Imovel</span>
                         <bomfim:order page="${pagina}" field="tipoImovel" text="Tipo do Imóvel"/>
                     </th>
-                    <th class="table-col-acoes-imovel"></th>
+                    <th class="table-col-acoes-alguel"></th>
                 </tr>
                 </thead>
 
@@ -78,11 +78,18 @@
                                 <i class="glyphicon glyphicon-remove"></i>
                             </font>
                         </a>
-                        <a href="#" data-toggle="modal"  title="Adicionar/Editar Locatario"
+                        <a href="#" data-toggle="modal" title="Adicionar/Editar Locatario"
                            class="btn  btn-link  btn-xs js-tooltip  js-modal-locatario"
-                           data:codigo="${aluguel.codigo}" >
+                           data:codigo="${aluguel.codigo}">
                             <font color="#009900">
                                 <i class="glyphicon glyphicon-plus"></i>
+                            </font>
+                        </a>
+                        <a href="#" data-toggle="modal" title="Registrar informações pagamento"
+                           class="btn  btn-link  btn-xs js-tooltip js-modal-pagamento"
+                           data:codigo="${aluguel.codigo}" >
+                            <font color="#009900">
+                                <i class="fa fa-money"></i>
                             </font>
                         </a>
                     </td>
@@ -97,12 +104,16 @@
 
     </div>
     <div th:replace="locatario/ModalCadastroLocatario :: modalCadastro"></div>
+    <div th:replace="tipoImovel/ModalCadastroDadosPagamento :: modalCadastroPagamento"></div>
+
 
 </section>
 
 <th:block layout:fragment="javascript-extra">
     <script th:src="@{/javascripts/change-tipo-imovel.js}"></script>
-    <script th:src="@{/javascripts/aluguel.cadastro-rapido.js}"></script>
+    <script th:src="@{/javascripts/locatario.cadastro-rapido.js}"></script>
+    <script th:src="@{/javascripts/dados.pagamento.cadastro-rapido.js}"></script>
+
 </th:block>
 
 </body>
