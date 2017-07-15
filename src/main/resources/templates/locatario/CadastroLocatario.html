@@ -4,6 +4,7 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorator="'layout/LayoutPadrao'"
       xmlns:bomfim="http://bomfim.com.br"
+      xmlns:data="http://www.thymeleaf.org/extras/data"
 
 >
 
@@ -56,6 +57,15 @@
                             <input id="telefone" type="text" class="form-control js-phone-number" th:field="*{telefone}" maxlength="15" />
                         </div>
                         <div class="modal-footer">
+                            <a class="btn btn-link  btn-xs js-tooltip js-exclusao-btn pull-left"
+                               data-toggle="modal"
+                               title="Excluir" href="#"
+                               data:url="@{/imovel/aluguel/{codigo}(codigo=${locatario.codigo})}"
+                               data:codigo="${locatario.codigo}" data:objeto="${locatario.nome}">
+                                <font color="#009900">
+                                    <i class="btn js-tooltip btn-danger"> Excluir</i>
+                                </font>
+                            </a>
                             <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
                             <button type="button" class="btn btn-success" >Salvar</button>
                         </div>

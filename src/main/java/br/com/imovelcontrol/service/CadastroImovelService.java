@@ -20,7 +20,7 @@ public class CadastroImovelService {
 	@Transactional
 	public void salvar(Imovel imovel) {
 		imoveis.save(imovel);
-		publisher.publishEvent(new ImovelSalvoEvent(imovel));
+ 		publisher.publishEvent(new ImovelSalvoEvent(imovel));
 	}
 
 	@Transactional
