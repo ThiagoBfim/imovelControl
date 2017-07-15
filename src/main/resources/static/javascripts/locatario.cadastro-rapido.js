@@ -7,11 +7,37 @@ ImovelControl.LocatarioCadastroRapido = (function () {
     function LocatarioCadastroRapido() {
         this.botaoSalvar = $('.js-modal-locatario');
         this.locatarioAluguel = $('#codigoAluguel');
+        this.botaoExcluirClick = $('.js-modal-excluir');
+
+        var token = $("input[name='_crsf']").val();
+        var header = "X-CSRF-TOKEN";
+        $(document).ajaxSend(function (e, xhr, options) {
+            xhr.setRequestHeader(header, token);
+        });
 
     }
 
     LocatarioCadastroRapido.prototype.iniciar = function () {
         this.botaoSalvar.on('click', onBotaoSalvarClick.bind(this));
+        this.botaoExcluirClick.on('click', onBotaoExcluirClick.bind(this));
+    }
+
+    function onBotaoExcluirClick() {
+        event.preventDefault();
+        var inputCodigo = $('#codigoLocatario');
+        console.log(inputCodigo.val());
+        $.ajax({
+            url: 'http://localhost:8080/ImovelControl/locatario/' + inputCodigo.val(),
+            method: 'GET',
+            success: function() {
+                //modal.hide();
+                window.location = window.location.href;
+            },
+            error: function () {
+                console.log("ERRO");
+            }
+        });
+
     }
 
     function onBotaoSalvarClick(evento) {
