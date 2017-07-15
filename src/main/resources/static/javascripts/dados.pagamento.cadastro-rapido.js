@@ -6,7 +6,7 @@ Brewer.AluguelCadastroRapido = (function () {
 
     function AluguelCadastroRapido() {
         this.botaoSalvar = $('.js-modal-pagamento');
-        this.locatarioAluguel = $('#codigoAluguel');
+        this.codigoAluguel = $('#codigoAluguel');
 
 
         var token = $("input[name='_crsf']").val();
@@ -29,21 +29,47 @@ Brewer.AluguelCadastroRapido = (function () {
         });
 
 
-        this.locatarioAluguel.val(codigoAluguel);
+        this.codigoAluguel.val(codigoAluguel);
     }
 
     function meu_callback(conteudo) {
 
         var inputAguaInclusa = $('#aguaInclusa');
+        var luzInclusa = $('#luzInclusa');
+        var internetInclusa = $('#internetInclusa');
+        var iptuIncluso = $('#iptuIncluso');
+        var possuiCondominio = $('#possuiCondominio');
+        var inputCodigo = $('#codigoPagamento');
 
         if (!("erro" in conteudo)) {
+            inputCodigo.val(conteudo.codigo);
             //Atualiza os campos com os valores.
-            console.log(conteudo.aguaInclusa);
             if (conteudo.aguaInclusa == true) {
-                inputAguaInclusa.hide();
+                inputAguaInclusa.show();
             } else {
                 inputAguaInclusa.hide();
             }
+            if (conteudo.luzInclusa == true) {
+                luzInclusa.show();
+            } else {
+                luzInclusa.hide();
+            }
+            if (conteudo.internetInclusa == true) {
+                internetInclusa.show();
+            } else {
+                internetInclusa.hide();
+            }
+            if (conteudo.iptuIncluso == true) {
+                iptuIncluso.show();
+            } else {
+                iptuIncluso.hide();
+            }
+            if (conteudo.possuiCondominio == true) {
+                possuiCondominio.show();
+            } else {
+                possuiCondominio.hide();
+            }
+
             modal.modal();
         } //end if.
         else {

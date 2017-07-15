@@ -1,7 +1,5 @@
 package br.com.imovelcontrol.controller;
 
-import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.util.Optional;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -161,13 +159,11 @@ public class AluguelController {
             informacaoPagamento.setAluguel(new Aluguel());
         } else {
             informacaoPagamento.setAluguel(new Aluguel());
+            informacaoPagamento.setInternetInclusa(Boolean.TRUE);
             informacaoPagamento.setAguaInclusa(Boolean.FALSE);
             informacaoPagamento.setLuzInclusa(false);
-            informacaoPagamento.setInternetInclusa(Boolean.TRUE);
             informacaoPagamento.setPago(false);
-            informacaoPagamento.setDataMensal(LocalDate.now());
             informacaoPagamento.setIptuIncluso(false);
-            informacaoPagamento.setValor(BigDecimal.ZERO);
             informacaoPagamento.setPossuiCondominio(false);
         }
         return informacaoPagamento;
