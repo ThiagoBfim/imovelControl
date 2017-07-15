@@ -6,15 +6,15 @@ import javax.validation.Valid;
 import br.com.imovelcontrol.controller.converter.FormatUtil;
 import br.com.imovelcontrol.model.Locatario;
 import br.com.imovelcontrol.model.tipoimovel.Aluguel;
+import br.com.imovelcontrol.repository.Locatarios;
 import br.com.imovelcontrol.service.CadastroLocatarioService;
+import br.com.imovelcontrol.service.exception.ImpossivelExcluirEntidadeException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
@@ -28,6 +28,8 @@ public class LocatarioController {
     @Autowired
     private CadastroLocatarioService cadastroLocatarioService;
 
+    @Autowired
+    private Locatarios locatarios;
 
     @RequestMapping("/novo")
     public ModelAndView novo(Locatario locatario) {
@@ -48,7 +50,7 @@ public class LocatarioController {
         }
         cadastroLocatarioService.salvar(locatarioRetrieve);
 
-        mAndView.addObject("mensagem", "Imovel Salvo com sucesso!");
+        mAndView.addObject("mensagem", "Locatário Salvo com sucesso!");
         return mAndView;
     }
 
@@ -69,4 +71,20 @@ public class LocatarioController {
         return locatario;
 
     }
+
+    @DeleteMapping("/{codigo}")
+    public @ResponseBody
+    ResponseEntity<?> excluir(@PathVariable Long codigo){
+        Locatario locatario = locatarios.findOne(codigo);
+
+        try {
+            cadastroLocatarioService.excluir(locatario);
+
+        }catch (ImpossivelExcluirEntidadeException e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+
+        return ResponseEntity.ok().build();
+    }
+
 }

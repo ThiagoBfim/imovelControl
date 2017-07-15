@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org"
-      xmlns:bomfim="http://bomfim.com.br">
+      xmlns:bomfim="http://bomfim.com.br"
+      xmlns:data="http://www.thymeleaf.org/extras/data"
+>
 
 <body>
 <div class="modal fade" id="modalCadastroLocatario" tabindex="-1" role="dialog" th:fragment="modalCadastro">
@@ -41,6 +43,18 @@
                     </div>
                 </div>
                 <div class="modal-footer">
+                    <!--<button type="button" class="btn js-exclusao-btn pull-left" onclick="*{LocatarioController.excluir(codigo)}">Deletar</button>-->
+                    <!--<button type="button" class="btn js-exclusao-btn pull-left" onclick="alert("teste")">Deletar</button>-->
+                    <a class="btn btn-link  btn-xs js-tooltip js-exclusao-btn pull-left"
+                       data-toggle="modal"
+                       title="Excluir" href="#"
+                       data:url="@{/locatario/novo/{codigo}(codigo=${codigo})}"
+                       data:codigo="${codigo}" data:objeto="${locatario.nome}">
+                        <font color="#009900">
+                            <i class="btn js-tooltip btn-danger"> Excluir</i>
+                        </font>
+                    </a>
+
                     <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
                     <button type="submit" class="btn btn-success">Salvar</button>
                 </div>
