@@ -6,9 +6,12 @@ import javax.validation.Valid;
 import br.com.imovelcontrol.controller.converter.FormatUtil;
 import br.com.imovelcontrol.model.Locatario;
 import br.com.imovelcontrol.model.tipoimovel.Aluguel;
+import br.com.imovelcontrol.repository.Alugueis;
 import br.com.imovelcontrol.repository.Locatarios;
 import br.com.imovelcontrol.service.CadastroLocatarioService;
+import br.com.imovelcontrol.service.exception.CpfLocatarioJaCadastradoException;
 import br.com.imovelcontrol.service.exception.ImpossivelExcluirEntidadeException;
+import br.com.imovelcontrol.service.exception.TelefoneLocatarioJaCadastradoException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -35,6 +38,9 @@ public class LocatarioController {
     @Autowired
     private Locatarios locatarios;
 
+    @Autowired
+    private Alugueis alugueis;
+
     @RequestMapping("/novo")
     public ModelAndView novo(Locatario locatario) {
         ModelAndView mAndView = new ModelAndView("locatario/CadastroLocatario");
@@ -46,16 +52,24 @@ public class LocatarioController {
         ModelAndView mAndView = new ModelAndView("locatario/CadastroLocatario");
 
         Locatario locatarioRetrieve = locatario;
+
         if (locatario.getCodigo() != null) {
             locatarioRetrieve = cadastroLocatarioService.retrieveById(locatario.getCodigo());
             locatarioRetrieve.setNome(locatario.getNome());
             locatarioRetrieve.setCpf(locatario.getCpf());
             locatarioRetrieve.setTelefone(locatario.getTelefone());
         }
-        cadastroLocatarioService.salvar(locatarioRetrieve);
+
+        try{
+            cadastroLocatarioService.salvar(locatarioRetrieve);
+        }catch (CpfLocatarioJaCadastradoException e){
+            result.rejectValue("cpf", e.getMessage(),e.getMessage());
+        }catch (TelefoneLocatarioJaCadastradoException e){
+            result.rejectValue("telefone", e.getMessage(), e.getMessage());
+        }
 
         mAndView.addObject("mensagem", "Locatário Salvo com sucesso!");
-        return mAndView;
+        return new ModelAndView("redirect:/imovel/aluguel/" + alugueis.findOne(locatario.getAluguel().getCodigo()).getImovel().getCodigo());
     }
 
     @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE,

@@ -4,13 +4,16 @@ import java.util.Optional;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
+import br.com.imovelcontrol.controller.converter.FormatUtil;
 import br.com.imovelcontrol.controller.page.PageWrapper;
 import br.com.imovelcontrol.model.Imovel;
 import br.com.imovelcontrol.model.Usuario;
 import br.com.imovelcontrol.repository.Imoveis;
 import br.com.imovelcontrol.repository.Usuarios;
 import br.com.imovelcontrol.service.CadastroImovelService;
+import br.com.imovelcontrol.service.exception.CepImovelJaCadastradoException;
 import br.com.imovelcontrol.service.exception.ImpossivelExcluirEntidadeException;
+import br.com.imovelcontrol.service.exception.NomeImovelJaCadastradoException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -39,7 +42,6 @@ public class ImovelController {
 
     @Autowired
     private Usuarios usuarios;
-
     /**
      * Metodo para iniciar um novo imovel.
      *
@@ -61,14 +63,29 @@ public class ImovelController {
      */
     @RequestMapping(value = "/novo", method = RequestMethod.POST)
     public ModelAndView cadastrar(@Valid Imovel imovel, BindingResult result) {
+
         ModelAndView mAndView = new ModelAndView("imovel/CadastroImovel");
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Optional<Usuario> usuario = usuarios.findByLogin(auth.getName());
+
+//        Imovel imovel1 = new
+
         imovel.setDonoImovel(usuario.get());
         if (result.hasErrors()) {
             return novo(imovel);
         }
-        cadastroImovelService.salvar(imovel);
+
+        try{
+            cadastroImovelService.salvar(imovel);
+        }catch (NomeImovelJaCadastradoException e ){
+            result.rejectValue("nome", e.getMessage(), e.getMessage());
+            return novo(imovel);
+        }catch (CepImovelJaCadastradoException e){
+            result.rejectValue("endereco", e.getMessage(), e.getMessage());
+            return novo(imovel);
+        }
+
+
         mAndView.addObject("imovel", imovel);
         mAndView.addObject("mensagem", "Imovel Salvo com sucesso!");
         return mAndView;
@@ -96,7 +113,6 @@ public class ImovelController {
         return ResponseEntity.ok().build();
     }
 
-
     @GetMapping("/{codigo}")
     public ModelAndView editar(@PathVariable Long codigo) {
         Imovel imovel = imoveis.findOne(codigo);
@@ -104,6 +120,5 @@ public class ImovelController {
         mAndView.addObject(imovel);
         return mAndView;
     }
-
 
 }

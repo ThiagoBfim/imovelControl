@@ -12,4 +12,5 @@ public interface Alugueis extends JpaRepository<Aluguel, Long>, AlugueisQuerys {
 
     Optional<Aluguel> findByNome(String nome);
 
+
 }
