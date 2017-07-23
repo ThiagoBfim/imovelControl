@@ -4,7 +4,6 @@ import java.util.Optional;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
-import br.com.imovelcontrol.controller.converter.FormatUtil;
 import br.com.imovelcontrol.controller.page.PageWrapper;
 import br.com.imovelcontrol.model.Imovel;
 import br.com.imovelcontrol.model.Usuario;
@@ -67,8 +66,6 @@ public class ImovelController {
         ModelAndView mAndView = new ModelAndView("imovel/CadastroImovel");
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Optional<Usuario> usuario = usuarios.findByLogin(auth.getName());
-
-//        Imovel imovel1 = new
 
         imovel.setDonoImovel(usuario.get());
         if (result.hasErrors()) {
