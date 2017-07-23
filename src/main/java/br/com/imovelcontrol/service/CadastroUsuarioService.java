@@ -7,6 +7,7 @@ import br.com.imovelcontrol.model.enuns.StatusUsuario;
 import br.com.imovelcontrol.repository.Usuarios;
 import br.com.imovelcontrol.service.exception.EmailUsuarioJaCadastradoException;
 import br.com.imovelcontrol.service.exception.ImpossivelExcluirEntidadeException;
+import br.com.imovelcontrol.service.exception.LoginUsuarioNaoEncontradoException;
 import br.com.imovelcontrol.service.exception.SenhaUsuarioJaCadastradoException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -56,5 +57,23 @@ public class CadastroUsuarioService {
 			throw new ImpossivelExcluirEntidadeException("Impossível apagar usuario. Pois ele está Ativo.");
 		}
 		usuarios.delete(usuario);
+	}
+
+	@Transactional
+	public Usuario findByEmail(String email){
+		Usuario usuario = new Usuario();
+		if(!usuarios.findByEmail(email).isPresent()){
+			throw new EmailUsuarioJaCadastradoException("O email não está cadastrado no sistema");
+		}
+		return usuarios.findByEmail(email).get();
+	}
+
+	@Transactional
+	public Usuario findByLogin(String login){
+
+		if(!usuarios.findByLogin(login).isPresent()){
+			throw new LoginUsuarioNaoEncontradoException("Nome de usuário não encontrado no sistema");
+		}
+		return usuarios.findByLogin(login).get();
 	}
 }

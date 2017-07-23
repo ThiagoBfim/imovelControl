@@ -4,6 +4,7 @@ import java.util.Optional;
 import javax.validation.Valid;
 
 import br.com.imovelcontrol.controller.converter.FormatUtil;
+import br.com.imovelcontrol.email.JavaMail;
 import br.com.imovelcontrol.model.Locatario;
 import br.com.imovelcontrol.model.tipoimovel.Aluguel;
 import br.com.imovelcontrol.repository.Alugueis;
@@ -43,7 +44,7 @@ public class LocatarioController {
 
     @RequestMapping("/novo")
     public ModelAndView novo(Locatario locatario) {
-        ModelAndView mAndView = new ModelAndView("locatario/CadastroLocatario");
+        ModelAndView mAndView = new ModelAndView();
         return mAndView;
     }
 
@@ -76,8 +77,6 @@ public class LocatarioController {
             value = "{codigo}", method = RequestMethod.GET)
     public @ResponseBody
     Locatario getLocatarioInJSON(@PathVariable String codigo) {
-
-
         Optional<Locatario> locatarioOptional = cadastroLocatarioService.retrieveByAluguel(codigo);
         Locatario locatario = new Locatario();
         if (locatarioOptional.isPresent()) {

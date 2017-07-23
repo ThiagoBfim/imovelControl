@@ -24,24 +24,29 @@
 <body class="aw-layout-simple-page">
 <div class="aw-layout-simple-page__container">
 
-    <form th:action="@{/login}" method="POST">
+    <form method="POST" th:action="@{/esqueciminhasenha/pesquisa}"class="form-vertical  js-form-loading">
         <div class="aw-simple-panel">
             <!-- <img alt="AlgaWorks" th:src="@{/images/logo-gray.png}"/>
              -->
-            <h1> <font color="#009900"> <i class="fa  fa-fw  fa-home"></i><b>BomFim</b></font>
+            <h1> <font color="#009900"> <i class="fa  fa-fw  "></i><b>Esqueci Minha senha</b></font>
             </h1>
 
             <div class="aw-simple-panel__message  is-error" th:if="${#bools.isTrue(param.error)}">
-                Email não cadastrado no sistema.
+                Login não cadastrado no sistema.
             </div>
 
             <div class="aw-simple-panel__box">
                 <div class="form-group  has-feedback">
-                    <input type="text" class="form-control  input-lg" placeholder="Email"
-                           autofocus="autofocus" name="username"/>
+
+
+                    <input type="text" class="form-control  input-lg" placeholder="Informe seu login"
+                           th:field="*{login}" />
                     <span class="glyphicon  glyphicon-envelope  form-control-feedback"></span>
                 </div>
+                <button type="submit" class="btn  btn-primary  btn-lg  aw-btn-full-width">Recuperar Senha</button>
+
             </div>
+
         </div>
     </form>
 
