@@ -29,15 +29,31 @@ ImovelControl.LocatarioCadastroRapido = (function () {
         $.ajax({
             url: 'http://localhost:8080/ImovelControl/locatario/' + inputCodigo.val(),
             method: 'GET',
-            success: function() {
-                //modal.hide();
-                window.location = window.location.href;
-            },
+            success: onExcluidoSucesso.bind(this),
             error: function () {
-                console.log("ERRO");
+                onErrorExcluir.bind(this)
             }
         });
 
+    }
+
+    function onExcluidoSucesso() {
+        swal({
+                title: 'Pronto',
+                text: 'Excluído com seuceso!',
+                showCancelButton: false,
+                confirmButtonText: 'OK'
+            },
+            onRemoveExcluido.bind(this));
+
+    }
+
+    function onRemoveExcluido() {
+        window.location = window.location.href;
+    }
+
+    function onErrorExcluir(e) {
+        swal('Oops!', e.responseText, 'error');
     }
 
     function onBotaoSalvarClick(evento) {
