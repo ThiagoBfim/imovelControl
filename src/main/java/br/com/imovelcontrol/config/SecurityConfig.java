@@ -20,37 +20,38 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-	@Autowired
-	private UserDetailsService userDetailsService;
-	
-	@Override
-	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
-	}
+    @Autowired
+    private UserDetailsService userDetailsService;
 
-	@Override
-	public void configure(WebSecurity web) throws Exception {
-		web.ignoring().antMatchers("/layout/**")
-		.antMatchers("/images/**");
-	}
-	
-	@Override
-	protected void configure(HttpSecurity http) throws Exception {
-		http.authorizeRequests()
-		.antMatchers("/usuario/**").hasRole("CADASTRAR_USUARIO")
-		.anyRequest().authenticated()
-	//	.anyRequest().denyAll() 	Serve para bloquear tudo, para caso queira ser utilizado a logica inversa, ou seja, liberar so o que for utilziar.
-		.and().formLogin().loginPage("/login").permitAll()
-		.and().logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-		.and().exceptionHandling().accessDeniedPage("/403")
-		.and().sessionManagement().maximumSessions(2).expiredUrl("/login")
-		.and().invalidSessionUrl("/login");
-	}
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
+    }
 
-	@Bean
-	public PasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder();
-	}
+    @Override
+    public void configure(WebSecurity web) throws Exception {
+        web.ignoring().antMatchers("/layout/**")
+                .antMatchers("/images/**")
+                .antMatchers("/esqueciminhasenha/**");
+    }
+
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http.authorizeRequests()
+                .antMatchers("/usuario/**").hasRole("CADASTRAR_USUARIO")
+                .anyRequest().authenticated()
+                //	.anyRequest().denyAll() 	Serve para bloquear tudo, para caso queira ser utilizado a logica inversa, ou seja, liberar so o que for utilziar.
+                .and().formLogin().loginPage("/login").permitAll()
+                .and().logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                .and().exceptionHandling().accessDeniedPage("/403")
+                .and().sessionManagement().maximumSessions(5).expiredUrl("/login")
+                .and().invalidSessionUrl("/login");
+    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 
 }
 

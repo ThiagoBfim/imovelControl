@@ -3,7 +3,6 @@ package br.com.imovelcontrol.controller;
 import br.com.imovelcontrol.email.JavaMail;
 import br.com.imovelcontrol.model.Usuario;
 import br.com.imovelcontrol.service.CadastroUsuarioService;
-import br.com.imovelcontrol.service.exception.EmailNaoEncontradoException;
 import br.com.imovelcontrol.service.exception.LoginUsuarioNaoEncontradoException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,22 +23,28 @@ public class RecuperarSenhaController {
     @Autowired
     private CadastroUsuarioService cadastroUsuarioService;
 
-    @RequestMapping(method = RequestMethod.POST, value = "/pesquisa")
-    public ModelAndView pesquisar(Usuario usuario, BindingResult result){
+    @GetMapping
+    public ModelAndView recuperarSenha(Usuario usuario) {
         ModelAndView modelAndView = new ModelAndView("RecuperarSenha");
+        return modelAndView;
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/pesquisa")
+    public ModelAndView pesquisar(Usuario usuario, BindingResult result) {
+        ModelAndView modelAndView = new ModelAndView("Login");
         JavaMail javaMail = new JavaMail();
-        try{
+        try {
             usuario = cadastroUsuarioService.findByLogin(usuario.getLogin());
-        }catch (LoginUsuarioNaoEncontradoException e){
-            result.rejectValue("login", e.getMessage(),e.getMessage());
+            javaMail.setDestinarario("thiagobomfim1995@gmail.com");
+            javaMail.setTitulo("Teste Java Mail");
+            javaMail.setMensagem("minha tela de recuperar senha não está funcionando");
+            javaMail.enviarEmail();
+            modelAndView.addObject("mensagem", "Nova senha foi enviada ao seu E-MAIL cadastrado no sistema.");
+        } catch (LoginUsuarioNaoEncontradoException e) {
+            result.rejectValue("login", e.getMessage(), e.getMessage());
+            return recuperarSenha(usuario);
         }
 
-        javaMail.setDestinarario("marcosfellipec@gmail.com");
-        javaMail.setTitulo("Teste Java Mail");
-        javaMail.setMensagem("minha tela de recuperar senha não está funcionando");
-        javaMail.enviarEmail();
-        modelAndView.addObject("mensagem", "Nova senha foi enviada ao seu " +
-                "email cadastrado no sistema");
         return modelAndView;
     }
 }

@@ -1,64 +1,69 @@
 <!DOCTYPE html>
 <html lang="pt" xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:th="http://www.thymeleaf.org">
+      xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8"/>
-  <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
 
-  <title>BomFim</title>
+    <title>BomFim</title>
 
-  	<link rel="stylesheet" type="text/css" th:href="@{/layout/stylesheets/vendors.min.css}"/>
-	<link rel="stylesheet" type="text/css" th:href="@{/layout/stylesheets/algaworks.min.css}"/>
-	<link rel="stylesheet" type="text/css" th:href="@{/layout/stylesheets/application.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/layout/stylesheets/vendors.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/layout/stylesheets/algaworks.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/layout/stylesheets/application.css}"/>
 
-	<link rel="shortcut icon" th:href="@{/images/casa-icon.png}"/>
-  <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-  <!--[if lt IE 9]>
+    <link rel="shortcut icon" th:href="@{/images/casa-icon.png}"/>
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-  <![endif]-->
+    <![endif]-->
 </head>
 
 <body class="aw-layout-simple-page">
-  <div class="aw-layout-simple-page__container">
+<div class="aw-layout-simple-page__container">
 
-<form th:action="@{/login}" method="POST">
-	<div class="aw-simple-panel">
-		<!-- <img alt="AlgaWorks" th:src="@{/images/logo-gray.png}"/>
-		 -->
-		 <h1> <font color="#009900"> <i class="fa  fa-fw  fa-home"></i><b>BomFim</b></font>
-	     </h1>
-		<div class="aw-simple-panel__message">
-			Por favor, faça o login.
-		</div>
+    <form th:action="@{/login}" method="POST">
+        <div class="alert  alert-success  alert-dismissible" role="alert" th:if="${not #strings.isEmpty(mensagem)}" th:fragment="mensagemSucesso">
+            <button type="button" class="close" data-dismiss="alert">
+                <span aria-hidden="true">&times;</span>
+            </button> <span th:text = "${mensagem}" > </span>
+            </th:block>
+        </div>
+        <div class="aw-simple-panel">
+            <!-- <img alt="AlgaWorks" th:src="@{/images/logo-gray.png}"/>
+             -->
+            <h1><font color="#009900"> <i class="fa  fa-fw  fa-home"></i><b>BomFim</b></font>
+            </h1>
+            <div class="aw-simple-panel__message">
+                Por favor, faça o login.
+            </div>
+            <div class="aw-simple-panel__message  is-error" th:if="${#bools.isTrue(param.error)}">
+                O e-mail e/ou senha não conferem
+            </div>
 
-		<div class="aw-simple-panel__message  is-error" th:if="${#bools.isTrue(param.error)}">
-			O e-mail e/ou senha não conferem
-		</div>
+            <div class="aw-simple-panel__box">
+                <div class="form-group  has-feedback">
+                    <input type="text" class="form-control  input-lg" placeholder="Seu Login"
+                           autofocus="autofocus" name="username"/>
+                    <span class="glyphicon  glyphicon-envelope  form-control-feedback"></span>
+                </div>
 
-		<div class="aw-simple-panel__box">
-			<div class="form-group  has-feedback">
-				<input type="text" class="form-control  input-lg" placeholder="Seu Login"
-                       autofocus="autofocus" name="username"/>
-				<span class="glyphicon  glyphicon-envelope  form-control-feedback"></span>
-			</div>
+                <div class="form-group  has-feedback">
+                    <input type="password" class="form-control  input-lg" placeholder="Sua senha" name="password"/>
+                    <span class="glyphicon  glyphicon-lock  form-control-feedback"></span>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn  btn-success  btn-lg  aw-btn-full-width">Entrar</button>
+                </div>
+                <a th:href="@{/esqueciminhasenha}" class="btn  btn-info  btn-lg ">Recuperar minha senha</a>
 
-			<div class="form-group  has-feedback">
-				<input type="password" class="form-control  input-lg" placeholder="Sua senha" name="password"/>
-				<span class="glyphicon  glyphicon-lock  form-control-feedback" ></span>
-			</div>
-			<div class="form-group">
-				<button type="submit" class="btn  btn-primary  btn-lg  aw-btn-full-width">Entrar</button>
-			</div>
-			<a href="http://localhost:8080/ImovelControl/esqueciminhasenha" class="" >Recuperar minha senha</a>
+            </div>
+        </div>
+    </form>
 
-		</div>
-	</div>
-</form>
-
-  </div>
+</div>
 
 <script th:src="@{/layout/javascripts/vendors.min.js}"></script>
 <script th:src="@{/layout/javascripts/algaworks.min.js}"></script>
