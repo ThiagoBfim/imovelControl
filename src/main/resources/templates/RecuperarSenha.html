@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="pt" xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:bomfim="http://bomfim.com.br">
 <head>
     <meta charset="UTF-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
@@ -24,31 +25,30 @@
 <body class="aw-layout-simple-page">
 <div class="aw-layout-simple-page__container">
 
-    <form method="POST" th:action="@{/esqueciminhasenha/pesquisa}"class="form-vertical  js-form-loading">
+
+    <form method="GET" th:action="@{/esqueciminhasenha/pesquisa}" th:object="${usuario}"
+          class="form-vertical js-form-loading">
         <div class="aw-simple-panel">
-            <!-- <img alt="AlgaWorks" th:src="@{/images/logo-gray.png}"/>
-             -->
-            <h1> <font color="#009900"> <i class="fa  fa-fw  "></i><b>Esqueci Minha senha</b></font>
+
+            <bomfim:message/>
+            <h1><font color="#009900"> <i class="fa  fa-fw  "></i><b>Esqueci Minha senha</b></font>
             </h1>
 
-            <div class="aw-simple-panel__message  is-error" th:if="${#bools.isTrue(param.error)}">
-                Login não cadastrado no sistema.
-            </div>
-
             <div class="aw-simple-panel__box">
+
                 <div class="form-group  has-feedback">
-
-
                     <input type="text" class="form-control  input-lg" placeholder="Informe seu login"
-                           th:field="*{login}" />
+                           th:field="*{login}"/>
                     <span class="glyphicon  glyphicon-envelope  form-control-feedback"></span>
                 </div>
-                <button type="submit" class="btn  btn-primary  btn-lg  aw-btn-full-width">Recuperar Senha</button>
-
+                <div class="form-group">
+                    <button type="submit" class="btn  btn-success  btn-lg  aw-btn-full-width">Recuperar Senha</button>
+                </div>
+                <a th:href="@{/login}" class="btn  btn-info  btn-lg ">Realizar Login</a>
             </div>
-
         </div>
     </form>
+
 
 </div>
 
