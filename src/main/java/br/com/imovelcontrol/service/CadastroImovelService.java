@@ -1,8 +1,12 @@
 package br.com.imovelcontrol.service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import br.com.imovelcontrol.model.Imovel;
+import br.com.imovelcontrol.model.tipoimovel.Aluguel;
+import br.com.imovelcontrol.repository.Alugueis;
 import br.com.imovelcontrol.repository.Imoveis;
 import br.com.imovelcontrol.service.event.ImovelSalvoEvent;
 import br.com.imovelcontrol.service.exception.CepImovelJaCadastradoException;
@@ -20,6 +24,11 @@ public class CadastroImovelService {
 
     @Autowired
     private ApplicationEventPublisher publisher;
+
+    @Autowired
+    private CadastroAluguelService cadastroAluguelService;
+
+    @Autowired Alugueis alugueis;
 
     @Transactional
     public Imovel salvar(Imovel imovel) {
@@ -40,7 +49,13 @@ public class CadastroImovelService {
 
     @Transactional
     public void excluir(Imovel imovel) {
+        Optional<List<Aluguel>> aluguel;
+        aluguel = alugueis.findByImovel_Codigo(imovel.getCodigo());
+        if (aluguel.isPresent()){
+            for (Aluguel item:aluguel.get()) {
+                cadastroAluguelService.excluir(item);
+            }
+        }
         imoveis.delete(imovel);
-
     }
 }

@@ -42,6 +42,7 @@ public class CadastroLocatarioService {
     public Optional<Locatario> retrieveByAluguel(String codigo) {
         Aluguel aluguel = new Aluguel();
         aluguel.setCodigo(Long.parseLong(codigo));
+
         return locatarios.findByAluguel(aluguel);
     }
 
@@ -49,6 +50,7 @@ public class CadastroLocatarioService {
     public Locatario retrieveById(Long codigo) {
         return locatarios.findOne(codigo);
     }
+
 }
 
 
