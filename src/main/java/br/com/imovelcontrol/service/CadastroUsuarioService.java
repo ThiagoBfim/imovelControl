@@ -1,9 +1,12 @@
 package br.com.imovelcontrol.service;
 
+import java.util.List;
 import java.util.Optional;
 
+import br.com.imovelcontrol.model.Imovel;
 import br.com.imovelcontrol.model.Usuario;
 import br.com.imovelcontrol.model.enuns.StatusUsuario;
+import br.com.imovelcontrol.repository.Imoveis;
 import br.com.imovelcontrol.repository.Usuarios;
 import br.com.imovelcontrol.service.exception.EmailUsuarioJaCadastradoException;
 import br.com.imovelcontrol.service.exception.ImpossivelExcluirEntidadeException;
@@ -23,6 +26,12 @@ public class CadastroUsuarioService {
 
 	@Autowired
 	private PasswordEncoder passwordEncoder;
+
+	@Autowired
+	Imoveis imoveis;
+
+	@Autowired
+	CadastroImovelService cadastroImovelService;
 
 	@Transactional
 	public Usuario salvar(Usuario usuario) {
@@ -53,8 +62,16 @@ public class CadastroUsuarioService {
 
 	@Transactional
 	public void excluir(Usuario usuario) {
+		Optional<List<Imovel>> imovels;
+		imovels = imoveis.findByDonoImovel_Codigo(usuario.getCodigo());
 		if (usuario.getAtivo() == Boolean.TRUE) {
 			throw new ImpossivelExcluirEntidadeException("Impossível apagar usuario. Pois ele está Ativo.");
+		}
+		if(imovels.isPresent()){
+			for (Imovel item :
+					imovels.get()) {
+				cadastroImovelService.excluir(item);
+			}
 		}
 		usuarios.delete(usuario);
 	}
