@@ -1,6 +1,5 @@
 package br.com.imovelcontrol.controller;
 
-import java.util.Optional;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
@@ -15,14 +14,12 @@ import br.com.imovelcontrol.model.tipoimovel.enuns.TipoPiso;
 import br.com.imovelcontrol.repository.Alugueis;
 import br.com.imovelcontrol.repository.Imoveis;
 import br.com.imovelcontrol.service.CadastroAluguelService;
-import br.com.imovelcontrol.service.FormaPagamentoService;
-import br.com.imovelcontrol.service.InformacaoPagamentoService;
+import br.com.imovelcontrol.service.TemplateFormaPagamentoService;
 import br.com.imovelcontrol.service.exception.ImpossivelExcluirEntidadeException;
 import br.com.imovelcontrol.service.exception.NomeAluguelJaCadastradoException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -45,13 +42,11 @@ public class AluguelController {
     private Imoveis imoveis;
 
     @Autowired
-    private FormaPagamentoService formaPagamentoService;
+    private TemplateFormaPagamentoService templateFormaPagamentoService;
 
     @Autowired
     private CadastroAluguelService cadastroAluguelService;
 
-    @Autowired
-    private InformacaoPagamentoService informacaoPagamentoService;
 
     private Long codigoImovel;
 
@@ -76,7 +71,7 @@ public class AluguelController {
             return novo(aluguel);
         }
 
-        FormaPagamento formaPagamentoSession = formaPagamentoService.salvar(aluguel.getFormaPagamento());
+        FormaPagamento formaPagamentoSession = templateFormaPagamentoService.salvar(aluguel.getFormaPagamento());
         aluguel.setFormaPagamento(formaPagamentoSession);
         try {
             cadastroAluguelService.salvar(aluguel);
@@ -143,30 +138,5 @@ public class AluguelController {
         modelAndView.addObject("tiposForro", TipoForro.values());
     }
 
-    @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE,
-            value = "/pagamento/{codigo}", method = RequestMethod.GET)
-    public @ResponseBody
-    InformacaoPagamento getInformacaoPagamentoInJSON(@PathVariable String codigo) {
-
-
-        Optional<InformacaoPagamento> informacaoPagamentoOptional = informacaoPagamentoService.retrieveByAluguel(codigo);
-        InformacaoPagamento informacaoPagamento = new InformacaoPagamento();
-        if (informacaoPagamentoOptional.isPresent()) {
-            informacaoPagamento = informacaoPagamentoOptional.get();
-            informacaoPagamento.setAguaInclusa(informacaoPagamentoOptional.get().getAluguel().getFormaPagamento().getAguaInclusa());
-            informacaoPagamento.setInternetInclusa(informacaoPagamentoOptional.get().getAluguel().getFormaPagamento().getInternetInclusa());
-            informacaoPagamento.setAluguel(new Aluguel());
-        } else {
-            informacaoPagamento.setAluguel(new Aluguel());
-            informacaoPagamento.setInternetInclusa(Boolean.TRUE);
-            informacaoPagamento.setAguaInclusa(Boolean.FALSE);
-            informacaoPagamento.setLuzInclusa(false);
-            informacaoPagamento.setPago(false);
-            informacaoPagamento.setIptuIncluso(false);
-            informacaoPagamento.setPossuiCondominio(false);
-        }
-        return informacaoPagamento;
-
-    }
 
 }
