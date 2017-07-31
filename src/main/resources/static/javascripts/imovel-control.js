@@ -103,7 +103,7 @@ ImovelControl.Security = (function(){
 		$(document).ajaxSend(function (event, jqxhr, settings){
 			jqxhr.setRequestHeader(this.header, this.token);
 		}.bind(this));
-		//Bind this = troco o contexto da function que é do ajaxSend para o do security. AULA 19.9
+		//Bind this = troco o contexto da function que é do ajaxSend para o do security.
 		
 	}
 	

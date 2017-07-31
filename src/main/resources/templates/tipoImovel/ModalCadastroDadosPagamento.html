@@ -13,18 +13,18 @@
             </div>
 
             <form method="POST" th:object="${informacaoPagamento}" class="form-vertical  js-form-loading"
-                  th:action="@{/locatario/novo}">
+                  th:action="@{/pagamento/novo}">
                 <div class="modal-body">
                     <bomfim:message/>
                     <input type="hidden" id="codigoPagamento" th:field="*{codigo}"/>
-                    <input type="hidden" id="codigoAluguel" th:field="*{aluguel.codigo}"/>
+                    <input type="hidden" id="codigoAluguelPagamento" th:field="*{aluguel.codigo}"/>
                     <div class="row">
                         <div class="form-group  col-sm-4 bw-required" bomfim:classforerror="valor">
-                            <label class="control-label" for="valor">Valor Pago pelo Locatario</label>
+                            <label class="control-label" for="valorMensal">Valor Pago pelo Locatario</label>
                             <div class="input-group">
                                 <div class="input-group-addon">R$</div>
-                                <input type="text" class="form-control js-decimal" maxlength="10"
-                                       th:field="*{valor}" id="valor"/>
+                                <input autofocus type="text" class="form-control js-decimal" maxlength="10"
+                                       th:field="*{valor}" id="valorMensal"/>
                             </div>
                         </div>
                     </div>
@@ -82,10 +82,19 @@
                             </div>
                         </div>
                         <div class="form-group  col-sm-8 col-md-8 ">
-                            <label class="control-label" for="comentarioGasto">Comentário sobre o gasto adicional</label>
+                            <label class="control-label" for="comentarioGasto">Comentário sobre o gasto
+                                adicional</label>
                             <div class="input-group">
                                 <textarea class="form-control" maxlength="250" rows="4" cols="50"
                                           th:field="*{gastoAdicional.comentarioGasto}" id="comentarioGasto"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row form-inline" style="text-align: right">
+                        <div class="col-sm-11" >
+                            <div class="checkbox  checkbox-inline">
+                                <input type="checkbox" th:field="*{pago}">
+                                <label class="control-label">Mensalidade foi paga?</label>
                             </div>
                         </div>
                     </div>

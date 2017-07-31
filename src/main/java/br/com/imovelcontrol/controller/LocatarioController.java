@@ -4,7 +4,6 @@ import java.util.Optional;
 import javax.validation.Valid;
 
 import br.com.imovelcontrol.controller.converter.FormatUtil;
-import br.com.imovelcontrol.email.JavaMail;
 import br.com.imovelcontrol.model.Locatario;
 import br.com.imovelcontrol.model.tipoimovel.Aluguel;
 import br.com.imovelcontrol.repository.Alugueis;
@@ -50,7 +49,6 @@ public class LocatarioController {
 
     @RequestMapping(value = "/novo", method = RequestMethod.POST)
     public ModelAndView cadastrar(@Valid Locatario locatario, BindingResult result) {
-        ModelAndView mAndView = new ModelAndView("locatario/CadastroLocatario");
 
         Locatario locatarioRetrieve = locatario;
 
@@ -61,16 +59,15 @@ public class LocatarioController {
             locatarioRetrieve.setTelefone(locatario.getTelefone());
         }
 
-        try{
+        try {
             cadastroLocatarioService.salvar(locatarioRetrieve);
-        }catch (CpfLocatarioJaCadastradoException e){
-            result.rejectValue("cpf", e.getMessage(),e.getMessage());
-        }catch (TelefoneLocatarioJaCadastradoException e){
+        } catch (CpfLocatarioJaCadastradoException e) {
+            result.rejectValue("cpf", e.getMessage(), e.getMessage());
+        } catch (TelefoneLocatarioJaCadastradoException e) {
             result.rejectValue("telefone", e.getMessage(), e.getMessage());
         }
-
-        mAndView.addObject("mensagem", "Locatário Salvo com sucesso!");
-        return new ModelAndView("redirect:/imovel/aluguel/" + alugueis.findOne(locatario.getAluguel().getCodigo()).getImovel().getCodigo());
+        return new ModelAndView("redirect:/imovel/aluguel/" + alugueis.findOne(locatario.getAluguel()
+                .getCodigo()).getImovel().getCodigo());
     }
 
     @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE,
@@ -91,13 +88,13 @@ public class LocatarioController {
 
     @GetMapping("/{codigo}")
     public @ResponseBody
-    ResponseEntity<?> excluir(@PathVariable Long codigo){
+    ResponseEntity<?> excluir(@PathVariable Long codigo) {
         Locatario locatario = locatarios.findOne(codigo);
 
         try {
             cadastroLocatarioService.excluir(locatario);
 
-        }catch (ImpossivelExcluirEntidadeException e){
+        } catch (ImpossivelExcluirEntidadeException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
 
