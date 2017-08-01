@@ -4,8 +4,7 @@ xmlns:th="http://www.thymeleaf.org"
 xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" 
 layout:decorator="'layout/LayoutPadrao'"
 xmlns:brewer="http://brewer.algaworks.com"
-xmlns:data="http://www.thymeleaf.org/extras/data"
-xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+xmlns:data="http://www.thymeleaf.org/extras/data">
 
 <head>
 <title>Pesquisa de Usuários</title>
@@ -42,7 +41,8 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 					</div>
 					<div class="form-group  col-sm-6" >
 						<label class="control-label" for="email">E-mail</label>
-						<input type="text" class="form-control" 13
+						<input type="text" class="form-control" id="email" th:field="*{email}"/>
+					</div>
 				</div>
 				<div class="row">
 					<div class="col-sm-6  form-group bw-required" brewer:classforerror="grupos">

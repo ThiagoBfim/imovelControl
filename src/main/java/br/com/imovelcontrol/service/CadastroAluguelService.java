@@ -31,7 +31,8 @@ public class CadastroAluguelService {
 	@Transactional
 	public Aluguel salvar(Aluguel aluguel) {
         Optional<Aluguel> usuarioRetrived = alugueis.findByNome(aluguel.getNome());
-        if (usuarioRetrived.isPresent() && !usuarioRetrived.get().equals(aluguel)) {
+        if (usuarioRetrived.isPresent() && !usuarioRetrived.get().equals(aluguel)
+                && usuarioRetrived.get().getImovel().equals(aluguel.getImovel())) {
             throw new NomeAluguelJaCadastradoException("Nome já cadastrado");
         }
 		return alugueis.save(aluguel);

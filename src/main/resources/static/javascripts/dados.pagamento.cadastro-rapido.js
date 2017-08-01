@@ -6,7 +6,7 @@ Brewer.AluguelCadastroRapido = (function () {
 
     function AluguelCadastroRapido() {
         this.botaoSalvar = $('.js-modal-pagamento');
-        this.codigoAluguel = $('#codigoAluguel');
+        this.codigoAluguel = $('#codigoAluguelPagamento');
 
 
         var token = $("input[name='_crsf']").val();
@@ -23,11 +23,10 @@ Brewer.AluguelCadastroRapido = (function () {
     function onBotaoSalvarClick(evento) {
         var botaoClicado = $(evento.currentTarget);
         var codigoAluguel = botaoClicado.data('codigo');
-        $.getJSON('http://localhost:8080/ImovelControl/imovel/aluguel/pagamento/'
+        $.getJSON('http://localhost:8080/ImovelControl/pagamento/'
             + codigoAluguel, function (data) {
             meu_callback(data);
         });
-
 
         this.codigoAluguel.val(codigoAluguel);
     }
@@ -40,10 +39,12 @@ Brewer.AluguelCadastroRapido = (function () {
         var iptuIncluso = $('#iptuIncluso');
         var possuiCondominio = $('#possuiCondominio');
         var inputCodigo = $('#codigoPagamento');
+        var inputValor = $('#valorMensal');
 
         if (!("erro" in conteudo)) {
             inputCodigo.val(conteudo.codigo);
-            //Atualiza os campos com os valores.
+            inputValor.val(conteudo.valor);
+
             if (conteudo.aguaInclusa == true) {
                 inputAguaInclusa.show();
             } else {
@@ -69,8 +70,10 @@ Brewer.AluguelCadastroRapido = (function () {
             } else {
                 possuiCondominio.hide();
             }
-
             modal.modal();
+            modal.on('shown.bs.modal', function () {
+                $(this).find('[autofocus]').focus();
+            });
         } //end if.
         else {
             console.log('erro');
