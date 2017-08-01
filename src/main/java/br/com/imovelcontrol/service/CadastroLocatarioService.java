@@ -1,5 +1,6 @@
 package br.com.imovelcontrol.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import br.com.imovelcontrol.controller.converter.FormatUtil;
@@ -49,6 +50,11 @@ public class CadastroLocatarioService {
     @Transactional
     public Locatario retrieveById(Long codigo) {
         return locatarios.findOne(codigo);
+    }
+
+    @Transactional
+    public void deleteByAluguel(Long codigo){
+         locatarios.deleteByAluguel_Codigo(codigo);
     }
 
 }

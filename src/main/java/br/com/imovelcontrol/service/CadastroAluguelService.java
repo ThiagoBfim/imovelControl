@@ -1,11 +1,13 @@
 package br.com.imovelcontrol.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import br.com.imovelcontrol.model.tipoimovel.Aluguel;
 import br.com.imovelcontrol.repository.Alugueis;
 import br.com.imovelcontrol.repository.FormasPagamentos;
 import br.com.imovelcontrol.repository.Locatarios;
+import br.com.imovelcontrol.service.exception.AluguelByImovelNaoEncontradoException;
 import br.com.imovelcontrol.service.exception.NomeAluguelJaCadastradoException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,6 +24,10 @@ public class CadastroAluguelService {
 
     @Autowired
     private Locatarios locatarios;
+
+    @Autowired
+    private CadastroLocatarioService cadastroLocatarioService;
+
 	@Transactional
 	public Aluguel salvar(Aluguel aluguel) {
         Optional<Aluguel> usuarioRetrived = alugueis.findByNome(aluguel.getNome());
@@ -34,13 +40,19 @@ public class CadastroAluguelService {
 	@Transactional
 	public void excluir(Aluguel aluguel) {
 
-        locatarios.deleteByAluguel_Codigo(aluguel.getCodigo());
+	    cadastroLocatarioService.deleteByAluguel(aluguel.getCodigo());
         alugueis.delete(aluguel);
         formasPagamentos.delete(aluguel.getFormaPagamento());
 	}
 
-    public Aluguel listById(long id) {
-	    Aluguel aluguel = alugueis.findOne(id);
-        return aluguel;
-	}
+    @Transactional
+    public List<Aluguel> findByImovel(Long codigo){
+        Optional<List<Aluguel>> aluguels = alugueis.findByImovel_Codigo(codigo);
+
+        if (!aluguels.isPresent()){
+            throw new AluguelByImovelNaoEncontradoException("Aluguéis não encontrados");
+        }
+
+        return  aluguels.get();
+    }
 }
