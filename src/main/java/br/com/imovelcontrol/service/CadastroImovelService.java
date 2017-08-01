@@ -9,7 +9,9 @@ import br.com.imovelcontrol.model.tipoimovel.Aluguel;
 import br.com.imovelcontrol.repository.Alugueis;
 import br.com.imovelcontrol.repository.Imoveis;
 import br.com.imovelcontrol.service.event.ImovelSalvoEvent;
+import br.com.imovelcontrol.service.exception.AluguelByImovelNaoEncontradoException;
 import br.com.imovelcontrol.service.exception.CepImovelJaCadastradoException;
+import br.com.imovelcontrol.service.exception.ImovelByUsuarioNaoEncontrado;
 import br.com.imovelcontrol.service.exception.NomeImovelJaCadastradoException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
@@ -46,16 +48,27 @@ public class CadastroImovelService {
         return imoveis.save(imovel);
     }
 
-
     @Transactional
     public void excluir(Imovel imovel) {
-        Optional<List<Aluguel>> aluguel;
-        aluguel = alugueis.findByImovel_Codigo(imovel.getCodigo());
-        if (aluguel.isPresent()){
-            for (Aluguel item:aluguel.get()) {
-                cadastroAluguelService.excluir(item);
-            }
+        List<Aluguel> aluguel;
+        aluguel = cadastroAluguelService.findByImovel(imovel.getCodigo());
+
+        for (Aluguel item:aluguel) {
+            cadastroAluguelService.excluir(item);
         }
+
         imoveis.delete(imovel);
     }
+
+    @Transactional
+    public List<Imovel> findByDonoImovel(Long codigo){
+        Optional<List<Imovel>> imovels = imoveis.findByDonoImovel_Codigo(codigo);
+
+        if(!imovels.isPresent()){
+            throw new ImovelByUsuarioNaoEncontrado("Imóvel não encontrado");
+        }
+
+        return  imovels.get();
+    }
+
 }

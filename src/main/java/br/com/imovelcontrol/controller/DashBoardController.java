@@ -5,6 +5,7 @@ import java.util.List;
 
 import br.com.imovelcontrol.dto.AluguelGraficoDTO;
 import br.com.imovelcontrol.dto.PeriodoRelatorioDTO;
+import br.com.imovelcontrol.model.Grupo;
 import br.com.imovelcontrol.model.Imovel;
 import br.com.imovelcontrol.model.tipoimovel.Aluguel;
 import br.com.imovelcontrol.repository.Alugueis;
@@ -29,7 +30,7 @@ public class DashBoardController {
     @Autowired
     private Alugueis alugueis;
 
-    @GetMapping
+    @GetMapping("/dashboard")
     public ModelAndView dashboard() {
         ModelAndView modelAndView = new ModelAndView("index");
         modelAndView.addObject(new PeriodoRelatorioDTO());
@@ -53,6 +54,8 @@ public class DashBoardController {
     @GetMapping("/totalPorMesColuna")
     public @ResponseBody
     List<Aluguel> listarTotalVendaPorMesColuna() {
-        return alugueis.findAll();
+        List<Aluguel> aluguels = alugueis.findAll();
+        aluguels.forEach(a -> a.getImovel().getDonoImovel().setGrupos(new ArrayList<>()));
+        return aluguels;
     }
 }

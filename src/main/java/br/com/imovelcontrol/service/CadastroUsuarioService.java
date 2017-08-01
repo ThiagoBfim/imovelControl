@@ -8,10 +8,7 @@ import br.com.imovelcontrol.model.Usuario;
 import br.com.imovelcontrol.model.enuns.StatusUsuario;
 import br.com.imovelcontrol.repository.Imoveis;
 import br.com.imovelcontrol.repository.Usuarios;
-import br.com.imovelcontrol.service.exception.EmailUsuarioJaCadastradoException;
-import br.com.imovelcontrol.service.exception.ImpossivelExcluirEntidadeException;
-import br.com.imovelcontrol.service.exception.LoginUsuarioNaoEncontradoException;
-import br.com.imovelcontrol.service.exception.SenhaUsuarioJaCadastradoException;
+import br.com.imovelcontrol.service.exception.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -62,19 +59,18 @@ public class CadastroUsuarioService {
 
 	@Transactional
 	public void excluir(Usuario usuario) {
-		Optional<List<Imovel>> imovels;
-		imovels = imoveis.findByDonoImovel_Codigo(usuario.getCodigo());
+		List<Imovel> imovels = cadastroImovelService.findByDonoImovel(usuario.getCodigo());
+
 		if (usuario.getAtivo() == Boolean.TRUE) {
 			throw new ImpossivelExcluirEntidadeException("Impossível apagar usuario. Pois ele está Ativo.");
 		}
-		if(imovels.isPresent()){
-			for (Imovel item :
-					imovels.get()) {
-				cadastroImovelService.excluir(item);
-			}
+
+		for (Imovel item : imovels){
+			cadastroImovelService.excluir(item);
 		}
 		usuarios.delete(usuario);
 	}
+
 
 	@Transactional
 	public Usuario findByEmail(String email){
