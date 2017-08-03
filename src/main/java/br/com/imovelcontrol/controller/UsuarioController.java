@@ -91,6 +91,7 @@ public class UsuarioController {
 		Usuario usuario = usuarios.buscarComGrupos(codigo);
 		ModelAndView modelAndView = novo(usuario);
 		modelAndView.addObject(usuario);
+
 		return modelAndView;
 	}
 

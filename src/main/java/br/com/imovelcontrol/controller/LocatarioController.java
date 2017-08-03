@@ -61,9 +61,6 @@ public class LocatarioController {
             locatarioRetrieve.setTelefone(locatario.getTelefone());
         }
 
-        if (result.hasErrors()) {
-            return novo(locatario);
-        }
 
         try{
             cadastroLocatarioService.salvar(locatarioRetrieve);
