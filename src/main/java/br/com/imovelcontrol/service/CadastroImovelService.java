@@ -36,11 +36,11 @@ public class CadastroImovelService {
     public Imovel salvar(Imovel imovel) {
         Optional<Imovel> imovelRetrieve = imoveis.findByCep(imovel.getEndereco().getCep(), imovel.getDonoImovel());
 
-        if (imovelRetrieve.isPresent() && !imovelRetrieve.get().equals(imovel)) {
+        if (imovelRetrieve.isPresent() && !imovelRetrieve.get().equals(imovel) && imovelRetrieve.get().getCodigo() == null) {
             throw new CepImovelJaCadastradoException("Já existe um imóvel cadastrado com este CEP");
         } else {
             imovelRetrieve = imoveis.findByNomeAndDonoImovel(imovel.getNome(), imovel.getDonoImovel());
-            if (imovelRetrieve.isPresent() && !imovelRetrieve.get().equals(imovel)) {
+            if (imovelRetrieve.isPresent() && !imovelRetrieve.get().equals(imovel) && imovelRetrieve.get().getCodigo() == null) {
                 throw new NomeImovelJaCadastradoException("Já existe um imóvel cadastrado com este Nome");
             }
         }
