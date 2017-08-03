@@ -37,7 +37,7 @@
 		</div>
 
 			<form method="POST" th:object="${usuario}" class="form-vertical  js-form-loading" 
-			th:action="${usuario.novo} ? @{/usuario/novo} : @{/usuario/{codigo}(codigo=${usuario.codigo})}">
+			th:action="@{/usuario/novo}">
 			<bomfim:message/>
 			
 			<input type="hidden" th:field="*{codigo}"/>
