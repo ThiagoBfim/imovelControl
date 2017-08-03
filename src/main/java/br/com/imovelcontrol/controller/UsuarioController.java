@@ -55,7 +55,7 @@ public class UsuarioController {
 	@RequestMapping(value = { "/novo"}, method = RequestMethod.POST)
 	public ModelAndView salvar(@Valid Usuario usuario, BindingResult result, Model model,
 			RedirectAttributes attributes) {
-		ModelAndView modelAndView = new ModelAndView("redirect:/usuario/novo");
+		ModelAndView modelAndView = new ModelAndView("usuario/CadastroUsuario");
 		if (result.hasErrors()) {
 			return novo(usuario);
 		}
@@ -65,7 +65,8 @@ public class UsuarioController {
 			result.rejectValue("nome", e.getMessage(), e.getMessage());
 			return novo(usuario);
 		}
-		attributes.addFlashAttribute("mensagem", "Usuário Salvo com Sucessso!");
+		modelAndView.addObject("usuario", usuario);
+		modelAndView.addObject("mensagem", "Usuário Salvo com Sucessso!");
 		return modelAndView;
 	}
 
@@ -94,6 +95,13 @@ public class UsuarioController {
 
 		return modelAndView;
 	}
+//    @GetMapping("/{codigo}")
+//    public ModelAndView editar(@PathVariable Long codigo) {
+//        Imovel imovel = imoveis.findOne(codigo);
+//        ModelAndView mAndView = new ModelAndView("imovel/CadastroImovel");
+//        mAndView.addObject(imovel);
+//        return mAndView;
+//    }
 
 	@DeleteMapping("/{codigo}")
 	public @ResponseBody ResponseEntity<?> excluir(@PathVariable Long codigo) {
