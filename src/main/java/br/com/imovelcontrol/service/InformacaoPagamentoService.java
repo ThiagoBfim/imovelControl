@@ -34,7 +34,6 @@ public class InformacaoPagamentoService {
             InformacaoPagamento informacaoPagamentoRetrived = informacaoPagamentos.findOne(informacaoPagamento.getCodigo());
             caseTrueChangeValue(informacaoPagamento, informacaoPagamentoRetrived);
             informacaoPagamento = informacaoPagamentoRetrived;
-            //TODO fazer validação de todos os booleanos. Pensar em alguma maneira boa.
 
         }
         InformacaoPagamento informacaoPagamentoRetrived = informacaoPagamentos.save(informacaoPagamento);
@@ -47,6 +46,12 @@ public class InformacaoPagamentoService {
         return informacaoPagamentoRetrived;
     }
 
+    /**
+     * Logica para alterar os valores de pagamento apenas no caso do usuario selecionar como pago(TRUE).
+     *
+     * @param informacaoPagamento         Informação de pagamento provinda da tela.
+     * @param informacaoPagamentoRetrived Informação de pagamento no banco de dados.
+     */
     private void caseTrueChangeValue(InformacaoPagamento informacaoPagamento,
             InformacaoPagamento informacaoPagamentoRetrived) {
         if (informacaoPagamento.getPago().equals(Boolean.TRUE)) {

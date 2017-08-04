@@ -1,10 +1,6 @@
 package br.com.imovelcontrol.model;
 
-import java.io.Serializable;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
@@ -20,13 +16,11 @@ import org.hibernate.validator.constraints.br.CPF;
 /**
  * Created by marcosfellipec on 18/05/17.
  */
-@SuppressWarnings("serial")
 @Entity
 @Table(name = "locatario")
-public class Locatario implements Serializable {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long codigo;
+public class Locatario extends BaseEntity {
+
+
     @Size(max = 100, message = "Nome deve ter no máximo 100 caracteres")
     @NotBlank(message = "Nome Obrigatório")
     private String nome;
@@ -73,14 +67,6 @@ public class Locatario implements Serializable {
 
     public void setTelefone(String telefone) {
         this.telefone = telefone;
-    }
-
-    public Long getCodigo() {
-        return codigo;
-    }
-
-    public void setCodigo(Long codigo) {
-        this.codigo = codigo;
     }
 
     public String getNome() {
