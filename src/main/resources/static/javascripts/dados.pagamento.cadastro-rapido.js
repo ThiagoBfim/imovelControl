@@ -33,10 +33,7 @@ Brewer.AluguelCadastroRapido = (function () {
 
         function meu_callback(conteudo) {
 
-            var inputCodigo = $('#codigoPagamento');
-            var inputValor = $('#valorMensal');
-            var checkMensalidade = $('.checkBoxPago');
-            var dataMensal = $('#dataMensal');
+
 
             function changeBootstrapSwitch(codigo, valor, campoDiv) {
                 if (valor == null) {
@@ -48,10 +45,15 @@ Brewer.AluguelCadastroRapido = (function () {
                 $(codigo).bootstrapSwitch('disabled', valor);
             }
 
+            var inputCodigo = $('#codigoPagamento');
+            var inputValor = $('#valorMensal');
+            var checkMensalidade = $('.checkBoxPago');
 
             if (!("erro" in conteudo)) {
                 inputCodigo.val(conteudo.codigo);
                 inputValor.val(conteudo.valor);
+                checkMensalidade.prop('checked', conteudo.pago);
+                checkMensalidade.prop("disabled", conteudo.pago);
 
                 changeBootstrapSwitch('#inputAguaInclusa', conteudo.aguaInclusa, '#aguaInclusa');
 
