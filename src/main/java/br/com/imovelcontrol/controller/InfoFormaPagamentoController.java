@@ -58,8 +58,7 @@ public class InfoFormaPagamentoController {
         InformacaoPagamento informacaoPagamento = new InformacaoPagamento();
         if (informacaoPagamentoOptional.isPresent()) {
             informacaoPagamento = informacaoPagamentoOptional.get();
-            //TODO implementar logica para mostar sempre todas as opçoes (agua inclusa, luz...), mas com os campos bloqueados caso já tenha sido preenchido.
-        } else {
+         } else {
 
             //TODO Utilizar Reflection
             informacaoPagamento.setValor(aluguel.getFormaPagamento().getValor());
