@@ -34,7 +34,6 @@ Brewer.AluguelCadastroRapido = (function () {
         function meu_callback(conteudo) {
 
 
-
             function changeBootstrapSwitch(codigo, valor, campoDiv) {
                 if (valor == null) {
                     $(campoDiv).hide();
@@ -51,7 +50,12 @@ Brewer.AluguelCadastroRapido = (function () {
 
             if (!("erro" in conteudo)) {
                 inputCodigo.val(conteudo.codigo);
-                inputValor.val(conteudo.valor);
+                var valor = conteudo.valor.toString();
+                if(valor.indexOf('.') != -1){
+                    inputValor.val(valor);
+                } else {
+                    inputValor.val(valor + ',00');
+                }
                 checkMensalidade.prop('checked', conteudo.pago);
                 checkMensalidade.prop("disabled", conteudo.pago);
 
@@ -63,7 +67,7 @@ Brewer.AluguelCadastroRapido = (function () {
 
                 changeBootstrapSwitch('#inputIptuIncluso', conteudo.iptuIncluso, '#iptuIncluso');
 
-                changeBootstrapSwitch('#inputPossuiCondominio',conteudo.possuiCondominio, '#possuiCondominio' );
+                changeBootstrapSwitch('#inputPossuiCondominio', conteudo.possuiCondominio, '#possuiCondominio');
 
                 modal.modal();
                 modal.on('shown.bs.modal', function () {
