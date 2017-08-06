@@ -8,6 +8,7 @@ import javax.persistence.Query;
 import br.com.imovelcontrol.dto.PeriodoRelatorioDTO;
 import br.com.imovelcontrol.dto.RelatorioImovelDTO;
 import br.com.imovelcontrol.model.Imovel;
+import br.com.imovelcontrol.model.Usuario;
 import br.com.imovelcontrol.repository.util.PaginacaoUtil;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
@@ -32,22 +33,24 @@ public class ImoveisImpl implements ImoveisQuerys {
     @SuppressWarnings("unchecked")
     @Transactional(readOnly = true)
     @Override
-    public Page<Imovel> filtrar(Imovel filtro, Pageable pageable) {
+    public Page<Imovel> filtrar(Imovel filtro, Usuario usuario, Pageable pageable) {
         Criteria criteria = entityManager.unwrap(Session.class).createCriteria(Imovel.class);
-
-        adicionarFiltro(filtro, criteria);
+        adicionarFiltro(filtro, usuario, criteria);
         paginacaoUtil.paginacao(pageable, criteria);
-        return new PageImpl<>(criteria.list(), pageable, total(filtro));
+        return new PageImpl<>(criteria.list(), pageable, total(filtro, usuario));
     }
 
-    private Long total(Imovel filtro) {
+    private Long total(Imovel filtro, Usuario usuario) {
         Criteria criteria = entityManager.unwrap(Session.class).createCriteria(Imovel.class);
-        adicionarFiltro(filtro, criteria);
+        adicionarFiltro(filtro, usuario, criteria);
         criteria.setProjection(Projections.rowCount());
         return (Long) criteria.uniqueResult();
     }
 
-    private void adicionarFiltro(Imovel filtro, Criteria criteria) {
+    private void adicionarFiltro(Imovel filtro, Usuario usuario, Criteria criteria) {
+        if (usuario != null) {
+            criteria.add(Restrictions.eq("donoImovel", usuario));
+        }
         if (filtro != null) {
             if (!StringUtils.isEmpty(filtro.getNome())) {
                 criteria.add(Restrictions.ilike("nome", filtro.getNome(), MatchMode.ANYWHERE));
