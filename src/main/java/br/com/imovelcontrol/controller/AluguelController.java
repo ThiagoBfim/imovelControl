@@ -5,8 +5,10 @@ import javax.validation.Valid;
 
 import br.com.imovelcontrol.controller.page.PageWrapper;
 import br.com.imovelcontrol.model.FormaPagamento;
+import br.com.imovelcontrol.model.Imovel;
 import br.com.imovelcontrol.model.InformacaoPagamento;
 import br.com.imovelcontrol.model.Locatario;
+import br.com.imovelcontrol.model.Usuario;
 import br.com.imovelcontrol.model.enuns.TipoImovel;
 import br.com.imovelcontrol.model.tipoimovel.Aluguel;
 import br.com.imovelcontrol.model.tipoimovel.enuns.TipoForro;
@@ -15,6 +17,7 @@ import br.com.imovelcontrol.repository.Alugueis;
 import br.com.imovelcontrol.repository.Imoveis;
 import br.com.imovelcontrol.service.CadastroAluguelService;
 import br.com.imovelcontrol.service.TemplateFormaPagamentoService;
+import br.com.imovelcontrol.service.UsuarioLogadoService;
 import br.com.imovelcontrol.service.exception.ImpossivelExcluirEntidadeException;
 import br.com.imovelcontrol.service.exception.NomeAluguelJaCadastradoException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,6 +50,8 @@ public class AluguelController {
     @Autowired
     private CadastroAluguelService cadastroAluguelService;
 
+    @Autowired
+    private UsuarioLogadoService usuarioLogadoService;
 
     private Long codigoImovel;
 
@@ -94,6 +99,11 @@ public class AluguelController {
         codigoImovel = codigo;
         aluguel = new Aluguel();
         setImovelAluguel(aluguel);
+        Usuario usuario = usuarioLogadoService.getUsuario();
+        Imovel imovelRetrived = imoveis.findOne(codigo);
+        if (!imovelRetrived.getDonoImovel().equals(usuario)) {
+            return new ModelAndView("/403");
+        }
         PageWrapper<Aluguel> pagina = new PageWrapper<>(alugueis.filtrarByImovel(codigo, pageable), httpServletRequest);
         modelAndView.addObject("pagina", pagina);
         modelAndView.addObject("aluguel", aluguel);
@@ -109,6 +119,12 @@ public class AluguelController {
         ModelAndView modelAndView = new ModelAndView("tipoImovel/CadastroAluguel");
         setAllObjectsFromImovelToModelView(modelAndView);
         Aluguel aluguel = alugueis.findOne(codigo);
+
+        Usuario usuario = usuarioLogadoService.getUsuario();
+        if (!aluguel.getImovel().getDonoImovel().equals(usuario)) {
+            return new ModelAndView("/403");
+        }
+
         modelAndView.addObject(aluguel);
         return modelAndView;
     }

@@ -1,6 +1,6 @@
 package br.com.imovelcontrol.repository;
 
-import java.util.Optional;
+import java.util.List;
 
 import br.com.imovelcontrol.model.InformacaoPagamento;
 import br.com.imovelcontrol.model.tipoimovel.Aluguel;
@@ -13,5 +13,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface InformacaoPagamentos extends JpaRepository<InformacaoPagamento, Long> {
 
-    Optional<InformacaoPagamento> findByAluguel(Aluguel codAluguel);
+    List<InformacaoPagamento> findByAluguel(Aluguel codAluguel);
 }

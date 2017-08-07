@@ -24,48 +24,60 @@
                             <div class="input-group">
                                 <div class="input-group-addon">R$</div>
                                 <input autofocus type="text" class="form-control js-decimal" maxlength="10"
+                                       readonly="readonly"
                                        th:field="*{valor}" id="valorMensal"/>
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-4"></div>
+                        <div class="form-group col-sm-4">
+                            <label class="control-label">&nbsp;</label>
+                            <div class="input-group">
+                                <div class="checkbox  checkbox-inline">
+                                    <input type="checkbox" class="checkBoxPago" id="checkMensalidade"
+                                           th:field="*{pago}">
+                                    <label class="control-label" for="checkMensalidade">Mensalidade foi paga?</label>
+                                </div>
                             </div>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="form-group  col-sm-2" id="aguaInclusa">
-                            <label class="control-label">Agua Inclusa?</label>
+                        <div class="form-group  col-sm-4" id="aguaInclusa">
+                            <label class="control-label">Agua Foi Paga?</label>
                             <div>
-                                <input type="checkbox" class="js-status"
+                                <input type="checkbox" class="js-status" id="inputAguaInclusa"
                                        th:field="*{aguaInclusa}" data-size="small"
                                        data-off-color="danger" data-on-text="Sim" data-off-text="Nao">
                             </div>
                         </div>
-                        <div class="form-group  col-sm-2" id="luzInclusa">
-                            <label class="control-label">Luz Inclusa?</label>
+                        <div class="form-group  col-sm-4" id="luzInclusa">
+                            <label class="control-label">Luz Foi Paga?</label>
                             <div>
-                                <input type="checkbox" class="js-status"
+                                <input type="checkbox" class="js-status" id="inputLuzInclusa"
                                        th:field="*{luzInclusa}" data-size="small"
                                        data-off-color="danger" data-on-text="Sim" data-off-text="Nao">
                             </div>
                         </div>
-                        <div class="form-group  col-sm-2" id="internetInclusa">
-                            <label class="control-label">Internet Inclusa?</label>
+                        <div class="form-group  col-sm-4" id="internetInclusa">
+                            <label class="control-label">Internet Foi Pago?</label>
                             <div>
-                                <input type="checkbox" class="js-status"
+                                <input type="checkbox" class="js-status" id="inputInternetInclusa"
                                        th:field="*{internetInclusa}" data-size="small"
                                        data-off-color="danger" data-on-text="Sim" data-off-text="Nao">
                             </div>
                         </div>
-                        <div class="form-group  col-sm-2" id="iptuIncluso">
-                            <label class="control-label">IPTU Incluso?</label>
+                        <div class="form-group  col-sm-4" id="iptuIncluso">
+                            <label class="control-label">IPTU foi Pago?</label>
                             <div>
-                                <input type="checkbox" class="js-status"
+                                <input type="checkbox" class="js-status" id="inputIptuIncluso"
                                        th:field="*{iptuIncluso}"
                                        data-size="small" data-off-color="danger" data-on-text="Sim"
                                        data-off-text="Nao">
                             </div>
                         </div>
-                        <div class="form-group  col-sm-2" id="possuiCondominio">
-                            <label class="control-label">Possui Condominio?</label>
+                        <div class="form-group  col-sm-4" id="possuiCondominio">
+                            <label class="control-label">Condominio foi Pago?</label>
                             <div>
-                                <input type="checkbox" class="js-status"
+                                <input type="checkbox" class="js-status" id="inputPossuiCondominio"
                                        th:field="*{possuiCondominio}"
                                        data-size="small" data-off-color="danger" data-on-text="Sim"
                                        data-off-text="Nao">
@@ -87,14 +99,6 @@
                             <div class="input-group">
                                 <textarea class="form-control" maxlength="250" rows="4" cols="50"
                                           th:field="*{gastoAdicional.comentarioGasto}" id="comentarioGasto"></textarea>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row form-inline" style="text-align: right">
-                        <div class="col-sm-11" >
-                            <div class="checkbox  checkbox-inline">
-                                <input type="checkbox" th:field="*{pago}">
-                                <label class="control-label">Mensalidade foi paga?</label>
                             </div>
                         </div>
                     </div>

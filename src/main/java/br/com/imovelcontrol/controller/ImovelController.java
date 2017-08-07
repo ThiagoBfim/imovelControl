@@ -1,6 +1,5 @@
 package br.com.imovelcontrol.controller;
 
-import java.util.Optional;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
@@ -8,8 +7,8 @@ import br.com.imovelcontrol.controller.page.PageWrapper;
 import br.com.imovelcontrol.model.Imovel;
 import br.com.imovelcontrol.model.Usuario;
 import br.com.imovelcontrol.repository.Imoveis;
-import br.com.imovelcontrol.repository.Usuarios;
 import br.com.imovelcontrol.service.CadastroImovelService;
+import br.com.imovelcontrol.service.UsuarioLogadoService;
 import br.com.imovelcontrol.service.exception.CepImovelJaCadastradoException;
 import br.com.imovelcontrol.service.exception.ImpossivelExcluirEntidadeException;
 import br.com.imovelcontrol.service.exception.NomeImovelJaCadastradoException;
@@ -17,8 +16,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -40,7 +37,8 @@ public class ImovelController {
     private CadastroImovelService cadastroImovelService;
 
     @Autowired
-    private Usuarios usuarios;
+    private UsuarioLogadoService usuarioLogadoService;
+
     /**
      * Metodo para iniciar um novo imovel.
      *
@@ -56,28 +54,27 @@ public class ImovelController {
     /**
      * Metodo para receber a requisição de criar um novo imovel.
      *
-     * @param imovel     Imovel a ser criado.
-     * @param result     Resultado do cadastro, caso tenha erro, serão exibidos.
+     * @param imovel Imovel a ser criado.
+     * @param result Resultado do cadastro, caso tenha erro, serão exibidos.
      * @return Pagina de sucesso.
      */
     @RequestMapping(value = "/novo", method = RequestMethod.POST)
     public ModelAndView cadastrar(@Valid Imovel imovel, BindingResult result) {
 
         ModelAndView mAndView = new ModelAndView("imovel/CadastroImovel");
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        Optional<Usuario> usuario = usuarios.findByLogin(auth.getName());
+        Usuario usuario = usuarioLogadoService.getUsuario();
 
-        imovel.setDonoImovel(usuario.get());
+        imovel.setDonoImovel(usuario);
         if (result.hasErrors()) {
             return novo(imovel);
         }
 
-        try{
+        try {
             cadastroImovelService.salvar(imovel);
-        }catch (NomeImovelJaCadastradoException e ){
+        } catch (NomeImovelJaCadastradoException e) {
             result.rejectValue("nome", e.getMessage(), e.getMessage());
             return novo(imovel);
-        }catch (CepImovelJaCadastradoException e){
+        } catch (CepImovelJaCadastradoException e) {
             result.rejectValue("endereco", e.getMessage(), e.getMessage());
             return novo(imovel);
         }
@@ -92,7 +89,9 @@ public class ImovelController {
     public ModelAndView pesquisar(Imovel imovel, BindingResult result, @PageableDefault(size = 5) Pageable pageable,
             HttpServletRequest httpServletRequest) {
         ModelAndView modelAndView = new ModelAndView("imovel/PesquisaImovel");
-        PageWrapper<Imovel> pagina = new PageWrapper<>(imoveis.filtrar(imovel, pageable), httpServletRequest);
+        Usuario usuario = usuarioLogadoService.getUsuario();
+
+        PageWrapper<Imovel> pagina = new PageWrapper<>(imoveis.filtrar(imovel, usuario, pageable), httpServletRequest);
         modelAndView.addObject("pagina", pagina);
         return modelAndView;
     }
@@ -113,6 +112,10 @@ public class ImovelController {
     @GetMapping("/{codigo}")
     public ModelAndView editar(@PathVariable Long codigo) {
         Imovel imovel = imoveis.findOne(codigo);
+        Usuario usuario = usuarioLogadoService.getUsuario();
+        if (!imovel.getDonoImovel().equals(usuario)) {
+            return new ModelAndView("/403");
+        }
         ModelAndView mAndView = new ModelAndView("imovel/CadastroImovel");
         mAndView.addObject(imovel);
         return mAndView;

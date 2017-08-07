@@ -1,12 +1,8 @@
 package br.com.imovelcontrol.model;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -16,11 +12,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "gasto_adicional")
-public class GastoAdicional implements Serializable {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long codigo;
+public class GastoAdicional extends BaseEntity {
 
     private LocalDate dataMensal;
 
@@ -31,14 +23,6 @@ public class GastoAdicional implements Serializable {
     @ManyToOne
     @JoinColumn(name = "codPagamento")
     private InformacaoPagamento informacaoPagamento;
-
-    public Long getCodigo() {
-        return codigo;
-    }
-
-    public void setCodigo(Long codigo) {
-        this.codigo = codigo;
-    }
 
     public LocalDate getDataMensal() {
         return dataMensal;

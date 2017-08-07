@@ -16,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class CadastroAluguelService {
 
-	@Autowired
+    @Autowired
     private Alugueis alugueis;
 
     @Autowired
@@ -28,32 +28,33 @@ public class CadastroAluguelService {
     @Autowired
     private CadastroLocatarioService cadastroLocatarioService;
 
-	@Transactional
-	public Aluguel salvar(Aluguel aluguel) {
-        Optional<Aluguel> usuarioRetrived = alugueis.findByNome(aluguel.getNome());
+    @Transactional
+    public Aluguel salvar(Aluguel aluguel) {
+        Optional<Aluguel> usuarioRetrived = alugueis.findByNomeAndImovel_Codigo(aluguel.getNome(),
+                aluguel.getImovel().getCodigo());
         if (usuarioRetrived.isPresent() && !usuarioRetrived.get().equals(aluguel)
                 && usuarioRetrived.get().getImovel().equals(aluguel.getImovel())) {
             throw new NomeAluguelJaCadastradoException("Nome já cadastrado");
         }
-		return alugueis.save(aluguel);
-	}
-
-	@Transactional
-	public void excluir(Aluguel aluguel) {
-
-	    cadastroLocatarioService.deleteByAluguel(aluguel.getCodigo());
-        alugueis.delete(aluguel);
-        formasPagamentos.delete(aluguel.getFormaPagamento());
-	}
+        return alugueis.save(aluguel);
+    }
 
     @Transactional
-    public List<Aluguel> findByImovel(Long codigo){
+    public void excluir(Aluguel aluguel) {
+
+        cadastroLocatarioService.deleteByAluguel(aluguel.getCodigo());
+        alugueis.delete(aluguel);
+        formasPagamentos.delete(aluguel.getFormaPagamento());
+    }
+
+    @Transactional
+    public List<Aluguel> findByImovel(Long codigo) {
         Optional<List<Aluguel>> aluguels = alugueis.findByImovel_Codigo(codigo);
 
-        if (!aluguels.isPresent()){
+        if (!aluguels.isPresent()) {
             throw new AluguelByImovelNaoEncontradoException("Aluguéis não encontrados");
         }
 
-        return  aluguels.get();
+        return aluguels.get();
     }
 }

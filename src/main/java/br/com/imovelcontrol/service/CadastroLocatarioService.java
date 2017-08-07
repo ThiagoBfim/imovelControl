@@ -1,6 +1,5 @@
 package br.com.imovelcontrol.service;
 
-import java.util.List;
 import java.util.Optional;
 
 import br.com.imovelcontrol.controller.converter.FormatUtil;
@@ -21,7 +20,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class CadastroLocatarioService {
-
 
     @Autowired
     private Locatarios locatarios;

@@ -1,116 +1,116 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorator="'layout/LayoutPadrao'"
-	xmlns:bomfim="http://bomfim.com.br">
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="'layout/LayoutPadrao'"
+      xmlns:bomfim="http://bomfim.com.br">
 
 <head>
-<title>Cadastro do Usuário</title>
+    <title>Cadastro do Usuário</title>
 
 
 </head>
 
 <body>
 
-	<section layout:fragment="conteudo">
+<section layout:fragment="conteudo">
 
-		<div class="container-fluid">
-		
-		
-		<div class="page-header">
-			<div class="container-fluid">
-				<div class="row">
-					<div class="col-sm-10">
-						<h1 th:if= "${usuario.novo}">Cadastro Do Usuário</h1>
-						<h1 th:unless= "${usuario.novo}" th:text="|Edição de usuário - ${usuario.nome}|">Cadastro Do Usuário</h1>
-					</div>
-					<div class="col-sm-2">
-						<div class="aw-page-header-controls">
-							 <a class="btn btn-default" th:href="@{/usuario/}">
-								 <i class="glyphicon  glyphicon-plus-sign"></i> <span class="hidden-xs  hidden-sm">Pesquisar Usuário</span>
-							 </a>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-
-			<form method="POST" th:object="${usuario}" class="form-vertical  js-form-loading" 
-			th:action="@{/usuario/novo}">
-			<bomfim:message/>
-			
-			<input type="hidden" th:field="*{codigo}"/>
-                <div class="row">
-                    <div class="col-sm-12  form-group bw-required" bomfim:classforerror="login">
-                        <label for="login" class="control-label">Login</label>
-                        <input id="login" type="text" class="form-control"  th:field="*{login}" />
+    <div class="page-header">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-10">
+                    <h1 th:if="${usuario.novo}">Cadastro Do Usuário</h1>
+                    <h1 th:unless="${usuario.novo}" th:text="|Edição de usuário - ${usuario.nome}|">Cadastro Do
+                        Usuário</h1>
+                </div>
+                <div class="col-sm-2">
+                    <div class="aw-page-header-controls">
+                        <a class="btn btn-default" th:href="@{/usuario/}">
+                            <i class="glyphicon  glyphicon-plus-sign"></i> <span class="hidden-xs  hidden-sm">Pesquisar Usuário</span>
+                        </a>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
 
-                <div class="row">
-					<div class="col-sm-12  form-group bw-required" bomfim:classforerror="nome">
-						<label for="nome" class="control-label">Nome</label> 
-						<input id="nome" type="text" class="form-control"  th:field="*{nome}" />
-					</div>
-				</div>
-				
-				<div class="row">
-					<div class="col-sm-6 form-group bw-required" bomfim:classforerror="email">
-						<label for="email" class="control-label">E-mail</label> 
-						<input id="email" type="text" class="form-control"  th:field="*{email}"/>
-					</div>
-					<div class="col-sm-4 form-group " >
-						<label for="dataNascimento" class="control-label">Data de Nascimento</label> 
-						<input id="dataNascimento"  type="text" class="form-control js-date" 
-						 th:field="*{dataNascimento}" readonly autocomplete="off"/>
-					</div>
-				</div>
-				
-				<div class="row">
-					<div class="col-sm-3 form-group" bomfim:classforerror="senha" th:classappend="${usuario.novo} ? bw-required">
-						<label for="senha" class="control-label">Senha</label> 
-						<input id="senha" type="password" class="form-control" th:field="*{senha}"/>
-					</div>
-					<div class="col-sm-3 form-group" bomfim:classforerror="confirmacaoSenha" th:classappend="${usuario.novo} ? bw-required">
-						<label for="confirmarSenha" class="control-label">Confirmação da Senha</label> 
-						<input id="confirmarSenha" type="password" class="form-control" th:field="*{confirmacaoSenha}"/>
-					</div>
-					<div class="col-sm-2  form-group " th:if="${#authentication.principal.usuario.codigo != usuario.codigo}">
-						<label for="status" class="control-label">Status</label>
-						<div>
-							<input type="checkbox" class="js-status" th:field="*{ativo}"
-							data-size="small" data-off-color="danger"
-							data-on-text="Ativo" data-off-text="Inativo"  >
-						</div>
-					</div>
-				</div>
-			
-				<div class="row">
-					<div class="col-sm-6  form-group bw-required" bomfim:classforerror="grupos">
-						<label  class="control-label" for="grupo">Grupos</label>
-						<div>
-							 <th:block th:each="grupo : ${grupos}">
-								<div class="checkbox  checkbox-inline">
-									<input type="checkbox" th:id="|id_${grupo.nome}|" name="grupo" 
-									th:field="*{grupos}" th:value="${grupo.codigo}">
-									<label class="control-label" th:for="|id_${grupo.nome}|" th:text="${grupo.nome}">Física</label>
-								</div>
-							</th:block>
-						</div>
-					</div>
-					
-				</div>
+    <div class="container-fluid">
+        <form method="POST" th:object="${usuario}" class="form-vertical  js-form-loading"
+              th:action="@{/usuario/novo}">
+            <bomfim:message/>
 
-				<div class="form-group" style="text-align: right">
-					<button class="btn  btn-primary" type="submit">Salvar</button>
-				</div>
+            <input type="hidden" th:field="*{codigo}"/>
+            <div class="row">
+                <div class="col-sm-12  form-group bw-required" bomfim:classforerror="login">
+                    <label for="login" class="control-label">Login</label>
+                    <input id="login" type="text" class="form-control" th:field="*{login}"/>
+                </div>
+            </div>
 
-			</form>
-		</div>
-		
-	</section>
-	
+            <div class="row">
+                <div class="col-sm-12  form-group bw-required" bomfim:classforerror="nome">
+                    <label for="nome" class="control-label">Nome</label>
+                    <input id="nome" type="text" class="form-control" th:field="*{nome}"/>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-6 form-group bw-required" bomfim:classforerror="email">
+                    <label for="email" class="control-label">E-mail</label>
+                    <input id="email" type="text" class="form-control" th:field="*{email}"/>
+                </div>
+                <div class="col-sm-4 form-group ">
+                    <label for="dataNascimento" class="control-label">Data de Nascimento</label>
+                    <input id="dataNascimento" type="text" class="form-control js-date"
+                           th:field="*{dataNascimento}" readonly autocomplete="off"/>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-3 form-group" bomfim:classforerror="senha"
+                     th:classappend="${usuario.novo} ? bw-required">
+                    <label for="senha" class="control-label">Senha</label>
+                    <input id="senha" type="password" class="form-control" th:field="*{senha}"/>
+                </div>
+                <div class="col-sm-3 form-group" bomfim:classforerror="confirmacaoSenha"
+                     th:classappend="${usuario.novo} ? bw-required">
+                    <label for="confirmarSenha" class="control-label">Confirmação da Senha</label>
+                    <input id="confirmarSenha" type="password" class="form-control" th:field="*{confirmacaoSenha}"/>
+                </div>
+                <div class="col-sm-2  form-group "
+                     th:if="${#authentication.principal.usuario.codigo != usuario.codigo}">
+                    <label for="status" class="control-label">Status</label>
+                    <div>
+                        <input type="checkbox" class="js-status" th:field="*{ativo}"
+                               data-size="small" data-off-color="danger"
+                               data-on-text="Ativo" data-off-text="Inativo">
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-6  form-group bw-required" bomfim:classforerror="grupos">
+                    <label class="control-label" for="grupo">Grupos</label>
+                    <div>
+                        <th:block th:each="grupo : ${grupos}">
+                            <div class="checkbox  checkbox-inline">
+                                <input type="checkbox" th:id="|id_${grupo.nome}|" name="grupo"
+                                       th:field="*{grupos}" th:value="${grupo.codigo}">
+                                <label class="control-label" th:for="|id_${grupo.nome}|"
+                                       th:text="${grupo.nome}">Física</label>
+                            </div>
+                        </th:block>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group" style="text-align: right">
+                <button class="btn  btn-primary" type="submit">Salvar</button>
+            </div>
+        </form>
+    </div>
+
+</section>
 
 </body>
 
