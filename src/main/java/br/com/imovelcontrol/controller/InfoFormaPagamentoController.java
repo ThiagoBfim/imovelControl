@@ -1,6 +1,5 @@
 package br.com.imovelcontrol.controller;
 
-import java.math.BigDecimal;
 import java.util.Optional;
 import javax.validation.Valid;
 
@@ -8,7 +7,6 @@ import br.com.imovelcontrol.model.InformacaoPagamento;
 import br.com.imovelcontrol.model.tipoimovel.Aluguel;
 import br.com.imovelcontrol.repository.Alugueis;
 import br.com.imovelcontrol.service.InformacaoPagamentoService;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -56,15 +54,34 @@ public class InfoFormaPagamentoController {
         Aluguel aluguel = alugueis.findOne(Long.parseLong(codigo));
 
 
-        Optional<InformacaoPagamento> informacaoPagamentoOptional = informacaoPagamentoService.retrieveByAluguel(codigo);
+        Optional<InformacaoPagamento> informacaoPagamentoOptional = informacaoPagamentoService.retrieveByAluguelAndData(codigo);
         InformacaoPagamento informacaoPagamento = new InformacaoPagamento();
         if (informacaoPagamentoOptional.isPresent()) {
             informacaoPagamento = informacaoPagamentoOptional.get();
-            informacaoPagamento.setAluguel(new Aluguel());
-        } else {
-            BeanUtils.copyProperties(aluguel.getFormaPagamento(), informacaoPagamento);
-            informacaoPagamento.setValor(BigDecimal.ZERO);
+         } else {
+
+            //TODO Utilizar Reflection
+            informacaoPagamento.setValor(aluguel.getFormaPagamento().getValor());
+            if (aluguel.getFormaPagamento().getAguaInclusa()) {
+                informacaoPagamento.setAguaInclusa(false);
+            }
+            if (aluguel.getFormaPagamento().getInternetInclusa()) {
+                informacaoPagamento.setInternetInclusa(false);
+            }
+            if (aluguel.getFormaPagamento().getIptuIncluso()) {
+                informacaoPagamento.setIptuIncluso(false);
+            }
+            if (aluguel.getFormaPagamento().getLuzInclusa()) {
+                informacaoPagamento.setLuzInclusa(false);
+            }
+            if (aluguel.getFormaPagamento().getPossuiCondominio()) {
+                informacaoPagamento.setPossuiCondominio(false);
+            }
+            informacaoPagamento.setAluguel(aluguel);
+            informacaoPagamento = informacaoPagamentoService.salvar(informacaoPagamento);
+
         }
+        informacaoPagamento.setAluguel(new Aluguel());
         return informacaoPagamento;
 
     }
