@@ -53,8 +53,7 @@ public class UsuarioController {
 	}
 
 	@RequestMapping(value = { "/novo"}, method = RequestMethod.POST)
-	public ModelAndView salvar(@Valid Usuario usuario, BindingResult result, Model model,
-			RedirectAttributes attributes) {
+	public ModelAndView salvar(@Valid Usuario usuario, BindingResult result) {
 		ModelAndView modelAndView = new ModelAndView("usuario/CadastroUsuario");
 		if (result.hasErrors()) {
 			return novo(usuario);

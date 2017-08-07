@@ -10,9 +10,7 @@ import br.com.imovelcontrol.model.tipoimovel.Aluguel;
 import br.com.imovelcontrol.repository.Alugueis;
 import br.com.imovelcontrol.repository.Locatarios;
 import br.com.imovelcontrol.service.CadastroLocatarioService;
-import br.com.imovelcontrol.service.exception.CpfLocatarioJaCadastradoException;
-import br.com.imovelcontrol.service.exception.ImpossivelExcluirEntidadeException;
-import br.com.imovelcontrol.service.exception.TelefoneLocatarioJaCadastradoException;
+import br.com.imovelcontrol.service.exception.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -66,8 +64,14 @@ public class LocatarioController {
             cadastroLocatarioService.salvar(locatarioRetrieve);
         }catch (CpfLocatarioJaCadastradoException e){
             result.rejectValue("cpf", e.getMessage(),e.getMessage());
-        }catch (TelefoneLocatarioJaCadastradoException e){
+        }catch (TelefoneLocatarioJaCadastradoException e) {
             result.rejectValue("telefone", e.getMessage(), e.getMessage());
+        }catch (TelefoneLocatarioInvalidoException e) {
+            result.rejectValue("telefone", e.getMessage(), e.getMessage());
+        }catch (CpfLocatarioInvalidoException e) {
+            result.rejectValue("cpf", e.getMessage(), e.getMessage());
+        }catch (NomeLocatarioInvalidoException e){
+            result.rejectValue("nome", e.getMessage(), e.getMessage());
         }
 
         mAndView.addObject("mensagem", "Locatário Salvo com sucesso!");
