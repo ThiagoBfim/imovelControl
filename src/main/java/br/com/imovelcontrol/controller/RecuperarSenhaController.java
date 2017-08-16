@@ -35,7 +35,7 @@ public class RecuperarSenhaController {
         JavaMail javaMail = new JavaMail();
         try {
             usuario = cadastroUsuarioService.findByLogin(usuario.getLogin());
-            javaMail.setDestinarario("thiagobomfim1995@gmail.com");
+            javaMail.setDestinarario(usuario.getEmail());
             javaMail.setTitulo("Teste Java Mail");
             javaMail.setMensagem("minha tela de recuperar senha não está funcionando");
             javaMail.enviarEmail();
