@@ -70,6 +70,24 @@ public class UsuarioController {
 		return modelAndView;
 	}
 
+    @RequestMapping(value = { "/novoLogin"}, method = RequestMethod.POST)
+    public ModelAndView salvarLogin(@Valid Usuario usuario, BindingResult result, Model model,
+            RedirectAttributes attributes) {
+        ModelAndView modelAndView = new ModelAndView("usuario/CadastroUsuarioLogin");
+        if (result.hasErrors()) {
+            return novo(usuario);
+        }
+        try {
+            cadastroUsuarioService.salvar(usuario);
+        } catch (EmailUsuarioJaCadastradoException | SenhaUsuarioJaCadastradoException e) {
+            result.rejectValue("nome", e.getMessage(), e.getMessage());
+            return novo(usuario);
+        }
+        modelAndView.addObject("usuario", usuario);
+        modelAndView.addObject("mensagem", "Usuário Salvo com Sucessso!");
+        return modelAndView;
+    }
+
 	@GetMapping
 	public ModelAndView pesquisar(Usuario usuario, BindingResult result, @PageableDefault(size = 5) Pageable pageable,
 			HttpServletRequest httpServletRequest) {
