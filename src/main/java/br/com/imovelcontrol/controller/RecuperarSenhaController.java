@@ -1,6 +1,5 @@
 package br.com.imovelcontrol.controller;
 
-import br.com.imovelcontrol.email.JavaMail;
 import br.com.imovelcontrol.model.Usuario;
 import br.com.imovelcontrol.service.CadastroUsuarioService;
 import br.com.imovelcontrol.service.exception.LoginUsuarioNaoEncontradoException;
@@ -23,6 +22,7 @@ public class RecuperarSenhaController {
     @Autowired
     private CadastroUsuarioService cadastroUsuarioService;
 
+
     @GetMapping
     public ModelAndView recuperarSenha(Usuario usuario) {
         ModelAndView modelAndView = new ModelAndView("RecuperarSenha");
@@ -31,15 +31,13 @@ public class RecuperarSenhaController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/pesquisa")
     public ModelAndView pesquisar(Usuario usuario, BindingResult result) {
-        ModelAndView modelAndView = new ModelAndView("Login");
-        JavaMail javaMail = new JavaMail();
+        ModelAndView modelAndView = new ModelAndView("redirect:/login");
+
         try {
             usuario = cadastroUsuarioService.findByLogin(usuario.getLogin());
-            javaMail.setDestinarario(usuario.getEmail());
-            javaMail.setTitulo("Teste Java Mail");
-            javaMail.setMensagem("minha tela de recuperar senha não está funcionando");
-            javaMail.enviarEmail();
+            cadastroUsuarioService.enviarNovaSenha(usuario);
             modelAndView.addObject("mensagem", "Nova senha foi enviada ao seu E-MAIL cadastrado no sistema.");
+
         } catch (LoginUsuarioNaoEncontradoException e) {
             result.rejectValue("login", e.getMessage(), e.getMessage());
             return recuperarSenha(usuario);
