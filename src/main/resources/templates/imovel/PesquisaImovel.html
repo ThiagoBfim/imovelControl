@@ -1,4 +1,4 @@
-        <!DOCTYPE html>
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
@@ -80,8 +80,7 @@
                 <tbody>
                 <tr th:each="imovel : ${pagina.conteudo}">
                     <td class="text-center">
-                        <img style="width:50px;" th:src="@{/fotos/thumbnail.{foto}(foto=${imovel.fotoOrMock})}"
-                             class="img-responsive"/>
+                        <img th:src="${imovel.urlThumbnailFoto}" class="img-responsive"/>
                     </td>
                     <td th:text="${imovel.nome}">Casa de taguatinga</td>
                     <td th:text="|${imovel.endereco.cep} - ${imovel.endereco.cidade} - ${imovel.endereco.bairro}|">
