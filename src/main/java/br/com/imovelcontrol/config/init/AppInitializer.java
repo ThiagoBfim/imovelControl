@@ -2,8 +2,11 @@ package br.com.imovelcontrol.config.init;
 
 import javax.servlet.Filter;
 import javax.servlet.MultipartConfigElement;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
 import javax.servlet.ServletRegistration.Dynamic;
 
+import br.com.imovelcontrol.config.AWS3Config;
 import br.com.imovelcontrol.config.JPAConfig;
 import br.com.imovelcontrol.config.MailConfig;
 import br.com.imovelcontrol.config.SecurityConfig;
@@ -16,7 +19,8 @@ public class AppInitializer extends AbstractAnnotationConfigDispatcherServletIni
 
     @Override
     protected Class<?>[] getRootConfigClasses() {
-        return new Class<?>[]{JPAConfig.class, MailConfig.class, ServiceConfig.class, SecurityConfig.class};
+        return new Class<?>[]{JPAConfig.class, MailConfig.class, ServiceConfig.class,
+                SecurityConfig.class, AWS3Config.class};
     }
 
     @Override
@@ -38,5 +42,11 @@ public class AppInitializer extends AbstractAnnotationConfigDispatcherServletIni
     @Override
     protected void customizeRegistration(Dynamic registration) {
         registration.setMultipartConfig(new MultipartConfigElement(""));
+    }
+
+    @Override
+    public void onStartup(ServletContext servletContext) throws ServletException {
+        super.onStartup(servletContext);
+        servletContext.setInitParameter("spring.profiles.default", "local");
     }
 }

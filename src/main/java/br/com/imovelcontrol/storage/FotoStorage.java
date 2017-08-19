@@ -1,16 +1,28 @@
 package br.com.imovelcontrol.storage;
 
+import java.util.UUID;
+
 import org.springframework.web.multipart.MultipartFile;
 
 public interface FotoStorage {
 
-	public String salvarTemporariamente(MultipartFile[] files);
+    String THUMBNAIL_PREFIX = "thumbnail.";
 
-	public byte[] recuperarFotoTemporaria(String nome);
+    String salvar(MultipartFile[] files);
 
-	public void apagarFotoTemporaria(String nomeFoto);
+    byte[] recuperar(String foto);
 
-	public void salvar(String foto);
 
-	public byte[] recuperar(String nomeFoto);
+    void excluir(String foto);
+
+    String getUrl(String foto);
+
+    default String renomearArquivo(String nomeOriginal) {
+        return UUID.randomUUID().toString() + "_" + nomeOriginal;
+    }
+
+    default byte[] recuperarThumbnail(String foto) {
+        return recuperar(FotoStorage.THUMBNAIL_PREFIX + foto);
+    }
+
 }
