@@ -37,7 +37,7 @@ public class Locatario extends BaseEntity {
     @JoinColumn(name = "codigo_aluguel")
     private Aluguel aluguel = new Aluguel();
 
-    private Boolean excluido;
+    private Boolean excluido = Boolean.FALSE;
 
     @PrePersist
     @PreUpdate

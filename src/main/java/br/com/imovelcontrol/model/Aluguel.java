@@ -33,7 +33,7 @@ public class Aluguel extends BaseEntity {
     @JoinColumn(name = "codigo_imovel")
     private Imovel imovel;
 
-    private Boolean excluido;
+    private Boolean excluido = Boolean.FALSE;
 
     @Valid
     @ManyToOne

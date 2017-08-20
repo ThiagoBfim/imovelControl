@@ -20,8 +20,6 @@ public class GastoAdicional extends BaseEntity {
 
     private BigDecimal valorGasto;
 
-    private Boolean excluido;
-
     @ManyToOne
     @JoinColumn(name = "codPagamento")
     private InformacaoPagamento informacaoPagamento;
@@ -58,11 +56,4 @@ public class GastoAdicional extends BaseEntity {
         this.informacaoPagamento = informacaoPagamento;
     }
 
-    public Boolean getExcluido() {
-        return excluido;
-    }
-
-    public void setExcluido(Boolean excluido) {
-        this.excluido = excluido;
-    }
 }

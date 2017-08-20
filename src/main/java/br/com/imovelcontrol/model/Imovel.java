@@ -35,7 +35,7 @@ public class Imovel extends BaseEntity {
     @JoinColumn(name = "codigo_usuario")
     private Usuario donoImovel;
 
-    private Boolean excluido;
+    private Boolean excluido = Boolean.FALSE;
 
     @Transient
     private String urlFoto;
