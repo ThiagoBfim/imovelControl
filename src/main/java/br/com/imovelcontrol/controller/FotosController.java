@@ -4,6 +4,7 @@ import br.com.imovelcontrol.dto.FotoDTO;
 import br.com.imovelcontrol.storage.FotoStorage;
 import br.com.imovelcontrol.storage.FotosStorageRunnable;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,6 +26,11 @@ public class FotosController {
         Thread thread = new Thread(new FotosStorageRunnable(files, resultado, fotoStorage));
         thread.start();
         return resultado;
+    }
+
+    @DeleteMapping("/{nameFile}")
+    public void delete(@PathVariable String nameFile) {
+        fotoStorage.excluir(nameFile);
     }
 
     @RequestMapping(path = "/{nome:.*}")
