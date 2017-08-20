@@ -2,8 +2,8 @@ package br.com.imovelcontrol.repository;
 
 import java.util.List;
 
+import br.com.imovelcontrol.model.Aluguel;
 import br.com.imovelcontrol.model.InformacaoPagamento;
-import br.com.imovelcontrol.model.tipoimovel.Aluguel;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

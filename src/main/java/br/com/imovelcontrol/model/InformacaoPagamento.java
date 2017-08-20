@@ -7,8 +7,6 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-import br.com.imovelcontrol.model.tipoimovel.Aluguel;
-
 /**
  * Created by Usuario on 09/05/2017.
  */

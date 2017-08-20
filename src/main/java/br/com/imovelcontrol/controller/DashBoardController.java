@@ -5,9 +5,8 @@ import java.util.List;
 
 import br.com.imovelcontrol.dto.AluguelGraficoDTO;
 import br.com.imovelcontrol.dto.PeriodoRelatorioDTO;
-import br.com.imovelcontrol.model.Grupo;
+import br.com.imovelcontrol.model.Aluguel;
 import br.com.imovelcontrol.model.Imovel;
-import br.com.imovelcontrol.model.tipoimovel.Aluguel;
 import br.com.imovelcontrol.repository.Alugueis;
 import br.com.imovelcontrol.repository.Imoveis;
 import org.springframework.beans.factory.annotation.Autowired;

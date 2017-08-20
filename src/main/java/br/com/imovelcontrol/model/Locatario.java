@@ -9,7 +9,6 @@ import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
 import br.com.imovelcontrol.controller.converter.FormatUtil;
-import br.com.imovelcontrol.model.tipoimovel.Aluguel;
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.br.CPF;
 
@@ -37,6 +36,8 @@ public class Locatario extends BaseEntity {
     @OneToOne
     @JoinColumn(name = "codigo_aluguel")
     private Aluguel aluguel = new Aluguel();
+
+    private Boolean excluido;
 
     @PrePersist
     @PreUpdate
@@ -77,5 +78,11 @@ public class Locatario extends BaseEntity {
         this.nome = nome;
     }
 
+    public Boolean getExcluido() {
+        return excluido;
+    }
 
+    public void setExcluido(Boolean excluido) {
+        this.excluido = excluido;
+    }
 }
