@@ -21,8 +21,6 @@ public abstract class TemplateFormaPagamento extends BaseEntity {
 
     private Boolean possuiCondominio;
 
-    private Boolean excluido;
-
     public BigDecimal getValor() {
         return valor;
     }
@@ -71,11 +69,4 @@ public abstract class TemplateFormaPagamento extends BaseEntity {
         this.possuiCondominio = possuiCondominio;
     }
 
-    public Boolean getExcluido() {
-        return excluido;
-    }
-
-    public void setExcluido(Boolean excluido) {
-        this.excluido = excluido;
-    }
 }
