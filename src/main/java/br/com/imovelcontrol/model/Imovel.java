@@ -35,6 +35,8 @@ public class Imovel extends BaseEntity {
     @JoinColumn(name = "codigo_usuario")
     private Usuario donoImovel;
 
+    private Boolean excluido;
+
     @Transient
     private String urlFoto;
 
@@ -114,5 +116,13 @@ public class Imovel extends BaseEntity {
 
     public void setNovaFoto(boolean novaFoto) {
         this.novaFoto = novaFoto;
+    }
+
+    public Boolean getExcluido() {
+        return excluido;
+    }
+
+    public void setExcluido(Boolean excluido) {
+        this.excluido = excluido;
     }
 }

@@ -3,8 +3,8 @@ package br.com.imovelcontrol.controller;
 import java.util.Optional;
 import javax.validation.Valid;
 
+import br.com.imovelcontrol.model.Aluguel;
 import br.com.imovelcontrol.model.InformacaoPagamento;
-import br.com.imovelcontrol.model.tipoimovel.Aluguel;
 import br.com.imovelcontrol.repository.Alugueis;
 import br.com.imovelcontrol.service.InformacaoPagamentoService;
 import org.springframework.beans.factory.annotation.Autowired;

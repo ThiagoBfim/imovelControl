@@ -1,4 +1,4 @@
-package br.com.imovelcontrol.model.tipoimovel.enuns;
+package br.com.imovelcontrol.model.enuns;
 
 public enum TipoForro {
 

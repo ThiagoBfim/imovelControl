@@ -3,8 +3,8 @@ package br.com.imovelcontrol.service;
 import java.util.Optional;
 
 import br.com.imovelcontrol.controller.converter.FormatUtil;
+import br.com.imovelcontrol.model.Aluguel;
 import br.com.imovelcontrol.model.Locatario;
-import br.com.imovelcontrol.model.tipoimovel.Aluguel;
 import br.com.imovelcontrol.repository.Locatarios;
 import br.com.imovelcontrol.service.exception.CpfLocatarioJaCadastradoException;
 import br.com.imovelcontrol.service.exception.TelefoneLocatarioJaCadastradoException;

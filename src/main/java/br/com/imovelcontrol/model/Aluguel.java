@@ -1,6 +1,5 @@
-package br.com.imovelcontrol.model.tipoimovel;
+package br.com.imovelcontrol.model;
 
-import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -13,16 +12,13 @@ import javax.persistence.ManyToOne;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
-import br.com.imovelcontrol.model.FormaPagamento;
-import br.com.imovelcontrol.model.Imovel;
+import br.com.imovelcontrol.model.enuns.TipoForro;
 import br.com.imovelcontrol.model.enuns.TipoImovel;
-import br.com.imovelcontrol.model.tipoimovel.enuns.TipoForro;
-import br.com.imovelcontrol.model.tipoimovel.enuns.TipoPiso;
+import br.com.imovelcontrol.model.enuns.TipoPiso;
 import org.hibernate.validator.constraints.NotBlank;
 
-@SuppressWarnings("serial")
 @Entity
-public class Aluguel implements Serializable {
+public class Aluguel extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,6 +32,8 @@ public class Aluguel implements Serializable {
     @ManyToOne
     @JoinColumn(name = "codigo_imovel")
     private Imovel imovel;
+
+    private Boolean excluido;
 
     @Valid
     @ManyToOne
@@ -177,18 +175,11 @@ public class Aluguel implements Serializable {
         this.vagasGaragem = vagasGaragem;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Aluguel)) return false;
-
-        Aluguel aluguel = (Aluguel) o;
-
-        return getCodigo() != null ? getCodigo().equals(aluguel.getCodigo()) : aluguel.getCodigo() == null;
+    public Boolean getExcluido() {
+        return excluido;
     }
 
-    @Override
-    public int hashCode() {
-        return getCodigo() != null ? getCodigo().hashCode() : 0;
+    public void setExcluido(Boolean excluido) {
+        this.excluido = excluido;
     }
 }

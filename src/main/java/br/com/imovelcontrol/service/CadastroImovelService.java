@@ -3,8 +3,8 @@ package br.com.imovelcontrol.service;
 import java.util.List;
 import java.util.Optional;
 
+import br.com.imovelcontrol.model.Aluguel;
 import br.com.imovelcontrol.model.Imovel;
-import br.com.imovelcontrol.model.tipoimovel.Aluguel;
 import br.com.imovelcontrol.repository.Imoveis;
 import br.com.imovelcontrol.service.event.ImovelSalvoEvent;
 import br.com.imovelcontrol.service.exception.CepImovelJaCadastradoException;

@@ -4,9 +4,9 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
+import br.com.imovelcontrol.model.Aluguel;
 import br.com.imovelcontrol.model.GastoAdicional;
 import br.com.imovelcontrol.model.InformacaoPagamento;
-import br.com.imovelcontrol.model.tipoimovel.Aluguel;
 import br.com.imovelcontrol.repository.GastosAdicionais;
 import br.com.imovelcontrol.repository.InformacaoPagamentos;
 import org.springframework.beans.factory.annotation.Autowired;
