@@ -4,9 +4,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.validation.Valid;
@@ -19,10 +16,6 @@ import org.hibernate.validator.constraints.NotBlank;
 
 @Entity
 public class Aluguel extends BaseEntity {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long codigo;
 
     @NotBlank(message = "Nome Obrigatório")
     private String nome;
@@ -66,14 +59,6 @@ public class Aluguel extends BaseEntity {
     private Integer vagasGaragem;
 
     private Integer tamanhoArea;
-
-    public Long getCodigo() {
-        return codigo;
-    }
-
-    public void setCodigo(Long codigo) {
-        this.codigo = codigo;
-    }
 
     public String getComplemento() {
         return complemento;
