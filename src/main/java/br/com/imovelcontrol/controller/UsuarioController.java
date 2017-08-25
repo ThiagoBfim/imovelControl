@@ -4,6 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import br.com.imovelcontrol.controller.page.PageWrapper;
+import br.com.imovelcontrol.model.Grupo;
 import br.com.imovelcontrol.model.Usuario;
 import br.com.imovelcontrol.model.enuns.StatusUsuario;
 import br.com.imovelcontrol.repository.Grupos;
@@ -31,6 +32,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 @RequestMapping("/usuario")
@@ -69,23 +73,39 @@ public class UsuarioController {
 		return modelAndView;
 	}
 
-    @RequestMapping(value = { "/novoLogin"}, method = RequestMethod.POST)
-    public ModelAndView salvarLogin(@Valid Usuario usuario, BindingResult result, Model model,
-            RedirectAttributes attributes) {
-        ModelAndView modelAndView = new ModelAndView("usuario/CadastroUsuarioLogin");
-        if (result.hasErrors()) {
-            return novo(usuario);
-        }
-        try {
-            cadastroUsuarioService.salvar(usuario);
-        } catch (EmailUsuarioJaCadastradoException | SenhaUsuarioJaCadastradoException e) {
-            result.rejectValue("nome", e.getMessage(), e.getMessage());
-            return novo(usuario);
-        }
-        modelAndView.addObject("usuario", usuario);
-        modelAndView.addObject("mensagem", "Usuário Salvo com Sucessso!");
-        return modelAndView;
-    }
+	@RequestMapping("/novoLogin")
+	public ModelAndView novoLogin(Usuario usuario) {
+		ModelAndView modelAndView = new ModelAndView("usuario/CadastroUsuarioLogin");
+		modelAndView.addObject("grupos", grupos.findAll());
+		return modelAndView;
+	}
+
+	@RequestMapping(value = { "/novoLogin"}, method = RequestMethod.POST)
+	public ModelAndView salvarLogin(@Valid Usuario usuario, BindingResult result){
+		Grupo g = new Grupo();
+		g.setCodigo(2l);
+		List<Grupo> grupo = new ArrayList<>();
+		grupo.add(g);
+
+		usuario.setGrupos(grupo);
+		usuario.setAtivo(Boolean.TRUE);
+
+
+		ModelAndView modelAndView = new ModelAndView("usuario/CadastroUsuarioLogin");
+		if (result.hasErrors()) {
+			return novoLogin(usuario);
+		}
+		try {
+			cadastroUsuarioService.salvar(usuario);
+		} catch (EmailUsuarioJaCadastradoException | SenhaUsuarioJaCadastradoException e) {
+			result.rejectValue("nome", e.getMessage(), e.getMessage());
+			return novo(usuario);
+		}
+		modelAndView = new ModelAndView("usuario/login");
+		modelAndView.addObject("usuario", usuario);
+		modelAndView.addObject("mensagem", "Usuário Salvo com Sucessso!");
+		return modelAndView;
+	}
 
 	@GetMapping
 	public ModelAndView pesquisar(Usuario usuario, BindingResult result, @PageableDefault(size = 5) Pageable pageable,

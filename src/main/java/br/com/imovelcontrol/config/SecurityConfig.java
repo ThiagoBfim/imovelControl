@@ -33,7 +33,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         web.ignoring().antMatchers("/layout/**")
                 .antMatchers("/images/**")
                 .antMatchers("/esqueciminhasenha/**")
-                .antMatchers("/usuario/novoLogin");
+                .antMatchers("/static/javascripts/imovel-control.js/**")
+                .antMatchers("/template/layout/LayouPadrao/**")
+                .antMatchers("/usuario/novoLogin/**");
     }
 
     @Override
