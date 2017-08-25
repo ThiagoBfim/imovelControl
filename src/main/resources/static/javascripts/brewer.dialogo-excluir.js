@@ -45,7 +45,7 @@ Brewer.DialogoExcluir = (function () {
     function onExcluidoSucesso() {
         swal({
                 title: 'Pronto',
-                text: 'Excluído com seuceso!',
+                text: 'Excluído com sucesso!',
                 showCancelButton: false,
                 confirmButtonText: 'OK'
             },

@@ -15,6 +15,19 @@
 
             <form method="POST" th:object="${locatario}" class="form-vertical  js-form-loading"
                   th:action="@{/locatario/novo}">
+
+
+                <div class="alert alert-sucess" th:text="${mensagem}"
+                th:if="${not #strings.isEmpty(mensagem)}"></div>
+
+                <div class="alert alert-danger " th:if="${#fields.hasAnyErrors()}">
+                    <div th:each="detailError : ${#fields.detailedErrors()}">
+                        <span th:text="${detailError.message}"></span>
+
+                    </div>
+
+                </div>
+
                 <div class="modal-body">
                     <bomfim:message/>
                     <input type="hidden" id="codigoLocatario" th:field="*{codigo}"/>
@@ -54,7 +67,8 @@
                     </a>
 
                     <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                    <button type="submit" class="btn btn-success">Salvar</button>
+                    <button type="button" class="btn btn-success js-modal-salvar"
+                            data:locatario="${locatario}">Salvar</button>
                 </div>
 
             </form>

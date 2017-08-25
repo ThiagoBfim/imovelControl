@@ -1,6 +1,7 @@
 package br.com.imovelcontrol.controller;
 
 import java.util.Optional;
+import javax.validation.ConstraintViolationException;
 import javax.validation.Valid;
 
 import br.com.imovelcontrol.controller.converter.FormatUtil;
@@ -11,16 +12,14 @@ import br.com.imovelcontrol.repository.Alugueis;
 import br.com.imovelcontrol.repository.Locatarios;
 import br.com.imovelcontrol.service.CadastroLocatarioService;
 import br.com.imovelcontrol.service.exception.*;
+import org.hibernate.Hibernate;
+import org.hibernate.exception.DataException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
@@ -46,8 +45,10 @@ public class LocatarioController {
         return mAndView;
     }
 
-    @RequestMapping(value = "/novo", method = RequestMethod.POST)
-    public ModelAndView cadastrar(@Valid Locatario locatario, BindingResult result) {
+//    @RequestMapping(value = "/novo", method = RequestMethod.POST)
+    @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE,
+        value = "/novo", method = RequestMethod.POST)
+    public ModelAndView cadastrar(@RequestBody Locatario locatario, BindingResult result) {
         ModelAndView mAndView = new ModelAndView("locatario/CadastroLocatario");
 
         Locatario locatarioRetrieve = locatario;
@@ -62,20 +63,17 @@ public class LocatarioController {
 
         try{
             cadastroLocatarioService.salvar(locatarioRetrieve);
-        }catch (CpfLocatarioJaCadastradoException e){
+        }catch (CpfLocatarioJaCadastradoException | CpfLocatarioInvalidoException | ConstraintViolationException e ){
             result.rejectValue("cpf", e.getMessage(),e.getMessage());
-        }catch (TelefoneLocatarioJaCadastradoException e) {
+        }catch (TelefoneLocatarioJaCadastradoException | TelefoneLocatarioInvalidoException e) {
             result.rejectValue("telefone", e.getMessage(), e.getMessage());
-        }catch (TelefoneLocatarioInvalidoException e) {
-            result.rejectValue("telefone", e.getMessage(), e.getMessage());
-        }catch (CpfLocatarioInvalidoException e) {
-            result.rejectValue("cpf", e.getMessage(), e.getMessage());
         }catch (NomeLocatarioInvalidoException e){
             result.rejectValue("nome", e.getMessage(), e.getMessage());
         }
 
-        mAndView.addObject("mensagem", "Locatário Salvo com sucesso!");
-        return new ModelAndView("redirect:/imovel/aluguel/" + alugueis.findOne(locatario.getAluguel().getCodigo()).getImovel().getCodigo());
+       // mAndView.addObject("mensagem", "Locatário Salvo com sucesso!");
+        //return new ModelAndView("redirect:/imovel/aluguel/" + alugueis.findOne(locatario.getAluguel().getCodigo()).getImovel().getCodigo());
+        return mAndView;
     }
 
     @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE,
