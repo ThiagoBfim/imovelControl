@@ -55,4 +55,5 @@ public class GastoAdicional extends BaseEntity {
     public void setInformacaoPagamento(InformacaoPagamento informacaoPagamento) {
         this.informacaoPagamento = informacaoPagamento;
     }
+
 }

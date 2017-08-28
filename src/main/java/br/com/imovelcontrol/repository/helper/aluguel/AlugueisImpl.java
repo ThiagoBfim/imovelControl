@@ -3,7 +3,7 @@ package br.com.imovelcontrol.repository.helper.aluguel;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import br.com.imovelcontrol.model.tipoimovel.Aluguel;
+import br.com.imovelcontrol.model.Aluguel;
 import br.com.imovelcontrol.repository.util.PaginacaoUtil;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
