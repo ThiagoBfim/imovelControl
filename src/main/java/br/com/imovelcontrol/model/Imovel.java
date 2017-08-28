@@ -3,14 +3,18 @@ package br.com.imovelcontrol.model;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.Valid;
 
+import br.com.imovelcontrol.service.event.imovel.ImovelListener;
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.util.StringUtils;
 
+@EntityListeners(ImovelListener.class)
 @Entity
 @Table(name = "imovel")
 public class Imovel extends BaseEntity {
@@ -30,6 +34,17 @@ public class Imovel extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "codigo_usuario")
     private Usuario donoImovel;
+
+    private Boolean excluido = Boolean.FALSE;
+
+    @Transient
+    private String urlFoto;
+
+    @Transient
+    private String urlThumbnailFoto;
+
+    @Transient
+    private boolean novaFoto;
 
     public String getNome() {
         return nome;
@@ -77,5 +92,37 @@ public class Imovel extends BaseEntity {
 
     public void setDonoImovel(Usuario donoImovel) {
         this.donoImovel = donoImovel;
+    }
+
+    public String getUrlFoto() {
+        return urlFoto;
+    }
+
+    public void setUrlFoto(String urlFoto) {
+        this.urlFoto = urlFoto;
+    }
+
+    public String getUrlThumbnailFoto() {
+        return urlThumbnailFoto;
+    }
+
+    public void setUrlThumbnailFoto(String urlThumbnailFoto) {
+        this.urlThumbnailFoto = urlThumbnailFoto;
+    }
+
+    public boolean isNovaFoto() {
+        return novaFoto;
+    }
+
+    public void setNovaFoto(boolean novaFoto) {
+        this.novaFoto = novaFoto;
+    }
+
+    public Boolean getExcluido() {
+        return excluido;
+    }
+
+    public void setExcluido(Boolean excluido) {
+        this.excluido = excluido;
     }
 }

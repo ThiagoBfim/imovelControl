@@ -40,7 +40,7 @@ public class Usuario extends BaseEntity {
     @Transient
     private String confirmacaoSenha;
 
-    private Boolean ativo;
+    private Boolean ativo = Boolean.TRUE;
 
     @Column(name = "data_nascimento")
     private LocalDate dataNascimento;

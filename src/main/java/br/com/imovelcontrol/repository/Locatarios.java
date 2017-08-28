@@ -2,10 +2,9 @@ package br.com.imovelcontrol.repository;
 
 import java.util.Optional;
 
+import br.com.imovelcontrol.model.Aluguel;
 import br.com.imovelcontrol.model.Locatario;
-import br.com.imovelcontrol.model.tipoimovel.Aluguel;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 @Repository

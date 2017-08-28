@@ -3,7 +3,7 @@ package br.com.imovelcontrol.service;
 import java.util.List;
 import java.util.Optional;
 
-import br.com.imovelcontrol.model.tipoimovel.Aluguel;
+import br.com.imovelcontrol.model.Aluguel;
 import br.com.imovelcontrol.repository.Alugueis;
 import br.com.imovelcontrol.repository.FormasPagamentos;
 import br.com.imovelcontrol.repository.Locatarios;

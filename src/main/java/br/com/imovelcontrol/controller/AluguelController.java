@@ -4,15 +4,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import br.com.imovelcontrol.controller.page.PageWrapper;
+import br.com.imovelcontrol.model.Aluguel;
 import br.com.imovelcontrol.model.FormaPagamento;
 import br.com.imovelcontrol.model.Imovel;
 import br.com.imovelcontrol.model.InformacaoPagamento;
 import br.com.imovelcontrol.model.Locatario;
 import br.com.imovelcontrol.model.Usuario;
+import br.com.imovelcontrol.model.enuns.TipoForro;
 import br.com.imovelcontrol.model.enuns.TipoImovel;
-import br.com.imovelcontrol.model.tipoimovel.Aluguel;
-import br.com.imovelcontrol.model.tipoimovel.enuns.TipoForro;
-import br.com.imovelcontrol.model.tipoimovel.enuns.TipoPiso;
+import br.com.imovelcontrol.model.enuns.TipoPiso;
 import br.com.imovelcontrol.repository.Alugueis;
 import br.com.imovelcontrol.repository.Imoveis;
 import br.com.imovelcontrol.service.CadastroAluguelService;
