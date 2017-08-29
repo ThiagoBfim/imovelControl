@@ -51,7 +51,6 @@ public class LocatarioController {
         ModelAndView mAndView = new ModelAndView("locatario/CadastroLocatario");
 
         Locatario locatarioRetrieve = locatario;
-
         if (locatario.getCodigo() != null) {
             locatarioRetrieve = cadastroLocatarioService.retrieveById(locatario.getCodigo());
             locatarioRetrieve.setNome(locatario.getNome());
