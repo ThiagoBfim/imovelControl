@@ -82,14 +82,9 @@ public class UsuarioController {
 
 	@RequestMapping(value = { "/novoLogin"}, method = RequestMethod.POST)
 	public ModelAndView salvarLogin(@Valid Usuario usuario, BindingResult result){
-		Grupo g = new Grupo();
-		g.setCodigo(2l);
-		List<Grupo> grupo = new ArrayList<>();
-		grupo.add(g);
 
-		usuario.setGrupos(grupo);
+		usuario.getGrupos().add(grupos.findOne(Grupo.PROPRIETARIO));
 		usuario.setAtivo(Boolean.TRUE);
-
 
 		ModelAndView modelAndView = new ModelAndView("usuario/CadastroUsuarioLogin");
 		if (result.hasErrors()) {
