@@ -62,13 +62,13 @@ public class LocatarioController {
             cadastroLocatarioService.salvar(locatarioRetrieve);
         }catch (CpfLocatarioJaCadastradoException | CpfLocatarioInvalidoException | ConstraintViolationException e ){
             result.rejectValue("cpf", e.getMessage(),e.getMessage());
-            return ResponseEntity.badRequest().build();
+            return ResponseEntity.badRequest().body(e.getMessage());
         }catch (TelefoneLocatarioJaCadastradoException | TelefoneLocatarioInvalidoException e) {
             result.rejectValue("telefone", e.getMessage(), e.getMessage());
-            return ResponseEntity.badRequest().build();
+            return ResponseEntity.badRequest().body(e.getMessage());
         }catch (NomeLocatarioInvalidoException e){
             result.rejectValue("nome", e.getMessage(), e.getMessage());
-            return ResponseEntity.badRequest().build();
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
 
         return ResponseEntity.ok().build();
@@ -77,10 +77,6 @@ public class LocatarioController {
 //        return mAndView;
     }
 
-    @RequestMapping(value = "/teste", method = RequestMethod.POST)
-    public ResponseEntity<?> teste() {
-        return ResponseEntity.ok().build();
-    }
 
     @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE,
             value = "{codigo}", method = RequestMethod.GET)
@@ -109,7 +105,6 @@ public class LocatarioController {
         }catch (ImpossivelExcluirEntidadeException e){
             return ResponseEntity.badRequest().body(e.getMessage());
         }
-
         return ResponseEntity.ok().build();
     }
 

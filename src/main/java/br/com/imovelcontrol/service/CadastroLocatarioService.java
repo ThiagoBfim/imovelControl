@@ -26,9 +26,9 @@ public class CadastroLocatarioService {
 
     @Transactional
     public Locatario salvar(Locatario locatario) {
-        if (locatarios.findByCpf(FormatUtil.removerMascara(locatario.getCpf())).isPresent()){
+        if ( locatarios.findByCpf(FormatUtil.removerMascara(locatario.getCpf())).isPresent() || (locatarios.findByCpf(FormatUtil.removerMascara(locatario.getCpf())).isPresent() && locatarios.findOne(locatario.getCodigo()) == null)){
             throw new CpfLocatarioJaCadastradoException("Já existe um Locatário cadastrado com esse CPF");
-        }else if (locatarios.findByTelefone(FormatUtil.removerMascara(locatario.getTelefone())).isPresent()){
+        }else if (locatarios.findByTelefone(FormatUtil.removerMascara(locatario.getTelefone())).isPresent() || (locatarios.findByTelefone(FormatUtil.removerMascara(locatario.getTelefone())).isPresent() && locatarios.findOne(locatario.getCodigo()) == null)){
             throw  new TelefoneLocatarioJaCadastradoException("Já existe um locatário cadastrado com esse telefone");
         } else if( FormatUtil.removerMascara(locatario.getCpf()).length() < 11){
             throw new CpfLocatarioInvalidoException("Cpf Inválido!");
