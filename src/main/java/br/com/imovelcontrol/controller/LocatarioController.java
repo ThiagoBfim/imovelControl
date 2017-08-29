@@ -3,7 +3,6 @@ package br.com.imovelcontrol.controller;
 import java.util.Optional;
 import javax.validation.ConstraintViolationException;
 import javax.validation.Valid;
-import javax.xml.ws.Response;
 
 import br.com.imovelcontrol.controller.converter.FormatUtil;
 import br.com.imovelcontrol.model.Aluguel;
@@ -11,15 +10,23 @@ import br.com.imovelcontrol.model.Locatario;
 import br.com.imovelcontrol.repository.Alugueis;
 import br.com.imovelcontrol.repository.Locatarios;
 import br.com.imovelcontrol.service.CadastroLocatarioService;
-import br.com.imovelcontrol.service.exception.*;
-import org.hibernate.Hibernate;
-import org.hibernate.exception.DataException;
+import br.com.imovelcontrol.service.exception.CpfLocatarioInvalidoException;
+import br.com.imovelcontrol.service.exception.CpfLocatarioJaCadastradoException;
+import br.com.imovelcontrol.service.exception.ImpossivelExcluirEntidadeException;
+import br.com.imovelcontrol.service.exception.NomeLocatarioInvalidoException;
+import br.com.imovelcontrol.service.exception.TelefoneLocatarioInvalidoException;
+import br.com.imovelcontrol.service.exception.TelefoneLocatarioJaCadastradoException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
@@ -45,9 +52,9 @@ public class LocatarioController {
         return mAndView;
     }
 
-//    @RequestMapping(value = "/novo", method = RequestMethod.POST)
+    //    @RequestMapping(value = "/novo", method = RequestMethod.POST)
     @RequestMapping(value = "/novo", method = RequestMethod.POST)
-    public ResponseEntity<?> cadastrar(@RequestBody Locatario locatario, BindingResult result) {
+    public ResponseEntity<?> cadastrar(@Valid @RequestBody Locatario locatario, BindingResult result) {
         ModelAndView mAndView = new ModelAndView("locatario/CadastroLocatario");
 
         Locatario locatarioRetrieve = locatario;
@@ -58,23 +65,20 @@ public class LocatarioController {
             locatarioRetrieve.setTelefone(locatario.getTelefone());
         }
 
-        try{
+        if (result.hasErrors()) {
+            return ResponseEntity.badRequest().body(result.getFieldError().getDefaultMessage());
+        }
+        try {
             cadastroLocatarioService.salvar(locatarioRetrieve);
-        }catch (CpfLocatarioJaCadastradoException | CpfLocatarioInvalidoException | ConstraintViolationException e ){
-            result.rejectValue("cpf", e.getMessage(),e.getMessage());
+        } catch (CpfLocatarioJaCadastradoException | CpfLocatarioInvalidoException | ConstraintViolationException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
-        }catch (TelefoneLocatarioJaCadastradoException | TelefoneLocatarioInvalidoException e) {
-            result.rejectValue("telefone", e.getMessage(), e.getMessage());
+        } catch (TelefoneLocatarioJaCadastradoException | TelefoneLocatarioInvalidoException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
-        }catch (NomeLocatarioInvalidoException e){
-            result.rejectValue("nome", e.getMessage(), e.getMessage());
+        } catch (NomeLocatarioInvalidoException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
 
         return ResponseEntity.ok().build();
-        // mAndView.addObject("mensagem", "Locatário Salvo com sucesso!");
-        //return new ModelAndView("redirect:/imovel/aluguel/" + alugueis.findOne(locatario.getAluguel().getCodigo()).getImovel().getCodigo());
-//        return mAndView;
     }
 
 
@@ -96,13 +100,13 @@ public class LocatarioController {
 
     @GetMapping("/{codigo}")
     public @ResponseBody
-    ResponseEntity<?> excluir(@PathVariable Long codigo){
+    ResponseEntity<?> excluir(@PathVariable Long codigo) {
         Locatario locatario = locatarios.findOne(codigo);
 
         try {
             cadastroLocatarioService.excluir(locatario);
 
-        }catch (ImpossivelExcluirEntidadeException e){
+        } catch (ImpossivelExcluirEntidadeException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
         return ResponseEntity.ok().build();
