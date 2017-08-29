@@ -32,9 +32,7 @@ ImovelControl.LocatarioCadastroRapido = (function () {
             url: 'http://localhost:8080/ImovelControl/locatario/' + inputCodigo.val(),
             method: 'GET',
             success: onExcluidoSucesso.bind(this),
-            error: function () {
-                onErrorExcluir.bind(this)
-            }
+            error: onErrorExcluir.bind(this)
         });
 
     }
@@ -52,6 +50,7 @@ ImovelControl.LocatarioCadastroRapido = (function () {
     }
 
     function onSalvarSucesso(){
+        console.log("salvo");
         modal.hide();
         swal({
             title: 'Pronto',
@@ -74,7 +73,12 @@ ImovelControl.LocatarioCadastroRapido = (function () {
     }
 
     function onErrorSalvar(e){
-        swal('Oops!',e.responseText, 'error');
+        console.log(e);
+        if(e.status == 200){
+            onSalvarSucesso();
+        } else {
+            swal('Oops!',e.responseText, 'error');
+        }
     }
 
     function onBotaoAdicionarClick(evento) {
@@ -103,8 +107,8 @@ ImovelControl.LocatarioCadastroRapido = (function () {
             dataType : 'json',
             url: 'http://localhost:8080/ImovelControl/locatario/novo/',
             data: JSON.stringify(locatario),
-            sucess: onSalvarSucesso.bind(this),
-            error: onErrorSalvar.bind(this)
+            success: onSalvarSucesso.bind(this),
+            error:onErrorSalvar.bind(this)
         });
     }
     //     $.ajax({
