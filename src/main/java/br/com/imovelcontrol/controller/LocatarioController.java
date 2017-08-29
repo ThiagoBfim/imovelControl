@@ -3,6 +3,7 @@ package br.com.imovelcontrol.controller;
 import java.util.Optional;
 import javax.validation.ConstraintViolationException;
 import javax.validation.Valid;
+import javax.xml.ws.Response;
 
 import br.com.imovelcontrol.controller.converter.FormatUtil;
 import br.com.imovelcontrol.model.Aluguel;
@@ -45,9 +46,8 @@ public class LocatarioController {
     }
 
 //    @RequestMapping(value = "/novo", method = RequestMethod.POST)
-    @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE,
-        value = "/novo", method = RequestMethod.POST)
-    public ModelAndView cadastrar(@RequestBody Locatario locatario, BindingResult result) {
+    @RequestMapping(value = "/novo", method = RequestMethod.POST)
+    public ResponseEntity<?> cadastrar(@RequestBody Locatario locatario, BindingResult result) {
         ModelAndView mAndView = new ModelAndView("locatario/CadastroLocatario");
 
         Locatario locatarioRetrieve = locatario;
@@ -59,20 +59,28 @@ public class LocatarioController {
             locatarioRetrieve.setTelefone(locatario.getTelefone());
         }
 
-
         try{
             cadastroLocatarioService.salvar(locatarioRetrieve);
         }catch (CpfLocatarioJaCadastradoException | CpfLocatarioInvalidoException | ConstraintViolationException e ){
             result.rejectValue("cpf", e.getMessage(),e.getMessage());
+            return ResponseEntity.badRequest().build();
         }catch (TelefoneLocatarioJaCadastradoException | TelefoneLocatarioInvalidoException e) {
             result.rejectValue("telefone", e.getMessage(), e.getMessage());
+            return ResponseEntity.badRequest().build();
         }catch (NomeLocatarioInvalidoException e){
             result.rejectValue("nome", e.getMessage(), e.getMessage());
+            return ResponseEntity.badRequest().build();
         }
 
-       // mAndView.addObject("mensagem", "Locatário Salvo com sucesso!");
+        return ResponseEntity.ok().build();
+        // mAndView.addObject("mensagem", "Locatário Salvo com sucesso!");
         //return new ModelAndView("redirect:/imovel/aluguel/" + alugueis.findOne(locatario.getAluguel().getCodigo()).getImovel().getCodigo());
-        return mAndView;
+//        return mAndView;
+    }
+
+    @RequestMapping(value = "/teste", method = RequestMethod.POST)
+    public ResponseEntity<?> teste() {
+        return ResponseEntity.ok().build();
     }
 
     @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE,

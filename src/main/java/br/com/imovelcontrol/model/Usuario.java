@@ -1,6 +1,7 @@
 package br.com.imovelcontrol.model;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -50,7 +51,7 @@ public class Usuario extends BaseEntity {
     @JoinTable(name = "usuario_grupo",
             joinColumns = @JoinColumn(name = "codigo_usuario"),
             inverseJoinColumns = @JoinColumn(name = "codigo_grupo"))
-    private List<Grupo> grupos;
+    private List<Grupo> grupos = new ArrayList<>();
 
     @PreUpdate
     private void preUpdate() {
