@@ -81,7 +81,6 @@ public class LocatarioController {
         return ResponseEntity.ok().build();
     }
 
-
     @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE,
             value = "{codigo}", method = RequestMethod.GET)
     public @ResponseBody
