@@ -26,15 +26,15 @@ public class CadastroLocatarioService {
 
     @Transactional
     public Locatario salvar(Locatario locatario) {
-        if ( locatarios.findByCpf(FormatUtil.removerMascara(locatario.getCpf())).isPresent() && locatario.getCodigo() == null) {
+        if (locatarios.findByCpf(FormatUtil.removerMascara(locatario.getCpf())).isPresent() && locatario.getCodigo() == null) {
             throw new CpfLocatarioJaCadastradoException("Já existe um Locatário cadastrado com esse CPF");
-        }else if (locatarios.findByTelefone(FormatUtil.removerMascara(locatario.getTelefone())).isPresent() && locatario.getCodigo() == null){
-            throw  new TelefoneLocatarioJaCadastradoException("Já existe um locatário cadastrado com esse telefone");
-        } else if( FormatUtil.removerMascara(locatario.getCpf()).length() < 11){
+        } else if (locatarios.findByTelefone(FormatUtil.removerMascara(locatario.getTelefone())).isPresent() && locatario.getCodigo() == null) {
+            throw new TelefoneLocatarioJaCadastradoException("Já existe um locatário cadastrado com esse telefone");
+        } else if (FormatUtil.removerMascara(locatario.getCpf()).length() < 11) {
             throw new CpfLocatarioInvalidoException("Cpf Inválido!");
-        }else if(FormatUtil.removerMascara(locatario.getTelefone()).length() < 10 ){
+        } else if (FormatUtil.removerMascara(locatario.getTelefone()).length() < 10) {
             throw new TelefoneLocatarioJaCadastradoException("Telefone Inválido!");
-        }else if(locatario.getNome().length() < 1){
+        } else if (locatario.getNome().length() < 1) {
             throw new NomeLocatarioInvalidoException("Nome inválido");
         }
         return locatarios.save(locatario);
@@ -59,8 +59,14 @@ public class CadastroLocatarioService {
     }
 
     @Transactional
-    public void deleteByAluguel(Long codigo){
-         locatarios.deleteByAluguel_Codigo(codigo);
+    public void deleteByAluguel(Aluguel aluguel) {
+
+        Optional<Locatario> locatario = locatarios.findByAluguel(aluguel);
+        if (locatario.isPresent()) {
+            locatario.get().setExcluido(Boolean.TRUE);
+            locatarios.save(locatario.get());
+        }
+
     }
 
 }
