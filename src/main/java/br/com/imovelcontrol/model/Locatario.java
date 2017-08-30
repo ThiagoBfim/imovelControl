@@ -24,7 +24,7 @@ public class Locatario extends BaseEntity {
     @NotBlank(message = "Nome Obrigatório")
     private String nome;
 
-    @CPF
+    @CPF(message = "CPF Inválido")
     @Size(max = 11, message = "CPF deve ter no máximo 11 caracteres")
     @NotBlank(message = "CPF Obrigatório")
     private String cpf;

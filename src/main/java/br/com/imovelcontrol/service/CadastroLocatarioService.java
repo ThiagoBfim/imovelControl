@@ -26,13 +26,13 @@ public class CadastroLocatarioService {
 
     @Transactional
     public Locatario salvar(Locatario locatario) {
-        if ( locatarios.findByCpf(FormatUtil.removerMascara(locatario.getCpf())).isPresent() || (locatarios.findByCpf(FormatUtil.removerMascara(locatario.getCpf())).isPresent() && locatarios.findOne(locatario.getCodigo()) == null)){
+        if ( locatarios.findByCpf(FormatUtil.removerMascara(locatario.getCpf())).isPresent() && locatario.getCodigo() == null) {
             throw new CpfLocatarioJaCadastradoException("Já existe um Locatário cadastrado com esse CPF");
-        }else if (locatarios.findByTelefone(FormatUtil.removerMascara(locatario.getTelefone())).isPresent() || (locatarios.findByTelefone(FormatUtil.removerMascara(locatario.getTelefone())).isPresent() && locatarios.findOne(locatario.getCodigo()) == null)){
+
+        }else if (locatarios.findByTelefone(FormatUtil.removerMascara(locatario.getTelefone())).isPresent() && locatario.getCodigo() == null){
             throw  new TelefoneLocatarioJaCadastradoException("Já existe um locatário cadastrado com esse telefone");
         } else if( FormatUtil.removerMascara(locatario.getCpf()).length() < 11){
             throw new CpfLocatarioInvalidoException("Cpf Inválido!");
-
         }else if(FormatUtil.removerMascara(locatario.getTelefone()).length() < 10 ){
             throw new TelefoneLocatarioJaCadastradoException("Telefone Inválido!");
         }else if(locatario.getNome().length() < 1){
