@@ -70,7 +70,7 @@ public class LocatarioController {
         }
         try {
             cadastroLocatarioService.salvar(locatarioRetrieve);
-        } catch (CpfLocatarioJaCadastradoException | CpfLocatarioInvalidoException | ConstraintViolationException e) {
+        } catch (CpfLocatarioJaCadastradoException | CpfLocatarioInvalidoException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         } catch (TelefoneLocatarioJaCadastradoException | TelefoneLocatarioInvalidoException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
