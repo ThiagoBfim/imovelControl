@@ -24,10 +24,29 @@
     <div class="container">
         <h1><font color="#009900" class="col-md-2 col-md-offset-5"><b >Crie sua Conta</b></font></h1>
     </div>
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+        }
 
+        .bg {
+            /* The image used */
+            background-image: url("https://images.unsplash.com/photo-1444201983204-c43cbd584d93?ixlib=rb-0.3.5&q=85&fm=jpg&crop=entropy&cs=srgb&dl=markus-spiske-37931.jpg&s=ac6f9c7413530b9a658d45c7dd86c4e9");
+
+            /* Full height */
+            height: 100%;
+
+            /* Center and scale the image nicely */
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+    </style>
+</head>
 </head>
 
-<body class="aw-layout-simple-page">
+<body class="aw-layout-simple-page bg">
     <div class="container">
         <br/>
         <br/>
@@ -37,22 +56,22 @@
                 <input type="hidden" th:field="*{codigo}"/>
                 <div class="row">
                     <div class="col-sm-3 col-sm-offset-3  form-group bw-required" bomfim:classforerror="login">
-                        <label for="login" class="control-label">Login</label>
-                        <input id="login" type="text" class="form-control" th:field="*{login}"/>
+                        <label for="login" class="control-label text-white">Login</label>
+                        <input id="login" type="text" class="form-control" maxlength="100" th:field="*{login}"/>
                     </div>
                 </div>
 
                 <div class="row">
                     <div class="col-sm-5 col-sm-offset-3   form-group bw-required" bomfim:classforerror="nome">
                         <label for="nome" class="control-label">Nome</label>
-                        <input id="nome" type="text" class="form-control" th:field="*{nome}"/>
+                        <input id="nome" type="text" class="form-control" maxlength="100" th:field="*{nome}"/>
                     </div>
                 </div>
 
                 <div class="row">
                     <div class="col-sm-3 col-sm-offset-3  form-group bw-required" bomfim:classforerror="email">
                         <label for="email" class="control-label">E-mail</label>
-                        <input id="email" type="text" class="form-control" th:field="*{email}"/>
+                        <input id="email" type="text" class="form-control" maxlength="100" th:field="*{email}"/>
                     </div>
                     <div class="col-sm-2 form-group ">
                         <label for="dataNascimento" class="control-label">Data de Nascimento</label>
@@ -65,12 +84,12 @@
                     <div class="col-md-3 col-md-offset-3  form-group" bomfim:classforerror="senha"
                          th:classappend="${usuario.novo} ? bw-required">
                         <label for="senha" class="control-label">Senha</label>
-                        <input id="senha" type="password" class="form-control" th:field="*{senha}"/>
+                        <input id="senha" type="password" class="form-control" maxlength="30" th:field="*{senha}"/>
                     </div>
                     <div class="col-md-3 form-group" bomfim:classforerror="confirmacaoSenha"
                          th:classappend="${usuario.novo} ? bw-required">
                         <label for="confirmarSenha" class="control-label">Confirmação da Senha</label>
-                        <input id="confirmarSenha" type="password" class="form-control" th:field="*{confirmacaoSenha}"/>
+                        <input id="confirmarSenha" type="password" class="form-control" maxlength="30" th:field="*{confirmacaoSenha}"/>
                     </div>
                 </div>
 

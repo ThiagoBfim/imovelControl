@@ -59,6 +59,7 @@ public class UsuarioController {
 	@RequestMapping(value = { "/novo"}, method = RequestMethod.POST)
 	public ModelAndView salvar(@Valid Usuario usuario, BindingResult result) {
 		ModelAndView modelAndView = new ModelAndView("usuario/CadastroUsuario");
+
 		if (result.hasErrors()) {
 			return novo(usuario);
 		}
@@ -82,8 +83,12 @@ public class UsuarioController {
 
 	@RequestMapping(value = { "/novoLogin"}, method = RequestMethod.POST)
 	public ModelAndView salvarLogin(@Valid Usuario usuario, BindingResult result){
-
-		usuario.getGrupos().add(grupos.findOne(Grupo.PROPRIETARIO));
+		Grupo g = new Grupo();
+		g.setCodigo(2l);
+		List<Grupo> grupo = new ArrayList<>();
+		grupo.add(g);
+		usuario.setGrupos(grupo);
+//		usuario.getGrupos().add(grupos.findOne(Grupo.PROPRIETARIO));
 		usuario.setAtivo(Boolean.TRUE);
 
 		ModelAndView modelAndView = new ModelAndView("usuario/CadastroUsuarioLogin");

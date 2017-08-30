@@ -51,7 +51,7 @@ public class Usuario extends BaseEntity {
     @JoinTable(name = "usuario_grupo",
             joinColumns = @JoinColumn(name = "codigo_usuario"),
             inverseJoinColumns = @JoinColumn(name = "codigo_grupo"))
-    private List<Grupo> grupos = new ArrayList<>();
+    private List<Grupo> grupos;
 
     @PreUpdate
     private void preUpdate() {
