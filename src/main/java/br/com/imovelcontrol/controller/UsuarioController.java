@@ -1,5 +1,7 @@
 package br.com.imovelcontrol.controller;
 
+import java.util.ArrayList;
+import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
@@ -19,7 +21,6 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,10 +32,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Controller
 @RequestMapping("/usuario")
@@ -88,10 +85,9 @@ public class UsuarioController {
 		List<Grupo> grupo = new ArrayList<>();
 		grupo.add(g);
 		usuario.setGrupos(grupo);
-//		usuario.getGrupos().add(grupos.findOne(Grupo.PROPRIETARIO));
+		usuario.getGrupos().add(grupos.findOne(Grupo.PROPRIETARIO));
 		usuario.setAtivo(Boolean.TRUE);
 
-		ModelAndView modelAndView = new ModelAndView("usuario/CadastroUsuarioLogin");
 		if (result.hasErrors()) {
 			return novoLogin(usuario);
 		}
@@ -101,7 +97,7 @@ public class UsuarioController {
 			result.rejectValue("nome", e.getMessage(), e.getMessage());
 			return novo(usuario);
 		}
-		modelAndView = new ModelAndView("usuario/login");
+        ModelAndView modelAndView = new ModelAndView("usuario/login");
 		modelAndView.addObject("usuario", usuario);
 		modelAndView.addObject("mensagem", "Usuário Salvo com Sucessso!");
 		return modelAndView;

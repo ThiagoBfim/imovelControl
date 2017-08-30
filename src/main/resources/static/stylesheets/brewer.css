@@ -153,4 +153,12 @@ PÁGINAS DO SISTEMA
     content: "\f00c"; 
 }
 
+.ic-layout-simple-page__container_big_size {
+    display: block;
+    max-width: 620px;
+    margin: auto;
+    padding: 0 10px;
+    padding-top: 10%;
+}
+
 

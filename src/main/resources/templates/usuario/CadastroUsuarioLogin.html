@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt" xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       xmlns:bomfim="http://bomfim.com.br">
 <head>
     <meta charset="UTF-8"/>
@@ -13,6 +12,7 @@
     <link rel="stylesheet" type="text/css" th:href="@{/layout/stylesheets/vendors.min.css}"/>
     <link rel="stylesheet" type="text/css" th:href="@{/layout/stylesheets/algaworks.min.css}"/>
     <link rel="stylesheet" type="text/css" th:href="@{/layout/stylesheets/application.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/stylesheets/brewer.css}"/>
 
     <link rel="shortcut icon" th:href="@{/images/casa-icon.png}"/>
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -21,9 +21,6 @@
     <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
-    <div class="container">
-        <h1><font color="#009900" class="col-md-2 col-md-offset-5"><b >Crie sua Conta</b></font></h1>
-    </div>
     <style>
         body, html {
             height: 100%;
@@ -47,33 +44,32 @@
 </head>
 
 <body class="aw-layout-simple-page bg">
-    <div class="container">
-        <br/>
-        <br/>
-        <form method="POST" th:object="${usuario}" class="form-vertical  js-form-loading"
+<div class="ic-layout-simple-page__container_big_size">
+    <div>
+        <div class="aw-simple-panel__box">
+            <h1 style="text-align:center"><font color="#009900"><b >Crie sua Conta</b></font></h1>
+
+            <form method="POST" th:object="${usuario}" class="form-vertical  js-form-loading"
                   th:action="@{/usuario/novoLogin}">
                 <bomfim:message/>
                 <input type="hidden" th:field="*{codigo}"/>
                 <div class="row">
-                    <div class="col-sm-3 col-sm-offset-3  form-group bw-required" bomfim:classforerror="login">
+                    <div class="col-sm-6 form-group bw-required" bomfim:classforerror="login">
                         <label for="login" class="control-label text-white">Login</label>
                         <input id="login" type="text" class="form-control" maxlength="100" th:field="*{login}"/>
                     </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-sm-5 col-sm-offset-3   form-group bw-required" bomfim:classforerror="nome">
+                    <div class="col-sm-6 form-group bw-required" bomfim:classforerror="nome">
                         <label for="nome" class="control-label">Nome</label>
                         <input id="nome" type="text" class="form-control" maxlength="100" th:field="*{nome}"/>
                     </div>
                 </div>
 
                 <div class="row">
-                    <div class="col-sm-3 col-sm-offset-3  form-group bw-required" bomfim:classforerror="email">
+                    <div class="col-sm-8 form-group bw-required" bomfim:classforerror="email">
                         <label for="email" class="control-label">E-mail</label>
                         <input id="email" type="text" class="form-control" maxlength="100" th:field="*{email}"/>
                     </div>
-                    <div class="col-sm-2 form-group ">
+                    <div class="col-sm-4 form-group ">
                         <label for="dataNascimento" class="control-label">Data de Nascimento</label>
                         <input id="dataNascimento" type="text" class="form-control js-date"
                                th:field="*{dataNascimento}" readonly autocomplete="off"/>
@@ -81,30 +77,29 @@
                 </div>
 
                 <div class="row">
-                    <div class="col-md-3 col-md-offset-3  form-group" bomfim:classforerror="senha"
+                    <div class="col-md-6 form-group" bomfim:classforerror="senha"
                          th:classappend="${usuario.novo} ? bw-required">
                         <label for="senha" class="control-label">Senha</label>
                         <input id="senha" type="password" class="form-control" maxlength="30" th:field="*{senha}"/>
                     </div>
-                    <div class="col-md-3 form-group" bomfim:classforerror="confirmacaoSenha"
+                    <div class="col-md-6 form-group" bomfim:classforerror="confirmacaoSenha"
                          th:classappend="${usuario.novo} ? bw-required">
                         <label for="confirmarSenha" class="control-label">Confirmação da Senha</label>
-                        <input id="confirmarSenha" type="password" class="form-control" maxlength="30" th:field="*{confirmacaoSenha}"/>
+                        <input id="confirmarSenha" type="password" class="form-control" maxlength="30"
+                               th:field="*{confirmacaoSenha}"/>
                     </div>
                 </div>
 
                 <div class="row">
-                    <div class="col-md-5 col-md-offset-3 form-group pull-left">
-                        <a th:href="@{/login}" class="btn btn-success form-group">Voltar</a>
-                    </div>
-
-                    <div class="form-group col-md-1" style="text-align: right">
-                        <button class="btn  btn-primary" type="submit">Salvar</button>
+                    <div class="form-group pull-right">
+                        <a th:href="@{/login}" class="btn btn-default">Voltar</a>
+                        <button class="btn btn-success" type="submit">Salvar</button>
                     </div>
                 </div>
-
-        </form>
+            </form>
+        </div>
     </div>
+</div>
 <script th:src="@{/layout/javascripts/vendors.min.js}"></script>
 <script th:src="@{/layout/javascripts/algaworks.min.js}"></script>
 <script th:src="@{/javascripts/imovel-control.js}"></script>
