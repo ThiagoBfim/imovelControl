@@ -1,7 +1,6 @@
 package br.com.imovelcontrol.controller;
 
 import java.util.Optional;
-import javax.validation.ConstraintViolationException;
 import javax.validation.Valid;
 
 import br.com.imovelcontrol.controller.converter.FormatUtil;
@@ -103,7 +102,7 @@ public class LocatarioController {
         Locatario locatario = locatarios.findOne(codigo);
 
         try {
-            cadastroLocatarioService.excluir(locatario);
+            cadastroLocatarioService.excluirLogicamente(locatario);
 
         } catch (ImpossivelExcluirEntidadeException e) {
             return ResponseEntity.badRequest().body(e.getMessage());

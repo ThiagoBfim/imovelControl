@@ -48,7 +48,7 @@ public class CadastroImovelService {
     }
 
     @Transactional
-    public void excluir(Imovel imovel) {
+    public void excluirLogicamente(Imovel imovel) {
         List<Aluguel> aluguel;
         aluguel = cadastroAluguelService.findByImovel(imovel.getCodigo());
 

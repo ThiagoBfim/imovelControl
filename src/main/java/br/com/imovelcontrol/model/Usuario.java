@@ -35,6 +35,7 @@ public class Usuario extends BaseEntity {
     @Size(max = 100, message = "Nome deve ter no máximo 100 caracteres")
     private String email;
 
+    @NotBlank(message = "Senha Obrigatório")
     @Size(max = 120, message = "Senha deve ter no máximo 30 caracteres")
     private String senha;
 

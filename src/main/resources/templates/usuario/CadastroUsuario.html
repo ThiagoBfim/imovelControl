@@ -77,13 +77,12 @@
                     <label for="confirmarSenha" class="control-label">Confirmação da Senha</label>
                     <input id="confirmarSenha" type="password" class="form-control" th:field="*{confirmacaoSenha}"/>
                 </div>
-                <div class="col-sm-2  form-group "
-                     th:if="${#authentication.principal.usuario.codigo != usuario.codigo}">
-                    <label for="status" class="control-label">Status</label>
+                <div class="col-sm-2  form-group ">
+                    <label for="status" class="control-label">Excluir</label>
                     <div>
-                        <input type="checkbox" class="js-status" th:field="*{ativo}"
+                        <input type="checkbox" id="status" class="js-status" th:field="*{ativo}"
                                data-size="small" data-off-color="danger"
-                               data-on-text="Ativo" data-off-text="Inativo">
+                               data-on-text="Não" data-off-text="Sim">
                     </div>
                 </div>
             </div>

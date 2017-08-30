@@ -44,7 +44,7 @@ public class CadastroUsuarioService {
             throw new SenhaObrigatoriaException("Senha Obrigatória");
         }
         if (usuario.isNovo() || !StringUtils.isEmpty(usuario.getSenha())) {
-            usuario.setSenha(this.passwordEncoder.encode(usuario.getSenha()));
+            usuario.setSenha(passwordEncoder.encode(usuario.getSenha()));
         } else if (StringUtils.isEmpty(usuario.getSenha())) {
             usuario.setSenha(usuarioRetrived.get().getSenha());
         }
@@ -70,7 +70,7 @@ public class CadastroUsuarioService {
         }
 
         for (Imovel item : imovels) {
-            cadastroImovelService.excluir(item);
+            cadastroImovelService.excluirLogicamente(item);
         }
         usuarios.delete(usuario);
     }
