@@ -97,7 +97,7 @@ public class UsuarioController {
 		return modelAndView;
 	}
 
-	@GetMapping
+	@GetMapping(value = "/pesquisar")
 	public ModelAndView pesquisar(Usuario usuario, BindingResult result, @PageableDefault(size = 5) Pageable pageable,
 			HttpServletRequest httpServletRequest) {
 		ModelAndView modelAndView = new ModelAndView("usuario/PesquisaUsuario");
