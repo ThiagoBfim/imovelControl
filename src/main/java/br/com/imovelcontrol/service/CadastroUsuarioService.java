@@ -11,7 +11,7 @@ import br.com.imovelcontrol.repository.Usuarios;
 import br.com.imovelcontrol.service.exception.EmailUsuarioJaCadastradoException;
 import br.com.imovelcontrol.service.exception.ImpossivelExcluirEntidadeException;
 import br.com.imovelcontrol.service.exception.LoginUsuarioNaoEncontradoException;
-import br.com.imovelcontrol.service.exception.SenhaUsuarioJaCadastradoException;
+import br.com.imovelcontrol.service.exception.SenhaObrigatoriaException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -41,7 +41,7 @@ public class CadastroUsuarioService {
             throw new EmailUsuarioJaCadastradoException("E-mail já cadastrado");
         }
         if (usuario.isNovo() && StringUtils.isEmpty(usuario.getSenha())) {
-            throw new SenhaUsuarioJaCadastradoException("Senha Obrigatória");
+            throw new SenhaObrigatoriaException("Senha Obrigatória");
         }
         if (usuario.isNovo() || !StringUtils.isEmpty(usuario.getSenha())) {
             usuario.setSenha(this.passwordEncoder.encode(usuario.getSenha()));

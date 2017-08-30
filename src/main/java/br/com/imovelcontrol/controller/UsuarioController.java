@@ -1,7 +1,5 @@
 package br.com.imovelcontrol.controller;
 
-import java.util.ArrayList;
-import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
@@ -14,7 +12,7 @@ import br.com.imovelcontrol.repository.Usuarios;
 import br.com.imovelcontrol.service.CadastroUsuarioService;
 import br.com.imovelcontrol.service.exception.EmailUsuarioJaCadastradoException;
 import br.com.imovelcontrol.service.exception.ImpossivelExcluirEntidadeException;
-import br.com.imovelcontrol.service.exception.SenhaUsuarioJaCadastradoException;
+import br.com.imovelcontrol.service.exception.SenhaObrigatoriaException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -62,7 +60,7 @@ public class UsuarioController {
 		}
 		try {
 			cadastroUsuarioService.salvar(usuario);
-		} catch (EmailUsuarioJaCadastradoException | SenhaUsuarioJaCadastradoException e) {
+		} catch (EmailUsuarioJaCadastradoException | SenhaObrigatoriaException e) {
 			result.rejectValue("nome", e.getMessage(), e.getMessage());
 			return novo(usuario);
 		}
@@ -80,11 +78,7 @@ public class UsuarioController {
 
 	@RequestMapping(value = { "/novoLogin"}, method = RequestMethod.POST)
 	public ModelAndView salvarLogin(@Valid Usuario usuario, BindingResult result){
-		Grupo g = new Grupo();
-		g.setCodigo(2l);
-		List<Grupo> grupo = new ArrayList<>();
-		grupo.add(g);
-		usuario.setGrupos(grupo);
+
 		usuario.getGrupos().add(grupos.findOne(Grupo.PROPRIETARIO));
 		usuario.setAtivo(Boolean.TRUE);
 
@@ -93,7 +87,7 @@ public class UsuarioController {
 		}
 		try {
 			cadastroUsuarioService.salvar(usuario);
-		} catch (EmailUsuarioJaCadastradoException | SenhaUsuarioJaCadastradoException e) {
+		} catch (EmailUsuarioJaCadastradoException | SenhaObrigatoriaException e) {
 			result.rejectValue("nome", e.getMessage(), e.getMessage());
 			return novo(usuario);
 		}

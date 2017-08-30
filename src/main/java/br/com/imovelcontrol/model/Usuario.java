@@ -99,6 +99,9 @@ public class Usuario extends BaseEntity {
     }
 
     public List<Grupo> getGrupos() {
+        if (grupos == null) {
+            grupos = new ArrayList<>();
+        }
         return grupos;
     }
 
