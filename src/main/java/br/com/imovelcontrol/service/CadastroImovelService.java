@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import br.com.imovelcontrol.model.Aluguel;
 import br.com.imovelcontrol.model.Imovel;
+import br.com.imovelcontrol.repository.Alugueis;
 import br.com.imovelcontrol.repository.Imoveis;
 import br.com.imovelcontrol.service.event.ImovelSalvoEvent;
 import br.com.imovelcontrol.service.exception.CepImovelJaCadastradoException;
@@ -27,6 +28,9 @@ public class CadastroImovelService {
     @Autowired
     private CadastroAluguelService cadastroAluguelService;
 
+    @Autowired
+    private Alugueis alugueis;
+
     @Transactional
     public Imovel salvar(Imovel imovel) {
         Optional<Imovel> imovelRetrieve = imoveis.findByCep(imovel.getEndereco().getCep(), imovel.getDonoImovel());
@@ -48,22 +52,23 @@ public class CadastroImovelService {
         List<Aluguel> aluguel;
         aluguel = cadastroAluguelService.findByImovel(imovel.getCodigo());
 
-        for (Aluguel item:aluguel) {
-            cadastroAluguelService.excluir(item);
+        for (Aluguel item : aluguel) {
+            item.setExcluido(Boolean.TRUE);
+            alugueis.save(item);
         }
-
-        imoveis.delete(imovel);
+        imovel.setExcluido(Boolean.TRUE);
+        imoveis.save(imovel);
     }
 
     @Transactional
-    public List<Imovel> findByDonoImovel(Long codigo){
+    public List<Imovel> findByDonoImovel(Long codigo) {
         Optional<List<Imovel>> imovels = imoveis.findByDonoImovel_Codigo(codigo);
 
-        if(!imovels.isPresent()){
+        if (!imovels.isPresent()) {
             throw new ImovelByUsuarioNaoEncontrado("Imóvel não encontrado");
         }
 
-        return  imovels.get();
+        return imovels.get();
     }
 
 }

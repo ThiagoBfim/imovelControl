@@ -6,7 +6,6 @@ import java.util.Optional;
 import br.com.imovelcontrol.model.Aluguel;
 import br.com.imovelcontrol.repository.Alugueis;
 import br.com.imovelcontrol.repository.FormasPagamentos;
-import br.com.imovelcontrol.repository.Locatarios;
 import br.com.imovelcontrol.service.exception.AluguelByImovelNaoEncontradoException;
 import br.com.imovelcontrol.service.exception.NomeAluguelJaCadastradoException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,9 +20,6 @@ public class CadastroAluguelService {
 
     @Autowired
     private FormasPagamentos formasPagamentos;
-
-    @Autowired
-    private Locatarios locatarios;
 
     @Autowired
     private CadastroLocatarioService cadastroLocatarioService;
@@ -42,8 +38,9 @@ public class CadastroAluguelService {
     @Transactional
     public void excluir(Aluguel aluguel) {
 
-        cadastroLocatarioService.deleteByAluguel(aluguel.getCodigo());
-        alugueis.delete(aluguel);
+        cadastroLocatarioService.deleteByAluguel(aluguel);
+        aluguel.setExcluido(Boolean.TRUE);
+        alugueis.save(aluguel);
         formasPagamentos.delete(aluguel.getFormaPagamento());
     }
 

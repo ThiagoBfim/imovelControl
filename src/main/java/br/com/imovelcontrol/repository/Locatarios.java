@@ -13,5 +13,4 @@ public interface Locatarios extends JpaRepository<Locatario, Long> {
     Optional<Locatario> findByAluguel(Aluguel codAluguel);
     Optional<Locatario> findByCpf(String cpf);
     Optional<Locatario> findByTelefone(String telefone);
-    void deleteByAluguel_Codigo(Long codigo);
 }
