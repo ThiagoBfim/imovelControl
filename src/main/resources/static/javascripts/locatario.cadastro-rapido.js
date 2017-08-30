@@ -100,6 +100,10 @@ ImovelControl.LocatarioCadastroRapido = (function () {
         var cpf = $('#cpf').val();
         var aluguel = $('#codigoAluguel').val();
 
+        cpf = cpf.replace(/\D/g, '');
+
+        telefone = telefone.replace(/\D/g, '');
+
         var locatario = {"codigo": codigo,"nome": nome, "telefone": telefone, "cpf": cpf, "aluguel":{"codigo":aluguel }};
         $.ajax({
             type: "POST",
