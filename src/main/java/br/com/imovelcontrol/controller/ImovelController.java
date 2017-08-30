@@ -101,7 +101,7 @@ public class ImovelController {
     ResponseEntity<?> excluir(@PathVariable Long codigo) {
         Imovel imovel = imoveis.findOne(codigo);
         try {
-            cadastroImovelService.excluir(imovel);
+            cadastroImovelService.excluirLogicamente(imovel);
         } catch (ImpossivelExcluirEntidadeException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }

@@ -41,8 +41,9 @@ public class CadastroLocatarioService {
     }
 
     @Transactional
-    public void excluir(Locatario locatario) {
-        locatarios.delete(locatario);
+    public void excluirLogicamente(Locatario locatario) {
+        locatario.setExcluido(Boolean.TRUE);
+        locatarios.save(locatario);
     }
 
     @Transactional
