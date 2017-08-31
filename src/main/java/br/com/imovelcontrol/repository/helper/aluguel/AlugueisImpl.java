@@ -35,6 +35,7 @@ public class AlugueisImpl implements AlugueisQuerys {
         if (codigo != null) {
             criteria.add(Restrictions.eq("imovel.codigo", codigo));
         }
+        criteria.add(Restrictions.eq("excluido", Boolean.FALSE));
 
         Long total = retrieveTotalByIdImovel(codigo);
         paginacaoUtil.paginacao(pageable, criteria);
@@ -46,6 +47,8 @@ public class AlugueisImpl implements AlugueisQuerys {
         if (codigo != null) {
             criteriaTotal.add(Restrictions.eq("imovel.codigo", codigo));
         }
+
+        criteriaTotal.add(Restrictions.eq("excluido", Boolean.FALSE));
         criteriaTotal.setProjection(Projections.rowCount());
         Long total = (Long) criteriaTotal.uniqueResult();
         return total;

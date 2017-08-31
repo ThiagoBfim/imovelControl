@@ -134,7 +134,7 @@ public class AluguelController {
     ResponseEntity<?> excluir(@PathVariable Long codigo) {
         Aluguel aluguel = alugueis.findOne(codigo);
         try {
-            cadastroAluguelService.excluir(aluguel);
+            cadastroAluguelService.excluirLogicamente(aluguel);
         } catch (ImpossivelExcluirEntidadeException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }

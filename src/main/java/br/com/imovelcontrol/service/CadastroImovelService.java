@@ -53,8 +53,7 @@ public class CadastroImovelService {
         aluguel = cadastroAluguelService.findByImovel(imovel.getCodigo());
 
         for (Aluguel item : aluguel) {
-            item.setExcluido(Boolean.TRUE);
-            alugueis.save(item);
+            cadastroAluguelService.excluirLogicamente(item);
         }
         imovel.setExcluido(Boolean.TRUE);
         imoveis.save(imovel);
