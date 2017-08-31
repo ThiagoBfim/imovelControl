@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 public interface Locatarios extends JpaRepository<Locatario, Long> {
 
     Optional<Locatario> findByAluguel(Aluguel codAluguel);
-    Optional<Locatario> findByCpf(String cpf);
-    Optional<Locatario> findByTelefone(String telefone);
+    Optional<Locatario> findByCpfAndExcluido(String cpf, Boolean aFalse);
+    Optional<Locatario> findByTelefoneAndExcluido(String telefone, Boolean aFalse);
+    Optional<Locatario> findByAluguelAndExcluido(Aluguel aluguel, Boolean aFalse);
 }

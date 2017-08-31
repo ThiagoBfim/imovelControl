@@ -36,12 +36,11 @@ public class CadastroAluguelService {
     }
 
     @Transactional
-    public void excluir(Aluguel aluguel) {
+    public void excluirLogicamente(Aluguel aluguel) {
 
         cadastroLocatarioService.deleteByAluguel(aluguel);
         aluguel.setExcluido(Boolean.TRUE);
         alugueis.save(aluguel);
-        formasPagamentos.delete(aluguel.getFormaPagamento());
     }
 
     @Transactional
