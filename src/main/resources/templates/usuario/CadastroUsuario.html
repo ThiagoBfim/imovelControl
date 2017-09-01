@@ -43,7 +43,7 @@
             <div class="row">
                 <div class="col-sm-12  form-group bw-required" bomfim:classforerror="login">
                     <label for="login" class="control-label">Login</label>
-                    <input id="login" type="text" class="form-control" th:field="*{login}"/>
+                    <input id="login" type="text" class="form-control" th:field="*{login}" th:disabled="!${usuario.novo}" />
                 </div>
             </div>
 
@@ -62,21 +62,23 @@
                 <div class="col-sm-4 form-group ">
                     <label for="dataNascimento" class="control-label">Data de Nascimento</label>
                     <input id="dataNascimento" type="text" class="form-control js-date"
-                           th:field="*{dataNascimento}" readonly autocomplete="off"/>
+                           th:field="*{dataNascimento}" autocomplete="off"/>
                 </div>
             </div>
 
             <div class="row">
-                <div class="col-sm-3 form-group" bomfim:classforerror="senha"
-                     th:classappend="${usuario.novo} ? bw-required">
+                <div th:if="${usuario.novo}" class="col-sm-3 form-group" bomfim:classforerror="senha"
+                     th:classappend="bw-required">
                     <label for="senha" class="control-label">Senha</label>
                     <input id="senha" type="password" class="form-control" th:field="*{senha}"/>
                 </div>
-                <div class="col-sm-3 form-group" bomfim:classforerror="confirmacaoSenha"
-                     th:classappend="${usuario.novo} ? bw-required">
+                <div th:if="${usuario.novo}" class="col-sm-3 form-group" bomfim:classforerror="confirmacaoSenha"
+                     th:classappend="bw-required">
                     <label for="confirmarSenha" class="control-label">Confirmação da Senha</label>
                     <input id="confirmarSenha" type="password" class="form-control" th:field="*{confirmacaoSenha}"/>
                 </div>
+
+                Criar excluir no menu.
                 <div class="col-sm-2  form-group ">
                     <label for="status" class="control-label">Excluir</label>
                     <div>
@@ -93,7 +95,7 @@
                     <div>
                         <th:block th:each="grupo : ${grupos}">
                             <div class="checkbox  checkbox-inline">
-                                <input type="checkbox" th:id="|id_${grupo.nome}|" name="grupo"
+                                <input type="checkbox" th:id="|id_${grupo.nome}|" name="grupo" id="grupo"
                                        th:field="*{grupos}" th:value="${grupo.codigo}">
                                 <label class="control-label" th:for="|id_${grupo.nome}|"
                                        th:text="${grupo.nome}">Física</label>

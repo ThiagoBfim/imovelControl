@@ -5,8 +5,7 @@ import java.util.Optional;
 import br.com.imovelcontrol.model.Aluguel;
 import br.com.imovelcontrol.model.Locatario;
 import br.com.imovelcontrol.repository.Locatarios;
-import br.com.imovelcontrol.service.exception.CpfLocatarioJaCadastradoException;
-import br.com.imovelcontrol.service.exception.TelefoneLocatarioJaCadastradoException;
+import br.com.imovelcontrol.service.exception.BusinessException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,10 +24,10 @@ public class CadastroLocatarioService {
     public Locatario salvar(Locatario locatario) {
         if (locatarios.findByCpfAndExcluido(locatario.getCpf(), Boolean.FALSE).isPresent()
                 && locatario.getCodigo() == null) {
-            throw new CpfLocatarioJaCadastradoException("Já existe um Locatário cadastrado com esse CPF");
+            throw new BusinessException("Já existe um Locatário cadastrado com esse CPF", "cpf");
         } else if (locatarios.findByTelefoneAndExcluido(locatario.getTelefone(), Boolean.FALSE).isPresent()
                 && locatario.getCodigo() == null) {
-            throw new TelefoneLocatarioJaCadastradoException("Já existe um locatário cadastrado com esse telefone");
+            throw new BusinessException("Já existe um locatário cadastrado com esse telefone", "telefone");
         }
         return locatarios.save(locatario);
     }

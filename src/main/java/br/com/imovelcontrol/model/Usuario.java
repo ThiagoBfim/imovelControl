@@ -35,7 +35,6 @@ public class Usuario extends BaseEntity {
     @Size(max = 100, message = "Nome deve ter no máximo 100 caracteres")
     private String email;
 
-    @NotBlank(message = "Senha Obrigatório")
     @Size(max = 120, message = "Senha deve ter no máximo 30 caracteres")
     private String senha;
 
@@ -53,6 +52,9 @@ public class Usuario extends BaseEntity {
             joinColumns = @JoinColumn(name = "codigo_usuario"),
             inverseJoinColumns = @JoinColumn(name = "codigo_grupo"))
     private List<Grupo> grupos;
+
+    @Transient
+    private String senhaAtual;
 
     @PreUpdate
     private void preUpdate() {
@@ -130,4 +132,11 @@ public class Usuario extends BaseEntity {
         return getCodigo() == null;
     }
 
+    public String getSenhaAtual() {
+        return senhaAtual;
+    }
+
+    public void setSenhaAtual(String senhaAtual) {
+        this.senhaAtual = senhaAtual;
+    }
 }
