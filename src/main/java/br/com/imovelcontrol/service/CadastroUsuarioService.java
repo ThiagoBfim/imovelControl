@@ -8,10 +8,7 @@ import br.com.imovelcontrol.model.Imovel;
 import br.com.imovelcontrol.model.Usuario;
 import br.com.imovelcontrol.model.enuns.StatusUsuario;
 import br.com.imovelcontrol.repository.Usuarios;
-import br.com.imovelcontrol.service.exception.EmailUsuarioJaCadastradoException;
-import br.com.imovelcontrol.service.exception.ImpossivelExcluirEntidadeException;
-import br.com.imovelcontrol.service.exception.LoginUsuarioNaoEncontradoException;
-import br.com.imovelcontrol.service.exception.SenhaObrigatoriaException;
+import br.com.imovelcontrol.service.exception.BusinessException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -27,7 +24,6 @@ public class CadastroUsuarioService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-
     @Autowired
     private EmailSenderConfigure emailSenderConfigure;
 
@@ -38,10 +34,10 @@ public class CadastroUsuarioService {
     public Usuario salvar(Usuario usuario) {
         Optional<Usuario> usuarioRetrived = usuarios.findByEmail(usuario.getEmail());
         if (usuarioRetrived.isPresent() && !usuarioRetrived.get().equals(usuario)) {
-            throw new EmailUsuarioJaCadastradoException("E-mail já cadastrado");
+            throw new BusinessException("E-mail já cadastrado", "email");
         }
         if (usuario.isNovo() && StringUtils.isEmpty(usuario.getSenha())) {
-            throw new SenhaObrigatoriaException("Senha Obrigatória");
+            throw new BusinessException("Senha Obrigatória", "Senha");
         }
         if (usuario.isNovo() || !StringUtils.isEmpty(usuario.getSenha())) {
             usuario.setSenha(passwordEncoder.encode(usuario.getSenha()));
@@ -66,7 +62,7 @@ public class CadastroUsuarioService {
         List<Imovel> imovels = cadastroImovelService.findByDonoImovel(usuario.getCodigo());
 
         if (usuario.getAtivo() == Boolean.TRUE) {
-            throw new ImpossivelExcluirEntidadeException("Impossível apagar usuario. Pois ele está Ativo.");
+            throw new BusinessException("Impossível apagar usuario. Pois ele está Ativo.", null);
         }
 
         for (Imovel item : imovels) {
@@ -77,19 +73,10 @@ public class CadastroUsuarioService {
 
 
     @Transactional
-    public Usuario findByEmail(String email) {
-        Usuario usuario = new Usuario();
-        if (!usuarios.findByEmail(email).isPresent()) {
-            throw new EmailUsuarioJaCadastradoException("O email não está cadastrado no sistema");
-        }
-        return usuarios.findByEmail(email).get();
-    }
-
-    @Transactional
     public Usuario findByLogin(String login) {
 
         if (!usuarios.findByLogin(login).isPresent()) {
-            throw new LoginUsuarioNaoEncontradoException("Nome de usuário não encontrado no sistema");
+            throw new BusinessException("Nome de usuário não encontrado no sistema", "login");
         }
         return usuarios.findByLogin(login).get();
     }

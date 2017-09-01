@@ -8,9 +8,7 @@ import br.com.imovelcontrol.model.Imovel;
 import br.com.imovelcontrol.repository.Alugueis;
 import br.com.imovelcontrol.repository.Imoveis;
 import br.com.imovelcontrol.service.event.ImovelSalvoEvent;
-import br.com.imovelcontrol.service.exception.CepImovelJaCadastradoException;
-import br.com.imovelcontrol.service.exception.ImovelByUsuarioNaoEncontrado;
-import br.com.imovelcontrol.service.exception.NomeImovelJaCadastradoException;
+import br.com.imovelcontrol.service.exception.BusinessException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
@@ -36,11 +34,11 @@ public class CadastroImovelService {
         Optional<Imovel> imovelRetrieve = imoveis.findByCep(imovel.getEndereco().getCep(), imovel.getDonoImovel());
 
         if (imovelRetrieve.isPresent() && !imovelRetrieve.get().equals(imovel)) {
-            throw new CepImovelJaCadastradoException("Já existe um imóvel cadastrado com este CEP");
+            throw new BusinessException("Já existe um imóvel cadastrado com este CEP", "endereco");
         } else {
             imovelRetrieve = imoveis.findByNomeAndDonoImovel(imovel.getNome(), imovel.getDonoImovel());
             if (imovelRetrieve.isPresent() && !imovelRetrieve.get().equals(imovel)) {
-                throw new NomeImovelJaCadastradoException("Já existe um imóvel cadastrado com este Nome");
+                throw new BusinessException("Já existe um imóvel cadastrado com este Nome", "nome");
             }
         }
         publisher.publishEvent(new ImovelSalvoEvent(imovel));
@@ -64,7 +62,7 @@ public class CadastroImovelService {
         Optional<List<Imovel>> imovels = imoveis.findByDonoImovel_Codigo(codigo);
 
         if (!imovels.isPresent()) {
-            throw new ImovelByUsuarioNaoEncontrado("Imóvel não encontrado");
+            throw new BusinessException("Imóvel não encontrado", "imovel");
         }
 
         return imovels.get();

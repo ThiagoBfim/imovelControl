@@ -9,12 +9,7 @@ import br.com.imovelcontrol.model.Locatario;
 import br.com.imovelcontrol.repository.Alugueis;
 import br.com.imovelcontrol.repository.Locatarios;
 import br.com.imovelcontrol.service.CadastroLocatarioService;
-import br.com.imovelcontrol.service.exception.CpfLocatarioInvalidoException;
-import br.com.imovelcontrol.service.exception.CpfLocatarioJaCadastradoException;
-import br.com.imovelcontrol.service.exception.ImpossivelExcluirEntidadeException;
-import br.com.imovelcontrol.service.exception.NomeLocatarioInvalidoException;
-import br.com.imovelcontrol.service.exception.TelefoneLocatarioInvalidoException;
-import br.com.imovelcontrol.service.exception.TelefoneLocatarioJaCadastradoException;
+import br.com.imovelcontrol.service.exception.BusinessException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -69,11 +64,7 @@ public class LocatarioController {
         }
         try {
             cadastroLocatarioService.salvar(locatarioRetrieve);
-        } catch (CpfLocatarioJaCadastradoException | CpfLocatarioInvalidoException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        } catch (TelefoneLocatarioJaCadastradoException | TelefoneLocatarioInvalidoException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        } catch (NomeLocatarioInvalidoException e) {
+        } catch (BusinessException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
 
@@ -104,7 +95,7 @@ public class LocatarioController {
         try {
             cadastroLocatarioService.excluirLogicamente(locatario);
 
-        } catch (ImpossivelExcluirEntidadeException e) {
+        } catch (BusinessException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
         return ResponseEntity.ok().build();
