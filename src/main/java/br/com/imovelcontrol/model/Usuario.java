@@ -35,7 +35,7 @@ public class Usuario extends BaseEntity {
     @Size(max = 100, message = "Nome deve ter no máximo 100 caracteres")
     private String email;
 
-    @Size(max = 120, message = "Senha deve ter no máximo 30 caracteres")
+    @Size(min = 6, max = 120, message = "Senha deve ter no máximo 30 caracteres e no mínimo 6")
     private String senha;
 
     @Transient
@@ -53,8 +53,17 @@ public class Usuario extends BaseEntity {
             inverseJoinColumns = @JoinColumn(name = "codigo_grupo"))
     private List<Grupo> grupos;
 
+    @NotBlank(message = "Código Verificador Obrigatório")
+    @Size(max = 20, message = "Código Verificador deve ter no máximo 20 caracteres")
+    private String codigoVerificador;
+
+    @NotBlank(message = "Descrição do Código Verificador Obrigatório")
+    @Size(max = 100, message = "A descrição do codigo deve ter no máximo 100 caracteres")
+    private String descricaoVerificador;
+
+    //Essa váriavel é utilizada para armazenar o código verificador apenas de forma temporaria.
     @Transient
-    private String senhaAtual;
+    private String codigoVerificadorTemp;
 
     @PreUpdate
     private void preUpdate() {
@@ -132,11 +141,27 @@ public class Usuario extends BaseEntity {
         return getCodigo() == null;
     }
 
-    public String getSenhaAtual() {
-        return senhaAtual;
+    public String getCodigoVerificador() {
+        return codigoVerificador;
     }
 
-    public void setSenhaAtual(String senhaAtual) {
-        this.senhaAtual = senhaAtual;
+    public void setCodigoVerificador(String codigoVerificador) {
+        this.codigoVerificador = codigoVerificador;
+    }
+
+    public String getDescricaoVerificador() {
+        return descricaoVerificador;
+    }
+
+    public void setDescricaoVerificador(String descricaoVerificador) {
+        this.descricaoVerificador = descricaoVerificador;
+    }
+
+    public String getCodigoVerificadorTemp() {
+        return codigoVerificadorTemp;
+    }
+
+    public void setCodigoVerificadorTemp(String codigoVerificadorTemp) {
+        this.codigoVerificadorTemp = codigoVerificadorTemp;
     }
 }

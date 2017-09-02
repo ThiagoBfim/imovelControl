@@ -60,12 +60,24 @@
                     </div>
                 </div>
 
+                <div class="row">
+                    <div class="col-sm-8 form-group" bomfim:classforerror="codigoVerificadorTemp"
+                         th:classappend="bw-required">
+                        <label for="codigoVerificadorTemp" class="control-label">Código Verificador</label>
+                        <input id="codigoVerificadorTemp" type="text" class="form-control codigoEspecial"
+                               th:field="*{codigoVerificadorTemp}"
+                               th:placeholder="${usuario.descricaoVerificador}"/>
+                    </div>
+                </div>
+
+                <input type="hidden" th:field="*{codigoVerificador}"/>
                 <div class="form-group col-sm-8" style="text-align: right">
                     <a class="btn  btn-danger  js-exclusao-btn" href="#"
-                       data:url="@{usuario/{codigo}(codigo=${usuario.codigo})}"
-                       data:codigo="${usuario.codigo}"
+                       data:url="@{/usuario/{codigo}(codigo=${usuario.codigo})}"
+                       data:sair="@{/logout}"
                        data:objeto="${usuario.nome}"
-                       th:if="${#authentication.principal.usuario.codigo != usuario.codigo}">Excluir
+                       data:verificador="${usuario.codigoVerificador}"
+                       data:usuarioexcluido="${#authentication.principal.usuario.codigo == usuario.codigo}">Excluir
                     </a>
                     <button class="btn  btn-success" type="submit">Salvar</button>
                 </div>
