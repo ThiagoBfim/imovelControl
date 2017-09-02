@@ -18,6 +18,6 @@ public class UsuarioLogadoService {
 
     public Usuario getUsuario() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        return usuarios.findByLogin(auth.getName()).get();
+        return usuarios.buscarComGruposByLogin(auth.getName());
     }
 }

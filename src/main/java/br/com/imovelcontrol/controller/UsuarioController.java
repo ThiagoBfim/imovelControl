@@ -108,57 +108,45 @@ public class UsuarioController {
         cadastroUsuarioService.alterarStatus(codigos, statusUsuario);
     }
 
+    /**
+     * Logica para realizar a edição por meio de usuarios Administradores.
+     *
+     * @param codigo Código do usuario que seja alterado.
+     * @return Retorna a view que foi realizada a alteração.
+     */
     @GetMapping("/{codigo}")
-    public ModelAndView editar() {
-        Usuario usuario = usuarioLogadoService.getUsuario();
-
-        if ( usuario == null) {
+    public ModelAndView editar(@PathVariable Long codigo) {
+        Usuario usuario = usuarios.buscarComGrupos(codigo);
+        if (!usuarioLogadoService.getUsuario().getGrupos().contains(new Grupo(Grupo.ADMIN))) {
             return new ModelAndView("/403");
         }
-
-        usuario = usuarios.buscarComGrupos(usuario.getCodigo());
-        usuario.setCodigoVerificador("1");
         ModelAndView modelAndView = novo(usuario);
         modelAndView.addObject(usuario);
-
         return modelAndView;
     }
 
-    private boolean verificarUsuarioLogado(Long codigo) {
-        if (!codigo.equals(usuarioLogadoService.getUsuario().getCodigo())) {
-            /*Se o codigo for diferente, e ele não for Admin, então, ele não podera entrar*/
-            Usuario usuarioLogado = usuarios.buscarComGrupos(usuarioLogadoService.getUsuario().getCodigo());
-            if (!usuarioLogado.getGrupos().contains(new Grupo(Grupo.ADMIN))) {
-                return true;
-            }
-        }
-        return false;
+    /**
+     * Método que realiza a edição do usuario logado.
+     *
+     * @return retorna o caminho para a edição por meio do usuario.
+     */
+    @GetMapping("/editar")
+    public ModelAndView editar() {
+        Usuario usuario = usuarioLogadoService.getUsuario();
+        ModelAndView modelAndView = novo(usuario);
+        modelAndView.addObject("exibirGrupo", Boolean.FALSE);
+        modelAndView.addObject(usuario);
+        return modelAndView;
     }
 
-    @DeleteMapping("/{codigo}")
-    public @ResponseBody
-    ResponseEntity<?> excluir(@PathVariable Long codigo) {
-        Usuario usuario = usuarios.findOne(codigo);
-        try {
-            cadastroUsuarioService.excluir(usuario);
-        } catch (BusinessException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
-
-        return ResponseEntity.ok().build();
-    }
-
+    //LOGICA PARA ALTERAR SENHA
     @RequestMapping("/alterarsenha")
     public ModelAndView alterarSenha(Usuario usuario) {
-        return new ModelAndView("usuario/AlterarSenha");
-    }
-
-    @GetMapping("/alterarsenha/{codigo}")
-    public ModelAndView alterarSenha(@PathVariable Long codigo) {
-        if (verificarUsuarioLogado(codigo)) return new ModelAndView("/403");
-        Usuario usuario = usuarios.buscarComGrupos(codigo);
-        ModelAndView modelAndView = alterarSenha(usuario);
-        modelAndView.addObject(usuario);
+        ModelAndView modelAndView = new ModelAndView("usuario/AlterarSenha");
+        if (usuario.getCodigo() == null) {
+            usuario = usuarioLogadoService.getUsuario();
+            modelAndView.addObject(usuario);
+        }
         return modelAndView;
     }
 
@@ -172,7 +160,8 @@ public class UsuarioController {
         } else {
             usuarioRetrived.setSenha(usuario.getSenha());
             usuarioRetrived.setConfirmacaoSenha(usuario.getConfirmacaoSenha());
-            if (salvarOuAlterarUsuario(usuarioRetrived, result)) return alterarSenha(usuario);
+            usuarioRetrived.setCodigoVerificadorTemp(usuario.getCodigoVerificadorTemp());
+            if (salvarOuAlterarUsuario(usuarioRetrived, result)) return alterarSenha(usuarioRetrived);
             modelAndView.addObject("mensagem", "Senha alterada com Sucessso!");
             return modelAndView;
 
@@ -180,6 +169,32 @@ public class UsuarioController {
 
     }
 
+    /**
+     * Método para realizar a exclusão.
+     *
+     * @param codigo Código do usuario que será excluido.
+     * @return Retorna codigo de sucesso(200) ou de erro(403)
+     */
+    @DeleteMapping("/{codigo}")
+    public @ResponseBody
+    ResponseEntity<?> excluir(@PathVariable Long codigo) {
+        Usuario usuario = usuarios.findOne(codigo);
+        try {
+            cadastroUsuarioService.excluir(usuario);
+        } catch (BusinessException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+
+        return ResponseEntity.ok().build();
+    }
+
+    /**
+     * Método que realiza as validações para salvar ou alterar o usuario.
+     *
+     * @param usuario usuario a ser salvo.
+     * @param result  Result para preencher com erro.
+     * @return retorna true caso sucesso e false caso contrario.
+     */
     private boolean salvarOuAlterarUsuario(Usuario usuario, BindingResult result) {
         try {
             if (usuario.getSenha() != null

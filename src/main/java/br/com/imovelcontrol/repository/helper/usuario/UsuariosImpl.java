@@ -104,4 +104,14 @@ public class UsuariosImpl implements UsuariosQueries {
         return (Usuario) criteria.uniqueResult();
     }
 
+    @Transactional(readOnly = true)
+    @Override
+    public Usuario buscarComGruposByLogin(String login) {
+        Criteria criteria = entityManager.unwrap(Session.class).createCriteria(Usuario.class);
+        criteria.createAlias("grupos", "g", JoinType.LEFT_OUTER_JOIN);
+        criteria.add(Restrictions.eq("login", login));
+        criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+        return (Usuario) criteria.uniqueResult();
+    }
+
 }

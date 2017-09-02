@@ -76,8 +76,8 @@
                     <input id="confirmarSenha" type="password" class="form-control" th:field="*{confirmacaoSenha}"/>
                 </div>
 
-                <div th:if="!${usuario.novo}" class="col-sm-6 form-group" bomfim:classforerror="codigoVerificadorTemp"
-                     th:classappend="bw-required">
+                <div th:if="${(exibirGrupo != null && !exibirGrupo) && !usuario.novo}" class="col-sm-6 form-group"
+                     bomfim:classforerror="codigoVerificadorTemp" th:classappend="bw-required">
                     <input type="hidden" th:field="*{codigoVerificador}"/>
                     <input type="hidden" th:field="*{descricaoVerificador}"/>
                     <label for="codigoVerificadorTemp" class="control-label">Código Verificador</label>
@@ -87,7 +87,8 @@
                 </div>
 
 
-                <div class="col-sm-6  form-group bw-required" bomfim:classforerror="grupos">
+                <div th:hidden="${exibirGrupo != null && !exibirGrupo}" class="col-sm-6  form-group bw-required"
+                     bomfim:classforerror="grupos">
                     <label class="control-label" for="grupo">Grupos</label>
                     <div>
                         <th:block th:each="grupo : ${grupos}">
