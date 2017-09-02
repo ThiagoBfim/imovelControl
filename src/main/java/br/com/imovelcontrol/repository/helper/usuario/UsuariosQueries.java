@@ -16,4 +16,6 @@ public interface UsuariosQueries {
     List<String> permissoes(Usuario usuario);
 
     Usuario buscarComGrupos(Long codigo);
+
+    Usuario buscarComGruposByLogin(String name);
 }
