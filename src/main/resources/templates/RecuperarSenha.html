@@ -20,9 +20,28 @@
     <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+        }
+
+        .bg {
+            /* The image used */
+            background-image: url("https://images.unsplash.com/photo-1444201983204-c43cbd584d93?ixlib=rb-0.3.5&q=85&fm=jpg&crop=entropy&cs=srgb&dl=markus-spiske-37931.jpg&s=ac6f9c7413530b9a658d45c7dd86c4e9");
+
+            /* Full height */
+            height: 100%;
+
+            /* Center and scale the image nicely */
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+    </style>
 </head>
 
-<body class="aw-layout-simple-page">
+<body class="aw-layout-simple-page bg">
 <div class="aw-layout-simple-page__container">
 
     <form method="GET" th:action="@{/esqueciminhasenha/pesquisa}" th:object="${usuario}"
@@ -30,10 +49,8 @@
         <div class="aw-simple-panel">
 
             <bomfim:message/>
-            <h1><font color="#009900"> <i class="fa  fa-fw  "></i><b>Esqueci Minha senha</b></font>
-            </h1>
-
             <div class="aw-simple-panel__box">
+                <h1><font color="#009900"> <i class="fa  fa-fw  "></i><b>Esqueci Minha senha</b></font></h1>
 
                 <div class="form-group  has-feedback">
                     <input type="text" class="form-control  input-lg" placeholder="Informe seu login"
