@@ -69,7 +69,7 @@ ImovelControl.LocatarioCadastroRapido = (function () {
     }
 
     function onErrorExcluir(e) {
-        swal('Oops!', e.responseText, 'error');
+        swal('Erro!', e.responseText, 'error');
     }
 
     function onErrorSalvar(e){
@@ -77,7 +77,7 @@ ImovelControl.LocatarioCadastroRapido = (function () {
         if(e.status == 200){
             onSalvarSucesso();
         } else {
-            swal('Oops!',e.responseText, 'error');
+            swal('Erro!',e.responseText, 'error');
         }
     }
 

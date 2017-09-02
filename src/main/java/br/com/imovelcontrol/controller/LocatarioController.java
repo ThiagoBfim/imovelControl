@@ -49,8 +49,6 @@ public class LocatarioController {
     //    @RequestMapping(value = "/novo", method = RequestMethod.POST)
     @RequestMapping(value = "/novo", method = RequestMethod.POST)
     public ResponseEntity<?> cadastrar(@Valid @RequestBody Locatario locatario, BindingResult result) {
-        ModelAndView mAndView = new ModelAndView("locatario/CadastroLocatario");
-
         Locatario locatarioRetrieve = locatario;
         if (locatario.getCodigo() != null) {
             locatarioRetrieve = cadastroLocatarioService.retrieveById(locatario.getCodigo());

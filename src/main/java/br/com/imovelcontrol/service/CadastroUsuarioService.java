@@ -36,6 +36,10 @@ public class CadastroUsuarioService {
         if (usuarioRetrived.isPresent() && !usuarioRetrived.get().equals(usuario)) {
             throw new BusinessException("E-mail já cadastrado", "email");
         }
+        usuarioRetrived = usuarios.findByLogin(usuario.getLogin());
+        if (usuarioRetrived.isPresent() && !usuarioRetrived.get().equals(usuario)) {
+            throw new BusinessException("Login já cadastrado", "login");
+        }
         if (usuario.isNovo() && StringUtils.isEmpty(usuario.getSenha())) {
             throw new BusinessException("Senha Obrigatória", "Senha");
         }
@@ -61,24 +65,22 @@ public class CadastroUsuarioService {
     public void excluir(Usuario usuario) {
         List<Imovel> imovels = cadastroImovelService.findByDonoImovel(usuario.getCodigo());
 
-        if (usuario.getAtivo() == Boolean.TRUE) {
-            throw new BusinessException("Impossível apagar usuario. Pois ele está Ativo.", null);
-        }
-
         for (Imovel item : imovels) {
             cadastroImovelService.excluirLogicamente(item);
         }
-        usuarios.delete(usuario);
+        usuario.setAtivo(Boolean.FALSE);
+        usuarios.save(usuario);
     }
 
 
     @Transactional
     public Usuario findByLogin(String login) {
-
-        if (!usuarios.findByLogin(login).isPresent()) {
+        Optional<Usuario> usuario = usuarios.findByLogin(login);
+        if (!usuario.isPresent()) {
             throw new BusinessException("Nome de usuário não encontrado no sistema", "login");
+        } else {
+            return usuario.get();
         }
-        return usuarios.findByLogin(login).get();
     }
 
     @Transactional
