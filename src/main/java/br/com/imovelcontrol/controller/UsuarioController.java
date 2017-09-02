@@ -61,12 +61,7 @@ public class UsuarioController {
         if (result.hasErrors()) {
             return novo(usuario);
         }
-        try {
-            cadastroUsuarioService.salvar(usuario);
-        } catch (BusinessException e) {
-            result.rejectValue(e.getField(), e.getMessage() , e.getMessage());
-            return novo(usuario);
-        }
+        if (salvarOuAlterarUsuario(usuario, result)) return novo(usuario);
         modelAndView.addObject("grupos", grupos.findAll());
         modelAndView.addObject("usuario", usuario);
         modelAndView.addObject("mensagem", "Usuário Salvo com Sucessso!");
@@ -89,12 +84,7 @@ public class UsuarioController {
         if (result.hasErrors()) {
             return novoLogin(usuario);
         }
-        try {
-            cadastroUsuarioService.salvar(usuario);
-        } catch (BusinessException e) {
-            result.rejectValue(e.getField(), e.getMessage(), e.getMessage());
-            return novo(usuario);
-        }
+        if (salvarOuAlterarUsuario(usuario, result)) return novo(usuario);
         ModelAndView modelAndView = new ModelAndView("usuario/login");
         modelAndView.addObject("usuario", usuario);
         modelAndView.addObject("mensagem", "Usuário Salvo com Sucessso!");
@@ -155,20 +145,32 @@ public class UsuarioController {
 
     @RequestMapping(value = {"/alterarsenha"}, method = RequestMethod.POST)
     public ModelAndView alterarSenha(Usuario usuario, BindingResult result) {
-        ModelAndView modelAndView = new ModelAndView("usuario/AlterarSenha");
 
+
+        ModelAndView modelAndView = new ModelAndView("usuario/AlterarSenha");
         Usuario usuarioRetrived = usuarios.buscarComGrupos(usuario.getCodigo());
-        if (StringUtils.isEmpty(usuario.getSenhaAtual())) {
-            result.rejectValue("senhaAtual", "Senha Atual Incorreta!", "Senha Atual Incorreta!");
+        if (StringUtils.isEmpty(usuario.getSenha())) {
+            result.rejectValue("senha", "Senha Incorreta", "Senha Incorreta");
             return alterarSenha(usuarioRetrived);
-        } else if (usuarioRetrived.getSenha().equals(passwordEncoder.encode(usuario.getSenhaAtual()))) {
-            modelAndView.addObject("usuario", usuarioRetrived);
+        } else {
+            usuarioRetrived.setSenha(usuario.getSenha());
+            usuarioRetrived.setConfirmacaoSenha(usuario.getConfirmacaoSenha());
+            if (salvarOuAlterarUsuario(usuarioRetrived, result)) return alterarSenha(usuario);
             modelAndView.addObject("mensagem", "Senha alterada com Sucessso!");
             return modelAndView;
+
         }
-        return alterarSenha(usuario.getCodigo());
 
+    }
 
+    private boolean salvarOuAlterarUsuario(Usuario usuario, BindingResult result) {
+        try {
+            cadastroUsuarioService.salvar(usuario);
+        } catch (BusinessException e) {
+            result.rejectValue(e.getField(), e.getMessage(), e.getMessage());
+            return true;
+        }
+        return false;
     }
 
 }
