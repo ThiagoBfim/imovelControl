@@ -48,6 +48,7 @@ public class ImoveisImpl implements ImoveisQuerys {
     }
 
     private void adicionarFiltro(Imovel filtro, Usuario usuario, Criteria criteria) {
+        criteria.add(Restrictions.eq("excluido", Boolean.FALSE));
         if (usuario != null) {
             criteria.add(Restrictions.eq("donoImovel", usuario));
         }

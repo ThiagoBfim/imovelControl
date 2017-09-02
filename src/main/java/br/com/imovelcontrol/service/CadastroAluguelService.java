@@ -6,8 +6,7 @@ import java.util.Optional;
 import br.com.imovelcontrol.model.Aluguel;
 import br.com.imovelcontrol.repository.Alugueis;
 import br.com.imovelcontrol.repository.FormasPagamentos;
-import br.com.imovelcontrol.service.exception.AluguelByImovelNaoEncontradoException;
-import br.com.imovelcontrol.service.exception.NomeAluguelJaCadastradoException;
+import br.com.imovelcontrol.service.exception.BusinessException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,18 +29,17 @@ public class CadastroAluguelService {
                 aluguel.getImovel().getCodigo());
         if (usuarioRetrived.isPresent() && !usuarioRetrived.get().equals(aluguel)
                 && usuarioRetrived.get().getImovel().equals(aluguel.getImovel())) {
-            throw new NomeAluguelJaCadastradoException("Nome já cadastrado");
+            throw new BusinessException("Nome já cadastrado", "nome");
         }
         return alugueis.save(aluguel);
     }
 
     @Transactional
-    public void excluir(Aluguel aluguel) {
+    public void excluirLogicamente(Aluguel aluguel) {
 
         cadastroLocatarioService.deleteByAluguel(aluguel);
         aluguel.setExcluido(Boolean.TRUE);
         alugueis.save(aluguel);
-        formasPagamentos.delete(aluguel.getFormaPagamento());
     }
 
     @Transactional
@@ -49,7 +47,7 @@ public class CadastroAluguelService {
         Optional<List<Aluguel>> aluguels = alugueis.findByImovel_Codigo(codigo);
 
         if (!aluguels.isPresent()) {
-            throw new AluguelByImovelNaoEncontradoException("Aluguéis não encontrados");
+            throw new BusinessException("Aluguéis não encontrados", "aluguel");
         }
 
         return aluguels.get();

@@ -9,9 +9,7 @@ import br.com.imovelcontrol.model.Usuario;
 import br.com.imovelcontrol.repository.Imoveis;
 import br.com.imovelcontrol.service.CadastroImovelService;
 import br.com.imovelcontrol.service.UsuarioLogadoService;
-import br.com.imovelcontrol.service.exception.CepImovelJaCadastradoException;
-import br.com.imovelcontrol.service.exception.ImpossivelExcluirEntidadeException;
-import br.com.imovelcontrol.service.exception.NomeImovelJaCadastradoException;
+import br.com.imovelcontrol.service.exception.BusinessException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -71,11 +69,8 @@ public class ImovelController {
 
         try {
             cadastroImovelService.salvar(imovel);
-        } catch (NomeImovelJaCadastradoException e) {
-            result.rejectValue("nome", e.getMessage(), e.getMessage());
-            return novo(imovel);
-        } catch (CepImovelJaCadastradoException e) {
-            result.rejectValue("endereco", e.getMessage(), e.getMessage());
+        } catch (BusinessException e) {
+            result.rejectValue(e.getField(), e.getMessage(), e.getMessage());
             return novo(imovel);
         }
 
@@ -101,8 +96,8 @@ public class ImovelController {
     ResponseEntity<?> excluir(@PathVariable Long codigo) {
         Imovel imovel = imoveis.findOne(codigo);
         try {
-            cadastroImovelService.excluir(imovel);
-        } catch (ImpossivelExcluirEntidadeException e) {
+            cadastroImovelService.excluirLogicamente(imovel);
+        } catch (BusinessException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
 

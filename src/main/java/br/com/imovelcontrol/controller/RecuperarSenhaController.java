@@ -2,7 +2,7 @@ package br.com.imovelcontrol.controller;
 
 import br.com.imovelcontrol.model.Usuario;
 import br.com.imovelcontrol.service.CadastroUsuarioService;
-import br.com.imovelcontrol.service.exception.LoginUsuarioNaoEncontradoException;
+import br.com.imovelcontrol.service.exception.BusinessException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -38,8 +38,8 @@ public class RecuperarSenhaController {
             cadastroUsuarioService.enviarNovaSenha(usuario);
             modelAndView.addObject("mensagem", "Nova senha foi enviada ao seu E-MAIL cadastrado no sistema.");
 
-        } catch (LoginUsuarioNaoEncontradoException e) {
-            result.rejectValue("login", e.getMessage(), e.getMessage());
+        } catch (BusinessException e) {
+            result.rejectValue(e.getField(), e.getMessage(), e.getMessage());
             return recuperarSenha(usuario);
         }
 
