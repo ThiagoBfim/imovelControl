@@ -1,5 +1,6 @@
 package br.com.imovelcontrol.service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -42,6 +43,11 @@ public class CadastroUsuarioService {
         }
         if (usuario.isNovo() && StringUtils.isEmpty(usuario.getSenha())) {
             throw new BusinessException("Senha Obrigatória", "Senha");
+        }
+
+        if (usuario.getDataNascimento() != null
+                && usuario.getDataNascimento().isAfter(LocalDate.now().minusYears(18))) {
+            throw new BusinessException("Idade precisa ser maior que 18 anos", "dataNascimento");
         }
         if (usuario.isNovo() || !StringUtils.isEmpty(usuario.getSenha())) {
             usuario.setSenha(passwordEncoder.encode(usuario.getSenha()));
