@@ -109,9 +109,15 @@ public class UsuarioController {
     }
 
     @GetMapping("/{codigo}")
-    public ModelAndView editar(@PathVariable Long codigo) {
-        if (verificarUsuarioLogado(codigo)) return new ModelAndView("/403");
-        Usuario usuario = usuarios.buscarComGrupos(codigo);
+    public ModelAndView editar() {
+        Usuario usuario = usuarioLogadoService.getUsuario();
+
+        if ( usuario == null) {
+            return new ModelAndView("/403");
+        }
+
+        usuario = usuarios.buscarComGrupos(usuario.getCodigo());
+        usuario.setCodigoVerificador("1");
         ModelAndView modelAndView = novo(usuario);
         modelAndView.addObject(usuario);
 
