@@ -13,8 +13,9 @@ import org.hibernate.validator.constraints.NotBlank;
 @Table(name = "grupo")
 public class Grupo extends BaseEntity {
 
-    public static final Long ADMIN = 0L;
-    public static final Long PROPRIETARIO = 1L;
+    public static final Long ADMIN = 1L;
+    public static final Long PROPRIETARIO = 2L;
+
     @NotBlank(message = "Nome Obrigatório")
     private String nome;
 

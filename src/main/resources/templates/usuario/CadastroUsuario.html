@@ -41,15 +41,12 @@
 
             <input type="hidden" th:field="*{codigo}"/>
             <div class="row">
-                <div class="col-sm-12  form-group bw-required" bomfim:classforerror="login">
+                <div class="col-sm-6  form-group bw-required" bomfim:classforerror="login">
                     <label for="login" class="control-label">Login</label>
                     <input id="login" type="text" class="form-control" th:field="*{login}"
                            th:readonly="!${usuario.novo}"/>
                 </div>
-            </div>
-
-            <div class="row">
-                <div class="col-sm-12  form-group bw-required" bomfim:classforerror="nome">
+                <div class="col-sm-6  form-group bw-required" bomfim:classforerror="nome">
                     <label for="nome" class="control-label">Nome</label>
                     <input id="nome" type="text" class="form-control" th:field="*{nome}"/>
                 </div>
@@ -60,7 +57,7 @@
                     <label for="email" class="control-label">E-mail</label>
                     <input id="email" type="text" class="form-control" th:field="*{email}"/>
                 </div>
-                <div class="col-sm-4 form-group ">
+                <div class="col-sm-4 form-group " bomfim:classforerror="dataNascimento">
                     <label for="dataNascimento" class="control-label">Data de Nascimento</label>
                     <input id="dataNascimento" type="text" class="form-control js-date" readonly
                            th:field="*{dataNascimento}" autocomplete="off"/>
@@ -78,6 +75,18 @@
                     <label for="confirmarSenha" class="control-label">Confirmação da Senha</label>
                     <input id="confirmarSenha" type="password" class="form-control" th:field="*{confirmacaoSenha}"/>
                 </div>
+
+                <div th:if="!${usuario.novo}" class="col-sm-6 form-group" bomfim:classforerror="codigoVerificadorTemp"
+                     th:classappend="bw-required">
+                    <input type="hidden" th:field="*{codigoVerificador}"/>
+                    <input type="hidden" th:field="*{descricaoVerificador}"/>
+                    <label for="codigoVerificadorTemp" class="control-label">Código Verificador</label>
+                    <input id="codigoVerificadorTemp" type="text" class="form-control codigoEspecial"
+                           th:field="*{codigoVerificadorTemp}"
+                           th:placeholder="${usuario.descricaoVerificador}"/>
+                </div>
+
+
                 <div class="col-sm-6  form-group bw-required" bomfim:classforerror="grupos">
                     <label class="control-label" for="grupo">Grupos</label>
                     <div>
@@ -92,14 +101,15 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
-                <div th:if="${usuario.novo}" class="col-sm-4 form-group" bomfim:classforerror="codigoVerificador"
+
+            <div class="row" th:if="${usuario.novo}">
+                <div class="col-sm-4 form-group" bomfim:classforerror="codigoVerificador"
                      th:classappend="bw-required">
                     <label for="codigoVerificador" class="control-label">Código Verificador</label>
                     <input id="codigoVerificador" type="text" class="form-control" th:field="*{codigoVerificador}"
                            placeholder="Esse código não poderá ser alterado, guarde ele com você!"/>
                 </div>
-                <div th:if="${usuario.novo}" class="col-sm-6 form-group" bomfim:classforerror="descricaoVerificador"
+                <div class="col-sm-6 form-group" bomfim:classforerror="descricaoVerificador"
                      th:classappend="bw-required">
                     <label for="descricaoVerificador" class="control-label">Descrição do Código Verificador</label>
                     <input id="descricaoVerificador" type="text" class="form-control" th:field="*{descricaoVerificador}"

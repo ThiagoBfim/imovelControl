@@ -121,8 +121,8 @@ public class UsuarioController {
     private boolean verificarUsuarioLogado(Long codigo) {
         if (!codigo.equals(usuarioLogadoService.getUsuario().getCodigo())) {
             /*Se o codigo for diferente, e ele não for Admin, então, ele não podera entrar*/
-            Usuario usuario = usuarios.buscarComGrupos(codigo);
-            if (!usuario.getGrupos().contains(new Grupo(Grupo.ADMIN))) {
+            Usuario usuarioLogado = usuarios.buscarComGrupos(usuarioLogadoService.getUsuario().getCodigo());
+            if (!usuarioLogado.getGrupos().contains(new Grupo(Grupo.ADMIN))) {
                 return true;
             }
         }
@@ -164,11 +164,6 @@ public class UsuarioController {
             result.rejectValue("senha", "Senha deve ter no máximo 30 caracteres e no mínimo 6", "Senha Incorreta");
             return alterarSenha(usuarioRetrived);
         } else {
-            if (StringUtils.isEmpty(usuario.getCodigoVerificadorTemp())
-                    || !usuario.getCodigoVerificadorTemp().equals(usuario.getCodigoVerificador())) {
-                result.rejectValue("codigoVerificadorTemp", "Código Verificador Incorreto", "Código Verificador Incorreto");
-                return alterarSenha(usuarioRetrived);
-            }
             usuarioRetrived.setSenha(usuario.getSenha());
             usuarioRetrived.setConfirmacaoSenha(usuario.getConfirmacaoSenha());
             if (salvarOuAlterarUsuario(usuarioRetrived, result)) return alterarSenha(usuario);
@@ -181,8 +176,15 @@ public class UsuarioController {
 
     private boolean salvarOuAlterarUsuario(Usuario usuario, BindingResult result) {
         try {
-            if (usuario.getSenha().length() > 30 || usuario.getSenha().length() < 6) {
-                result.rejectValue("senha", "Senha deve ter no máximo 30 caracteres e no mínimo 6");
+            if (usuario.getSenha() != null
+                    && (usuario.getSenha().length() > 30 || usuario.getSenha().length() < 6)) {
+                result.rejectValue("senha", "Senha deve ter no máximo 30 caracteres e no mínimo 6",
+                        "Senha deve ter no máximo 30 caracteres e no mínimo 6");
+                return true;
+            }
+            if (StringUtils.isEmpty(usuario.getCodigoVerificadorTemp())
+                    || !usuario.getCodigoVerificadorTemp().equals(usuario.getCodigoVerificador())) {
+                result.rejectValue("codigoVerificadorTemp", "Código Verificador Incorreto", "Código Verificador Incorreto");
                 return true;
             }
             cadastroUsuarioService.salvar(usuario);
