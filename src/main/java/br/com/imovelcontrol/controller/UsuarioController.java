@@ -84,6 +84,7 @@ public class UsuarioController {
         if (result.hasErrors()) {
             return novoLogin(usuario);
         }
+        usuario.setCodigoVerificadorTemp(usuario.getCodigoVerificador());
         if (salvarOuAlterarUsuario(usuario, result)) return novoLogin(usuario);
         ModelAndView modelAndView = new ModelAndView("usuario/login");
         modelAndView.addObject("usuario", usuario);
