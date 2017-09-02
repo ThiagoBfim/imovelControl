@@ -18,8 +18,7 @@ import br.com.imovelcontrol.repository.Imoveis;
 import br.com.imovelcontrol.service.CadastroAluguelService;
 import br.com.imovelcontrol.service.TemplateFormaPagamentoService;
 import br.com.imovelcontrol.service.UsuarioLogadoService;
-import br.com.imovelcontrol.service.exception.ImpossivelExcluirEntidadeException;
-import br.com.imovelcontrol.service.exception.NomeAluguelJaCadastradoException;
+import br.com.imovelcontrol.service.exception.BusinessException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -80,8 +79,8 @@ public class AluguelController {
         aluguel.setFormaPagamento(formaPagamentoSession);
         try {
             cadastroAluguelService.salvar(aluguel);
-        } catch (NomeAluguelJaCadastradoException e) {
-            result.rejectValue("nome", e.getMessage(), e.getMessage());
+        } catch (BusinessException e) {
+            result.rejectValue(e.getField(), e.getMessage(), e.getMessage());
             return novo(aluguel);
         }
         aluguel = new Aluguel();
@@ -134,8 +133,8 @@ public class AluguelController {
     ResponseEntity<?> excluir(@PathVariable Long codigo) {
         Aluguel aluguel = alugueis.findOne(codigo);
         try {
-            cadastroAluguelService.excluir(aluguel);
-        } catch (ImpossivelExcluirEntidadeException e) {
+            cadastroAluguelService.excluirLogicamente(aluguel);
+        } catch (BusinessException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
 

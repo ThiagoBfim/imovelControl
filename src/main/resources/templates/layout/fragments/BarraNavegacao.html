@@ -3,40 +3,51 @@
 	xmlns:th="http://www.thymeleaf.org">
 
 <body>
-<nav class="navbar  navbar-fixed-top  navbar-default  js-sticky-reference" id="main-navbar" style="background-color:black" th:fragment="barraNavegacao">
-	  <div class="container-fluid">
-
-	    <div class="navbar-header">
-	      <a class="navbar-brand  hidden-xs" th:href="@{/}" >
-	      <!--   <img alt="Brewer" th:src="@{/images/house.png}"/>  -->
-	       <font color="#009900"> <i class="fa  fa-fw  fa-home"></i><b>Im&oacute;velControl</b></font>
-	      </a>
-
-	      <ul class="nav  navbar-nav">
-	        <li>
-	          <a href="#" class="js-sidebar-toggle"><i class="fa  fa-bars"></i></a>
-	        </li>
-	      </ul>
-	    </div>
-
-	   <ul class="nav navbar-nav  navbar-right dropdown ">
-			<font color="black"><div class="dropdown ">
-				<div class="dropdown-toggle navbar-brand" type="button" id="menu1" data-toggle="dropdown"><font color="#009900"><em class="glyphicon glyphicon-cog"></em> <span class="caret"></span></font></div>
-				<ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
-					<li role="presentation"><a role="menuitem" tabindex="-1" href="#">HTML</a></li>
-					<li role="presentation"><a role="menuitem" tabindex="-1" href="#">CSS</a></li>
-					<li role="presentation"><a role="menuitem" tabindex="-1" href="#">JavaScript</a></li>
-					<li role="presentation" class="divider"></li>
-					<li>
-						<a th:href="@{/logout}"><em class="glyphicon glyphicon-off"></em> Sair</a>
-					</li>				</ul>
-			</div></font>
-	    </ul>
-	  </div>
+<nav class=" navbar  navbar-fixed-top  navbar-default  js-sticky-reference" id="main-navbar" style="background-color:black" th:fragment="barraNavegacao">
+	<div class="container-fluid">
+		<div class="navbar-header">
+			<a class="navbar-brand  hidden-xs" th:href="@{/}" >
+				<font color="#009900">
+					<i class="fa  fa-fw  fa-home"></i>
+					<b>Im&oacute;velControl</b>
+				</font>
+			</a>
+			<ul class="nav  navbar-nav">
+				<li>
+					<a href="#" class="js-sidebar-toggle">
+						<i class="fa  fa-bars"></i>
+					</a>
+				</li>
+			</ul>
+		</div>
+		<div class="pull-right">
+			<div class="row">
+				<div class="navbar-header dropdown">
+					<div class=" btn navbar-brand" type="button" data-toggle="dropdown">
+						<em th:text="${#authentication.principal.usuario.nome}"></em>
+						<font color="green"><em class="glyphicon glyphicon-cog"></em>
+							<span class="caret"></span>
+						</font>
+					</div>
+					<ul class="dropdown-menu">
+						<li><a th:href="@{/usuario/alterarsenha}">Alterar senha</a></li>
+						<li role="presentation" class="divider"></li>
+						<li>
+							<a th:href="@{/logout}"><em class="glyphicon glyphicon-off"></em> Sair</a>
+						</li>
+					</ul>
+				</div>
+				<div class="pull-right">
+					<a class="navbar-brand " th:href="@{/logout}">
+						<font color="#009900">
+							<em class="fa  fa-sign-out"></em> log out
+						</font>
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
 </nav>
-
-	
-
 </body>
 </html>
 	

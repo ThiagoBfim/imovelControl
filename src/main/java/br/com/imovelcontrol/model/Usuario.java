@@ -53,6 +53,9 @@ public class Usuario extends BaseEntity {
             inverseJoinColumns = @JoinColumn(name = "codigo_grupo"))
     private List<Grupo> grupos;
 
+    @Transient
+    private String senhaAtual;
+
     @PreUpdate
     private void preUpdate() {
         this.confirmacaoSenha = senha;
@@ -129,4 +132,11 @@ public class Usuario extends BaseEntity {
         return getCodigo() == null;
     }
 
+    public String getSenhaAtual() {
+        return senhaAtual;
+    }
+
+    public void setSenhaAtual(String senhaAtual) {
+        this.senhaAtual = senhaAtual;
+    }
 }
