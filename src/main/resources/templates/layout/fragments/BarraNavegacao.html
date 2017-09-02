@@ -3,7 +3,6 @@
 	xmlns:th="http://www.thymeleaf.org">
 
 <body>
-
 <nav class="navbar  navbar-fixed-top  navbar-default  js-sticky-reference" id="main-navbar" style="background-color:black" th:fragment="barraNavegacao">
 	  <div class="container-fluid">
 
@@ -20,15 +19,19 @@
 	      </ul>
 	    </div>
 
-	    <ul class="nav navbar-nav  navbar-right">
-		   	<li>
-		   		<p class="navbar-text" th:text="${#authentication.principal.usuario.nome}"></p>
-		   	</li>
-		    <li>
-		      <a th:href="@{/logout}"><em class="fa  fa-sign-out"></em></a>
-		    </li> 
+	   <ul class="nav navbar-nav  navbar-right dropdown ">
+			<font color="black"><div class="dropdown ">
+				<div class="dropdown-toggle navbar-brand" type="button" id="menu1" data-toggle="dropdown"><font color="#009900"><em class="glyphicon glyphicon-cog"></em> <span class="caret"></span></font></div>
+				<ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
+					<li role="presentation"><a role="menuitem" tabindex="-1" href="#">HTML</a></li>
+					<li role="presentation"><a role="menuitem" tabindex="-1" href="#">CSS</a></li>
+					<li role="presentation"><a role="menuitem" tabindex="-1" href="#">JavaScript</a></li>
+					<li role="presentation" class="divider"></li>
+					<li>
+						<a th:href="@{/logout}"><em class="glyphicon glyphicon-off"></em> Sair</a>
+					</li>				</ul>
+			</div></font>
 	    </ul>
-
 	  </div>
 </nav>
 
