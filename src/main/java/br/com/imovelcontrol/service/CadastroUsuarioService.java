@@ -65,14 +65,11 @@ public class CadastroUsuarioService {
     public void excluir(Usuario usuario) {
         List<Imovel> imovels = cadastroImovelService.findByDonoImovel(usuario.getCodigo());
 
-        if (usuario.getAtivo() == Boolean.TRUE) {
-            throw new BusinessException("Impossível apagar usuario. Pois ele está Ativo.", null);
-        }
-
         for (Imovel item : imovels) {
             cadastroImovelService.excluirLogicamente(item);
         }
-        usuarios.delete(usuario);
+        usuario.setAtivo(Boolean.FALSE);
+        usuarios.save(usuario);
     }
 
 

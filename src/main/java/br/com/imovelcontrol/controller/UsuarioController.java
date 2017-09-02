@@ -84,7 +84,7 @@ public class UsuarioController {
         if (result.hasErrors()) {
             return novoLogin(usuario);
         }
-        if (salvarOuAlterarUsuario(usuario, result)) return novo(usuario);
+        if (salvarOuAlterarUsuario(usuario, result)) return novoLogin(usuario);
         ModelAndView modelAndView = new ModelAndView("usuario/login");
         modelAndView.addObject("usuario", usuario);
         modelAndView.addObject("mensagem", "Usuário Salvo com Sucessso!");
@@ -145,14 +145,17 @@ public class UsuarioController {
 
     @RequestMapping(value = {"/alterarsenha"}, method = RequestMethod.POST)
     public ModelAndView alterarSenha(Usuario usuario, BindingResult result) {
-
-
         ModelAndView modelAndView = new ModelAndView("usuario/AlterarSenha");
         Usuario usuarioRetrived = usuarios.buscarComGrupos(usuario.getCodigo());
         if (StringUtils.isEmpty(usuario.getSenha())) {
-            result.rejectValue("senha", "Senha Incorreta", "Senha Incorreta");
+            result.rejectValue("senha", "Senha deve ter no máximo 30 caracteres e no mínimo 6", "Senha Incorreta");
             return alterarSenha(usuarioRetrived);
         } else {
+            if (StringUtils.isEmpty(usuario.getCodigoVerificadorTemp())
+                    || !usuario.getCodigoVerificadorTemp().equals(usuario.getCodigoVerificador())) {
+                result.rejectValue("codigoVerificadorTemp", "Código Verificador Incorreto", "Código Verificador Incorreto");
+                return alterarSenha(usuarioRetrived);
+            }
             usuarioRetrived.setSenha(usuario.getSenha());
             usuarioRetrived.setConfirmacaoSenha(usuario.getConfirmacaoSenha());
             if (salvarOuAlterarUsuario(usuarioRetrived, result)) return alterarSenha(usuario);
@@ -165,6 +168,10 @@ public class UsuarioController {
 
     private boolean salvarOuAlterarUsuario(Usuario usuario, BindingResult result) {
         try {
+            if (usuario.getSenha().length() > 30 || usuario.getSenha().length() < 6) {
+                result.rejectValue("senha", "Senha deve ter no máximo 30 caracteres e no mínimo 6");
+                return true;
+            }
             cadastroUsuarioService.salvar(usuario);
         } catch (BusinessException e) {
             result.rejectValue(e.getField(), e.getMessage(), e.getMessage());
