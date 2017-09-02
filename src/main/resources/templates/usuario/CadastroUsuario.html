@@ -43,7 +43,8 @@
             <div class="row">
                 <div class="col-sm-12  form-group bw-required" bomfim:classforerror="login">
                     <label for="login" class="control-label">Login</label>
-                    <input id="login" type="text" class="form-control" th:field="*{login}" th:disabled="!${usuario.novo}" />
+                    <input id="login" type="text" class="form-control" th:field="*{login}"
+                           th:readonly="!${usuario.novo}"/>
                 </div>
             </div>
 
@@ -61,7 +62,7 @@
                 </div>
                 <div class="col-sm-4 form-group ">
                     <label for="dataNascimento" class="control-label">Data de Nascimento</label>
-                    <input id="dataNascimento" type="text" class="form-control js-date"
+                    <input id="dataNascimento" type="text" class="form-control js-date" readonly
                            th:field="*{dataNascimento}" autocomplete="off"/>
                 </div>
             </div>
@@ -77,19 +78,6 @@
                     <label for="confirmarSenha" class="control-label">Confirmação da Senha</label>
                     <input id="confirmarSenha" type="password" class="form-control" th:field="*{confirmacaoSenha}"/>
                 </div>
-
-                Criar excluir no menu.
-                <div class="col-sm-2  form-group ">
-                    <label for="status" class="control-label">Excluir</label>
-                    <div>
-                        <input type="checkbox" id="status" class="js-status" th:field="*{ativo}"
-                               data-size="small" data-off-color="danger"
-                               data-on-text="Não" data-off-text="Sim">
-                    </div>
-                </div>
-            </div>
-
-            <div class="row">
                 <div class="col-sm-6  form-group bw-required" bomfim:classforerror="grupos">
                     <label class="control-label" for="grupo">Grupos</label>
                     <div>
@@ -102,6 +90,20 @@
                             </div>
                         </th:block>
                     </div>
+                </div>
+            </div>
+            <div class="row">
+                <div th:if="${usuario.novo}" class="col-sm-4 form-group" bomfim:classforerror="codigoVerificador"
+                     th:classappend="bw-required">
+                    <label for="codigoVerificador" class="control-label">Código Verificador</label>
+                    <input id="codigoVerificador" type="text" class="form-control" th:field="*{codigoVerificador}"
+                           placeholder="Esse código não poderá ser alterado, guarde ele com você!"/>
+                </div>
+                <div th:if="${usuario.novo}" class="col-sm-6 form-group" bomfim:classforerror="descricaoVerificador"
+                     th:classappend="bw-required">
+                    <label for="descricaoVerificador" class="control-label">Descrição do Código Verificador</label>
+                    <input id="descricaoVerificador" type="text" class="form-control" th:field="*{descricaoVerificador}"
+                           placeholder="Coloque aqui alguma informação que lhe fará lembrar do seu código verificador"/>
                 </div>
             </div>
 

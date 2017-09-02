@@ -10,13 +10,13 @@ import br.com.imovelcontrol.model.enuns.StatusUsuario;
 import br.com.imovelcontrol.repository.Grupos;
 import br.com.imovelcontrol.repository.Usuarios;
 import br.com.imovelcontrol.service.CadastroUsuarioService;
+import br.com.imovelcontrol.service.UsuarioLogadoService;
 import br.com.imovelcontrol.service.exception.BusinessException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
@@ -45,7 +45,7 @@ public class UsuarioController {
     private Usuarios usuarios;
 
     @Autowired
-    private PasswordEncoder passwordEncoder;
+    private UsuarioLogadoService usuarioLogadoService;
 
     @RequestMapping("/novo")
     public ModelAndView novo(Usuario usuario) {
@@ -61,12 +61,7 @@ public class UsuarioController {
         if (result.hasErrors()) {
             return novo(usuario);
         }
-        try {
-            cadastroUsuarioService.salvar(usuario);
-        } catch (BusinessException e) {
-            result.rejectValue(e.getField(), e.getMessage() , e.getMessage());
-            return novo(usuario);
-        }
+        if (salvarOuAlterarUsuario(usuario, result)) return novo(usuario);
         modelAndView.addObject("grupos", grupos.findAll());
         modelAndView.addObject("usuario", usuario);
         modelAndView.addObject("mensagem", "Usuário Salvo com Sucessso!");
@@ -89,12 +84,7 @@ public class UsuarioController {
         if (result.hasErrors()) {
             return novoLogin(usuario);
         }
-        try {
-            cadastroUsuarioService.salvar(usuario);
-        } catch (BusinessException e) {
-            result.rejectValue(e.getField(), e.getMessage(), e.getMessage());
-            return novo(usuario);
-        }
+        if (salvarOuAlterarUsuario(usuario, result)) return novoLogin(usuario);
         ModelAndView modelAndView = new ModelAndView("usuario/login");
         modelAndView.addObject("usuario", usuario);
         modelAndView.addObject("mensagem", "Usuário Salvo com Sucessso!");
@@ -120,11 +110,23 @@ public class UsuarioController {
 
     @GetMapping("/{codigo}")
     public ModelAndView editar(@PathVariable Long codigo) {
+        if (verificarUsuarioLogado(codigo)) return new ModelAndView("/403");
         Usuario usuario = usuarios.buscarComGrupos(codigo);
         ModelAndView modelAndView = novo(usuario);
         modelAndView.addObject(usuario);
 
         return modelAndView;
+    }
+
+    private boolean verificarUsuarioLogado(Long codigo) {
+        if (!codigo.equals(usuarioLogadoService.getUsuario().getCodigo())) {
+            /*Se o codigo for diferente, e ele não for Admin, então, ele não podera entrar*/
+            Usuario usuario = usuarios.buscarComGrupos(codigo);
+            if (!usuario.getGrupos().contains(new Grupo(Grupo.ADMIN))) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @DeleteMapping("/{codigo}")
@@ -147,6 +149,7 @@ public class UsuarioController {
 
     @GetMapping("/alterarsenha/{codigo}")
     public ModelAndView alterarSenha(@PathVariable Long codigo) {
+        if (verificarUsuarioLogado(codigo)) return new ModelAndView("/403");
         Usuario usuario = usuarios.buscarComGrupos(codigo);
         ModelAndView modelAndView = alterarSenha(usuario);
         modelAndView.addObject(usuario);
@@ -156,19 +159,38 @@ public class UsuarioController {
     @RequestMapping(value = {"/alterarsenha"}, method = RequestMethod.POST)
     public ModelAndView alterarSenha(Usuario usuario, BindingResult result) {
         ModelAndView modelAndView = new ModelAndView("usuario/AlterarSenha");
-
         Usuario usuarioRetrived = usuarios.buscarComGrupos(usuario.getCodigo());
-        if (StringUtils.isEmpty(usuario.getSenhaAtual())) {
-            result.rejectValue("senhaAtual", "Senha Atual Incorreta!", "Senha Atual Incorreta!");
+        if (StringUtils.isEmpty(usuario.getSenha())) {
+            result.rejectValue("senha", "Senha deve ter no máximo 30 caracteres e no mínimo 6", "Senha Incorreta");
             return alterarSenha(usuarioRetrived);
-        } else if (usuarioRetrived.getSenha().equals(passwordEncoder.encode(usuario.getSenhaAtual()))) {
-            modelAndView.addObject("usuario", usuarioRetrived);
+        } else {
+            if (StringUtils.isEmpty(usuario.getCodigoVerificadorTemp())
+                    || !usuario.getCodigoVerificadorTemp().equals(usuario.getCodigoVerificador())) {
+                result.rejectValue("codigoVerificadorTemp", "Código Verificador Incorreto", "Código Verificador Incorreto");
+                return alterarSenha(usuarioRetrived);
+            }
+            usuarioRetrived.setSenha(usuario.getSenha());
+            usuarioRetrived.setConfirmacaoSenha(usuario.getConfirmacaoSenha());
+            if (salvarOuAlterarUsuario(usuarioRetrived, result)) return alterarSenha(usuario);
             modelAndView.addObject("mensagem", "Senha alterada com Sucessso!");
             return modelAndView;
+
         }
-        return alterarSenha(usuario.getCodigo());
 
+    }
 
+    private boolean salvarOuAlterarUsuario(Usuario usuario, BindingResult result) {
+        try {
+            if (usuario.getSenha().length() > 30 || usuario.getSenha().length() < 6) {
+                result.rejectValue("senha", "Senha deve ter no máximo 30 caracteres e no mínimo 6");
+                return true;
+            }
+            cadastroUsuarioService.salvar(usuario);
+        } catch (BusinessException e) {
+            result.rejectValue(e.getField(), e.getMessage(), e.getMessage());
+            return true;
+        }
+        return false;
     }
 
 }

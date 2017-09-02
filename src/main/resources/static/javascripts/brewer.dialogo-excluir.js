@@ -22,6 +22,17 @@ Brewer.DialogoExcluir = (function () {
         var url = botaoClicado.data('url');
         var objeto = botaoClicado.data('objeto');
 
+        var verificador = botaoClicado.data('verificador');
+        var usuarioExcluido = botaoClicado.data('usuarioexcluido');
+        var sair = botaoClicado.data('sair');
+
+        if (verificador != null && verificador != '') {
+            var codigoEspecial = $('.codigoEspecial');
+            if (verificador != codigoEspecial.val()) {
+                swal('Erro!', "Código Verificador Incorreto!", 'error');
+                return
+            }
+        }
         swal({
             title: 'Tem certeza?',
             text: 'Excluir "' + objeto
@@ -30,35 +41,42 @@ Brewer.DialogoExcluir = (function () {
             confirmButtonColor: '#DD6855',
             confirmButtonText: 'Sim, exclua agora!',
             closeOnConfirm: false
-        }, onExcluirConfirmado.bind(this, url));
+        }, onExcluirConfirmado.bind(this, url, usuarioExcluido, sair));
+
     }
 
-    function onExcluirConfirmado(url) {
+    function onExcluirConfirmado(url, usuarioExcluido, sair) {
         $.ajax({
             url: url,
             method: 'DELETE',
-            success: onExcluidoSucesso.bind(this),
+            success: onExcluidoSucesso.bind(this, sair, usuarioExcluido),
             error: onErrorExcluir.bind(this)
         })
     }
 
-    function onExcluidoSucesso() {
+    function onExcluidoSucesso(sair, usuarioExcluido) {
         swal({
                 title: 'Pronto',
                 text: 'Excluído com sucesso!',
                 showCancelButton: false,
                 confirmButtonText: 'OK'
             },
-            onRemoveExcluido.bind(this));
+            onRemoveExcluido.bind(this, sair, usuarioExcluido));
 
     }
 
-    function onRemoveExcluido() {
+    function onRemoveExcluido(sair, usuarioExcluido) {
+        if (usuarioExcluido != null && usuarioExcluido == true) {
+            $.ajax({
+                url: sair,
+                method: 'GET'
+            })
+        }
         window.location = window.location.href;
     }
 
     function onErrorExcluir(e) {
-        swal('Oops!', e.responseText, 'error');
+        swal('Erro!', e.responseText, 'error');
     }
 
     return DialogoExcluir;

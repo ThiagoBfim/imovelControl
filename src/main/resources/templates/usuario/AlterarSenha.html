@@ -3,7 +3,8 @@
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorator="'layout/LayoutPadrao'"
-      xmlns:bomfim="http://bomfim.com.br">
+      xmlns:bomfim="http://bomfim.com.br"
+      xmlns:data="http://www.thymeleaf.org/extras/data">
 
 <head>
     <title>Alterar Senha do Usuário</title>
@@ -36,39 +37,50 @@
         <form method="POST" th:object="${usuario}" class="form-vertical  js-form-loading"
               th:action="@{/usuario/alterarsenha}">
             <bomfim:message/>
+            <div class=" col-sm-offset-3">
+                <input type="hidden" th:field="*{codigo}"/>
+                <input type="hidden" th:field="*{nome}"/>
+                <div class="row">
+                    <div class="col-sm-8 form-group bw-required" bomfim:classforerror="login">
+                        <label for="login" class="control-label">Login</label>
+                        <input id="login" type="text" class="form-control" th:field="*{login}" readonly/>
+                    </div>
+                </div>
 
-            <input type="hidden" th:field="*{codigo}"/>
-            <div class="row">
-                <div class="col-sm-6 form-group bw-required" bomfim:classforerror="login">
-                    <label for="login" class="control-label">Login</label>
-                    <input id="login" type="text" class="form-control" th:field="*{login}" disabled="disabled"/>
+                <div class="row">
+                    <div class="col-sm-4 form-group" bomfim:classforerror="senha"
+                         th:classappend="bw-required">
+                        <label for="senha" class="control-label">Senha</label>
+                        <input id="senha" type="password" class="form-control" th:field="*{senha}"/>
+                    </div>
+                    <div class="col-sm-4 form-group" bomfim:classforerror="confirmacaoSenha"
+                         th:classappend="bw-required">
+                        <label for="confirmarSenha" class="control-label">Confirmação da Senha</label>
+                        <input id="confirmarSenha" type="password" class="form-control" th:field="*{confirmacaoSenha}"/>
+                    </div>
                 </div>
-            </div>
 
-            <div class="row">
-                <div class="col-sm-3 form-group" bomfim:classforerror="senhaAtual"
-                     th:classappend="bw-required">
-                    <label for="senhaAtual" class="control-label">Senha Atual</label>
-                    <input id="senhaAtual" type="password" class="form-control" th:field="*{senhaAtual}"/>
+                <div class="row">
+                    <div class="col-sm-8 form-group" bomfim:classforerror="codigoVerificadorTemp"
+                         th:classappend="bw-required">
+                        <label for="codigoVerificadorTemp" class="control-label">Código Verificador</label>
+                        <input id="codigoVerificadorTemp" type="text" class="form-control codigoEspecial"
+                               th:field="*{codigoVerificadorTemp}"
+                               th:placeholder="${usuario.descricaoVerificador}"/>
+                    </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-3 form-group" bomfim:classforerror="senha"
-                     th:classappend="bw-required">
-                    <label for="senha" class="control-label">Nova Senha</label>
-                    <input id="senha" type="password" class="form-control" th:field="*{senha}"/>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-3 form-group" bomfim:classforerror="confirmacaoSenha"
-                     th:classappend="bw-required">
-                    <label for="confirmarSenha" class="control-label">Confirmação da Nova Senha</label>
-                    <input id="confirmarSenha" type="password" class="form-control" th:field="*{confirmacaoSenha}"/>
-                </div>
-            </div>
 
-            <div class="form-group col-sm-6" style="text-align: right">
-                <button class="btn  btn-primary" type="submit">Salvar</button>
+                <input type="hidden" th:field="*{codigoVerificador}"/>
+                <div class="form-group col-sm-8" style="text-align: right">
+                    <a class="btn  btn-danger  js-exclusao-btn" href="#"
+                       data:url="@{/usuario/{codigo}(codigo=${usuario.codigo})}"
+                       data:sair="@{/logout}"
+                       data:objeto="${usuario.nome}"
+                       data:verificador="${usuario.codigoVerificador}"
+                       data:usuarioexcluido="${#authentication.principal.usuario.codigo == usuario.codigo}">Excluir
+                    </a>
+                    <button class="btn  btn-success" type="submit">Salvar</button>
+                </div>
             </div>
         </form>
     </div>

@@ -26,7 +26,7 @@ public class AppUserDetailsService implements UserDetailsService {
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		Optional<Usuario> usuarioRetrived = usuarios.retrieveLoginAtivo(username);
 		Usuario usuario = usuarioRetrived
-				.orElseThrow(() -> new UsernameNotFoundException("E-mail e/ou senha incorretos"));
+				.orElseThrow(() -> new UsernameNotFoundException("Login e/ou senha incorretos"));
 		return new UsuarioSistema(usuario, getPermissoes(usuario));
 	}
 
