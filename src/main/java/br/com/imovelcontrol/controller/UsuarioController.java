@@ -10,13 +10,13 @@ import br.com.imovelcontrol.model.enuns.StatusUsuario;
 import br.com.imovelcontrol.repository.Grupos;
 import br.com.imovelcontrol.repository.Usuarios;
 import br.com.imovelcontrol.service.CadastroUsuarioService;
+import br.com.imovelcontrol.service.UsuarioLogadoService;
 import br.com.imovelcontrol.service.exception.BusinessException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
@@ -45,7 +45,7 @@ public class UsuarioController {
     private Usuarios usuarios;
 
     @Autowired
-    private PasswordEncoder passwordEncoder;
+    private UsuarioLogadoService usuarioLogadoService;
 
     @RequestMapping("/novo")
     public ModelAndView novo(Usuario usuario) {
@@ -110,11 +110,23 @@ public class UsuarioController {
 
     @GetMapping("/{codigo}")
     public ModelAndView editar(@PathVariable Long codigo) {
+        if (verificarUsuarioLogado(codigo)) return new ModelAndView("/403");
         Usuario usuario = usuarios.buscarComGrupos(codigo);
         ModelAndView modelAndView = novo(usuario);
         modelAndView.addObject(usuario);
 
         return modelAndView;
+    }
+
+    private boolean verificarUsuarioLogado(Long codigo) {
+        if (!codigo.equals(usuarioLogadoService.getUsuario().getCodigo())) {
+            /*Se o codigo for diferente, e ele não for Admin, então, ele não podera entrar*/
+            Usuario usuario = usuarios.buscarComGrupos(codigo);
+            if (!usuario.getGrupos().contains(new Grupo(Grupo.ADMIN))) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @DeleteMapping("/{codigo}")
@@ -137,6 +149,7 @@ public class UsuarioController {
 
     @GetMapping("/alterarsenha/{codigo}")
     public ModelAndView alterarSenha(@PathVariable Long codigo) {
+        if (verificarUsuarioLogado(codigo)) return new ModelAndView("/403");
         Usuario usuario = usuarios.buscarComGrupos(codigo);
         ModelAndView modelAndView = alterarSenha(usuario);
         modelAndView.addObject(usuario);
