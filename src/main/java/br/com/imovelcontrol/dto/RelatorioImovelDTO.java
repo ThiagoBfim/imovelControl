@@ -2,6 +2,8 @@ package br.com.imovelcontrol.dto;
 
 import java.math.BigDecimal;
 
+import br.com.imovelcontrol.controller.converter.FormatUtil;
+
 /**
  * Created by Usuario on 01/06/2017.
  */
@@ -9,13 +11,11 @@ public class RelatorioImovelDTO {
 
     private String nome;
     private String cep;
-    private BigDecimal recimento;
-    private BigDecimal gastos;
-    private BigDecimal valorTotal;
+    private BigDecimal recebimento = BigDecimal.ZERO;
+    private BigDecimal gastos = BigDecimal.ZERO;
 
-    public RelatorioImovelDTO(String nome, String cep) {
-        this.nome = nome;
-        this.cep = cep;
+    public RelatorioImovelDTO() {
+        //Construtor Vazio
     }
 
     public String getNome() {
@@ -34,15 +34,18 @@ public class RelatorioImovelDTO {
         this.cep = cep;
     }
 
-    public BigDecimal getRecimento() {
-        return recimento;
+    public BigDecimal getRecebimento() {
+        return recebimento;
     }
 
-    public void setRecimento(BigDecimal recimento) {
-        this.recimento = recimento;
+    public void setRecebimento(BigDecimal recebimento) {
+        this.recebimento = recebimento;
     }
 
     public BigDecimal getGastos() {
+        if (gastos == null) {
+            gastos = BigDecimal.ZERO;
+        }
         return gastos;
     }
 
@@ -50,11 +53,15 @@ public class RelatorioImovelDTO {
         this.gastos = gastos;
     }
 
-    public BigDecimal getValorTotal() {
-        return valorTotal;
+    public BigDecimal getSomaTotal() {
+        return recebimento.subtract(getGastos());
     }
 
-    public void setValorTotal(BigDecimal valorTotal) {
-        this.valorTotal = valorTotal;
+    public String getRecebimentoFormat() {
+        return FormatUtil.formatBigDecimal(recebimento);
+    }
+
+    public String getGastosFormat() {
+        return FormatUtil.formatBigDecimal(gastos);
     }
 }

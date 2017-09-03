@@ -1,5 +1,8 @@
 package br.com.imovelcontrol.controller.converter;
 
+import java.math.BigDecimal;
+import java.text.NumberFormat;
+
 /**
  * Created by Usuario on 23/06/2017.
  */
@@ -23,5 +26,12 @@ public class FormatUtil {
         }
 
         return telefone;
+    }
+
+    public static String formatBigDecimal(BigDecimal valor) {
+        if (valor == null) {
+            valor = BigDecimal.ZERO;
+        }
+        return NumberFormat.getCurrencyInstance().format(valor);
     }
 }
