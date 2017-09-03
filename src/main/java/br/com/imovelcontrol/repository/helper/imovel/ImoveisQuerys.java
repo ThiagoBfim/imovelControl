@@ -1,5 +1,6 @@
 package br.com.imovelcontrol.repository.helper.imovel;
 
+import java.util.Date;
 import java.util.List;
 
 import br.com.imovelcontrol.dto.PeriodoRelatorioDTO;
@@ -15,4 +16,5 @@ public interface ImoveisQuerys {
 
     List<RelatorioImovelDTO> retrieveRelatorioImovelDTO(PeriodoRelatorioDTO periodoRelatorioDTO);
 
+    Date retrieveMinDataMensalPagamento();
 }
