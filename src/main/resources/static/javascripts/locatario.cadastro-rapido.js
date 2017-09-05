@@ -69,7 +69,12 @@ ImovelControl.LocatarioCadastroRapido = (function () {
     }
 
     function onErrorExcluir(e) {
-        swal('Erro!', e.responseText, 'error');
+        var codigo = $('#codigoLocatario');
+        if (codigo.val() == ''){
+            swal('Erro!', 'Não há locatário para excluir', 'error');
+        }else{
+            swal('Erro!', e.responseText, 'error');
+        }
     }
 
     function onErrorSalvar(e){

@@ -61,7 +61,7 @@ public class UsuarioController {
         if (result.hasErrors()) {
             return novo(usuario);
         }
-        if (salvarOuAlterarUsuario(usuario, result)) return novo(usuario);
+        if (salvarOuAlterarUsuario(usuario, result)) return editar(usuario);
         modelAndView.addObject("grupos", grupos.findAll());
         modelAndView.addObject("usuario", usuario);
         modelAndView.addObject("mensagem", "Usuário Salvo com Sucessso!");
@@ -132,8 +132,10 @@ public class UsuarioController {
      * @return retorna o caminho para a edição por meio do usuario.
      */
     @GetMapping("/editar")
-    public ModelAndView editar() {
-        Usuario usuario = usuarioLogadoService.getUsuario();
+    public ModelAndView editar(Usuario usuario) {
+        if(usuario.getCodigo() == null) {
+            usuario = usuarioLogadoService.getUsuario();
+        }
         ModelAndView modelAndView = novo(usuario);
         modelAndView.addObject("exibirGrupo", Boolean.FALSE);
         modelAndView.addObject(usuario);
@@ -167,7 +169,6 @@ public class UsuarioController {
             return modelAndView;
 
         }
-
     }
 
     /**

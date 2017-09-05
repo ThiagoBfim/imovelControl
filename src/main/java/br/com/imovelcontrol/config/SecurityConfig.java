@@ -42,7 +42,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/usuario/pesquisar/**").hasRole("LISTAR_USUARIO")
+                .antMatchers("/usuario/pesquisar/**","/usuario/novo/**").hasRole("LISTAR_USUARIO")
                 .anyRequest().authenticated()
                 //	.anyRequest().denyAll() 	Serve para bloquear tudo, para caso queira ser utilizado a logica inversa, ou seja, liberar so o que for utilziar.
                 .and().formLogin().loginPage("/login").permitAll()
