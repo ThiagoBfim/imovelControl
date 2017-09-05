@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import br.com.imovelcontrol.dto.PeriodoRelatorioDTO;
+import br.com.imovelcontrol.dto.RelatorioDetalhadoImovelDTO;
 import br.com.imovelcontrol.dto.RelatorioImovelDTO;
 import br.com.imovelcontrol.model.Imovel;
 import br.com.imovelcontrol.model.Usuario;
@@ -17,4 +18,6 @@ public interface ImoveisQuerys {
     List<RelatorioImovelDTO> retrieveRelatorioImovelDTO(PeriodoRelatorioDTO periodoRelatorioDTO);
 
     Date retrieveMinDataMensalPagamento();
+
+    List<RelatorioDetalhadoImovelDTO> retrieveRelatorioDetalhadoImovelDTO(PeriodoRelatorioDTO periodoRelatorioDTO);
 }

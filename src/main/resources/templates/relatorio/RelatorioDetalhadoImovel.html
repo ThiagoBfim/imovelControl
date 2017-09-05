@@ -14,17 +14,25 @@
     <div class="page-header">
         <div class="container-fluid">
             <h1>
-                Relatório Geral dos Imóveis
+                Relatório Detalhado dos Imóveis
             </h1>
         </div>
     </div>
 
     <div class="container-fluid">
-        <form method="POST" th:object="${periodoRelatorioDTO}" th:action="@{/relatorios/gastosImovel}"
+        <form method="POST" th:object="${periodoRelatorioDTO}" th:action="@{/relatorios/gastosDetalhadoImovel}"
               target="_blank">
 
             <bomfim:message/>
-            <div class="form-group col-sm-12" bomfim:classforerror="dataInicio">
+            <div class="form-group col-sm-12" bomfim:classforerror="nomeImovel">
+                <div class="row">
+                    <label class="col-sm-3" style="text-align: right" for="nomeImovel">Nome do Imóvel: </label>
+                    <div class="form-inline">
+                        <input type="text" class="form-control aw-form-control-inline-sm-doble"
+                               id="nomeImovel" th:field="*{nomeImovel}">
+                    </div>
+                </div>
+                <br>
                 <div class="row" bomfim:classforerror="dataInicio">
                     <label class="col-sm-3" style="text-align: right" for="dataInicio">Data da mensalidade: </label>
                     <div class="form-inline">
