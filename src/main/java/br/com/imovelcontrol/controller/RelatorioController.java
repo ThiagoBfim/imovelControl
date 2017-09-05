@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 import br.com.imovelcontrol.dto.PeriodoRelatorioDTO;
+import br.com.imovelcontrol.dto.RelatorioDetalhadoImovelDTO;
 import br.com.imovelcontrol.dto.RelatorioImovelDTO;
 import br.com.imovelcontrol.repository.Imoveis;
 import br.com.imovelcontrol.service.UsuarioLogadoService;
@@ -32,17 +33,52 @@ public class RelatorioController {
     @Autowired
     private UsuarioLogadoService usuarioLogadoService;
 
-    @RequestMapping
+    @RequestMapping("/geral")
     public ModelAndView novo(PeriodoRelatorioDTO periodoRelatorioDTO) {
         ModelAndView modelAndView = new ModelAndView("relatorio/RelatorioImovel");
+        return modelAndView;
+    }
+
+    @RequestMapping("/detalhado")
+    public ModelAndView novoDetalahdo(PeriodoRelatorioDTO periodoRelatorioDTO) {
+        ModelAndView modelAndView = new ModelAndView("relatorio/RelatorioDetalhadoImovel");
         return modelAndView;
     }
 
     @PostMapping("/gastosImovel")
     public ModelAndView gerarRelatorio(PeriodoRelatorioDTO periodoRelatorioDTO, BindingResult result) {
 
-        Map<String, Object> parametros = new HashMap<>();
+        Map<String, Object> parametros = createParametersToReport(periodoRelatorioDTO);
 
+
+        List<RelatorioImovelDTO> relatorioImovelDTOs = imoveis.retrieveRelatorioImovelDTO(periodoRelatorioDTO);
+        if (CollectionUtils.isEmpty(relatorioImovelDTOs)) {
+            result.rejectValue("dataInicio", "Nenhum Resultado encontrado", "Nenhum Resultado encontrado");
+            return novo(periodoRelatorioDTO);
+        }
+        parametros.put("dadosRelatorios", relatorioImovelDTOs);
+        return new ModelAndView("relatorio_gastos", parametros);
+    }
+
+    @PostMapping("/gastosDetalhadoImovel")
+    public ModelAndView gerarRelatorioDetalhado(PeriodoRelatorioDTO periodoRelatorioDTO, BindingResult result) {
+
+
+        Map<String, Object> parametros = createParametersToReport(periodoRelatorioDTO);
+
+        List<RelatorioDetalhadoImovelDTO> relatorioImovelDTOs = imoveis.retrieveRelatorioDetalhadoImovelDTO(periodoRelatorioDTO);
+        if (CollectionUtils.isEmpty(relatorioImovelDTOs)) {
+            result.rejectValue("nomeImovel", "Nenhum Resultado encontrado", "Nenhum Resultado encontrado");
+            return novoDetalahdo(periodoRelatorioDTO);
+        }
+        parametros.put("subReportGastos", "relatorios/relatorio_subReportDetalhado_gastos.jasper");
+
+        parametros.put("dadosRelatorios", relatorioImovelDTOs);
+
+        return new ModelAndView("relatorio_detalhado_gastos", parametros);
+    }
+
+    private Map<String, Object> createParametersToReport(PeriodoRelatorioDTO periodoRelatorioDTO) {
         Date dataInicio;
         if (periodoRelatorioDTO.getDataInicio() != null) {
             dataInicio = Date.from(LocalDateTime.of(periodoRelatorioDTO.getDataInicio(),
@@ -60,21 +96,13 @@ public class RelatorioController {
             periodoRelatorioDTO.setDataFim(LocalDate.now());
         }
 
-
-        List<RelatorioImovelDTO> relatorioImovelDTOs = imoveis.retrieveRelatorioImovelDTO(periodoRelatorioDTO);
-        if (CollectionUtils.isEmpty(relatorioImovelDTOs)) {
-            result.rejectValue("nomeImovel", "Nenhum Resultado encontrado", "Nenhum Resultado encontrado");
-            return novo(periodoRelatorioDTO);
-        }
-
-        // TODO IMPLEMENTAR UMA LOGICA PARA CASO NÃO TENHA RESULTADO MOSTRAR EM UMA MODAL.
+        Map<String, Object> parametros = new HashMap<>();
         parametros.put("format", "pdf");
         parametros.put("data_inicio", dataInicio);
         parametros.put("data_fim", dataFim);
         parametros.put("usuario", usuarioLogadoService.getUsuario().getNome());
-        parametros.put("dadosRelatorios", relatorioImovelDTOs);
         parametros.put("datasource", new JREmptyDataSource());
-        return new ModelAndView("relatorio_gastos", parametros);
+        return parametros;
     }
 
 }
