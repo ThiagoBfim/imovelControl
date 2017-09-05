@@ -23,7 +23,7 @@
                     <h1 th:unless="${usuario.novo}" th:text="|Edição de usuário - ${usuario.nome}|">Cadastro Do
                         Usuário</h1>
                 </div>
-                <div class="col-sm-2">
+                <div class="col-sm-2" th:if="!${exibirGrupo != null && !exibirGrupo}">
                     <div class="aw-page-header-controls">
                         <a class="btn btn-default" th:href="@{/usuario/}">
                             <i class="glyphicon  glyphicon-plus-sign"></i> <span class="hidden-xs  hidden-sm">Pesquisar Usuário</span>
