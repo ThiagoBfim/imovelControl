@@ -7,7 +7,7 @@ import java.math.BigDecimal;
  */
 public class GastosDetalhadoDTO {
 
-    private BigDecimal gasto = BigDecimal.ZERO;
+    private BigDecimal gasto;
     private String descricao;
 
     public BigDecimal getGasto() {

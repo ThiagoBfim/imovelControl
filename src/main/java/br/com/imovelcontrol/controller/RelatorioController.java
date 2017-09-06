@@ -67,12 +67,13 @@ public class RelatorioController {
         Map<String, Object> parametros = createParametersToReport(periodoRelatorioDTO);
 
         List<RelatorioDetalhadoImovelDTO> relatorioImovelDTOs = imoveis.retrieveRelatorioDetalhadoImovelDTO(periodoRelatorioDTO);
+        relatorioImovelDTOs.removeIf(s -> CollectionUtils.isEmpty(s.getSubRelatorioDetalhadoImovelDTOS()));
         if (CollectionUtils.isEmpty(relatorioImovelDTOs)) {
             result.rejectValue("nomeImovel", "Nenhum Resultado encontrado", "Nenhum Resultado encontrado");
             return novoDetalahdo(periodoRelatorioDTO);
         }
         parametros.put("subReportGastos", "relatorios/relatorio_subReportDetalhado_gastos.jasper");
-
+        parametros.put("subReportGastosAdicionais", "relatorios/relatorio_subReportInfoPagamento_gastos.jasper");
         parametros.put("dadosRelatorios", relatorioImovelDTOs);
 
         return new ModelAndView("relatorio_detalhado_gastos", parametros);

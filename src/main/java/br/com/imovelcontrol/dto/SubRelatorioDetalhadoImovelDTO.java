@@ -18,8 +18,8 @@ public class SubRelatorioDetalhadoImovelDTO {
     private Boolean luzInclusa;
     private BigDecimal valorAluguel;
     private Long codigoPagamento;
+    private Boolean pago;
     private List<GastosDetalhadoDTO> listaGastos = new ArrayList<>();
-
 
     public Date getDataMensal() {
         return dataMensal;
@@ -91,5 +91,13 @@ public class SubRelatorioDetalhadoImovelDTO {
 
     public void setCodigoPagamento(Long codigoPagamento) {
         this.codigoPagamento = codigoPagamento;
+    }
+
+    public Boolean getPago() {
+        return pago;
+    }
+
+    public void setPago(Boolean pago) {
+        this.pago = pago;
     }
 }
