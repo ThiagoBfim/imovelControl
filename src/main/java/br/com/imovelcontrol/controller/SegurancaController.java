@@ -11,23 +11,26 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class SegurancaController {
 
-	@GetMapping("/login")
-	public String login(@AuthenticationPrincipal User user){
-		if(user != null){
-				return "index";
-		}
-		return "Login";
-	}
+    @GetMapping("/login")
+    public String login(@AuthenticationPrincipal User user) {
+        if (user != null) {
+            return "index";
+        }
+        return "Login";
 
-	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public ModelAndView paginaInicial(@AuthenticationPrincipal User user){
-		if(user != null){
-			return new ModelAndView("redirect:/dashboard");
-		}
-		return new ModelAndView("Login");
-	}
-	@GetMapping("/403")
-	public String acessoNegado(){
-		return "403";
-	}
+    }
+
+
+    @RequestMapping(value = "/", method = RequestMethod.GET)
+    public ModelAndView paginaInicial(@AuthenticationPrincipal User user) {
+        if (user != null) {
+            return new ModelAndView("redirect:/dashboard");
+        }
+        return new ModelAndView("Login");
+    }
+
+    @GetMapping("/403")
+    public String acessoNegado() {
+        return "403";
+    }
 }

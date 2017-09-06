@@ -145,7 +145,6 @@ public class ImoveisImpl implements ImoveisQuerys {
     @Override
     public List<RelatorioDetalhadoImovelDTO> retrieveRelatorioDetalhadoImovelDTO(PeriodoRelatorioDTO periodoRelatorioDTO) {
 
-
         StringBuilder sql = new StringBuilder("SELECT imovel.nome as nome, imovel.cep as cep, "
                 + " aluguel.nome as nomeAluguel, aluguel.codigo as codigoAluguel"
                 + " FROM  imovel imovel"
@@ -172,7 +171,7 @@ public class ImoveisImpl implements ImoveisQuerys {
     private List<SubRelatorioDetalhadoImovelDTO> retrieveSubRelatorioDetalhado(PeriodoRelatorioDTO periodoRelatorioDTO,
             Long codigoAluguel) {
         StringBuilder sql = new StringBuilder("SELECT informacaoPagamento.aguaInclusa as aguaInclusa, "
-                + " informacaoPagamento.internetInclusa as internetInclusa, "
+                + " informacaoPagamento.internetInclusa as internetInclusa, informacaoPagamento.pago as pago, "
                 + " informacaoPagamento.codigo as codigoPagamento, "
                 + " informacaoPagamento.iptuIncluso as iptuIncluso, "
                 + " informacaoPagamento.possuiCondominio as possuiCondominio, "
@@ -197,12 +196,20 @@ public class ImoveisImpl implements ImoveisQuerys {
                 .addScalar("luzInclusa", BooleanType.INSTANCE)
                 .addScalar("dataMensal", DateType.INSTANCE)
                 .addScalar("valorAluguel", BigDecimalType.INSTANCE)
-                .addScalar("codigoPagamento", LongType.INSTANCE);
+                .addScalar("codigoPagamento", LongType.INSTANCE)
+                .addScalar("pago", BooleanType.INSTANCE);
         List<SubRelatorioDetalhadoImovelDTO> subRelatorioDetalhadoImovelDTOS = sqlQuery.list();
 
         if (!CollectionUtils.isEmpty(subRelatorioDetalhadoImovelDTOS)) {
-            subRelatorioDetalhadoImovelDTOS.forEach(sreport ->
-                    sreport.setListaGastos(retrieveGastosByCodigoPagamento(sreport.getCodigoPagamento())));
+            subRelatorioDetalhadoImovelDTOS.forEach(sreport -> {
+                sreport.setListaGastos(retrieveGastosByCodigoPagamento(sreport.getCodigoPagamento()));
+
+                //Logica para adicionar um elemento vazio no relatorio.
+                if (CollectionUtils.isEmpty(sreport.getListaGastos())) {
+                    sreport.getListaGastos().add(new GastosDetalhadoDTO());
+                }
+            });
+
         }
 
         return subRelatorioDetalhadoImovelDTOS;
