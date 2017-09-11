@@ -106,7 +106,7 @@ public class ImoveisImpl implements ImoveisQuerys {
                 + "               FROM gasto_adicional gastoAdicional"
                 + "               INNER JOIN informacao_pagamento pagamento"
                 + "               ON gastoAdicional.codPagamento = pagamento.codigo"
-                + "               GROUP BY gastoAdicional.codPagamento"
+                + "               GROUP BY gastoAdicional.codPagamento, gastoAdicional.valorGasto"
                 + "            ) as tabelaGastos on tabelaGastos.codPagamento = informacaoPagamento.codigo "
                 + " WHERE imovel.codigo_usuario = :donoImovel "
         );
