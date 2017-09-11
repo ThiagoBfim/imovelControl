@@ -73,8 +73,7 @@ public class ImovelController {
             result.rejectValue(e.getField(), e.getMessage(), e.getMessage());
             return novo(imovel);
         }
-
-
+        
         mAndView.addObject("imovel", imovel);
         mAndView.addObject("mensagem", "Imovel Salvo com sucesso!");
         return mAndView;
