@@ -15,6 +15,7 @@ public class RelatorioDetalhadoImovelDTO {
     private Long codigoAluguel;
     private BigDecimal lucro = BigDecimal.ZERO;
     private List<SubRelatorioDetalhadoImovelDTO> subRelatorioDetalhadoImovelDTOS = new ArrayList<>();
+    private Boolean estaAlugado = Boolean.FALSE;
 
     /*Método chamado pelo relatorio, para obter o lucroTotal dealhado.*/
     public BigDecimal getLucroTotal() {
@@ -70,5 +71,28 @@ public class RelatorioDetalhadoImovelDTO {
 
     public void setCodigoAluguel(Long codigoAluguel) {
         this.codigoAluguel = codigoAluguel;
+    }
+
+    public Boolean getEstaAlugado() {
+        return estaAlugado == null ? Boolean.FALSE : estaAlugado;
+    }
+
+    public void setEstaAlugado(Boolean estaAlugado) {
+        this.estaAlugado = estaAlugado;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof RelatorioDetalhadoImovelDTO)) return false;
+
+        RelatorioDetalhadoImovelDTO that = (RelatorioDetalhadoImovelDTO) o;
+
+        return getNomeAluguel().equals(that.getNomeAluguel());
+    }
+
+    @Override
+    public int hashCode() {
+        return getNomeAluguel().hashCode();
     }
 }

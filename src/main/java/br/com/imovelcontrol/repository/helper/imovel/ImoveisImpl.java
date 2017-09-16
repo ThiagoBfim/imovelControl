@@ -146,18 +146,22 @@ public class ImoveisImpl implements ImoveisQuerys {
     public List<RelatorioDetalhadoImovelDTO> retrieveRelatorioDetalhadoImovelDTO(PeriodoRelatorioDTO periodoRelatorioDTO) {
 
         StringBuilder sql = new StringBuilder("SELECT imovel.nome as nome, imovel.cep as cep, "
-                + " aluguel.nome as nomeAluguel, aluguel.codigo as codigoAluguel"
+                + " aluguel.nome as nomeAluguel, aluguel.codigo as codigoAluguel, loc.excluido as estaAlugado"
                 + " FROM  imovel imovel"
                 + " INNER JOIN aluguel aluguel on aluguel.codigo_imovel = imovel.codigo  "
-                + " WHERE imovel.codigo_usuario = :donoImovel ");
+                + " LEFT JOIN locatario loc on loc.codigo_aluguel = aluguel.codigo "
+                + " WHERE imovel.codigo_usuario = :donoImovel "
+                + " AND imovel.codigo =:imovel ");
         SQLQuery sqlQuery = entityManager.createNativeQuery(sql.toString()).unwrap(SQLQuery.class);
         sqlQuery.setParameter("donoImovel", usuarioLogadoService.getUsuario());
+        sqlQuery.setParameter("imovel", periodoRelatorioDTO.getImovel());
 
         sqlQuery.setResultTransformer(Transformers.aliasToBean(RelatorioDetalhadoImovelDTO.class));
         sqlQuery.addScalar("nome", StringType.INSTANCE)
                 .addScalar("cep", StringType.INSTANCE)
                 .addScalar("codigoAluguel", LongType.INSTANCE)
-                .addScalar("nomeAluguel", StringType.INSTANCE);
+                .addScalar("nomeAluguel", StringType.INSTANCE)
+                .addScalar("estaAlugado", BooleanType.INSTANCE);
 
         List<RelatorioDetalhadoImovelDTO> listaDetalhadoImovelDTOS = sqlQuery.list();
         if (!CollectionUtils.isEmpty(listaDetalhadoImovelDTOS)) {
@@ -232,7 +236,7 @@ public class ImoveisImpl implements ImoveisQuerys {
         sql.append(" AND  informacaoPagamento.dataMensal >= :dataInicio ");
         sql.append("  AND  informacaoPagamento.dataMensal <= :dataFim ");
 
-        if (!StringUtils.isEmpty(periodoRelatorioDTO.getNomeImovel())) {
+        if (periodoRelatorioDTO.getImovel() != null) {
             sql.append(" AND  imovel.nome like :nome");
         }
 
@@ -247,8 +251,8 @@ public class ImoveisImpl implements ImoveisQuerys {
         sqlQuery.setParameter("dataFim", periodoRelatorioDTO.getDataFim());
         sqlQuery.setParameter("dataInicio", periodoRelatorioDTO.getDataInicio());
 
-        if (!StringUtils.isEmpty(periodoRelatorioDTO.getNomeImovel())) {
-            sqlQuery.setParameter("nome", '%' + periodoRelatorioDTO.getNomeImovel() + '%');
+        if (periodoRelatorioDTO.getImovel() != null) {
+            sqlQuery.setParameter("nome", '%' + periodoRelatorioDTO.getImovel().getNome() + '%');
         }
         return sqlQuery;
     }
