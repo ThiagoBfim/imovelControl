@@ -24,13 +24,15 @@
               target="_blank">
 
             <bomfim:message/>
-            <div class="form-group col-sm-12" bomfim:classforerror="nomeImovel">
-                <div class="row">
+            <div class="form-group col-sm-12" bomfim:classforerror="imovel">
+                <div class="row bw-required">
                     <label class="col-sm-3" style="text-align: right" for="nomeImovel">Nome do Imóvel: </label>
                     <div class="form-inline">
-                        <input type="text" class="form-control aw-form-control-inline-sm-doble"
-                               id="nomeImovel" th:field="*{nomeImovel}">
-                    </div>
+                        <select id="nomeImovel" class="form-control" th:field="*{imovel}">
+                            <option value="">Selecione o Imovel</option>
+                            <option th:each="imovel : ${imoveis}" th:value="${imovel.codigo}"
+                                    th:text="${imovel.nome}"></option>
+                        </select></div>
                 </div>
                 <br>
                 <div class="row" bomfim:classforerror="dataInicio">

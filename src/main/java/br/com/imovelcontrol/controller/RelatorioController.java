@@ -8,10 +8,13 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
+import br.com.imovelcontrol.controller.converter.FormatUtil;
 import br.com.imovelcontrol.dto.PeriodoRelatorioDTO;
 import br.com.imovelcontrol.dto.RelatorioDetalhadoImovelDTO;
 import br.com.imovelcontrol.dto.RelatorioImovelDTO;
+import br.com.imovelcontrol.model.Imovel;
 import br.com.imovelcontrol.repository.Imoveis;
 import br.com.imovelcontrol.service.UsuarioLogadoService;
 import net.sf.jasperreports.engine.JREmptyDataSource;
@@ -42,6 +45,7 @@ public class RelatorioController {
     @RequestMapping("/detalhado")
     public ModelAndView novoDetalahdo(PeriodoRelatorioDTO periodoRelatorioDTO) {
         ModelAndView modelAndView = new ModelAndView("relatorio/RelatorioDetalhadoImovel");
+        modelAndView.addObject("imoveis", imoveis.findByDonoImovel_Codigo(usuarioLogadoService.getUsuario().getCodigo()).get());
         return modelAndView;
     }
 
@@ -63,20 +67,30 @@ public class RelatorioController {
     @PostMapping("/gastosDetalhadoImovel")
     public ModelAndView gerarRelatorioDetalhado(PeriodoRelatorioDTO periodoRelatorioDTO, BindingResult result) {
 
+        if (periodoRelatorioDTO.getImovel() != null) {
+            periodoRelatorioDTO.setImovel(imoveis.findOne(periodoRelatorioDTO.getImovel().getCodigo()));
+            Map<String, Object> parametros = createParametersToReport(periodoRelatorioDTO);
 
-        Map<String, Object> parametros = createParametersToReport(periodoRelatorioDTO);
+            parametros.put("nomeImovel", FormatUtil
+                    .inserirCepMascara(periodoRelatorioDTO.getImovel().getNome()
+                            + " - " + periodoRelatorioDTO.getImovel().getEndereco().getCep()));
 
-        List<RelatorioDetalhadoImovelDTO> relatorioImovelDTOs = imoveis.retrieveRelatorioDetalhadoImovelDTO(periodoRelatorioDTO);
-        relatorioImovelDTOs.removeIf(s -> CollectionUtils.isEmpty(s.getSubRelatorioDetalhadoImovelDTOS()));
-        if (CollectionUtils.isEmpty(relatorioImovelDTOs)) {
-            result.rejectValue("nomeImovel", "Nenhum Resultado encontrado", "Nenhum Resultado encontrado");
+            List<RelatorioDetalhadoImovelDTO> relatorioImovelDTOs = imoveis
+                    .retrieveRelatorioDetalhadoImovelDTO(periodoRelatorioDTO).stream().distinct().collect(Collectors.toList());
+            relatorioImovelDTOs.removeIf(s -> CollectionUtils.isEmpty(s.getSubRelatorioDetalhadoImovelDTOS()));
+            if (CollectionUtils.isEmpty(relatorioImovelDTOs)) {
+                result.rejectValue("nomeImovel", "Nenhum Resultado encontrado", "Nenhum Resultado encontrado");
+                return novoDetalahdo(periodoRelatorioDTO);
+            }
+            parametros.put("subReportGastos", "relatorios/relatorio_subReportDetalhado_gastos.jasper");
+            parametros.put("subReportGastosAdicionais", "relatorios/relatorio_subReportInfoPagamento_gastos.jasper");
+            parametros.put("dadosRelatorios", relatorioImovelDTOs);
+            return new ModelAndView("relatorio_detalhado_gastos", parametros);
+        } else {
+            result.rejectValue("imovel", "Selecione pelo menos um imovel.", "Selecione pelo menos um imovel.");
             return novoDetalahdo(periodoRelatorioDTO);
         }
-        parametros.put("subReportGastos", "relatorios/relatorio_subReportDetalhado_gastos.jasper");
-        parametros.put("subReportGastosAdicionais", "relatorios/relatorio_subReportInfoPagamento_gastos.jasper");
-        parametros.put("dadosRelatorios", relatorioImovelDTOs);
 
-        return new ModelAndView("relatorio_detalhado_gastos", parametros);
     }
 
     private Map<String, Object> createParametersToReport(PeriodoRelatorioDTO periodoRelatorioDTO) {

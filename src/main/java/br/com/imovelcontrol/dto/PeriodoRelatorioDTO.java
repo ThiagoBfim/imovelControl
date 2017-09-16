@@ -2,18 +2,20 @@ package br.com.imovelcontrol.dto;
 
 import java.time.LocalDate;
 
+import br.com.imovelcontrol.model.Imovel;
+
 public class PeriodoRelatorioDTO {
 
-    private String nomeImovel = "";
+    private Imovel imovel;
     private LocalDate dataInicio;
     private LocalDate dataFim;
 
-    public String getNomeImovel() {
-        return nomeImovel;
+    public Imovel getImovel() {
+        return imovel;
     }
 
-    public void setNomeImovel(String nomeImovel) {
-        this.nomeImovel = nomeImovel;
+    public void setImovel(Imovel imovel) {
+        this.imovel = imovel;
     }
 
     public LocalDate getDataInicio() {
