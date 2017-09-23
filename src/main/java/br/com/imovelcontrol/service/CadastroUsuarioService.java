@@ -53,6 +53,8 @@ public class CadastroUsuarioService {
             usuario.setSenha(passwordEncoder.encode(usuario.getSenha()));
         } else if (StringUtils.isEmpty(usuario.getSenha())) {
             usuario.setSenha(usuarioRetrived.get().getSenha());
+            usuario.setGrupos(usuarioRetrived.get().getGrupos());
+
         }
 
         if (!usuario.isNovo() && usuarioRetrived.isPresent() && usuario.getAtivo() == null) {
