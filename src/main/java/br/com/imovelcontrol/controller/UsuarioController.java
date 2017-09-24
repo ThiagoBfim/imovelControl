@@ -47,7 +47,7 @@ public class UsuarioController {
     @Autowired
     private UsuarioLogadoService usuarioLogadoService;
 
-    @RequestMapping("/novo")
+    @RequestMapping("/novoGet")
     public ModelAndView novo(Usuario usuario) {
         ModelAndView modelAndView = new ModelAndView("usuario/CadastroUsuario");
         modelAndView.addObject("grupos", grupos.findAll());
