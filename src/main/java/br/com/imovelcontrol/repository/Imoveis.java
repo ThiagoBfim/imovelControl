@@ -17,5 +17,6 @@ public interface Imoveis extends JpaRepository<Imovel, Long>, ImoveisQuerys {
     Optional<Imovel> findByCep(String cep, Usuario usuario);
     Optional<Imovel> findByNomeAndDonoImovel(String nome, Usuario usuario);
     Optional<List<Imovel>>findByDonoImovel_Codigo(Long codigo);
+    Optional<List<Imovel>>findByDonoImovelAndExcluido(Usuario usuario, Boolean excluido);
 
 }

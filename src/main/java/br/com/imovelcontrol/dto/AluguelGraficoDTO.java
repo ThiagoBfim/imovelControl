@@ -6,6 +6,15 @@ package br.com.imovelcontrol.dto;
 public class AluguelGraficoDTO {
 
     private String nomeImovel;
+    private double rendimento;
+
+    public double getRendimento() {
+        return rendimento;
+    }
+
+    public void setRendimento(double rendimento) {
+        this.rendimento = rendimento;
+    }
 
     public String getNomeImovel() {
         return nomeImovel;
