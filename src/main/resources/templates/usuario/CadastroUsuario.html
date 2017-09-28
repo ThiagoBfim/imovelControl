@@ -25,7 +25,7 @@
                 </div>
                 <div class="col-sm-2" th:if="!${exibirGrupo != null && !exibirGrupo}">
                     <div class="aw-page-header-controls">
-                        <a class="btn btn-default" th:href="@{/usuario/}">
+                        <a class="btn btn-default" th:href="@{/usuario/pesquisar}">
                             <i class="glyphicon  glyphicon-plus-sign"></i> <span class="hidden-xs  hidden-sm">Pesquisar Usuário</span>
                         </a>
                     </div>
@@ -76,18 +76,7 @@
                     <input id="confirmarSenha" type="password" class="form-control" th:field="*{confirmacaoSenha}"/>
                 </div>
 
-                <div th:if="${(exibirGrupo != null && !exibirGrupo) && !usuario.novo}" class="col-sm-6 form-group"
-                     bomfim:classforerror="codigoVerificadorTemp" th:classappend="bw-required">
-                    <input type="hidden" th:field="*{codigoVerificador}"/>
-                    <input type="hidden" th:field="*{descricaoVerificador}"/>
-                    <label for="codigoVerificadorTemp" class="control-label">Código Verificador</label>
-                    <input id="codigoVerificadorTemp" type="text" class="form-control codigoEspecial"
-                           th:field="*{codigoVerificadorTemp}"
-                           th:placeholder="${usuario.descricaoVerificador}"/>
-                </div>
-
-
-                <div th:hidden="${exibirGrupo != null && !exibirGrupo}" class="col-sm-6  form-group bw-required"
+                <div class="col-sm-6  form-group bw-required"
                      bomfim:classforerror="grupos">
                     <label class="control-label" for="grupo">Grupos</label>
                     <div>
@@ -103,17 +92,19 @@
                 </div>
             </div>
 
-            <div class="row" th:if="${usuario.novo}">
+            <div class="row" th:hidden="${exibirGrupo != null && !exibirGrupo}">
                 <div class="col-sm-4 form-group" bomfim:classforerror="codigoVerificador"
                      th:classappend="bw-required">
                     <label for="codigoVerificador" class="control-label">Código Verificador</label>
                     <input id="codigoVerificador" type="text" class="form-control" th:field="*{codigoVerificador}"
+                           th:readonly="${!usuario.novo}"
                            placeholder="Esse código não poderá ser alterado, guarde ele com você!"/>
                 </div>
                 <div class="col-sm-6 form-group" bomfim:classforerror="descricaoVerificador"
                      th:classappend="bw-required">
                     <label for="descricaoVerificador" class="control-label">Descrição do Código Verificador</label>
                     <input id="descricaoVerificador" type="text" class="form-control" th:field="*{descricaoVerificador}"
+                           th:readonly="${!usuario.novo}"
                            placeholder="Coloque aqui alguma informação que lhe fará lembrar do seu código verificador"/>
                 </div>
             </div>

@@ -1,43 +1,46 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org"
-      xmlns:bomfim="http://bomfim.com.br">
+      xmlns:bomfim="http://bomfim.com.br" xmlns:sec="http://www.w3.org/1999/xhtml">
 
 <aside class="aw-layout-sidebar  js-sidebar" th:fragment="barraLateral">
-    <div class="aw-layout-sidebar__content" >
+    <div class="aw-layout-sidebar__content">
 
-        <nav class="aw-menu  js-menu" >
+        <nav class="aw-menu  js-menu">
             <ul class="aw-menu__list">
 
 
                 <li class="aw-menu__item">
-                    <a th:href="@{/dashboard}"><i class="fa  fa-fw fa fa-line-chart" bomfim:menu="@{/dashboard}"></i><span>Dashboard</span></a>
+                    <a th:href="@{/dashboard}"><i class="fa  fa-fw fa fa-line-chart"
+                                                  bomfim:menu="@{/dashboard}"></i><span>Dashboard</span></a>
                 </li>
                 <li class="aw-menu__item">
                     <a href="#">
-                        <i class="fa  fa-fw fa fa-home" ></i><span>Imovel</span>
+                        <i class="fa  fa-fw fa fa-home"></i><span>Imovel</span>
                         <i class="aw-menu__navigation-icon  fa"></i>
                     </a>
                     <ul class="aw-menu__list  aw-menu__list--sublist">
                         <li class="aw-menu__item  aw-menu__item--link " bomfim:menu='@{/imovel}'>
-                                <a th:href="@{/imovel}"><i class="fa fa-search" ></i>Pesquisa de Imóveis
-                                </a>
+                            <a th:href="@{/imovel}"><i class="fa fa-search"></i>Pesquisa de Imóveis
+                            </a>
                         </li>
                     </ul>
                     <ul class="aw-menu__list  aw-menu__list--sublist">
                         <li class="aw-menu__item  aw-menu__item--link" bomfim:menu='@{/relatorios/geral}'>
-                            <a th:href="@{/relatorios/geral}"><i class="glyphicon glyphicon-list-alt"></i>Relatórios Geral</a>
+                            <a th:href="@{/relatorios/geral}"><i class="glyphicon glyphicon-list-alt"></i>Relatórios
+                                Geral</a>
                         </li>
                     </ul>
                     <ul class="aw-menu__list  aw-menu__list--sublist">
                         <li class="aw-menu__item  aw-menu__item--link" bomfim:menu='@{/relatorios/detalhado}'>
-                            <a th:href="@{/relatorios/detalhado}"><i class="glyphicon glyphicon-list-alt"></i>Relatórios Detalhado</a>
+                            <a th:href="@{/relatorios/detalhado}"><i class="glyphicon glyphicon-list-alt"></i>Relatórios
+                                Detalhado</a>
                         </li>
                     </ul>
                 </li>
-                <li class="aw-menu__item">
+                <li  sec:authorize="hasRole('ROLE_LISTAR_USUARIO')" class="aw-menu__item">
                     <a href="#">
-                        <i class="fa  fa-fw  fa-file-text glyphicon glyphicon-globe"></i><span>Publico</span>
+                        <i class="fa  fa-fw  fa-file-text glyphicon glyphicon-globe"></i><span>Privado</span>
                         <i class="aw-menu__navigation-icon  fa"></i>
                     </a>
 
@@ -48,14 +51,15 @@
                     </ul>
                 </li>
 
-                <li class="aw-menu__item  ">
+                <li  sec:authorize="hasRole('ROLE_LISTAR_USUARIO')" class="aw-menu__item  ">
                     <a href="#">
                         <i class="fa  fa-fw  fa-file-text"></i><span>Páginas comuns</span>
                         <i class="aw-menu__navigation-icon  fa"></i>
                     </a>
 
                     <ul class="aw-menu__list  aw-menu__list--sublist">
-                        <li class="aw-menu__item  aw-menu__item--link"><a href="esqueceu-a-senha.html"><i class="fa fa-question-circle"></i>Esqueceu a
+                        <li class="aw-menu__item  aw-menu__item--link"><a href="esqueceu-a-senha.html"><i
+                                class="fa fa-question-circle"></i>Esqueceu a
                             senha</a></li>
                         <li class="aw-menu__item  aw-menu__item--link"><a href="403.html">403</a></li>
                         <li class="aw-menu__item  aw-menu__item--link"><a href="404.html">404</a></li>
