@@ -47,13 +47,30 @@ public class UsuarioController {
     @Autowired
     private UsuarioLogadoService usuarioLogadoService;
 
-    @RequestMapping("/novoGet")
+
+    /**
+     * Método para redirecionar para a pagina de cadastro de um novo usuário.
+     * <p>Utilizado apenas internamente Administradores.
+     *
+     * @param usuario Usuário que será carregado na tela.
+     * @return Retorna a tela de cadastro de um novo usuario.
+     */
+    @RequestMapping("/novo")
     public ModelAndView novo(Usuario usuario) {
         ModelAndView modelAndView = new ModelAndView("usuario/CadastroUsuario");
         modelAndView.addObject("grupos", grupos.findAll());
         return modelAndView;
     }
 
+    /**
+     * Método Post para salvar um novo usuario.
+     * <p>Utilizado apenas internamente por Administradores.
+     *
+     * @param usuario Usuario a ser salvo.
+     * @param result  Result é o parametro responsavel por conter erros e por passar erros para a tela,
+     *                facilitando a visão do cliente.
+     * @return Retorna a pagina de sucesso, ou de exceção caso ocorra erro no cadastro.
+     */
     @RequestMapping(value = {"/novo"}, method = RequestMethod.POST)
     public ModelAndView salvar(@Valid Usuario usuario, BindingResult result) {
         ModelAndView modelAndView = new ModelAndView("usuario/CadastroUsuario");
@@ -61,13 +78,24 @@ public class UsuarioController {
         if (result.hasErrors()) {
             return novo(usuario);
         }
-        if (salvarOuAlterarUsuario(usuario, result)) return editar(usuario);
+        try {
+            cadastroUsuarioService.salvar(usuario);
+        } catch (BusinessException e) {
+            result.rejectValue(e.getField(), e.getMessage(), e.getMessage());
+        }
         modelAndView.addObject("grupos", grupos.findAll());
         modelAndView.addObject("usuario", usuario);
         modelAndView.addObject("mensagem", "Usuário Salvo com Sucessso!");
         return modelAndView;
     }
 
+
+    /**
+     * Método para redirecionar para a pagina de cadastro de um novo usuário.
+     * <p>Utilizado apenas para cadastro de forma publica, sem estar logado.
+     *
+     * @return Retorna a tela de cadastro de um novo usuario.
+     */
     @RequestMapping("/novoLogin")
     public ModelAndView novoLogin(Usuario usuario) {
         ModelAndView modelAndView = new ModelAndView("usuario/CadastroUsuarioLogin");
@@ -75,6 +103,15 @@ public class UsuarioController {
         return modelAndView;
     }
 
+    /**
+     * Método Post para salvar um novo usuario.
+     * <p>Utilizado apenas para cadastro de forma publica, sem estar logado.
+     *
+     * @param usuario Usuario a ser salvo.
+     * @param result  Result é o parametro responsavel por conter erros e por passar erros para a tela,
+     *                facilitando a visão do cliente.
+     * @return Retorna a pagina de sucesso, ou de exceção caso ocorra erro no cadastro.
+     */
     @RequestMapping(value = {"/novoLogin"}, method = RequestMethod.POST)
     public ModelAndView salvarLogin(@Valid Usuario usuario, BindingResult result) {
 
@@ -86,12 +123,45 @@ public class UsuarioController {
         }
         usuario.setCodigoVerificadorTemp(usuario.getCodigoVerificador());
         if (salvarOuAlterarUsuario(usuario, result)) return novoLogin(usuario);
-        ModelAndView modelAndView = new ModelAndView("usuario/login");
+        ModelAndView modelAndView = new ModelAndView("/login");
         modelAndView.addObject("usuario", usuario);
         modelAndView.addObject("mensagem", "Usuário Salvo com Sucessso!");
         return modelAndView;
     }
 
+    /**
+     * Método para realizar a edição do usuario.
+     *
+     * @param usuario Usuario a ser salvo.
+     * @param result  Result é o parametro responsavel por conter erros e por passar erros para a tela,
+     *                facilitando a visão do cliente.
+     * @return Retorna a pagina de sucesso, ou de exceção caso ocorra erro no cadastro.
+     */
+    @RequestMapping(value = {"/editar"}, method = RequestMethod.POST)
+    public ModelAndView editar(@Valid Usuario usuario, BindingResult result) {
+
+        usuario.setAtivo(Boolean.TRUE);
+
+        if (result.hasErrors()) {
+            return editar(usuario);
+        }
+        if (salvarOuAlterarUsuario(usuario, result)) return editar(usuario);
+        ModelAndView modelAndView = new ModelAndView("usuario/EditarUsuario");
+        modelAndView.addObject("usuario", usuario);
+        modelAndView.addObject("mensagem", "Usuário Salvo com Sucessso!");
+        return modelAndView;
+    }
+
+    /**
+     * Método responsavel por realizar a busca por todos os usuarios.
+     *
+     * @param usuario            filtro para buscar por usuarios especificos.
+     * @param result             Result é o parametro responsavel por conter erros e por passar erros para a tela,
+     *                           facilitando a visão do cliente.
+     * @param pageable           Pageable é o parametro para realizar a paginação.
+     * @param httpServletRequest O Resquest do http.
+     * @return Retorna uma lista de usuarios de forma paginada.
+     */
     @GetMapping(value = "/pesquisar")
     public ModelAndView pesquisar(Usuario usuario, BindingResult result, @PageableDefault(size = 5) Pageable pageable,
             HttpServletRequest httpServletRequest) {
@@ -102,6 +172,12 @@ public class UsuarioController {
         return modelAndView;
     }
 
+    /**
+     * Método para realizar a exclusão de um ou mais usuarios de forma mais rapida.
+     *
+     * @param codigos       Codigo dos usuarios que serão excluidos logicamente.
+     * @param statusUsuario Status, se será ativado, ou inativado.
+     */
     @PutMapping("/status")
     @ResponseStatus(HttpStatus.OK)
     public void atualizarStatus(@RequestParam("codigos[]") Long[] codigos,
@@ -131,18 +207,22 @@ public class UsuarioController {
      *
      * @return retorna o caminho para a edição por meio do usuario.
      */
-    @GetMapping("/editar")
+    @GetMapping("/redirectEditar")
     public ModelAndView editar(Usuario usuario) {
-        if(usuario.getCodigo() == null) {
+        if (usuario.getCodigo() == null) {
             usuario = usuarioLogadoService.getUsuario();
         }
-        ModelAndView modelAndView = novo(usuario);
-        modelAndView.addObject("exibirGrupo", Boolean.FALSE);
+        ModelAndView modelAndView = new ModelAndView("usuario/EditarUsuario");
         modelAndView.addObject(usuario);
         return modelAndView;
     }
 
-    //LOGICA PARA ALTERAR SENHA
+    /**
+     * Metodo para chamar a tela de alterar senha
+     *
+     * @param usuario Usuario que sera alterado.
+     * @return Retorna a tela de alterar a senha.
+     */
     @RequestMapping("/alterarsenha")
     public ModelAndView alterarSenha(Usuario usuario) {
         ModelAndView modelAndView = new ModelAndView("usuario/AlterarSenha");
@@ -153,6 +233,14 @@ public class UsuarioController {
         return modelAndView;
     }
 
+    /**
+     * Metodo para alterar a senha do usuario.
+     *
+     * @param usuario Usuario que tera a senha alterada.
+     * @param result  Result é o parametro responsavel por conter erros e por passar erros para a tela,
+     *                facilitando a visão do cliente.
+     * @return Retorna a pagina de sucesso, ou de exceção caso ocorra erro no cadastro.
+     */
     @RequestMapping(value = {"/alterarsenha"}, method = RequestMethod.POST)
     public ModelAndView alterarSenha(Usuario usuario, BindingResult result) {
         ModelAndView modelAndView = new ModelAndView("usuario/AlterarSenha");
@@ -191,7 +279,7 @@ public class UsuarioController {
     }
 
     /**
-     * Método que realiza as validações para salvar ou alterar o usuario.
+     * Método interno que realiza as validações para salvar ou alterar o usuario.
      *
      * @param usuario usuario a ser salvo.
      * @param result  Result para preencher com erro.

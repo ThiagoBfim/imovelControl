@@ -8,6 +8,7 @@ import javax.sql.DataSource;
 
 import br.com.imovelcontrol.controller.ImovelController;
 import br.com.imovelcontrol.controller.converter.GrupoConverter;
+import br.com.imovelcontrol.controller.converter.ImovelConverter;
 import br.com.imovelcontrol.thymeleaf.BomfimDialect;
 import com.github.mxab.thymeleaf.extras.dataattribute.dialect.DataAttributeDialect;
 import com.google.common.cache.CacheBuilder;
@@ -112,6 +113,7 @@ public class WebConfig extends WebMvcConfigurerAdapter implements ApplicationCon
 	public FormattingConversionService mvcConversionService() {
 		DefaultFormattingConversionService conversionService = new DefaultFormattingConversionService();
 		conversionService.addConverter(new GrupoConverter());
+        conversionService.addConverter(new ImovelConverter());
 
 		NumberStyleFormatter bigDecimalFormatter = new NumberStyleFormatter("#,##0.00");
 		conversionService.addFormatterForFieldType(BigDecimal.class, bigDecimalFormatter);

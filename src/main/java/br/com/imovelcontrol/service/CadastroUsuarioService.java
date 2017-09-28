@@ -55,6 +55,10 @@ public class CadastroUsuarioService {
             usuario.setSenha(usuarioRetrived.get().getSenha());
         }
 
+        if (usuario.getGrupos().isEmpty()) {
+            usuario.setGrupos(usuarioRetrived.get().getGrupos());
+        }
+
         if (!usuario.isNovo() && usuarioRetrived.isPresent() && usuario.getAtivo() == null) {
             usuario.setAtivo(usuarioRetrived.get().getAtivo());
         }
@@ -106,7 +110,7 @@ public class CadastroUsuarioService {
     /**
      * Método para gerar uma senha aleatoria.
      *
-     * @param usuario usuario que terá a senah modificada.
+     * @param usuario usuario que terá a senha modificada.
      * @return Senha modificada.
      */
     private String generateSenha(Usuario usuario) {

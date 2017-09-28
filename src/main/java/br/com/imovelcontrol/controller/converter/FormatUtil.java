@@ -16,6 +16,10 @@ public class FormatUtil {
         return cpf.replaceAll("(\\d{3})(\\d{3})(\\d{3})(\\d{2})", "$1.$2.$3-$4");
     }
 
+    public static String inserirCepMascara(String cpf) {
+        return cpf.replaceAll("(\\d{5})(\\d{3})", "$1-$2");
+    }
+
     public static String inserirTelefoneMascara(String telefone) {
         if (telefone.length() == 11) {
             telefone = '(' + telefone.substring(0, 2) + ")" + ' ' + telefone.substring(2, 7) + "-"
