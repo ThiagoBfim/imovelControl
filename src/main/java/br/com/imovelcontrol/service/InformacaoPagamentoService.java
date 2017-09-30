@@ -84,4 +84,9 @@ public class InformacaoPagamentoService {
                 .equals(LocalDate.now().getMonth())).findAny();
     }
 
+    @Transactional
+    public  List<InformacaoPagamento> findByAluguel(Aluguel aluguel){
+        return informacaoPagamentos.findByAluguel(aluguel);
+    }
+
 }
