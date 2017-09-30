@@ -225,7 +225,7 @@ public class ImoveisImpl implements ImoveisQuerys {
         String sql = "SELECT gasto.valorGasto as gasto, gasto.comentarioGasto as descricao "
                 + " FROM gasto_adicional gasto"
                 + " WHERE gasto.codPagamento = :codigoPagamento";
-        SQLQuery sqlQuery = entityManager.createNativeQuery(sql.toString()).unwrap(SQLQuery.class);
+        SQLQuery sqlQuery = entityManager.createNativeQuery(sql).unwrap(SQLQuery.class);
         sqlQuery.setParameter("codigoPagamento", codigoPagamento);
         sqlQuery.setResultTransformer(Transformers.aliasToBean(GastosDetalhadoDTO.class));
         sqlQuery.addScalar("gasto", BigDecimalType.INSTANCE)

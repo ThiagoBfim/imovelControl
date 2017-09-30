@@ -62,15 +62,12 @@ public class DashBoardController {
 
         List<AluguelGraficoDTO> aluguelGraficoDTOList = new ArrayList<>();
         Optional<List<Imovel>> listImovel = imoveis.findByDonoImovelAndExcluido(usuario, false);
-        if(listImovel.isPresent()) {
-            listImovel.get().forEach((Imovel i) -> {
-
-                AluguelGraficoDTO aluguelGraficoDTO = new AluguelGraficoDTO();
-                aluguelGraficoDTO.setNomeImovel(i.getNome());
-                aluguelGraficoDTO.setRendimento(valorTotal(i.getCodigo()));
-                aluguelGraficoDTOList.add(aluguelGraficoDTO);
-            });
-        }
+        listImovel.ifPresent(imovels -> imovels.forEach((Imovel i) -> {
+            AluguelGraficoDTO aluguelGraficoDTO = new AluguelGraficoDTO();
+            aluguelGraficoDTO.setNomeImovel(i.getNome());
+            aluguelGraficoDTO.setRendimento(valorTotal(i.getCodigo()));
+            aluguelGraficoDTOList.add(aluguelGraficoDTO);
+        }));
 
         return aluguelGraficoDTOList;
     }
