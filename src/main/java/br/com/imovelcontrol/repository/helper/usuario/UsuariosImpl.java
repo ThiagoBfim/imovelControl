@@ -100,6 +100,7 @@ public class UsuariosImpl implements UsuariosQueries {
         Criteria criteria = entityManager.unwrap(Session.class).createCriteria(Usuario.class);
         criteria.createAlias("grupos", "g", JoinType.LEFT_OUTER_JOIN);
         criteria.add(Restrictions.eq("codigo", codigo));
+        criteria.add(Restrictions.eq("ativo", Boolean.TRUE));
         criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
         return (Usuario) criteria.uniqueResult();
     }
@@ -110,6 +111,7 @@ public class UsuariosImpl implements UsuariosQueries {
         Criteria criteria = entityManager.unwrap(Session.class).createCriteria(Usuario.class);
         criteria.createAlias("grupos", "g", JoinType.LEFT_OUTER_JOIN);
         criteria.add(Restrictions.eq("login", login));
+        criteria.add(Restrictions.eq("ativo", Boolean.TRUE));
         criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
         return (Usuario) criteria.uniqueResult();
     }

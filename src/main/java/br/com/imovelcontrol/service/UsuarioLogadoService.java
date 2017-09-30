@@ -8,7 +8,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 /**
- * Created by Usuario on 05/08/2017.
+ * Created by Thiago on 05/08/2017.
  */
 @Service
 public class UsuarioLogadoService {

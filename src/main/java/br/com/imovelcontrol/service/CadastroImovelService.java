@@ -5,12 +5,9 @@ import java.util.Optional;
 
 import br.com.imovelcontrol.model.Aluguel;
 import br.com.imovelcontrol.model.Imovel;
-import br.com.imovelcontrol.repository.Alugueis;
 import br.com.imovelcontrol.repository.Imoveis;
-import br.com.imovelcontrol.service.event.ImovelSalvoEvent;
 import br.com.imovelcontrol.service.exception.BusinessException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,17 +18,12 @@ public class CadastroImovelService {
     private Imoveis imoveis;
 
     @Autowired
-    private ApplicationEventPublisher publisher;
-
-    @Autowired
     private CadastroAluguelService cadastroAluguelService;
-
-    @Autowired
-    private Alugueis alugueis;
 
     @Transactional
     public Imovel salvar(Imovel imovel) {
-        Optional<Imovel> imovelRetrieve = imoveis.findByCep(imovel.getEndereco().getCep(), imovel.getDonoImovel());
+        Optional<Imovel> imovelRetrieve = imoveis.findByCepAndDonoImovel(imovel.getEndereco().getCep(),
+                imovel.getDonoImovel());
 
         if (imovelRetrieve.isPresent() && !imovelRetrieve.get().equals(imovel)) {
             throw new BusinessException("Já existe um imóvel cadastrado com este CEP", "endereco");
@@ -41,7 +33,14 @@ public class CadastroImovelService {
                 throw new BusinessException("Já existe um imóvel cadastrado com este Nome", "nome");
             }
         }
-        publisher.publishEvent(new ImovelSalvoEvent(imovel));
+
+        /*Caso já possua um ID e esse ID não seja do usuario logado, então significa que alguem está
+        tentanto burlar o sistema, nesse caso será retornando uma mensagem.*/
+        if (imovel.getCodigo() != null
+                && !imovel.getDonoImovel().equals(imoveis.getOne(imovel.getCodigo()).getDonoImovel())) {
+            throw new BusinessException("Ocorreu um erro, aparentemente já existe um imovel igual no nosso sistema. "
+                    + "Favor entrar em contato com a equipe do ImovelControl", null);
+        }
         return imoveis.save(imovel);
     }
 
@@ -59,7 +58,7 @@ public class CadastroImovelService {
 
     @Transactional
     public List<Imovel> findByDonoImovel(Long codigo) {
-        Optional<List<Imovel>> imovels = imoveis.findByDonoImovel_Codigo(codigo);
+        Optional<List<Imovel>> imovels = imoveis.findByDonoImovel_CodigoAndExcluido(codigo, Boolean.FALSE);
 
         if (!imovels.isPresent()) {
             throw new BusinessException("Imóvel não encontrado", "imovel");

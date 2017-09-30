@@ -24,8 +24,8 @@ public class MailConfig {
     @Bean
     public JavaMailSender mailSender() {
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
-        mailSender.setUsername(env.getProperty("SENDGRID_USERNAME"));
-        mailSender.setPassword(env.getProperty("SENDGRID_PASSWORD"));
+        mailSender.setUsername(env.getProperty("EMAIL_USERNAME"));
+        mailSender.setPassword(env.getProperty("EMAIL_PASSWORD"));
 
         Properties props = new Properties();
         props.put("mail.smtp.host", "smtp.gmail.com");

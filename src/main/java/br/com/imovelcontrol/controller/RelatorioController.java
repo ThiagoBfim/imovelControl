@@ -14,7 +14,6 @@ import br.com.imovelcontrol.controller.converter.FormatUtil;
 import br.com.imovelcontrol.dto.PeriodoRelatorioDTO;
 import br.com.imovelcontrol.dto.RelatorioDetalhadoImovelDTO;
 import br.com.imovelcontrol.dto.RelatorioImovelDTO;
-import br.com.imovelcontrol.model.Imovel;
 import br.com.imovelcontrol.repository.Imoveis;
 import br.com.imovelcontrol.service.UsuarioLogadoService;
 import net.sf.jasperreports.engine.JREmptyDataSource;
@@ -45,7 +44,8 @@ public class RelatorioController {
     @RequestMapping("/detalhado")
     public ModelAndView novoDetalahdo(PeriodoRelatorioDTO periodoRelatorioDTO) {
         ModelAndView modelAndView = new ModelAndView("relatorio/RelatorioDetalhadoImovel");
-        modelAndView.addObject("imoveis", imoveis.findByDonoImovel_Codigo(usuarioLogadoService.getUsuario().getCodigo()).get());
+        modelAndView.addObject("imoveis", imoveis.findByDonoImovel_CodigoAndExcluido(usuarioLogadoService
+                .getUsuario().getCodigo(), Boolean.FALSE).get());
         return modelAndView;
     }
 
@@ -79,7 +79,7 @@ public class RelatorioController {
                     .retrieveRelatorioDetalhadoImovelDTO(periodoRelatorioDTO).stream().distinct().collect(Collectors.toList());
             relatorioImovelDTOs.removeIf(s -> CollectionUtils.isEmpty(s.getSubRelatorioDetalhadoImovelDTOS()));
             if (CollectionUtils.isEmpty(relatorioImovelDTOs)) {
-                result.rejectValue("nomeImovel", "Nenhum Resultado encontrado", "Nenhum Resultado encontrado");
+                result.rejectValue("imovel", "Nenhum Resultado encontrado", "Nenhum Resultado encontrado");
                 return novoDetalahdo(periodoRelatorioDTO);
             }
             parametros.put("subReportGastos", "relatorios/relatorio_subReportDetalhado_gastos.jasper");

@@ -7,7 +7,9 @@ import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.validation.Valid;
+import javax.validation.constraints.Max;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import br.com.imovelcontrol.model.enuns.TipoForro;
 import br.com.imovelcontrol.model.enuns.TipoImovel;
@@ -18,8 +20,10 @@ import org.hibernate.validator.constraints.NotBlank;
 public class Aluguel extends BaseEntity {
 
     @NotBlank(message = "Nome Obrigatório")
+    @Size(max = 100, message = "Nome deve ter no máximo 100 caracteres")
     private String nome;
 
+    @Size(max = 200, message = "Nome deve ter no máximo 200 caracteres")
     private String complemento;
 
     @ManyToOne
@@ -46,15 +50,19 @@ public class Aluguel extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private TipoPiso tipoPiso;
 
+    @Max(value = 99, message = "Quantidade máxima de quartos é 99")
     @Column(name = "quantidade_quartos")
     private Integer quantidadeQuartos;
 
+    @Max(value = 99, message = "Quantidade máxima de banheiros é 99")
     @Column(name = "quantidade_banheiros")
     private Integer quantidadeBanheiros;
 
+    @Max(value = 99, message = "Quantidade máxima de suítes é 99")
     @Column(name = "suites")
     private Integer suites;
 
+    @Max(value = 99, message = "Quantidade máxima de vagas na garagem é 99")
     @Column(name = "vagas_garagem")
     private Integer vagasGaragem;
 

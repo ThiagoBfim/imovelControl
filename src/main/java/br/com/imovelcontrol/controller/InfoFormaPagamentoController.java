@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
- * Created by Usuario on 30/07/2017.
+ * Created by Thiago on 30/07/2017.
  */
 @Controller
 @RequestMapping("/pagamento")

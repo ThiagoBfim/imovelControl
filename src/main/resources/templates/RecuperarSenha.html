@@ -47,11 +47,9 @@
     <form method="GET" th:action="@{/esqueciminhasenha/pesquisa}" th:object="${usuario}"
           class="form-vertical js-form-loading">
         <div class="aw-simple-panel">
-
-            <bomfim:message/>
             <div class="aw-simple-panel__box">
+                <bomfim:message/>
                 <h1><font color="#009900"> <i class="fa  fa-fw  "></i><b>Esqueci Minha senha</b></font></h1>
-
                 <div class="form-group  has-feedback">
                     <input type="text" class="form-control  input-lg" placeholder="Informe seu login"
                            th:field="*{login}"/>

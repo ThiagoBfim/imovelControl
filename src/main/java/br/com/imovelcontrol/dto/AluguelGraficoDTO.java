@@ -1,7 +1,7 @@
 package br.com.imovelcontrol.dto;
 
 /**
- * Created by Usuario on 01/06/2017.
+ * Created by Thiago on 01/06/2017.
  */
 public class AluguelGraficoDTO {
 
