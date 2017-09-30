@@ -2,6 +2,7 @@ package br.com.imovelcontrol.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import br.com.imovelcontrol.dto.AluguelGraficoDTO;
 import br.com.imovelcontrol.dto.PeriodoRelatorioDTO;
@@ -60,14 +61,16 @@ public class DashBoardController {
         Usuario usuario = usuarioLogadoService.getUsuario();
 
         List<AluguelGraficoDTO> aluguelGraficoDTOList = new ArrayList<>();
-        List<Imovel> listImovel = imoveis.findByDonoImovelAndExcluido(usuario, false).get();
-        listImovel.forEach((Imovel i) -> {
+        Optional<List<Imovel>> listImovel = imoveis.findByDonoImovelAndExcluido(usuario, false);
+        if(listImovel.isPresent()) {
+            listImovel.get().forEach((Imovel i) -> {
 
-            AluguelGraficoDTO aluguelGraficoDTO = new AluguelGraficoDTO();
-            aluguelGraficoDTO.setNomeImovel(i.getNome());
-            aluguelGraficoDTO.setRendimento(valorTotal(i.getCodigo()));
-            aluguelGraficoDTOList.add(aluguelGraficoDTO);
-        });
+                AluguelGraficoDTO aluguelGraficoDTO = new AluguelGraficoDTO();
+                aluguelGraficoDTO.setNomeImovel(i.getNome());
+                aluguelGraficoDTO.setRendimento(valorTotal(i.getCodigo()));
+                aluguelGraficoDTOList.add(aluguelGraficoDTO);
+            });
+        }
 
         return aluguelGraficoDTOList;
     }

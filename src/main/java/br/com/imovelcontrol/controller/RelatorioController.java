@@ -37,8 +37,7 @@ public class RelatorioController {
 
     @RequestMapping("/geral")
     public ModelAndView novo(PeriodoRelatorioDTO periodoRelatorioDTO) {
-        ModelAndView modelAndView = new ModelAndView("relatorio/RelatorioImovel");
-        return modelAndView;
+        return new ModelAndView("relatorio/RelatorioImovel");
     }
 
     @RequestMapping("/detalhado")
@@ -87,7 +86,7 @@ public class RelatorioController {
             parametros.put("dadosRelatorios", relatorioImovelDTOs);
             return new ModelAndView("relatorio_detalhado_gastos", parametros);
         } else {
-            result.rejectValue("imovel", "Selecione pelo menos um imovel.", "Selecione pelo menos um imovel.");
+            result.rejectValue("imovel", "Selecione pelo menos um imovel.", "Selecione pelo menos um imovel");
             return novoDetalahdo(periodoRelatorioDTO);
         }
 
@@ -100,7 +99,9 @@ public class RelatorioController {
                     LocalTime.of(0, 0, 0)).atZone(ZoneId.systemDefault()).toInstant());
         } else {
             dataInicio = imoveis.retrieveMinDataMensalPagamento();
-            periodoRelatorioDTO.setDataInicio(dataInicio.toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
+            if (dataInicio != null) {
+                periodoRelatorioDTO.setDataInicio(dataInicio.toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
+            }
         }
         Date dataFim;
         if (periodoRelatorioDTO.getDataFim() != null) {

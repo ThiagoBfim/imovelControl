@@ -45,8 +45,7 @@ public class ImovelController {
      */
     @RequestMapping("/novo")
     public ModelAndView novo(Imovel imovel) {
-        ModelAndView mAndView = new ModelAndView("imovel/CadastroImovel");
-        return mAndView;
+        return new ModelAndView("imovel/CadastroImovel");
     }
 
     /**

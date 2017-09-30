@@ -51,11 +51,11 @@ public class CadastroUsuarioService {
         }
         if (usuario.isNovo() || !StringUtils.isEmpty(usuario.getSenha())) {
             usuario.setSenha(passwordEncoder.encode(usuario.getSenha()));
-        } else if (StringUtils.isEmpty(usuario.getSenha())) {
+        } else if (StringUtils.isEmpty(usuario.getSenha()) && usuarioRetrived.isPresent()) {
             usuario.setSenha(usuarioRetrived.get().getSenha());
         }
 
-        if (usuario.getGrupos().isEmpty()) {
+        if (usuario.getGrupos().isEmpty() && usuarioRetrived.isPresent()) {
             usuario.setGrupos(usuarioRetrived.get().getGrupos());
         }
 

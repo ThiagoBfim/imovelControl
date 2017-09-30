@@ -15,8 +15,11 @@ public interface Imoveis extends JpaRepository<Imovel, Long>, ImoveisQuerys {
 
     @Query(value = "select * from imovel  where cep = ?1 and codigo_usuario = ?2", nativeQuery = true)
     Optional<Imovel> findByCepAndDonoImovel(String cep, Usuario usuario);
+
     Optional<Imovel> findByNomeAndDonoImovel(String nome, Usuario usuario);
-    Optional<List<Imovel>>findByDonoImovel_CodigoAndExcluido(Long codigo, Boolean excluido);
-    Optional<List<Imovel>>findByDonoImovelAndExcluido(Usuario usuario, Boolean excluido);
+
+    Optional<List<Imovel>> findByDonoImovel_CodigoAndExcluido(Long codigo, Boolean excluido);
+
+    Optional<List<Imovel>> findByDonoImovelAndExcluido(Usuario usuario, Boolean excluido);
 
 }

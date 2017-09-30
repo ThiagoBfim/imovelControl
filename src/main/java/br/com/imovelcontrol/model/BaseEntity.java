@@ -1,6 +1,7 @@
 package br.com.imovelcontrol.model;
 
 import java.io.Serializable;
+import java.util.Objects;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -44,7 +45,7 @@ public abstract class BaseEntity implements Serializable {
             return false;
 
         BaseEntity other = (BaseEntity) object;
-        return !(this.getCodigo() != other.getCodigo()
+        return !(!Objects.equals(this.getCodigo(), other.getCodigo())
                 && (this.getCodigo() == null || !this.getCodigo().equals(other.getCodigo())));
     }
 

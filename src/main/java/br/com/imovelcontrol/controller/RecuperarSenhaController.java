@@ -25,8 +25,7 @@ public class RecuperarSenhaController {
 
     @GetMapping
     public ModelAndView recuperarSenha(Usuario usuario) {
-        ModelAndView modelAndView = new ModelAndView("RecuperarSenha");
-        return modelAndView;
+        return new ModelAndView("RecuperarSenha");
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/pesquisa")

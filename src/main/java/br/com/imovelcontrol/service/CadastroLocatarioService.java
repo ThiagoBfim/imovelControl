@@ -55,10 +55,11 @@ public class CadastroLocatarioService {
     public void deleteByAluguel(Aluguel aluguel) {
 
         Optional<Locatario> locatario = locatarios.findByAluguelAndExcluido(aluguel, Boolean.FALSE);
-        if (locatario.isPresent()) {
-            locatario.get().setExcluido(Boolean.TRUE);
-            locatarios.save(locatario.get());
+        if (!locatario.isPresent()) {
+            return;
         }
+        locatario.get().setExcluido(Boolean.TRUE);
+        locatarios.save(locatario.get());
 
     }
 
