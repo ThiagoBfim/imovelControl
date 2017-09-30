@@ -14,7 +14,7 @@ Brewer.DialogoExcluir = (function () {
 
     DialogoExcluir.prototype.iniciar = function () {
         this.exclusaoBtn.on('click', onExcluirClicado.bind(this));
-    }
+    };
 
     function onExcluirClicado(evento) {
         event.preventDefault();
@@ -59,9 +59,9 @@ Brewer.DialogoExcluir = (function () {
             $.ajax({
                 url: sair,
                 method: 'GET'
-            })
+            });
             window.location = window.location.href;
-            return
+
         } else {
             swal({
                     title: 'Pronto',

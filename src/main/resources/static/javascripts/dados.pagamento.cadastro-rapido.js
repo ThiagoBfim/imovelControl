@@ -18,7 +18,7 @@ Brewer.AluguelCadastroRapido = (function () {
 
         AluguelCadastroRapido.prototype.iniciar = function () {
             this.botaoSalvar.on('click', onBotaoSalvarClick.bind(this));
-        }
+        };
 
         function onBotaoSalvarClick(evento) {
             var botaoClicado = $(evento.currentTarget);
@@ -81,7 +81,7 @@ Brewer.AluguelCadastroRapido = (function () {
 
         return AluguelCadastroRapido;
 
-    }
+    };
     ()
 )
 ;
@@ -90,4 +90,4 @@ $(function () {
     var aluguelCadastroRapido = new Brewer.AluguelCadastroRapido();
     aluguelCadastroRapido.iniciar();
 
-})
+});

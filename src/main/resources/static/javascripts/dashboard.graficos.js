@@ -12,7 +12,7 @@ ImovelControl.GraficoVendaPorMes = (function () {
     GraficoVendaPorMes.prototype.iniciar = function () {
         this.btnGraficoPizza.on('click', drawPizzaChart.bind(this));
         this.btnGraficoColuna.on('click', drawColunaChart.bind(this));
-    }
+    };
 
 
     // function drawColunaChart() {
@@ -105,4 +105,4 @@ $(function () {
     graficoVendaPorMes.iniciar();
 
 
-})
+});

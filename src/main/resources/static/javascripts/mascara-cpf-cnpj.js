@@ -14,7 +14,7 @@ Brewer.MascaraCpfCnpj = (function() {
 		if (tipoPessoaSelecionada) {
 			aplicarMascara.call(this, $(tipoPessoaSelecionada));
 		}
-	}
+	};
 
 	function onTipoPessoaAlterado(evento) {
 		var tipoPessoaSelecionada = $(evento.currentTarget);
