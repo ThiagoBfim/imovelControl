@@ -94,7 +94,7 @@
                          th:classappend="bw-required">
                         <label for="codigoVerificador" class="control-label">Código Verificador</label>
                         <input id="codigoVerificador" type="text" class="form-control" th:field="*{codigoVerificador}"
-                               placeholder="Esse código não poderá ser alterado, guarde ele com você!"/>
+                               placeholder="Esse código não poderá ser alterado, guarde ele com você!" maxlength="20"/>
                     </div>
                 </div>
                 <div class="row">
@@ -102,7 +102,7 @@
                          th:classappend="bw-required">
                         <label for="descricaoVerificador" class="control-label">Descrição do Código Verificador</label>
                         <input id="descricaoVerificador" type="text" class="form-control" th:field="*{descricaoVerificador}"
-                               placeholder="Coloque aqui alguma informação que lhe fará lembrar do seu código verificador"/>
+                               placeholder="Coloque aqui alguma informação que lhe fará lembrar do seu código verificador" maxlength="100"/>
                     </div>
                 </div>
 

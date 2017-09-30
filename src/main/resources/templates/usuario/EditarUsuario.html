@@ -37,18 +37,18 @@
                 <div class="col-sm-6  form-group bw-required" bomfim:classforerror="login">
                     <label for="login" class="control-label">Login</label>
                     <input id="login" type="text" class="form-control" th:field="*{login}"
-                           th:readonly="!${usuario.novo}"/>
+                           th:readonly="!${usuario.novo}" maxlength="100"/>
                 </div>
                 <div class="col-sm-6  form-group bw-required" bomfim:classforerror="nome">
                     <label for="nome" class="control-label">Nome</label>
-                    <input id="nome" type="text" class="form-control" th:field="*{nome}"/>
+                    <input id="nome" type="text" class="form-control" th:field="*{nome}" maxlength="100"/>
                 </div>
             </div>
 
             <div class="row">
                 <div class="col-sm-6 form-group bw-required" bomfim:classforerror="email">
                     <label for="email" class="control-label">E-mail</label>
-                    <input id="email" type="text" class="form-control" th:field="*{email}"/>
+                    <input id="email" type="text" class="form-control" th:field="*{email}" maxlength="100"/>
                 </div>
                 <div class="col-sm-4 form-group " bomfim:classforerror="dataNascimento">
                     <label for="dataNascimento" class="control-label">Data de Nascimento</label>
@@ -65,7 +65,7 @@
                     <label for="codigoVerificadorTemp" class="control-label">Código Verificador</label>
                     <input id="codigoVerificadorTemp" type="text" class="form-control codigoEspecial"
                            th:field="*{codigoVerificadorTemp}"
-                           th:placeholder="${usuario.descricaoVerificador}"/>
+                           th:placeholder="${usuario.descricaoVerificador}" maxlength="20"/>
                 </div>
             </div>
 

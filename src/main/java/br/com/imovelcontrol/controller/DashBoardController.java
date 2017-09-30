@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Optional;
 
 import br.com.imovelcontrol.dto.AluguelGraficoDTO;
+import br.com.imovelcontrol.dto.GraficoColunaImovelDTO;
 import br.com.imovelcontrol.dto.PeriodoRelatorioDTO;
 import br.com.imovelcontrol.model.Aluguel;
 import br.com.imovelcontrol.model.GastoAdicional;

@@ -37,8 +37,8 @@ ImovelControl.GraficoVendaPorMes = (function () {
             ['2014', 1000, 400, 200],
             ['2015', 1170, 460, 250],
             ['2016', 660, 1120, 300],
-            ['2017', 1030, 540, 350],
-            ['2018', 100, 1, 1]
+             ['2017', 1030, 540, 350]//,
+            // ['2018', 100, 1, 1]
         ]);
         // var data = new google.visualization.DataTable();
         // data.addColumn('string', 'Month'); // Implicit domain label col.

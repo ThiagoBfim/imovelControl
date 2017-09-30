@@ -23,13 +23,13 @@
                 <div class="row">
                     <div class="form-group  col-sm-12 bw-required" bomfim:classforerror="nome">
                         <label class="control-label" for="complemento">Nome</label> <input
-                            type="text" class="form-control" th:field="*{nome}" id="nome"/>
+                            type="text" class="form-control" maxlength="100" th:field="*{nome}" id="nome"/>
                     </div>
                 </div>
                 <div class="row">
                     <div class="form-group  col-sm-12">
                         <label class="control-label" for="complemento">Complemento</label>
-                        <textarea rows="4" cols="50" class="form-control"
+                        <textarea rows="4" cols="50" class="form-control" maxlength="200"
                                   th:field="*{complemento}" id="complemento"></textarea>
                     </div>
                 </div>

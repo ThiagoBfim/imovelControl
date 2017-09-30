@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Size;
 
 /**
  * Created by Thiago on 09/05/2017.
@@ -16,6 +17,7 @@ public class GastoAdicional extends BaseEntity {
 
     private LocalDate dataMensal;
 
+    @Size(max = 250, message = "Comentário sobre gasto adicional deve ter no máximo 100 caracteres")
     private String comentarioGasto;
 
     private BigDecimal valorGasto;
