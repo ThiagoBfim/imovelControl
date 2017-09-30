@@ -8,7 +8,7 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 /**
- * Created by Usuario on 09/05/2017.
+ * Created by Thiago on 09/05/2017.
  */
 @Entity
 @Table(name = "informacao_pagamento")

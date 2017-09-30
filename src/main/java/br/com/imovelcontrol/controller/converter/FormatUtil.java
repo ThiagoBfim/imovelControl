@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 import java.text.NumberFormat;
 
 /**
- * Created by Usuario on 23/06/2017.
+ * Created by Thiago on 23/06/2017.
  */
 public class FormatUtil {
 

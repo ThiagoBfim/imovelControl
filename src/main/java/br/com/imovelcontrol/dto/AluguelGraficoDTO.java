@@ -4,7 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * Created by Usuario on 01/06/2017.
+ * Created by Thiago on 01/06/2017.
  */
 public class AluguelGraficoDTO {
 

@@ -14,7 +14,6 @@ import br.com.imovelcontrol.controller.converter.FormatUtil;
 import br.com.imovelcontrol.dto.PeriodoRelatorioDTO;
 import br.com.imovelcontrol.dto.RelatorioDetalhadoImovelDTO;
 import br.com.imovelcontrol.dto.RelatorioImovelDTO;
-import br.com.imovelcontrol.model.Imovel;
 import br.com.imovelcontrol.repository.Imoveis;
 import br.com.imovelcontrol.service.UsuarioLogadoService;
 import net.sf.jasperreports.engine.JREmptyDataSource;
@@ -38,14 +37,14 @@ public class RelatorioController {
 
     @RequestMapping("/geral")
     public ModelAndView novo(PeriodoRelatorioDTO periodoRelatorioDTO) {
-        ModelAndView modelAndView = new ModelAndView("relatorio/RelatorioImovel");
-        return modelAndView;
+        return new ModelAndView("relatorio/RelatorioImovel");
     }
 
     @RequestMapping("/detalhado")
     public ModelAndView novoDetalahdo(PeriodoRelatorioDTO periodoRelatorioDTO) {
         ModelAndView modelAndView = new ModelAndView("relatorio/RelatorioDetalhadoImovel");
-        modelAndView.addObject("imoveis", imoveis.findByDonoImovel_Codigo(usuarioLogadoService.getUsuario().getCodigo()).get());
+        modelAndView.addObject("imoveis", imoveis.findByDonoImovel_CodigoAndExcluido(usuarioLogadoService
+                .getUsuario().getCodigo(), Boolean.FALSE).get());
         return modelAndView;
     }
 
@@ -79,7 +78,7 @@ public class RelatorioController {
                     .retrieveRelatorioDetalhadoImovelDTO(periodoRelatorioDTO).stream().distinct().collect(Collectors.toList());
             relatorioImovelDTOs.removeIf(s -> CollectionUtils.isEmpty(s.getSubRelatorioDetalhadoImovelDTOS()));
             if (CollectionUtils.isEmpty(relatorioImovelDTOs)) {
-                result.rejectValue("nomeImovel", "Nenhum Resultado encontrado", "Nenhum Resultado encontrado");
+                result.rejectValue("imovel", "Nenhum Resultado encontrado", "Nenhum Resultado encontrado");
                 return novoDetalahdo(periodoRelatorioDTO);
             }
             parametros.put("subReportGastos", "relatorios/relatorio_subReportDetalhado_gastos.jasper");
@@ -87,7 +86,7 @@ public class RelatorioController {
             parametros.put("dadosRelatorios", relatorioImovelDTOs);
             return new ModelAndView("relatorio_detalhado_gastos", parametros);
         } else {
-            result.rejectValue("imovel", "Selecione pelo menos um imovel.", "Selecione pelo menos um imovel.");
+            result.rejectValue("imovel", "Selecione pelo menos um imovel.", "Selecione pelo menos um imovel");
             return novoDetalahdo(periodoRelatorioDTO);
         }
 
@@ -100,7 +99,9 @@ public class RelatorioController {
                     LocalTime.of(0, 0, 0)).atZone(ZoneId.systemDefault()).toInstant());
         } else {
             dataInicio = imoveis.retrieveMinDataMensalPagamento();
-            periodoRelatorioDTO.setDataInicio(dataInicio.toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
+            if (dataInicio != null) {
+                periodoRelatorioDTO.setDataInicio(dataInicio.toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
+            }
         }
         Date dataFim;
         if (periodoRelatorioDTO.getDataFim() != null) {

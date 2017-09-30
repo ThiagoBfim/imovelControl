@@ -45,8 +45,7 @@ public class ImovelController {
      */
     @RequestMapping("/novo")
     public ModelAndView novo(Imovel imovel) {
-        ModelAndView mAndView = new ModelAndView("imovel/CadastroImovel");
-        return mAndView;
+        return new ModelAndView("imovel/CadastroImovel");
     }
 
     /**
@@ -79,7 +78,7 @@ public class ImovelController {
         return mAndView;
     }
 
-    @GetMapping
+    @GetMapping("/pesquisar")
     public ModelAndView pesquisar(Imovel imovel, BindingResult result, @PageableDefault(size = 5) Pageable pageable,
             HttpServletRequest httpServletRequest) {
         ModelAndView modelAndView = new ModelAndView("imovel/PesquisaImovel");

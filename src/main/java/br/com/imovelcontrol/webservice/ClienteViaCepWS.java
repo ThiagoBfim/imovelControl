@@ -12,7 +12,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * Created by Usuario on 11/05/2017.
+ * Created by Thiago on 11/05/2017.
  */
 public class ClienteViaCepWS {
 
@@ -38,6 +38,7 @@ public class ClienteViaCepWS {
         return json;
     }
 
+    /*Logica para testar o WBService de Cep.*/
     public static void main(String[] args) throws IOException {
         String json = buscarCep("69046000");
         System.out.println(json);

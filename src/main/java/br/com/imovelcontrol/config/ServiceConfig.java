@@ -10,13 +10,4 @@ import org.springframework.context.annotation.Configuration;
 @ComponentScan(basePackageClasses = {CadastroImovelService.class, FotoStorage.class})
 public class ServiceConfig {
 
-//    @Bean
-//    public FotoStorage fotoStorage() {
-//        return new FotoStorageS3();
-//    }
-
-//    @Bean
-//    public FotoStorage fotoStorage() {
-//        return new FotoStorageLocal();
-//    }
 }

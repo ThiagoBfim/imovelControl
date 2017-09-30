@@ -9,7 +9,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 /**
- * Created by Usuario on 29/06/2017.
+ * Created by Thiago on 29/06/2017.
  */
 @Repository
 public interface InformacaoPagamentos extends JpaRepository<InformacaoPagamento, Long> {
