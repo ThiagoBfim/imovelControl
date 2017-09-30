@@ -38,14 +38,14 @@ public class UsuariosImpl implements UsuariosQueries {
 
     @Override
     public Optional<Usuario> retrieveLoginAtivo(String email) {
-        return entityManager.createQuery("from Usuario where lower(login) =:login and ativo= true", Usuario.class)
+        return entityManager.createQuery("select u from " + Usuario.class.getName() + " u where lower(u.login) =:login and u.ativo= true", Usuario.class)
                 .setParameter("login", email.toLowerCase()).getResultList().stream().findFirst();
     }
 
     @Override
     public List<String> permissoes(Usuario usuario) {
         return entityManager
-                .createQuery("Select distinct(p.nome) " + " FROM Usuario u " + " inner join u.grupos g"
+                .createQuery("Select distinct(p.nome) " + " FROM " + Usuario.class.getName() + " u " + " inner join u.grupos g"
                         + " inner join g.permissoes p" + " where u = :usuario", String.class)
                 .setParameter("usuario", usuario).getResultList();
     }
@@ -100,6 +100,7 @@ public class UsuariosImpl implements UsuariosQueries {
         Criteria criteria = entityManager.unwrap(Session.class).createCriteria(Usuario.class);
         criteria.createAlias("grupos", "g", JoinType.LEFT_OUTER_JOIN);
         criteria.add(Restrictions.eq("codigo", codigo));
+        criteria.add(Restrictions.eq("ativo", Boolean.TRUE));
         criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
         return (Usuario) criteria.uniqueResult();
     }
@@ -110,6 +111,7 @@ public class UsuariosImpl implements UsuariosQueries {
         Criteria criteria = entityManager.unwrap(Session.class).createCriteria(Usuario.class);
         criteria.createAlias("grupos", "g", JoinType.LEFT_OUTER_JOIN);
         criteria.add(Restrictions.eq("login", login));
+        criteria.add(Restrictions.eq("ativo", Boolean.TRUE));
         criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
         return (Usuario) criteria.uniqueResult();
     }

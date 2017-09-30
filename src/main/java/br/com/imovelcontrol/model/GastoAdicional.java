@@ -8,7 +8,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
- * Created by Usuario on 09/05/2017.
+ * Created by Thiago on 09/05/2017.
  */
 @Entity
 @Table(name = "gasto_adicional")

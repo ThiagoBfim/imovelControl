@@ -35,8 +35,6 @@ public class JPAConfig {
 	public JpaVendorAdapter jpaVendorAdapter(){
 		HibernateJpaVendorAdapter adapter = new HibernateJpaVendorAdapter();
 		adapter.setDatabase(Database.MYSQL);
-		adapter.setShowSql(false);	//Desnecessario
-		adapter.setGenerateDdl(false);	 //Desnecessario
 		adapter.setDatabasePlatform("org.hibernate.dialect.MySQLDialect");
 		return adapter;
 	}

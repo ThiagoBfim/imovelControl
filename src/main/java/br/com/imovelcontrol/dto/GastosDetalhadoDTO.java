@@ -3,7 +3,7 @@ package br.com.imovelcontrol.dto;
 import java.math.BigDecimal;
 
 /**
- * Created by Usuario on 03/09/2017.
+ * Created by Thiago on 03/09/2017.
  */
 public class GastosDetalhadoDTO {
 

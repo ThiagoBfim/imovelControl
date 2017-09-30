@@ -1,13 +1,14 @@
 package br.com.imovelcontrol.model;
 
 import java.io.Serializable;
+import java.util.Objects;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 
 /**
- * Created by Usuario on 04/08/2017.
+ * Created by Thiago on 04/08/2017.
  */
 @MappedSuperclass
 public abstract class BaseEntity implements Serializable {
@@ -44,11 +45,8 @@ public abstract class BaseEntity implements Serializable {
             return false;
 
         BaseEntity other = (BaseEntity) object;
-        if (this.getCodigo() != other.getCodigo()
-                && (this.getCodigo() == null || !this.getCodigo().equals(other.getCodigo()))) {
-            return false;
-        }
-        return true;
+        return !(!Objects.equals(this.getCodigo(), other.getCodigo())
+                && (this.getCodigo() == null || !this.getCodigo().equals(other.getCodigo())));
     }
 
     @Override

@@ -9,6 +9,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.Valid;
+import javax.validation.constraints.Size;
 
 import br.com.imovelcontrol.service.event.imovel.ImovelListener;
 import org.hibernate.validator.constraints.NotBlank;
@@ -20,12 +21,14 @@ import org.springframework.util.StringUtils;
 public class Imovel extends BaseEntity {
 
     @NotBlank(message = "Nome Obrigatório")
+    @Size(max = 100, message = "Nome deve ter no máximo 100 caracteres")
     private String nome;
 
     @Embedded
     @Valid
     private Endereco endereco;
 
+    @Size(max = 100, message = "Nome da foto deve ter no máximo 100 caracteres")
     private String foto;
 
     @Column(name = "content_type")

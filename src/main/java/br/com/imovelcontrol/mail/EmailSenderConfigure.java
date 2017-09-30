@@ -15,7 +15,7 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 /**
- * Created by Usuario on 17/08/2017.
+ * Created by Thiago on 17/08/2017.
  */
 @Component
 public class EmailSenderConfigure {
@@ -64,7 +64,7 @@ public class EmailSenderConfigure {
         try {
             MimeMessage mimeMessage = mailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
-            helper.setFrom(new InternetAddress(env.getProperty("SENDGRID_USERFROM"), "ImovelControl")); //Remetente
+            helper.setFrom(new InternetAddress(env.getProperty("EMAIL_USERFROM"), "ImovelControl")); //Remetente
             helper.setTo(getDestinarario());
             helper.setSubject(getTitulo());
             helper.setText(getMensagem(), true);

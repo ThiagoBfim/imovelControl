@@ -19,7 +19,7 @@ Bomfim.BuscarCep = (function () {
         labelCepInvalido.hide();
         inputCep.blur(pesquisacep.bind(this));
 
-    }
+    };
 
 
     function disabledAll() {
@@ -43,7 +43,7 @@ Bomfim.BuscarCep = (function () {
             inputRua.val(conteudo.logradouro);
             inputBairro.val(conteudo.bairro);
             inputCidade.val(conteudo.localidade);
-            inputUf.val(conteudo.uf)
+            inputUf.val(conteudo.uf);
             labelCepInvalido.hide();
         } //end if.
         else {

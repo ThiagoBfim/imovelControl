@@ -4,10 +4,15 @@ import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import br.com.imovelcontrol.dto.AluguelGraficoDTO;
 import br.com.imovelcontrol.dto.PeriodoRelatorioDTO;
-import br.com.imovelcontrol.model.*;
+import br.com.imovelcontrol.model.Aluguel;
+import br.com.imovelcontrol.model.GastoAdicional;
+import br.com.imovelcontrol.model.Imovel;
+import br.com.imovelcontrol.model.InformacaoPagamento;
+import br.com.imovelcontrol.model.Usuario;
 import br.com.imovelcontrol.repository.Alugueis;
 import br.com.imovelcontrol.repository.GastosAdicionais;
 import br.com.imovelcontrol.repository.Imoveis;
@@ -58,14 +63,13 @@ public class DashBoardController {
         Usuario usuario = usuarioLogadoService.getUsuario();
 
         List<AluguelGraficoDTO> aluguelGraficoDTOList = new ArrayList<>();
-        List<Imovel> listImovel = imoveis.findByDonoImovelAndExcluido(usuario, false).get();
-        listImovel.forEach((Imovel i) -> {
-
+        Optional<List<Imovel>> listImovel = imoveis.findByDonoImovelAndExcluido(usuario, false);
+        listImovel.ifPresent(imovels -> imovels.forEach((Imovel i) -> {
             AluguelGraficoDTO aluguelGraficoDTO = new AluguelGraficoDTO();
             aluguelGraficoDTO.setNomeImovel(i.getNome());
             aluguelGraficoDTO.setRendimento(valorTotal(i.getCodigo()));
             aluguelGraficoDTOList.add(aluguelGraficoDTO);
-        });
+        }));
 
         return aluguelGraficoDTOList;
     }
