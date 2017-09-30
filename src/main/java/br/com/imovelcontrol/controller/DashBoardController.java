@@ -1,6 +1,7 @@
 package br.com.imovelcontrol.controller;
 
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -86,23 +87,44 @@ public class DashBoardController {
             List<GastoAdicional> gastoAdicionals = gastosAdicionais.findByInformacaoPagamento(informacaoPagamento).get();
 
             for (GastoAdicional gastoAdicional : gastoAdicionals){
-              //  total -= gastoAdicional.getValorGasto().doubleValue();
+                total -= gastoAdicional.getValorGasto().doubleValue();
             }
 
         }
 
         if (total <= 0){
-           // total = 1;
+            total = 0;
         }
 
-        return total;
+        DecimalFormat df = new DecimalFormat("0");
+        return Double.valueOf(df.format(total));
     }
 
     @GetMapping("/totalPorMesColuna")
     public @ResponseBody
-    List<Aluguel> listarTotalVendaPorMesColuna() {
+    List<GraficoColunaImovelDTO> listarTotalVendaPorMesColuna() {
+
+        List<GraficoColunaImovelDTO> graficoColunaImovelDTOS = new ArrayList<>();
+
+        Usuario usuario = usuarioLogadoService.getUsuario();
+        List<Imovel> listImovel = imoveis.findByDonoImovelAndExcluido(usuario, false).get();
+        listImovel.forEach((Imovel i) -> {
+            List<Aluguel> listAlguel = alugueis.findByImovel_Codigo(i.getCodigo()).get();
+            listAlguel.forEach((Aluguel aluguel) -> {
+                List<InformacaoPagamento> informacaoPagamento = informacaoPagamentoService.findByAluguel(aluguel);
+
+                GraficoColunaImovelDTO graficoColunaImovelDTO = new GraficoColunaImovelDTO();
+                graficoColunaImovelDTO.setNome(i.getNome());
+
+
+
+            });
+
+        });
+
+
         List<Aluguel> aluguels = alugueis.findAll();
         aluguels.forEach(a -> a.getImovel().getDonoImovel().setGrupos(new ArrayList<>()));
-        return aluguels;
+        return graficoColunaImovelDTOS;
     }
 }
