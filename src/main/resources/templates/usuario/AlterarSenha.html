@@ -36,7 +36,7 @@
                 <div class="row">
                     <div class="col-sm-8 form-group bw-required" bomfim:classforerror="login">
                         <label for="login" class="control-label">Login</label>
-                        <input id="login" type="text" class="form-control" th:field="*{login}" readonly/>
+                        <input id="login" type="text" class="form-control" th:field="*{login}" maxlength="100" readonly/>
                     </div>
                 </div>
 
@@ -44,12 +44,12 @@
                     <div class="col-sm-4 form-group" bomfim:classforerror="senha"
                          th:classappend="bw-required">
                         <label for="senha" class="control-label">Nova Senha</label>
-                        <input id="senha" type="password" class="form-control" th:field="*{senha}"/>
+                        <input id="senha" type="password" class="form-control" th:field="*{senha}" maxlength="30"/>
                     </div>
                     <div class="col-sm-4 form-group" bomfim:classforerror="confirmacaoSenha"
                          th:classappend="bw-required">
                         <label for="confirmarSenha" class="control-label">Confirmação da nova Senha</label>
-                        <input id="confirmarSenha" type="password" class="form-control" th:field="*{confirmacaoSenha}"/>
+                        <input id="confirmarSenha" type="password" class="form-control" th:field="*{confirmacaoSenha}" maxlength="30"/>
                     </div>
                 </div>
 
@@ -58,7 +58,7 @@
                          th:classappend="bw-required">
                         <label for="codigoVerificadorTemp" class="control-label">Código Verificador</label>
                         <input id="codigoVerificadorTemp" type="text" class="form-control codigoEspecial"
-                               th:field="*{codigoVerificadorTemp}"
+                               th:field="*{codigoVerificadorTemp}" maxlength="20"
                                th:placeholder="${usuario.descricaoVerificador}"/>
                     </div>
                 </div>

@@ -37,7 +37,7 @@
             <div class="row">
                 <div class="form-group  col-sm-12">
                     <label class="control-label" for="nome">Nome</label>
-                    <input type="text" class="form-control" id="nome" autofocus="autofocus" th:field="*{nome}"/>
+                    <input type="text" class="form-control" id="nome" autofocus="autofocus" maxlength="100" th:field="*{nome}"/>
                 </div>
 
             </div>
@@ -88,7 +88,7 @@
                     </td>
                     <td class="text-center">
                         <a class="btn  btn-link  btn-xs  js-tooltip" title="Editar"
-                           th:href="@{imovel/{codigo}(codigo=${imovel.codigo})}">
+                           th:href="@{/imovel/{codigo}(codigo=${imovel.codigo})}">
                             <font color="#009900"> <i class="glyphicon glyphicon-pencil"></i> </font>
                         </a>
                         <a class="btn  btn-link  btn-xs js-tooltip   js-exclusao-btn" title="Excluir" href="#"

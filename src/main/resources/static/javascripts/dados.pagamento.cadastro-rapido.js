@@ -81,10 +81,7 @@ Brewer.AluguelCadastroRapido = (function () {
 
         return AluguelCadastroRapido;
 
-    };
-    ()
-)
-;
+    }());
 
 $(function () {
     var aluguelCadastroRapido = new Brewer.AluguelCadastroRapido();

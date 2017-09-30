@@ -1,4 +1,4 @@
-package br.com.imovelcontrol.model;
+package br.com.imovelcontrol.dto;
 
 import java.time.LocalDate;
 import java.time.Month;
