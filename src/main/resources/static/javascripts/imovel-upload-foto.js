@@ -25,7 +25,7 @@ Bomfim.UploadFoto = (function () {
             complete: onUploadCompleto.bind(this),
             beforeSend: adicionarCsrfToken,
             loadstart: onLoadStart.bind(this)
-        }
+        };
         UIkit.uploadSelect($('#upload-select'), settings);
         UIkit.uploadDrop(this.uploadDrop, settings);
 
@@ -37,7 +37,7 @@ Bomfim.UploadFoto = (function () {
             });
         }
 
-    }
+    };
 
     function onLoadStart() {
         this.imgLoading.removeClass('hidden');

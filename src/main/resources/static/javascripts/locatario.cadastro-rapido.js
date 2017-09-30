@@ -22,7 +22,7 @@ ImovelControl.LocatarioCadastroRapido = (function () {
         this.botaoAdicionar.on('click', onBotaoAdicionarClick.bind(this));
         this.botaoExcluirClick.on('click', onBotaoExcluirClick.bind(this));
         this.botaoSalvar.on('click',onBotaoSalvarClick.bind(this));
-    }
+    };
 
     function onBotaoExcluirClick() {
         event.preventDefault();
@@ -158,4 +158,4 @@ $(function () {
     var locatarioCadastroRapido = new ImovelControl.LocatarioCadastroRapido();
     locatarioCadastroRapido.iniciar();
 
-})
+});

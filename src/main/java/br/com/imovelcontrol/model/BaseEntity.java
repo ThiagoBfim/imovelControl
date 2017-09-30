@@ -44,11 +44,8 @@ public abstract class BaseEntity implements Serializable {
             return false;
 
         BaseEntity other = (BaseEntity) object;
-        if (this.getCodigo() != other.getCodigo()
-                && (this.getCodigo() == null || !this.getCodigo().equals(other.getCodigo()))) {
-            return false;
-        }
-        return true;
+        return !(this.getCodigo() != other.getCodigo()
+                && (this.getCodigo() == null || !this.getCodigo().equals(other.getCodigo())));
     }
 
     @Override

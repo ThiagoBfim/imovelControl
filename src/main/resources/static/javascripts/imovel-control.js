@@ -16,7 +16,7 @@ ImovelControl.MaskMoney = (function() {
 			precision : 0,
 			thousands : '.'
 		});
-	}
+	};
 	return MaskMoney;
 
 }());
@@ -40,7 +40,7 @@ ImovelControl.MaskPhoneNumber = (function() {
 		};
 
 		this.inputPhoneNumber.mask(maskBehavior, options);
-	}
+	};
 
 	return MaskPhoneNumber;
 
@@ -54,7 +54,7 @@ ImovelControl.CepMask = (function() {
 
 	CepMask.prototype.enable = function() {
 		this.inputCep.mask("99999-999");
-	}
+	};
 
 	return CepMask;
 
@@ -67,7 +67,7 @@ ImovelControl.MaskCPF = (function(){
     MaskCPF.prototype.enable = function(){
         this.inputCPF.mask('000.000.000-00');
 
-    }
+    };
     return MaskCPF
 
 }());
@@ -86,7 +86,7 @@ ImovelControl.MaskDate = (function() {
 			language : 'pt-BR',
 			autoclose : 'true'
 		})
-	}
+	};
 	return MaskDate;
 
 }());
@@ -105,7 +105,7 @@ ImovelControl.Security = (function(){
 		}.bind(this));
 		//Bind this = troco o contexto da function que é do ajaxSend para o do security.
 		
-	}
+	};
 	
 	return Security;
 }());

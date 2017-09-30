@@ -12,7 +12,7 @@ Bomfim.ChangeTipoImovel = (function () {
         if (tipoPessoaSelecionada) {
             changeTipoImovel(tipoPessoaSelecionada.value);
         }
-    }
+    };
 
     function onTipoImovelChange(evento) {
         var tipoPessoaSelecionada = $(evento.currentTarget);

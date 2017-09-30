@@ -18,7 +18,7 @@ Brewer.MultiSelecao = (function() {
 		this.statusBtn.on('click', onStatusBtnClicado.bind(this));
 		this.selecaoTodosCheckBox.on('click', onSelecaoTodosClicado.bind(this));
 		this.selecaoCheckbox.on('click', onSelecaoClicado.bind(this));
-	}
+	};
 
 	function onStatusBtnClicado(event) {
 		var botaoClicado = $(event.currentTarget);
