@@ -42,8 +42,7 @@ public class LocatarioController {
 
     @RequestMapping("/novo")
     public ModelAndView novo(Locatario locatario) {
-        ModelAndView mAndView = new ModelAndView();
-        return mAndView;
+        return new ModelAndView();
     }
 
     //    @RequestMapping(value = "/novo", method = RequestMethod.POST)

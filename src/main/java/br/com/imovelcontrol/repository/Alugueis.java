@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 public interface Alugueis extends JpaRepository<Aluguel, Long>, AlugueisQuerys {
 
     Optional<Aluguel> findByNomeAndImovel_Codigo(String nome, Long codigo);
-    Optional<List<Aluguel>>findByImovel_Codigo(Long codigo);
+
+    Optional<List<Aluguel>> findByImovel_Codigo(Long codigo);
 
 }

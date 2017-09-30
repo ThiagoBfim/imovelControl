@@ -32,8 +32,7 @@ public class InfoFormaPagamentoController {
 
     @RequestMapping("/novo")
     public ModelAndView novo(InformacaoPagamento informacaoPagamento) {
-        ModelAndView mAndView = new ModelAndView();
-        return mAndView;
+        return new ModelAndView();
     }
 
     @RequestMapping(value = "/novo", method = RequestMethod.POST)
@@ -58,7 +57,7 @@ public class InfoFormaPagamentoController {
         InformacaoPagamento informacaoPagamento = new InformacaoPagamento();
         if (informacaoPagamentoOptional.isPresent()) {
             informacaoPagamento = informacaoPagamentoOptional.get();
-         } else {
+        } else {
 
             //TODO Utilizar Reflection
             informacaoPagamento.setValor(aluguel.getFormaPagamento().getValor());

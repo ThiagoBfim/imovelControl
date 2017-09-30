@@ -54,8 +54,6 @@ public class AluguelController {
 
     private Long codigoImovel;
 
-    private Aluguel aluguel;
-
     @RequestMapping("/novo")
     public ModelAndView novo(Aluguel aluguel) {
         ModelAndView modelAndView = new ModelAndView("tipoImovel/CadastroAluguel");
@@ -96,7 +94,7 @@ public class AluguelController {
         ModelAndView modelAndView = new ModelAndView("tipoImovel/PesquisarAluguel");
         setAllObjectsFromImovelToModelView(modelAndView);
         codigoImovel = codigo;
-        aluguel = new Aluguel();
+        Aluguel aluguel = new Aluguel();
         setImovelAluguel(aluguel);
         Usuario usuario = usuarioLogadoService.getUsuario();
         Imovel imovelRetrived = imoveis.findOne(codigo);

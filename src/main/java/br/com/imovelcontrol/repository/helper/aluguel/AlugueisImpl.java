@@ -50,8 +50,7 @@ public class AlugueisImpl implements AlugueisQuerys {
 
         criteriaTotal.add(Restrictions.eq("excluido", Boolean.FALSE));
         criteriaTotal.setProjection(Projections.rowCount());
-        Long total = (Long) criteriaTotal.uniqueResult();
-        return total;
+        return (Long) criteriaTotal.uniqueResult();
     }
 
 }
