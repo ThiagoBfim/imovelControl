@@ -6,7 +6,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * Created by Usuario on 03/09/2017.
+ * Created by Thiago on 03/09/2017.
  */
 public class SubRelatorioDetalhadoImovelDTO {
 

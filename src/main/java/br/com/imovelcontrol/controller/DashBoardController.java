@@ -1,12 +1,15 @@
 package br.com.imovelcontrol.controller;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
 import br.com.imovelcontrol.dto.AluguelGraficoDTO;
 import br.com.imovelcontrol.dto.PeriodoRelatorioDTO;
-import br.com.imovelcontrol.model.*;
+import br.com.imovelcontrol.model.Aluguel;
+import br.com.imovelcontrol.model.GastoAdicional;
+import br.com.imovelcontrol.model.Imovel;
+import br.com.imovelcontrol.model.InformacaoPagamento;
+import br.com.imovelcontrol.model.Usuario;
 import br.com.imovelcontrol.repository.Alugueis;
 import br.com.imovelcontrol.repository.GastosAdicionais;
 import br.com.imovelcontrol.repository.Imoveis;
@@ -20,7 +23,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
- * Created by Usuario on 21/05/2017.
+ * Created by Thiago on 21/05/2017.
  */
 @Controller
 @RequestMapping("/")

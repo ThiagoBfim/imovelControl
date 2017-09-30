@@ -33,11 +33,11 @@ public class CadastroUsuarioService {
 
     @Transactional
     public Usuario salvar(Usuario usuario) {
-        Optional<Usuario> usuarioRetrived = usuarios.findByEmail(usuario.getEmail());
+        Optional<Usuario> usuarioRetrived = usuarios.findByEmailAndAtivo(usuario.getEmail(), Boolean.TRUE);
         if (usuarioRetrived.isPresent() && !usuarioRetrived.get().equals(usuario)) {
             throw new BusinessException("E-mail já cadastrado", "email");
         }
-        usuarioRetrived = usuarios.findByLogin(usuario.getLogin());
+        usuarioRetrived = usuarios.findByLoginAndAtivo(usuario.getLogin(), Boolean.TRUE);
         if (usuarioRetrived.isPresent() && !usuarioRetrived.get().equals(usuario)) {
             throw new BusinessException("Login já cadastrado", "login");
         }
@@ -63,7 +63,12 @@ public class CadastroUsuarioService {
             usuario.setAtivo(usuarioRetrived.get().getAtivo());
         }
         usuario.setConfirmacaoSenha(usuario.getSenha());
-        return usuarios.saveAndFlush(usuario);
+        Long usuarioCodigo = usuario.getCodigo();
+        Usuario usuarioSession = usuarios.saveAndFlush(usuario);
+        if (usuarioCodigo == null) {
+            enviarCodigoVerificador(usuario);
+        }
+        return usuarioSession;
     }
 
     @Transactional
@@ -85,9 +90,9 @@ public class CadastroUsuarioService {
 
     @Transactional
     public Usuario findByLogin(String login) {
-        Optional<Usuario> usuario = usuarios.findByLogin(login);
+        Optional<Usuario> usuario = usuarios.findByEmailAndAtivo(login, Boolean.TRUE);
         if (!usuario.isPresent()) {
-            throw new BusinessException("Nome de usuário não encontrado no sistema", "login");
+            throw new BusinessException("E-mail do usuário não encontrado no sistema", "login");
         } else {
             return usuario.get();
         }
@@ -118,5 +123,17 @@ public class CadastroUsuarioService {
         String senha = usuario.getLogin().substring(0, usuario.getLogin().length() / 2);
         senha += ((usuario.getCodigo() + valor) * valor);
         return senha;
+    }
+
+    private void enviarCodigoVerificador(Usuario usuario) {
+        emailSenderConfigure.setDestinarario(usuario.getEmail());
+        emailSenderConfigure.setTitulo("ImovelControl - Seja Bem Vindo.");
+        String message = "<h2>Sejá bem vindo ao sistema <font color='#009900\'>Imóvel Control, </font> </h2>"
+                + "<h3>O seu sistema de gerenciamento de imóveis.</h3>"
+                + "<br>Sua conta foi cadastrada com sucesso."
+                + "<br><b>Seu código verificador é:  " + usuario.getCodigoVerificador() + "</b> "
+                + "<br><i><font color='red\'>Esse código não é alterado, favor guardar em segurança. </font></i>";
+        emailSenderConfigure.setMensagem(message);
+        emailSenderConfigure.enviar();
     }
 }

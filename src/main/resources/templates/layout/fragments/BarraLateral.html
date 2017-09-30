@@ -38,7 +38,7 @@
                         </li>
                     </ul>
                 </li>
-                <li  sec:authorize="hasRole('ROLE_LISTAR_USUARIO')" class="aw-menu__item">
+                <li sec:authorize="hasRole('ROLE_LISTAR_USUARIO')" class="aw-menu__item">
                     <a href="#">
                         <i class="fa  fa-fw  fa-file-text glyphicon glyphicon-globe"></i><span>Privado</span>
                         <i class="aw-menu__navigation-icon  fa"></i>
@@ -51,14 +51,14 @@
                     </ul>
                 </li>
 
-                <li  sec:authorize="hasRole('ROLE_LISTAR_USUARIO')" class="aw-menu__item  ">
+                <li sec:authorize="hasRole('ROLE_LISTAR_USUARIO')" class="aw-menu__item  ">
                     <a href="#">
-                        <i class="fa  fa-fw  fa-file-text"></i><span>Páginas comuns</span>
+                        <i class="fa  fa-fw  fa-file-text"></i><span>Páginas úteis</span>
                         <i class="aw-menu__navigation-icon  fa"></i>
                     </a>
 
                     <ul class="aw-menu__list  aw-menu__list--sublist">
-                        <li class="aw-menu__item  aw-menu__item--link"><a href="esqueceu-a-senha.html"><i
+                        <li class="aw-menu__item  aw-menu__item--link"><a th:href="@{/esqueciminhasenha}"><i
                                 class="fa fa-question-circle"></i>Esqueceu a
                             senha</a></li>
                         <li class="aw-menu__item  aw-menu__item--link"><a href="403.html">403</a></li>

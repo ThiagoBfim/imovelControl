@@ -32,7 +32,7 @@ public class Usuario extends BaseEntity {
 
     @Email
     @NotBlank(message = "E-mail Obrigatório")
-    @Size(max = 100, message = "Nome deve ter no máximo 100 caracteres")
+    @Size(max = 100, message = "E-mail deve ter no máximo 100 caracteres")
     private String email;
 
     @Size(min = 6, max = 120, message = "Senha deve ter no máximo 30 caracteres e no mínimo 6")

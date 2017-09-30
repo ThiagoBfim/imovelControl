@@ -55,23 +55,25 @@ Brewer.DialogoExcluir = (function () {
     }
 
     function onExcluidoSucesso(sair, usuarioExcluido) {
-        swal({
-                title: 'Pronto',
-                text: 'Excluído com sucesso!',
-                showCancelButton: false,
-                confirmButtonText: 'OK'
-            },
-            onRemoveExcluido.bind(this, sair, usuarioExcluido));
-
-    }
-
-    function onRemoveExcluido(sair, usuarioExcluido) {
         if (usuarioExcluido != null && usuarioExcluido == true) {
             $.ajax({
                 url: sair,
                 method: 'GET'
             })
+            window.location = window.location.href;
+            return
+        } else {
+            swal({
+                    title: 'Pronto',
+                    text: 'Excluído com sucesso!',
+                    showCancelButton: false,
+                    confirmButtonText: 'OK'
+                },
+                onRemoveExcluido.bind(this, sair, usuarioExcluido));
         }
+    }
+
+    function onRemoveExcluido(sair, usuarioExcluido) {
         window.location = window.location.href;
     }
 

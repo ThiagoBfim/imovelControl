@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 import javax.persistence.MappedSuperclass;
 
 /**
- * Created by Usuario on 09/05/2017.
+ * Created by Thiago on 09/05/2017.
  */
 @MappedSuperclass
 public abstract class TemplateFormaPagamento extends BaseEntity {

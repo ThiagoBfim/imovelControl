@@ -31,12 +31,12 @@ public class RecuperarSenhaController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/pesquisa")
     public ModelAndView pesquisar(Usuario usuario, BindingResult result) {
-        ModelAndView modelAndView = new ModelAndView("redirect:/login");
+        ModelAndView modelAndView = new ModelAndView("RecuperarSenha");
 
         try {
             usuario = cadastroUsuarioService.findByLogin(usuario.getLogin());
             cadastroUsuarioService.enviarNovaSenha(usuario);
-            modelAndView.addObject("mensagem", "Nova senha foi enviada ao seu E-MAIL cadastrado no sistema.");
+            modelAndView.addObject("mensagem", "Nova senha foi enviada ao seu E-mail cadastrado no sistema.");
 
         } catch (BusinessException e) {
             result.rejectValue(e.getField(), e.getMessage(), e.getMessage());

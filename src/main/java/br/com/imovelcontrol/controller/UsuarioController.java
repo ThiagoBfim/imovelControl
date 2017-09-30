@@ -246,17 +246,23 @@ public class UsuarioController {
         ModelAndView modelAndView = new ModelAndView("usuario/AlterarSenha");
         Usuario usuarioRetrived = usuarios.buscarComGrupos(usuario.getCodigo());
         if (StringUtils.isEmpty(usuario.getSenha())) {
-            result.rejectValue("senha", "Senha deve ter no máximo 30 caracteres e no mínimo 6", "Senha Incorreta");
+            result.rejectValue("senha", "Senha deve ter no máximo 30 caracteres e no mínimo 6", "Senha é Obrigatório");
             return alterarSenha(usuarioRetrived);
-        } else {
-            usuarioRetrived.setSenha(usuario.getSenha());
-            usuarioRetrived.setConfirmacaoSenha(usuario.getConfirmacaoSenha());
-            usuarioRetrived.setCodigoVerificadorTemp(usuario.getCodigoVerificadorTemp());
-            if (salvarOuAlterarUsuario(usuarioRetrived, result)) return alterarSenha(usuarioRetrived);
-            modelAndView.addObject("mensagem", "Senha alterada com Sucessso!");
-            return modelAndView;
-
         }
+        if (StringUtils.isEmpty(usuario.getConfirmacaoSenha())) {
+            result.rejectValue("confirmacaoSenha", "Confirmação da senha está em branco", "Confirmação da Senha é obrigatório");
+            return alterarSenha(usuarioRetrived);
+        }
+        if (!usuario.getSenha().equals(usuario.getConfirmacaoSenha())) {
+            result.rejectValue("confirmacaoSenha", "Confirmação da senha está incorreta", "Confirmação da senha está incorreta");
+            return alterarSenha(usuarioRetrived);
+        }
+        usuarioRetrived.setSenha(usuario.getSenha());
+        usuarioRetrived.setConfirmacaoSenha(usuario.getConfirmacaoSenha());
+        usuarioRetrived.setCodigoVerificadorTemp(usuario.getCodigoVerificadorTemp());
+        if (salvarOuAlterarUsuario(usuarioRetrived, result)) return alterarSenha(usuarioRetrived);
+        modelAndView.addObject("mensagem", "Senha alterada com Sucessso!");
+        return modelAndView;
     }
 
     /**
