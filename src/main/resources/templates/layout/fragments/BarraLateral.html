@@ -16,7 +16,7 @@
                 </li>
                 <li class="aw-menu__item">
                     <a href="#">
-                        <i class="fa  fa-fw fa fa-home" bomfim:menu='@{/imovel}'></i><span>Imovel</span>
+                        <i class="fa  fa-fw fa fa-home" bomfim:menu='@{/imovel}'></i><span>Imóvel</span>
                         <i class="aw-menu__navigation-icon  fa"></i>
                     </a>
                     <ul class="aw-menu__list  aw-menu__list--sublist">
@@ -29,15 +29,21 @@
                             </a>
                         </li>
                     </ul>
+                </li>
+                <li class="aw-menu__item">
+                    <a href="#">
+                        <i class="fa fa-file-text-o"></i><span>Relatórios</span>
+                        <i class="aw-menu__navigation-icon  fa"></i>
+                    </a>
                     <ul class="aw-menu__list  aw-menu__list--sublist">
                         <li class="aw-menu__item  aw-menu__item--link" bomfim:menu='@{/relatorios/geral}'>
-                            <a th:href="@{/relatorios/geral}"><i class="glyphicon glyphicon-list-alt"></i>Relatórios
+                            <a th:href="@{/relatorios/geral}"><i class="fa fa-file-text "></i>Relatórios
                                 Geral</a>
                         </li>
                     </ul>
                     <ul class="aw-menu__list  aw-menu__list--sublist">
                         <li class="aw-menu__item  aw-menu__item--link" bomfim:menu='@{/relatorios/detalhado}'>
-                            <a th:href="@{/relatorios/detalhado}"><i class="glyphicon glyphicon-list-alt"></i>Relatórios
+                            <a th:href="@{/relatorios/detalhado}"><i class="fa fa-file-text "></i>Relatórios
                                 Detalhado</a>
                         </li>
                     </ul>

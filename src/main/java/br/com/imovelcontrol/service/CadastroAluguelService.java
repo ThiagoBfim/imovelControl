@@ -25,11 +25,21 @@ public class CadastroAluguelService {
 
     @Transactional
     public Aluguel salvar(Aluguel aluguel) {
-        Optional<Aluguel> usuarioRetrived = alugueis.findByNomeAndImovel_Codigo(aluguel.getNome(),
+        Optional<Aluguel> aluguelRetrived = alugueis.findByNomeAndImovel_Codigo(aluguel.getNome(),
                 aluguel.getImovel().getCodigo());
-        if (usuarioRetrived.isPresent() && !usuarioRetrived.get().equals(aluguel)
-                && usuarioRetrived.get().getImovel().equals(aluguel.getImovel())) {
+        if (aluguelRetrived.isPresent() && !aluguelRetrived.get().equals(aluguel)
+                && aluguelRetrived.get().getImovel().equals(aluguel.getImovel())) {
             throw new BusinessException("Nome já cadastrado", "nome");
+        }
+        if (aluguel.getCodigo() != null) {
+            Aluguel aluguelSameId = alugueis.getOne(aluguel.getCodigo());
+             /*Caso já possua um ID e esse ID não seja de outro imovel, então significa que alguem está
+             tentanto burlar o sistema, nesse caso será retornando uma mensagem.*/
+            if (!aluguel.getImovel().equals(aluguelSameId.getImovel())) {
+                throw new BusinessException("Ocorreu um erro, aparentemente já existe um aluguel igual no nosso sistema. "
+                        + "Favor entrar em contato com a equipe do ImovelControl", null);
+            }
+            aluguel.getFormaPagamento().setCodigo(alugueis.getOne(aluguel.getCodigo()).getFormaPagamento().getCodigo());
         }
         return alugueis.save(aluguel);
     }

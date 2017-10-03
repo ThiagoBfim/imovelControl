@@ -195,7 +195,7 @@ public class UsuarioController {
     public ModelAndView editar(@PathVariable Long codigo) {
         Usuario usuario = usuarios.buscarComGrupos(codigo);
         if (!usuarioLogadoService.getUsuario().getGrupos().contains(new Grupo(Grupo.ADMIN))) {
-            return new ModelAndView("/403");
+            return new ModelAndView("/404");
         }
         ModelAndView modelAndView = novo(usuario);
         modelAndView.addObject(usuario);
