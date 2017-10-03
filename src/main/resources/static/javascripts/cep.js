@@ -37,9 +37,9 @@ Bomfim.BuscarCep = (function () {
     }
 
     function meu_callback(conteudo) {
-
         if (!("erro" in conteudo)) {
             //Atualiza os campos com os valores.
+
             inputRua.val(conteudo.logradouro);
             inputBairro.val(conteudo.bairro);
             inputCidade.val(conteudo.localidade);
@@ -69,8 +69,7 @@ Bomfim.BuscarCep = (function () {
 
             $.getJSON('//viacep.com.br/ws/' + cep + '/json/?&callback=?', function (data) {
                 meu_callback(data);
-            });
-
+            })
 
         } else {
             //cep sem valor, limpa formulário.

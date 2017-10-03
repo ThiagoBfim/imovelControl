@@ -110,6 +110,7 @@ public class ImoveisImpl implements ImoveisQuerys {
                 + "            ) as tabelaGastos on tabelaGastos.codPagamento = informacaoPagamento.codigo "
                 + " WHERE imovel.codigo_usuario = :donoImovel "
                 + " AND imovel.excluido = 0 "
+                + " AND aluguel.excluido = 0 "
         );
 
         SQLQuery sqlQuery = appendFiltros(periodoRelatorioDTO, sql, false);
@@ -133,7 +134,8 @@ public class ImoveisImpl implements ImoveisQuerys {
                 + " INNER JOIN imovel imovel "
                 + " on aluguel.codigo_imovel = imovel.codigo "
                 + " WHERE imovel.codigo_usuario = :donoImovel "
-                + " AND imovel.excluido = 0 ";
+                + " AND imovel.excluido = 0 "
+                + " AND aluguel.excluido = 0 ";
 
         SQLQuery sqlQuery = entityManager.createNativeQuery(sql).unwrap(SQLQuery.class);
         sqlQuery.setParameter("donoImovel", usuarioLogadoService.getUsuario());
@@ -153,7 +155,8 @@ public class ImoveisImpl implements ImoveisQuerys {
                 + " LEFT JOIN locatario loc on loc.codigo_aluguel = aluguel.codigo "
                 + " WHERE imovel.codigo_usuario = :donoImovel "
                 + " AND imovel.codigo =:imovel "
-                + " AND imovel.excluido = 0 ";
+                + " AND imovel.excluido = 0"
+                + " AND aluguel.excluido = 0 ";
         SQLQuery sqlQuery = entityManager.createNativeQuery(sql).unwrap(SQLQuery.class);
         sqlQuery.setParameter("donoImovel", usuarioLogadoService.getUsuario());
         sqlQuery.setParameter("imovel", periodoRelatorioDTO.getImovel());
