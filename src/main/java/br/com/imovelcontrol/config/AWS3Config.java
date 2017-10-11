@@ -15,7 +15,6 @@ import org.springframework.core.env.Environment;
 
 @Configuration
 @PropertySource(value = {"classpath:env/aw3-prod.properties"}, ignoreResourceNotFound = true)
-//@PropertySource(value = { "file://${HOME}/.brewer-s3.properties" }, ignoreResourceNotFound = true)
 public class AWS3Config {
 
 	@Autowired
