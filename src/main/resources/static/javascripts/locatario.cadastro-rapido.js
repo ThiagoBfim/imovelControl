@@ -120,15 +120,6 @@ ImovelControl.LocatarioCadastroRapido = (function () {
             error:onErrorSalvar.bind(this)
         });
     }
-    //     $.ajax({
-    //         url: 'http://localhost:8080/ImovelControl/locatario/novo?nome=teste',
-    //         method: 'POST',
-    //         success: onSalvarSucesso.bind(this),
-    //
-    //         error: onErrorSalvar.bind(this)
-    //
-    //     });
-    // }
 
     function meu_callback(conteudo) {
 
