@@ -38,14 +38,16 @@ public class UsuariosImpl implements UsuariosQueries {
 
     @Override
     public Optional<Usuario> retrieveLoginAtivo(String email) {
-        return entityManager.createQuery("select u from " + Usuario.class.getName() + " u where lower(u.login) =:login and u.ativo= true", Usuario.class)
+        return entityManager.createQuery("select u from " + Usuario.class.getName()
+                + " u where lower(u.login) =:login and u.ativo= true", Usuario.class)
                 .setParameter("login", email.toLowerCase()).getResultList().stream().findFirst();
     }
 
     @Override
     public List<String> permissoes(Usuario usuario) {
         return entityManager
-                .createQuery("Select distinct(p.nome) " + " FROM " + Usuario.class.getName() + " u " + " inner join u.grupos g"
+                .createQuery("Select distinct(p.nome) " + " FROM " + Usuario.class.getName()
+                        + " u " + " inner join u.grupos g"
                         + " inner join g.permissoes p" + " where u = :usuario", String.class)
                 .setParameter("usuario", usuario).getResultList();
     }
