@@ -8,7 +8,6 @@ Brewer.AluguelCadastroRapido = (function () {
             this.botaoSalvar = $('.js-modal-pagamento');
             this.codigoAluguel = $('#codigoAluguelPagamento');
 
-
             var token = $("input[name='_crsf']").val();
             var header = "X-CSRF-TOKEN";
             $(document).ajaxSend(function (e, xhr, options) {
