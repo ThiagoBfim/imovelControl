@@ -22,7 +22,6 @@ public class RecuperarSenhaController {
     @Autowired
     private CadastroUsuarioService cadastroUsuarioService;
 
-
     @GetMapping
     public ModelAndView recuperarSenha(Usuario usuario) {
         return new ModelAndView("RecuperarSenha");
