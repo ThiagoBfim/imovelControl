@@ -248,15 +248,15 @@ public class UsuarioController {
         Usuario usuarioRetrived = usuarios.buscarComGrupos(usuario.getCodigo());
         if (StringUtils.isEmpty(usuario.getSenha())) {
             result.rejectValue("senha", "Senha deve ter no máximo 30 caracteres e no mínimo 6", "Senha é Obrigatório");
-            return alterarSenha(usuarioRetrived);
+            return alterarSenha(usuario);
         }
         if (StringUtils.isEmpty(usuario.getConfirmacaoSenha())) {
             result.rejectValue("confirmacaoSenha", "Confirmação da senha está em branco", "Confirmação da Senha é obrigatório");
-            return alterarSenha(usuarioRetrived);
+            return alterarSenha(usuario);
         }
         if (!usuario.getSenha().equals(usuario.getConfirmacaoSenha())) {
             result.rejectValue("confirmacaoSenha", "Confirmação da senha está incorreta", "Confirmação da senha está incorreta");
-            return alterarSenha(usuarioRetrived);
+            return alterarSenha(usuario);
         }
         usuarioRetrived.setSenha(usuario.getSenha());
         usuarioRetrived.setConfirmacaoSenha(usuario.getConfirmacaoSenha());
