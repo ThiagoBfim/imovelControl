@@ -105,8 +105,8 @@ public class CadastroUsuarioService {
         usuarios.save(usuario);
         emailSenderConfigure.setDestinarario(usuario.getEmail());
         emailSenderConfigure.setTitulo("ImovelControl - Recuperar Senha");
-        String message = " A sua senha foi alterada com sucesso.\n"
-                + " Nova Senha: " + senha;
+        String message = "<h2>Senha alterada com sucesso do sistema <font color='#009900\'>Imóvel Control, </font> </h2>"
+                + "<br><b> Nova Senha: <i>" + senha + "</i> </b>";
         emailSenderConfigure.setMensagem(message);
         emailSenderConfigure.enviar();
 
