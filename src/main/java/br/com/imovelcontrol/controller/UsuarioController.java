@@ -82,6 +82,7 @@ public class UsuarioController {
             cadastroUsuarioService.salvar(usuario);
         } catch (BusinessException e) {
             result.rejectValue(e.getField(), e.getMessage(), e.getMessage());
+            return novo(usuario);
         }
         modelAndView.addObject("grupos", grupos.findAll());
         modelAndView.addObject("usuario", usuario);
