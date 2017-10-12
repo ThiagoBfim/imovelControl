@@ -23,7 +23,7 @@ Brewer.AluguelCadastroRapido = (function () {
         function onBotaoSalvarClick(evento) {
             var botaoClicado = $(evento.currentTarget);
             var codigoAluguel = botaoClicado.data('codigo');
-            $.getJSON('http://localhost:8080/ImovelControl/pagamento/'
+            $.getJSON( document.location.origin + '/ImovelControl/pagamento/'
                 + codigoAluguel, function (data) {
                 meu_callback(data);
             });

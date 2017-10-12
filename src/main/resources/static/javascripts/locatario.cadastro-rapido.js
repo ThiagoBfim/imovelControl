@@ -29,7 +29,7 @@ ImovelControl.LocatarioCadastroRapido = (function () {
         var inputCodigo = $('#codigoLocatario');
         console.log(inputCodigo.val());
         $.ajax({
-            url: 'http://localhost:8080/ImovelControl/locatario/' + inputCodigo.val(),
+            url: document.location.origin + '/ImovelControl/locatario/' + inputCodigo.val(),
             method: 'GET',
             success: onExcluidoSucesso.bind(this),
             error: onErrorExcluir.bind(this)
@@ -114,7 +114,7 @@ ImovelControl.LocatarioCadastroRapido = (function () {
             type: "POST",
             contentType : 'application/json; charset=utf-8',
             dataType : 'json',
-            url: 'http://localhost:8080/ImovelControl/locatario/novo/',
+            url:  document.location.origin + '/ImovelControl/locatario/novo/',
             data: JSON.stringify(locatario),
             success: onSalvarSucesso.bind(this),
             error:onErrorSalvar.bind(this)
