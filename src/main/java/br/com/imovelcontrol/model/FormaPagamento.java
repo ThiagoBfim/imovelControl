@@ -6,7 +6,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 @Entity
-@Table(name = "template_forma_pagamento")
+@Table(name = "TEMPLATE_FORMA_PAGAMENTO")
 public class FormaPagamento extends TemplateFormaPagamento {
 
 
