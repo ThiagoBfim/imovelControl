@@ -93,7 +93,7 @@ public class ImoveisImpl implements ImoveisQuerys {
     public List<RelatorioImovelDTO> retrieveRelatorioImovelDTO(PeriodoRelatorioDTO periodoRelatorioDTO) {
 
 
-        StringBuilder sql = new StringBuilder("SELECT IMOVEL.nome as nome, imovel.cep as cep, "
+        StringBuilder sql = new StringBuilder("SELECT imovel.nome as nome, imovel.cep as cep, "
                 + " SUM(CASE WHEN informacaoPagamento.pago = 1 then informacaoPagamento.valor else 0 end) as recebimento,"
                 + " SUM(tabelaGastos.valorGasto) as gastos "
                 + " FROM  INFORMACAO_PAGAMENTO informacaoPagamento"
