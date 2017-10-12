@@ -263,6 +263,7 @@ public class UsuarioController {
         usuarioRetrived.setCodigoVerificadorTemp(usuario.getCodigoVerificadorTemp());
         if (salvarOuAlterarUsuario(usuarioRetrived, result)) return alterarSenha(usuarioRetrived);
         modelAndView.addObject("mensagem", "Senha alterada com Sucessso!");
+        modelAndView.addObject(usuarioRetrived);
         return modelAndView;
     }
 
