@@ -17,7 +17,7 @@ import org.springframework.util.StringUtils;
 
 @EntityListeners(ImovelListener.class)
 @Entity
-@Table(name = "imovel")
+@Table(name = "IMOVEL")
 public class Imovel extends BaseEntity {
 
     @NotBlank(message = "Nome Obrigatório")

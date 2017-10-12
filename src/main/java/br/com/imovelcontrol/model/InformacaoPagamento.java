@@ -11,7 +11,7 @@ import javax.persistence.Transient;
  * Created by Thiago on 09/05/2017.
  */
 @Entity
-@Table(name = "informacao_pagamento")
+@Table(name = "INFORMACAO_PAGAMENTO")
 public class InformacaoPagamento extends TemplateFormaPagamento {
 
     private Boolean pago;
