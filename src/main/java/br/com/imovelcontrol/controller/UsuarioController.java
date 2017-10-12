@@ -229,8 +229,8 @@ public class UsuarioController {
         ModelAndView modelAndView = new ModelAndView("usuario/AlterarSenha");
         if (usuario.getCodigo() == null) {
             usuario = usuarioLogadoService.getUsuario();
-            modelAndView.addObject(usuario);
         }
+        modelAndView.addObject(usuario);
         return modelAndView;
     }
 
