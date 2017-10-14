@@ -98,9 +98,9 @@
                         <label class="control-label" for="tamanhoArea">Tipo de Forro</label>
                         <div class="input-group col-sm-12 col-xs-12">
                             <select id="tipoForro" class="form-control js-forro" th:field="*{tipoForro}">
-                            <option value="">Tipo de Forro</option>
-                            <option th:each="tipoForro : ${tiposForro}" th:value="${tipoForro}"
-                                    th:text="${tipoForro.descricao}"></option>
+                                <option value="">Tipo de Forro</option>
+                                <option th:each="tipoForro : ${tiposForro}" th:value="${tipoForro}"
+                                        th:text="${tipoForro.descricao}"></option>
                             </select>
                         </div>
                     </div>
@@ -140,8 +140,13 @@
                     </div>
                 </div>
                 <div class="row">
+                      <div class="form-group col-sm-2">
+                        <div>
+                            <label class="control-label">É necessario pagar?</label>
+                        </div>
+                    </div>
                     <div class="form-group  col-sm-2">
-                        <label class="control-label">Agua Inclusa?</label>
+                        <label class="control-label">Água</label>
                         <div>
                             <input type="checkbox" class="js-status"
                                    th:field="*{formaPagamento.aguaInclusa}" data-size="small"
@@ -149,7 +154,7 @@
                         </div>
                     </div>
                     <div class="form-group  col-sm-2">
-                        <label class="control-label">Luz Inclusa?</label>
+                        <label class="control-label">Luz</label>
                         <div>
                             <input type="checkbox" class="js-status"
                                    th:field="*{formaPagamento.luzInclusa}" data-size="small"
@@ -157,7 +162,7 @@
                         </div>
                     </div>
                     <div class="form-group  col-sm-2">
-                        <label class="control-label">Internet Inclusa?</label>
+                        <label class="control-label">Internet</label>
                         <div>
                             <input type="checkbox" class="js-status"
                                    th:field="*{formaPagamento.internetInclusa}" data-size="small"
@@ -165,7 +170,7 @@
                         </div>
                     </div>
                     <div class="form-group  col-sm-2">
-                        <label class="control-label">IPTU Incluso?</label>
+                        <label class="control-label">IPTU</label>
                         <div>
                             <input type="checkbox" class="js-status"
                                    th:field="*{formaPagamento.iptuIncluso}"
@@ -174,7 +179,7 @@
                         </div>
                     </div>
                     <div class="form-group  col-sm-2">
-                        <label class="control-label">Possui Condominio?</label>
+                        <label class="control-label">Condominio</label>
                         <div>
                             <input type="checkbox" class="js-status"
                                    th:field="*{formaPagamento.possuiCondominio}"

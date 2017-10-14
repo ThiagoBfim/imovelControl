@@ -107,7 +107,7 @@ public class ImovelController {
         Imovel imovel = imoveis.findOne(codigo);
         Usuario usuario = usuarioLogadoService.getUsuario();
         if (!imovel.getDonoImovel().equals(usuario)) {
-            return new ModelAndView("/403");
+            return new ModelAndView("/404");
         }
         ModelAndView mAndView = new ModelAndView("imovel/CadastroImovel");
         mAndView.addObject(imovel);

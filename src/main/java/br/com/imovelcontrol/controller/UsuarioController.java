@@ -82,6 +82,7 @@ public class UsuarioController {
             cadastroUsuarioService.salvar(usuario);
         } catch (BusinessException e) {
             result.rejectValue(e.getField(), e.getMessage(), e.getMessage());
+            return novo(usuario);
         }
         modelAndView.addObject("grupos", grupos.findAll());
         modelAndView.addObject("usuario", usuario);
@@ -195,7 +196,7 @@ public class UsuarioController {
     public ModelAndView editar(@PathVariable Long codigo) {
         Usuario usuario = usuarios.buscarComGrupos(codigo);
         if (!usuarioLogadoService.getUsuario().getGrupos().contains(new Grupo(Grupo.ADMIN))) {
-            return new ModelAndView("/403");
+            return new ModelAndView("/404");
         }
         ModelAndView modelAndView = novo(usuario);
         modelAndView.addObject(usuario);
@@ -228,8 +229,8 @@ public class UsuarioController {
         ModelAndView modelAndView = new ModelAndView("usuario/AlterarSenha");
         if (usuario.getCodigo() == null) {
             usuario = usuarioLogadoService.getUsuario();
-            modelAndView.addObject(usuario);
         }
+        modelAndView.addObject(usuario);
         return modelAndView;
     }
 
@@ -247,21 +248,22 @@ public class UsuarioController {
         Usuario usuarioRetrived = usuarios.buscarComGrupos(usuario.getCodigo());
         if (StringUtils.isEmpty(usuario.getSenha())) {
             result.rejectValue("senha", "Senha deve ter no máximo 30 caracteres e no mínimo 6", "Senha é Obrigatório");
-            return alterarSenha(usuarioRetrived);
+            return alterarSenha(usuario);
         }
         if (StringUtils.isEmpty(usuario.getConfirmacaoSenha())) {
             result.rejectValue("confirmacaoSenha", "Confirmação da senha está em branco", "Confirmação da Senha é obrigatório");
-            return alterarSenha(usuarioRetrived);
+            return alterarSenha(usuario);
         }
         if (!usuario.getSenha().equals(usuario.getConfirmacaoSenha())) {
             result.rejectValue("confirmacaoSenha", "Confirmação da senha está incorreta", "Confirmação da senha está incorreta");
-            return alterarSenha(usuarioRetrived);
+            return alterarSenha(usuario);
         }
         usuarioRetrived.setSenha(usuario.getSenha());
         usuarioRetrived.setConfirmacaoSenha(usuario.getConfirmacaoSenha());
         usuarioRetrived.setCodigoVerificadorTemp(usuario.getCodigoVerificadorTemp());
         if (salvarOuAlterarUsuario(usuarioRetrived, result)) return alterarSenha(usuarioRetrived);
         modelAndView.addObject("mensagem", "Senha alterada com Sucessso!");
+        modelAndView.addObject(usuarioRetrived);
         return modelAndView;
     }
 

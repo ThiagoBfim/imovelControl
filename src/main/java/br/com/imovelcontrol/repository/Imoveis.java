@@ -13,7 +13,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface Imoveis extends JpaRepository<Imovel, Long>, ImoveisQuerys {
 
-    @Query(value = "select * from imovel  where cep = ?1 and codigo_usuario = ?2", nativeQuery = true)
+    @Query(value = "select * from IMOVEL  where cep = ?1 and codigo_usuario = ?2", nativeQuery = true)
     Optional<Imovel> findByCepAndDonoImovel(String cep, Usuario usuario);
 
     Optional<Imovel> findByNomeAndDonoImovel(String nome, Usuario usuario);

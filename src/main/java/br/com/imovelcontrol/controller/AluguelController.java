@@ -73,8 +73,12 @@ public class AluguelController {
             return novo(aluguel);
         }
 
-        FormaPagamento formaPagamentoSession = templateFormaPagamentoService.salvar(aluguel.getFormaPagamento());
-        aluguel.setFormaPagamento(formaPagamentoSession);
+        if (aluguel.getCodigo() == null) {
+            //Garantir que o usuario nao burle o sistema cocolando um ID manualmente.
+            aluguel.getFormaPagamento().setCodigo(null);
+            FormaPagamento formaPagamentoSession = templateFormaPagamentoService.salvar(aluguel.getFormaPagamento());
+            aluguel.setFormaPagamento(formaPagamentoSession);
+        }
         try {
             cadastroAluguelService.salvar(aluguel);
         } catch (BusinessException e) {
@@ -99,7 +103,7 @@ public class AluguelController {
         Usuario usuario = usuarioLogadoService.getUsuario();
         Imovel imovelRetrived = imoveis.findOne(codigo);
         if (!imovelRetrived.getDonoImovel().equals(usuario)) {
-            return new ModelAndView("/403");
+            return new ModelAndView("/404");
         }
         PageWrapper<Aluguel> pagina = new PageWrapper<>(alugueis.filtrarByImovel(codigo, pageable), httpServletRequest);
         modelAndView.addObject("pagina", pagina);
@@ -118,8 +122,9 @@ public class AluguelController {
         Aluguel aluguel = alugueis.findOne(codigo);
 
         Usuario usuario = usuarioLogadoService.getUsuario();
-        if (!aluguel.getImovel().getDonoImovel().equals(usuario)) {
-            return new ModelAndView("/403");
+        if (aluguel == null ||
+                !aluguel.getImovel().getDonoImovel().equals(usuario)) {
+            return new ModelAndView("/404");
         }
 
         modelAndView.addObject(aluguel);

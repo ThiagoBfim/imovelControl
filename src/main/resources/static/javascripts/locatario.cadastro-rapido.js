@@ -3,8 +3,12 @@ var ImovelControl = ImovelControl || {};
 ImovelControl.LocatarioCadastroRapido = (function () {
 
     var modal = $('#modalCadastroLocatario');
+    var hrefOrigin = document.location.origin;
 
     function LocatarioCadastroRapido() {
+        if(hrefOrigin.includes('8080')){
+            hrefOrigin += '/ImovelControl'
+        }
         this.botaoAdicionar = $('.js-modal-locatario');
         this.locatarioAluguel = $('#codigoAluguel');
         this.botaoExcluirClick = $('.js-modal-excluir');
@@ -29,7 +33,7 @@ ImovelControl.LocatarioCadastroRapido = (function () {
         var inputCodigo = $('#codigoLocatario');
         console.log(inputCodigo.val());
         $.ajax({
-            url: 'http://localhost:8080/ImovelControl/locatario/' + inputCodigo.val(),
+            url: hrefOrigin + '/locatario/' + inputCodigo.val(),
             method: 'GET',
             success: onExcluidoSucesso.bind(this),
             error: onErrorExcluir.bind(this)
@@ -89,7 +93,7 @@ ImovelControl.LocatarioCadastroRapido = (function () {
     function onBotaoAdicionarClick(evento) {
         var botaoClicado = $(evento.currentTarget);
         var codigoAluguel = botaoClicado.data('codigo');
-        $.getJSON('http://localhost:8080/ImovelControl/locatario/' + codigoAluguel, function (data) {
+        $.getJSON(hrefOrigin + '/locatario/' + codigoAluguel, function (data) {
             meu_callback(data);
         });
 
@@ -114,21 +118,12 @@ ImovelControl.LocatarioCadastroRapido = (function () {
             type: "POST",
             contentType : 'application/json; charset=utf-8',
             dataType : 'json',
-            url: 'http://localhost:8080/ImovelControl/locatario/novo/',
+            url: hrefOrigin + '/locatario/novo/',
             data: JSON.stringify(locatario),
             success: onSalvarSucesso.bind(this),
             error:onErrorSalvar.bind(this)
         });
     }
-    //     $.ajax({
-    //         url: 'http://localhost:8080/ImovelControl/locatario/novo?nome=teste',
-    //         method: 'POST',
-    //         success: onSalvarSucesso.bind(this),
-    //
-    //         error: onErrorSalvar.bind(this)
-    //
-    //     });
-    // }
 
     function meu_callback(conteudo) {
 
