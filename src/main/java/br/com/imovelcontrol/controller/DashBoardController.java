@@ -35,9 +35,6 @@ import org.springframework.web.servlet.ModelAndView;
 public class DashBoardController {
 
     @Autowired
-    private Imoveis imoveis;
-
-    @Autowired
     private Alugueis alugueis;
 
     @Autowired
@@ -47,15 +44,10 @@ public class DashBoardController {
     private InformacaoPagamentoService informacaoPagamentoService;
 
     @Autowired
-    private GastoAdicionalService gastosAdicionaisService;
-
-    @Autowired
     private GastosAdicionais gastosAdicionais;
 
     @Autowired
-   // private GraficoColunas graficoColunas;
-
-
+    private Imoveis imoveis;
 
     @GetMapping("/dashboard")
     public ModelAndView dashboard() {
@@ -92,18 +84,18 @@ public class DashBoardController {
         listAlgueis = alugueis.findByImovel_Codigo(codigo).get();
         for (Aluguel i : listAlgueis) {
 
+            if (informacaoPagamentoService.retrieveByAluguelAndData(Long.toString(i.getCodigo())).isPresent()) {
+                InformacaoPagamento informacaoPagamento = informacaoPagamentoService.retrieveByAluguelAndData(Long.toString(i.getCodigo())).get();
 
-            InformacaoPagamento informacaoPagamento = informacaoPagamentoService.retrieveByAluguelAndData(Long.toString(i.getCodigo())).get();
+                if (informacaoPagamento.getPago()) {
+                    total += informacaoPagamento.getValor().doubleValue();
+                }
+                List<GastoAdicional> gastoAdicionals = gastosAdicionais.findByInformacaoPagamento(informacaoPagamento).get();
 
-            if (informacaoPagamento.getPago()) {
-                total += informacaoPagamento.getValor().doubleValue();
+                for (GastoAdicional gastoAdicional : gastoAdicionals) {
+                    //  total -= gastoAdicional.getValorGasto().doubleValue();
+                }
             }
-            List<GastoAdicional> gastoAdicionals = gastosAdicionais.findByInformacaoPagamento(informacaoPagamento).get();
-
-            for (GastoAdicional gastoAdicional : gastoAdicionals){
-              //  total -= gastoAdicional.getValorGasto().doubleValue();
-            }
-
         }
 
         if (total <= 0){
@@ -118,49 +110,12 @@ public class DashBoardController {
     public @ResponseBody
     List<GraficoColunaImovelDTO> listarTotalVendaPorMesColuna() {
 
-       // Optional<List<GraficoColunaImovelDTO>> teste = graficoColunas.findByUser(1l);
-
-        List<GraficoColunaImovelDTO> graficoColunaImovelDTOS = new ArrayList<>();
-        Usuario usuario = usuarioLogadoService.getUsuario();
-        List<Imovel> listImovel = imoveis.findByDonoImovelAndExcluido(usuario, false).get();
-        List<InformacaoPagamento> informacaoPagamentos = getAllInfoPagamento(listImovel);
 
 
-        return graficoColunaImovelDTOS;
+        return imoveis.retrieveGraficoColunaDTO();
     }
 
-    private List<InformacaoPagamento> getAllInfoPagamento(List<Imovel> imoveis){
-        List<InformacaoPagamento> retorno = new ArrayList<>();
-        imoveis.forEach((Imovel i) -> {
-            List<InformacaoPagamento> infoMesmoImovel = new ArrayList<>();
-            List<Aluguel> aluguels = alugueis.findByImovel_Codigo(i.getCodigo()).get();
-            aluguels.forEach((Aluguel a) -> {
-                List<InformacaoPagamento> informacaoPagamentos = informacaoPagamentoService.findByAluguelToGraficoBarrra(a).get();
-                informacaoPagamentos.forEach((InformacaoPagamento info) ->{
-                    infoMesmoImovel.add(info);
-                });
-            });
-//            somaMesmoImovelAndData(infoMesmoImovel).forEach((InformacaoPagamento info)->{
-//                retorno.add(info);
-//            });
-        });
-        return retorno;
-    }
-
-    private List<InformacaoPagamento> somaMesmoImovelAndData(List<InformacaoPagamento> informacaoPagamentos){
-        List<InformacaoPagamento> retorno = new ArrayList<>();
-        List<GraficoColunaImovelDTO> resultado = new ArrayList<>();
-
-        informacaoPagamentos.forEach((InformacaoPagamento info)->{
-
-            if (!retorno.contains(info)){
-
-            }
-
-        });
 
 
-        return null;
-    }
 
 }
