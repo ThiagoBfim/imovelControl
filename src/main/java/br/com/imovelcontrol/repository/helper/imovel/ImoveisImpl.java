@@ -5,11 +5,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import br.com.imovelcontrol.dto.GastosDetalhadoDTO;
-import br.com.imovelcontrol.dto.PeriodoRelatorioDTO;
-import br.com.imovelcontrol.dto.RelatorioDetalhadoImovelDTO;
-import br.com.imovelcontrol.dto.RelatorioImovelDTO;
-import br.com.imovelcontrol.dto.SubRelatorioDetalhadoImovelDTO;
+import br.com.imovelcontrol.dto.*;
 import br.com.imovelcontrol.model.Imovel;
 import br.com.imovelcontrol.model.Usuario;
 import br.com.imovelcontrol.repository.util.PaginacaoUtil;
@@ -261,5 +257,52 @@ public class ImoveisImpl implements ImoveisQuerys {
         }
         return sqlQuery;
     }
+
+    /**
+     *
+     * @return
+     */
+    @Transactional(readOnly = true)
+    @Override
+    public List<GraficoColunaImovelDTO> retrieveGraficoColunaDTO() {
+
+        StringBuilder sql = new StringBuilder("SELECT  imovel.nome as nome," +
+                " tabela.mes as mes," +
+                " SUM(tabela.valor) as valor" +
+                " FROM usuario u, imovel imovel" +
+                " INNER JOIN(" +
+                "   SELECT  i.valor - case when valorPG.valor is null then 0 else valorPG.valor end as valor," +
+                "   MONTH(i.dataMensal) as mes, YEAR(i.dataMensal),  a.codigo_imovel as codigo_imovel" +
+                "   FROM informacao_pagamento i" +
+                "   INNER JOIN aluguel a" +
+                "   ON a.codigo = i.codigo_aluguel" +
+                "   LEFT JOIN (" +
+                "       SELECT  SUM(g.valorGasto) valor, ia.codigo " +
+                "       FROM gasto_adicional g" +
+                "       LEFT JOIN informacao_pagamento ia " +
+                "       ON g.codPagamento = ia.codigo" +
+                "       LEFT JOIN aluguel a2" +
+                "       ON a2.codigo = ia.codigo_aluguel" +
+                "       GROUP BY  ia.codigo, MONTH(ia.dataMensal)" +
+                "   ) valorPG " +
+                "   ON valorPG.codigo = i.codigo" +
+                "   GROUP BY MONTH(i.dataMensal), i.valor, valorPG.valor,  a.codigo_imovel, i.dataMensal" +
+                " ) as tabela" +
+                " ON tabela.codigo_imovel = imovel.codigo AND imovel.codigo_usuario = :donoImovel" +
+                " GROUP BY tabela.mes, imovel.nome" +
+                " ORDER BY tabela.mes;"
+        );
+
+        SQLQuery sqlQuery = entityManager.createNativeQuery(sql.toString()).unwrap(SQLQuery.class);
+        sqlQuery.setParameter("donoImovel", usuarioLogadoService.getUsuario());
+
+        sqlQuery.setResultTransformer(Transformers.aliasToBean(GraficoColunaImovelDTO.class));
+        sqlQuery.addScalar("nome", StringType.INSTANCE)
+                .addScalar("mes", StringType.INSTANCE)
+                .addScalar("valor", BigDecimalType.INSTANCE);
+        return sqlQuery.list();
+    }
+
+
 
 }

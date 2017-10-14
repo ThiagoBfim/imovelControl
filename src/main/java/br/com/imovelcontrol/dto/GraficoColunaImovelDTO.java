@@ -12,19 +12,18 @@ import java.util.List;
 /**
  * Created by marcosfellipec on 24/09/17.
  */
-//FIXME QUE MERDA É ESSA??? TIRA ISSO DAQUI, COLOCA NA PASTA DTO.
 
 public class GraficoColunaImovelDTO {
-   private LocalDate data;
+   private LocalDate mes;
    private BigDecimal valor;
    private String nome;
 
-    public LocalDate getData() {
-        return data;
+    public LocalDate getMes() {
+        return mes;
     }
 
-    public void setData(LocalDate data) {
-        this.data = data;
+    public void setMes(LocalDate data) {
+        this.mes = data;
     }
 
     public BigDecimal getValor() {
@@ -51,11 +50,11 @@ public class GraficoColunaImovelDTO {
 
         GraficoColunaImovelDTO that = (GraficoColunaImovelDTO) o;
 
-        return data.equals(that.data);
+        return mes.equals(that.mes);
     }
 
     @Override
     public int hashCode() {
-        return data.hashCode();
+        return mes.hashCode();
     }
 }
