@@ -1,10 +1,5 @@
 package br.com.imovelcontrol.config;
 
-import java.net.URI;
-import java.net.URISyntaxException;
-import javax.persistence.EntityManagerFactory;
-import javax.sql.DataSource;
-
 import br.com.imovelcontrol.model.Usuario;
 import br.com.imovelcontrol.repository.Usuarios;
 import org.apache.commons.dbcp2.BasicDataSource;
@@ -21,6 +16,11 @@ import org.springframework.orm.jpa.vendor.Database;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+
+import javax.persistence.EntityManagerFactory;
+import javax.sql.DataSource;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 @Configuration
 @ComponentScan(basePackageClasses = Usuarios.class)
