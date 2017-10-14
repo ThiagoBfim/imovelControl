@@ -37,15 +37,11 @@ public class LocatarioController {
     @Autowired
     private Locatarios locatarios;
 
-    @Autowired
-    private Alugueis alugueis;
-
     @RequestMapping("/novo")
     public ModelAndView novo(Locatario locatario) {
         return new ModelAndView();
     }
 
-    //    @RequestMapping(value = "/novo", method = RequestMethod.POST)
     @RequestMapping(value = "/novo", method = RequestMethod.POST)
     public ResponseEntity<?> cadastrar(@Valid @RequestBody Locatario locatario, BindingResult result) {
         Locatario locatarioRetrieve = locatario;

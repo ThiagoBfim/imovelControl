@@ -12,7 +12,7 @@ import javax.validation.constraints.Size;
  * Created by Thiago on 09/05/2017.
  */
 @Entity
-@Table(name = "gasto_adicional")
+@Table(name = "GASTO_ADICIONAL")
 public class GastoAdicional extends BaseEntity {
 
     private LocalDate dataMensal;

@@ -6,6 +6,7 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import javax.validation.Valid;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.NotNull;
@@ -17,6 +18,7 @@ import br.com.imovelcontrol.model.enuns.TipoPiso;
 import org.hibernate.validator.constraints.NotBlank;
 
 @Entity
+@Table(name = "ALUGUEL")
 public class Aluguel extends BaseEntity {
 
     @NotBlank(message = "Nome Obrigatório")

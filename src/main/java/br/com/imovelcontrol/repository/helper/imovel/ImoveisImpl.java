@@ -96,20 +96,21 @@ public class ImoveisImpl implements ImoveisQuerys {
         StringBuilder sql = new StringBuilder("SELECT imovel.nome as nome, imovel.cep as cep, "
                 + " SUM(CASE WHEN informacaoPagamento.pago = 1 then informacaoPagamento.valor else 0 end) as recebimento,"
                 + " SUM(tabelaGastos.valorGasto) as gastos "
-                + " FROM  informacao_pagamento informacaoPagamento"
-                + " INNER JOIN aluguel aluguel"
+                + " FROM  INFORMACAO_PAGAMENTO informacaoPagamento"
+                + " INNER JOIN ALUGUEL aluguel"
                 + " on informacaoPagamento.codigo_aluguel = aluguel.codigo"
-                + " INNER JOIN imovel imovel "
+                + " INNER JOIN IMOVEL imovel "
                 + " on aluguel.codigo_imovel = imovel.codigo "
                 + " LEFT JOIN (select gastoAdicional.codPagamento as codPagamento, "
                 + "            gastoAdicional.valorGasto as valorGasto"
-                + "               FROM gasto_adicional gastoAdicional"
-                + "               INNER JOIN informacao_pagamento pagamento"
+                + "               FROM GASTO_ADICIONAL gastoAdicional"
+                + "               INNER JOIN INFORMACAO_PAGAMENTO pagamento"
                 + "               ON gastoAdicional.codPagamento = pagamento.codigo"
                 + "               GROUP BY gastoAdicional.codPagamento, gastoAdicional.valorGasto"
                 + "            ) as tabelaGastos on tabelaGastos.codPagamento = informacaoPagamento.codigo "
                 + " WHERE imovel.codigo_usuario = :donoImovel "
                 + " AND imovel.excluido = 0 "
+                + " AND aluguel.excluido = 0 "
         );
 
         SQLQuery sqlQuery = appendFiltros(periodoRelatorioDTO, sql, false);
@@ -127,13 +128,14 @@ public class ImoveisImpl implements ImoveisQuerys {
     public Date retrieveMinDataMensalPagamento() {
 
         String sql = "SELECT MIN(informacaoPagamento.dataMensal) "
-                + " FROM  informacao_pagamento informacaoPagamento"
-                + " INNER JOIN aluguel aluguel"
+                + " FROM  INFORMACAO_PAGAMENTO informacaoPagamento"
+                + " INNER JOIN ALUGUEL aluguel"
                 + " on informacaoPagamento.codigo_aluguel = aluguel.codigo"
-                + " INNER JOIN imovel imovel "
+                + " INNER JOIN IMOVEL imovel "
                 + " on aluguel.codigo_imovel = imovel.codigo "
                 + " WHERE imovel.codigo_usuario = :donoImovel "
-                + " AND imovel.excluido = 0 ";
+                + " AND imovel.excluido = 0 "
+                + " AND aluguel.excluido = 0 ";
 
         SQLQuery sqlQuery = entityManager.createNativeQuery(sql).unwrap(SQLQuery.class);
         sqlQuery.setParameter("donoImovel", usuarioLogadoService.getUsuario());
@@ -148,12 +150,13 @@ public class ImoveisImpl implements ImoveisQuerys {
 
         String sql = "SELECT imovel.nome as nome, imovel.cep as cep, "
                 + " aluguel.nome as nomeAluguel, aluguel.codigo as codigoAluguel, loc.excluido as estaAlugado"
-                + " FROM  imovel imovel"
-                + " INNER JOIN aluguel aluguel on aluguel.codigo_imovel = imovel.codigo  "
+                + " FROM  IMOVEL imovel"
+                + " INNER JOIN ALUGUEL aluguel on aluguel.codigo_imovel = imovel.codigo  "
                 + " LEFT JOIN locatario loc on loc.codigo_aluguel = aluguel.codigo "
                 + " WHERE imovel.codigo_usuario = :donoImovel "
                 + " AND imovel.codigo =:imovel "
-                + " AND imovel.excluido = 0 ";
+                + " AND imovel.excluido = 0"
+                + " AND aluguel.excluido = 0 ";
         SQLQuery sqlQuery = entityManager.createNativeQuery(sql).unwrap(SQLQuery.class);
         sqlQuery.setParameter("donoImovel", usuarioLogadoService.getUsuario());
         sqlQuery.setParameter("imovel", periodoRelatorioDTO.getImovel());
@@ -184,9 +187,9 @@ public class ImoveisImpl implements ImoveisQuerys {
                 + " informacaoPagamento.luzInclusa as luzInclusa, "
                 + " informacaoPagamento.valor as valorAluguel "
                 + " ,informacaoPagamento.dataMensal as dataMensal"
-                + " FROM  informacao_pagamento informacaoPagamento"
-                + " INNER JOIN aluguel aluguel on informacaoPagamento.codigo_aluguel = aluguel.codigo  "
-                + " INNER JOIN imovel imovel  on aluguel.codigo_imovel = imovel.codigo"
+                + " FROM  INFORMACAO_PAGAMENTO informacaoPagamento"
+                + " INNER JOIN ALUGUEL aluguel on informacaoPagamento.codigo_aluguel = aluguel.codigo  "
+                + " INNER JOIN IMOVEL imovel  on aluguel.codigo_imovel = imovel.codigo"
                 + " WHERE imovel.codigo_usuario = :donoImovel "
                 + " AND aluguel.codigo = :codigoAluguel"
         );
@@ -223,7 +226,7 @@ public class ImoveisImpl implements ImoveisQuerys {
 
     private List<GastosDetalhadoDTO> retrieveGastosByCodigoPagamento(Long codigoPagamento) {
         String sql = "SELECT gasto.valorGasto as gasto, gasto.comentarioGasto as descricao "
-                + " FROM gasto_adicional gasto"
+                + " FROM GASTO_ADICIONAL gasto"
                 + " WHERE gasto.codPagamento = :codigoPagamento";
         SQLQuery sqlQuery = entityManager.createNativeQuery(sql).unwrap(SQLQuery.class);
         sqlQuery.setParameter("codigoPagamento", codigoPagamento);
