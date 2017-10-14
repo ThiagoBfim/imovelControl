@@ -1,6 +1,7 @@
 package br.com.imovelcontrol.service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,6 +22,9 @@ public class InformacaoPagamentoService {
 
     @Autowired
     private GastosAdicionais gastosAdicionais;
+
+    @Autowired
+    private GastoAdicionalService gastosAdicionaisService;
 
     @Transactional
     public InformacaoPagamento salvar(InformacaoPagamento informacaoPagamento) {
@@ -79,14 +83,30 @@ public class InformacaoPagamentoService {
         Aluguel aluguel = new Aluguel();
 
         aluguel.setCodigo(Long.parseLong(codigo));
-        List<InformacaoPagamento> informacaoPagamento = informacaoPagamentos.findByAluguel(aluguel);
-        return informacaoPagamento.stream().filter(pag -> pag.getDataMensal().getMonth()
+        Optional<List<InformacaoPagamento>> informacaoPagamento = informacaoPagamentos.findByAluguel(aluguel);
+
+        return informacaoPagamento.get().stream().filter(pag -> pag.getDataMensal().getMonth()
                 .equals(LocalDate.now().getMonth())).findAny();
     }
 
     @Transactional
-    public  List<InformacaoPagamento> findByAluguel(Aluguel aluguel){
+    public  Optional<List<InformacaoPagamento>> findByAluguel(Aluguel aluguel){
         return informacaoPagamentos.findByAluguel(aluguel);
     }
 
+    @Transactional
+    public Optional<List<InformacaoPagamento>> findByAluguelToGraficoBarrra(Aluguel aluguel){
+        Optional<List<InformacaoPagamento>> retorno = Optional.of(new ArrayList<>());
+        List<InformacaoPagamento> informacaoPagamentoList = informacaoPagamentos.findByAluguel(aluguel).get();
+
+        informacaoPagamentoList.forEach((InformacaoPagamento info) -> {
+            Optional<List<GastoAdicional>> gastoAdicionalList = gastosAdicionaisService.findByInformaçãoPagamento(info);
+            InformacaoPagamento informacaoPagamento = info;
+            for (GastoAdicional gasto: gastoAdicionalList.get()){
+                informacaoPagamento.setValor(informacaoPagamento.getValor().add(gasto.getValorGasto()));
+            }
+            retorno.get().add(informacaoPagamento);
+        });
+        return retorno;
+    }
 }

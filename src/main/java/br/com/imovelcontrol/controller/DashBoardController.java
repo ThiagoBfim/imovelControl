@@ -17,6 +17,7 @@ import br.com.imovelcontrol.model.Usuario;
 import br.com.imovelcontrol.repository.Alugueis;
 import br.com.imovelcontrol.repository.GastosAdicionais;
 import br.com.imovelcontrol.repository.Imoveis;
+import br.com.imovelcontrol.service.GastoAdicionalService;
 import br.com.imovelcontrol.service.InformacaoPagamentoService;
 import br.com.imovelcontrol.service.UsuarioLogadoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,7 +47,13 @@ public class DashBoardController {
     private InformacaoPagamentoService informacaoPagamentoService;
 
     @Autowired
+    private GastoAdicionalService gastosAdicionaisService;
+
+    @Autowired
     private GastosAdicionais gastosAdicionais;
+
+    @Autowired
+   // private GraficoColunas graficoColunas;
 
 
 
@@ -76,7 +83,7 @@ public class DashBoardController {
     }
 
 
-    public double valorTotal(Long codigo){
+    private double valorTotal(Long codigo){
         List<Aluguel> listAlgueis;
         Aluguel aluguel;
 
@@ -84,6 +91,8 @@ public class DashBoardController {
 
         listAlgueis = alugueis.findByImovel_Codigo(codigo).get();
         for (Aluguel i : listAlgueis) {
+
+
             InformacaoPagamento informacaoPagamento = informacaoPagamentoService.retrieveByAluguelAndData(Long.toString(i.getCodigo())).get();
 
             if (informacaoPagamento.getPago()) {
@@ -92,13 +101,13 @@ public class DashBoardController {
             List<GastoAdicional> gastoAdicionals = gastosAdicionais.findByInformacaoPagamento(informacaoPagamento).get();
 
             for (GastoAdicional gastoAdicional : gastoAdicionals){
-                total -= gastoAdicional.getValorGasto().doubleValue();
+              //  total -= gastoAdicional.getValorGasto().doubleValue();
             }
 
         }
 
         if (total <= 0){
-            total = 0;
+           // total = 1;
         }
 
         DecimalFormat df = new DecimalFormat("0");
@@ -109,27 +118,49 @@ public class DashBoardController {
     public @ResponseBody
     List<GraficoColunaImovelDTO> listarTotalVendaPorMesColuna() {
 
-        List<GraficoColunaImovelDTO> graficoColunaImovelDTOS = new ArrayList<>();
+       // Optional<List<GraficoColunaImovelDTO>> teste = graficoColunas.findByUser(1l);
 
+        List<GraficoColunaImovelDTO> graficoColunaImovelDTOS = new ArrayList<>();
         Usuario usuario = usuarioLogadoService.getUsuario();
         List<Imovel> listImovel = imoveis.findByDonoImovelAndExcluido(usuario, false).get();
-        listImovel.forEach((Imovel i) -> {
-            List<Aluguel> listAlguel = alugueis.findByImovel_Codigo(i.getCodigo()).get();
-            listAlguel.forEach((Aluguel aluguel) -> {
-                List<InformacaoPagamento> informacaoPagamento = informacaoPagamentoService.findByAluguel(aluguel);
-
-                GraficoColunaImovelDTO graficoColunaImovelDTO = new GraficoColunaImovelDTO();
-                graficoColunaImovelDTO.setNome(i.getNome());
+        List<InformacaoPagamento> informacaoPagamentos = getAllInfoPagamento(listImovel);
 
 
+        return graficoColunaImovelDTOS;
+    }
 
+    private List<InformacaoPagamento> getAllInfoPagamento(List<Imovel> imoveis){
+        List<InformacaoPagamento> retorno = new ArrayList<>();
+        imoveis.forEach((Imovel i) -> {
+            List<InformacaoPagamento> infoMesmoImovel = new ArrayList<>();
+            List<Aluguel> aluguels = alugueis.findByImovel_Codigo(i.getCodigo()).get();
+            aluguels.forEach((Aluguel a) -> {
+                List<InformacaoPagamento> informacaoPagamentos = informacaoPagamentoService.findByAluguelToGraficoBarrra(a).get();
+                informacaoPagamentos.forEach((InformacaoPagamento info) ->{
+                    infoMesmoImovel.add(info);
+                });
             });
+//            somaMesmoImovelAndData(infoMesmoImovel).forEach((InformacaoPagamento info)->{
+//                retorno.add(info);
+//            });
+        });
+        return retorno;
+    }
+
+    private List<InformacaoPagamento> somaMesmoImovelAndData(List<InformacaoPagamento> informacaoPagamentos){
+        List<InformacaoPagamento> retorno = new ArrayList<>();
+        List<GraficoColunaImovelDTO> resultado = new ArrayList<>();
+
+        informacaoPagamentos.forEach((InformacaoPagamento info)->{
+
+            if (!retorno.contains(info)){
+
+            }
 
         });
 
 
-        List<Aluguel> aluguels = alugueis.findAll();
-        aluguels.forEach(a -> a.getImovel().getDonoImovel().setGrupos(new ArrayList<>()));
-        return graficoColunaImovelDTOS;
+        return null;
     }
+
 }
