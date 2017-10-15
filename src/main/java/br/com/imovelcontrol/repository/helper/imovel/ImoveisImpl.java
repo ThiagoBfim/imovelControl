@@ -16,6 +16,7 @@ import br.com.imovelcontrol.model.Usuario;
 import br.com.imovelcontrol.repository.util.PaginacaoUtil;
 import br.com.imovelcontrol.service.UsuarioLogadoService;
 import org.hibernate.Criteria;
+import org.hibernate.Hibernate;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.criterion.MatchMode;
@@ -54,6 +55,9 @@ public class ImoveisImpl implements ImoveisQuerys {
         Criteria criteria = entityManager.unwrap(Session.class).createCriteria(Imovel.class);
         adicionarFiltro(filtro, usuario, criteria);
         paginacaoUtil.paginacao(pageable, criteria);
+
+        List<Imovel> filtrados = criteria.list();
+        filtrados.forEach(u -> Hibernate.initialize(u.getAluguelList()));
         return new PageImpl<>(criteria.list(), pageable, total(filtro, usuario));
     }
 
