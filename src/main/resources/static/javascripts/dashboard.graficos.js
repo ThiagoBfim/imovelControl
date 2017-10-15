@@ -2,11 +2,6 @@ var ImovelControl = ImovelControl || {};
 
 ImovelControl.GraficoVendaPorMes = (function () {
 
-    var Chave = function (valor) {
-        this.valor = valor;
-
-    };
-
     function GraficoVendaPorMes() {
         google.charts.load("current", {packages: ["corechart"]});
         google.charts.load('current', {packages: ['bar']});
@@ -35,7 +30,6 @@ ImovelControl.GraficoVendaPorMes = (function () {
         data.addColumn('string', 'Meses');
 
         vendaMes.listaNomeImoveis.forEach(function (nome) {
-            console.log(nome);
             data.addColumn('number', nome);
             count++;
 
@@ -57,7 +51,6 @@ ImovelControl.GraficoVendaPorMes = (function () {
                 a.push(c);
             });
             while ((count + 1) > a.length) {
-                console.log(a.length);
                 a.push(0);
             }
             data.addRows([a]);

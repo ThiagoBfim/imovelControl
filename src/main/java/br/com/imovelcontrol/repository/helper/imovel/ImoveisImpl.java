@@ -5,7 +5,12 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import br.com.imovelcontrol.dto.*;
+import br.com.imovelcontrol.dto.GastosDetalhadoDTO;
+import br.com.imovelcontrol.dto.GraficoColunaImovelDTO;
+import br.com.imovelcontrol.dto.PeriodoRelatorioDTO;
+import br.com.imovelcontrol.dto.RelatorioDetalhadoImovelDTO;
+import br.com.imovelcontrol.dto.RelatorioImovelDTO;
+import br.com.imovelcontrol.dto.SubRelatorioDetalhadoImovelDTO;
 import br.com.imovelcontrol.model.Imovel;
 import br.com.imovelcontrol.model.Usuario;
 import br.com.imovelcontrol.repository.util.PaginacaoUtil;
@@ -17,7 +22,12 @@ import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.transform.Transformers;
-import org.hibernate.type.*;
+import org.hibernate.type.BigDecimalType;
+import org.hibernate.type.BooleanType;
+import org.hibernate.type.DateType;
+import org.hibernate.type.IntegerType;
+import org.hibernate.type.LongType;
+import org.hibernate.type.StringType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -94,11 +104,11 @@ public class ImoveisImpl implements ImoveisQuerys {
                 + " INNER JOIN IMOVEL imovel "
                 + " on aluguel.codigo_imovel = imovel.codigo "
                 + " LEFT JOIN (select gastoAdicional.codPagamento as codPagamento, "
-                + "            gastoAdicional.valorGasto as valorGasto"
+                + "            SUM(gastoAdicional.valorGasto) as valorGasto"
                 + "               FROM GASTO_ADICIONAL gastoAdicional"
                 + "               INNER JOIN INFORMACAO_PAGAMENTO pagamento"
                 + "               ON gastoAdicional.codPagamento = pagamento.codigo"
-                + "               GROUP BY gastoAdicional.codPagamento, gastoAdicional.valorGasto"
+                + "               GROUP BY gastoAdicional.codPagamento"
                 + "            ) as tabelaGastos on tabelaGastos.codPagamento = informacaoPagamento.codigo "
                 + " WHERE imovel.codigo_usuario = :donoImovel "
                 + " AND imovel.excluido = 0 "
@@ -255,38 +265,41 @@ public class ImoveisImpl implements ImoveisQuerys {
     }
 
     /**
-     *
      * @return
      */
     @Transactional(readOnly = true)
     @Override
     public List<GraficoColunaImovelDTO> retrieveGraficoColunaDTO() {
 
-        StringBuilder sql = new StringBuilder("SELECT  imovel.nome as nome," +
-                " tabela.mes as mes," +
-                " SUM(tabela.valor) as valor" +
-                " FROM usuario u, imovel imovel" +
-                " INNER JOIN(" +
-                "   SELECT  i.valor - case when valorPG.valor is null then 0 else valorPG.valor end as valor," +
-                "   MONTH(i.dataMensal) as mes, YEAR(i.dataMensal),  a.codigo_imovel as codigo_imovel" +
-                "   FROM informacao_pagamento i" +
-                "   INNER JOIN aluguel a" +
-                "   ON a.codigo = i.codigo_aluguel" +
-                "   LEFT JOIN (" +
-                "       SELECT  SUM(g.valorGasto) valor, ia.codigo " +
-                "       FROM gasto_adicional g" +
-                "       LEFT JOIN informacao_pagamento ia " +
-                "       ON g.codPagamento = ia.codigo" +
-                "       LEFT JOIN aluguel a2" +
-                "       ON a2.codigo = ia.codigo_aluguel" +
-                "       GROUP BY  ia.codigo, MONTH(ia.dataMensal)" +
-                "   ) valorPG " +
-                "   ON valorPG.codigo = i.codigo" +
-                "   GROUP BY MONTH(i.dataMensal), i.valor, valorPG.valor,  a.codigo_imovel, i.dataMensal" +
-                " ) as tabela" +
-                " ON tabela.codigo_imovel = imovel.codigo AND imovel.codigo_usuario = :donoImovel" +
-                " GROUP BY tabela.mes, imovel.nome" +
-                " ORDER BY tabela.mes;"
+        StringBuilder sql = new StringBuilder("SELECT  imovel.nome as nome,"
+                + " tabela.mes as mes,"
+                + " tabela.valor as valor"
+                + " FROM IMOVEL imovel"
+                + " INNER JOIN("
+                + "   SELECT  SUM(CASE WHEN i.pago = 1  THEN (i.valor - case when valorPG.valor "
+                + "   is null then 0 else valorPG.valor END)"
+                + "   ELSE - case when valorPG.valor is null then 0 else valorPG.valor END END) as valor,"
+                + "   MONTH(i.dataMensal) as mes,  a.codigo_imovel as codigo_imovel"
+                + "   FROM INFORMACAO_PAGAMENTO i"
+                + "   INNER JOIN ALUGUEL a"
+                + "   ON a.codigo = i.codigo_aluguel"
+                + "   LEFT JOIN ("
+                + "       SELECT  SUM(g.valorGasto) valor, ia.codigo as codigo,  ia.codigo_aluguel as codigoAluguel"
+                + "       FROM GASTO_ADICIONAL g"
+                + "       LEFT JOIN INFORMACAO_PAGAMENTO ia "
+                + "       ON g.codPagamento = ia.codigo"
+                + "       GROUP BY  ia.codigo, MONTH(ia.dataMensal),  ia.codigo_aluguel"
+                + "   ) valorPG "
+                + "   ON valorPG.codigo = i.codigo AND valorPG.codigoAluguel = i.codigo_aluguel"
+                + "   WHERE a.excluido = 0"
+                + "   GROUP BY MONTH(i.dataMensal), a.codigo_imovel"
+                + " ) as tabela"
+                + " ON tabela.codigo_imovel = imovel.codigo"
+                + " WHERE  mes >= (MONTH(now()) - 4)"
+                + " AND imovel.excluido = 0 "
+                + " AND imovel.codigo_usuario = :donoImovel"
+                + " GROUP BY tabela.mes, imovel.nome"
+                + " ORDER BY tabela.mes;"
         );
 
         SQLQuery sqlQuery = entityManager.createNativeQuery(sql.toString()).unwrap(SQLQuery.class);
@@ -298,7 +311,6 @@ public class ImoveisImpl implements ImoveisQuerys {
                 .addScalar("valor", BigDecimalType.INSTANCE);
         return sqlQuery.list();
     }
-
 
 
 }
