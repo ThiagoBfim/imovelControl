@@ -1,8 +1,11 @@
 package br.com.imovelcontrol.controller;
 
-import java.math.BigDecimal;
 import java.text.DecimalFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
 import br.com.imovelcontrol.dto.AluguelGraficoDTO;
 import br.com.imovelcontrol.dto.GraficoColunaAgrupadorDTO;
@@ -16,7 +19,6 @@ import br.com.imovelcontrol.model.Usuario;
 import br.com.imovelcontrol.repository.Alugueis;
 import br.com.imovelcontrol.repository.GastosAdicionais;
 import br.com.imovelcontrol.repository.Imoveis;
-import br.com.imovelcontrol.service.GastoAdicionalService;
 import br.com.imovelcontrol.service.InformacaoPagamentoService;
 import br.com.imovelcontrol.service.UsuarioLogadoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -75,12 +77,9 @@ public class DashBoardController {
     }
 
 
-    private double valorTotal(Long codigo){
+    private double valorTotal(Long codigo) {
         List<Aluguel> listAlgueis;
-        Aluguel aluguel;
-
         double total = 0.0;
-
         listAlgueis = alugueis.findByImovel_Codigo(codigo).get();
         for (Aluguel i : listAlgueis) {
 
@@ -98,8 +97,8 @@ public class DashBoardController {
             }
         }
 
-        if (total <= 0){
-           // total = 1;
+        if (total <= 0) {
+            // total = 1;
         }
 
         DecimalFormat df = new DecimalFormat("0");
@@ -112,16 +111,10 @@ public class DashBoardController {
         List<GraficoColunaImovelDTO> graficoColunaImovelDTOS = imoveis.retrieveGraficoColunaDTO();
         Set<Integer> meses = new LinkedHashSet<>();
         Set<String> listaNomeImoveis = new LinkedHashSet<>();
-        List<String> resultadoGrafico = new ArrayList<>();
-        if (!CollectionUtils.isEmpty(graficoColunaImovelDTOS)){
+        if (!CollectionUtils.isEmpty(graficoColunaImovelDTOS)) {
             graficoColunaImovelDTOS.forEach(g -> {
-                if (meses.isEmpty() || !meses.contains(g.getMes().toString())){
-                    resultadoGrafico.add(g.getMes().toString());
-                }
-                resultadoGrafico.add(g.getValor().toString());
                 meses.add(g.getMes());
                 listaNomeImoveis.add(g.getNome());
-
             });
         }
 
@@ -131,8 +124,6 @@ public class DashBoardController {
         agrupadorDTO.setValores(graficoColunaImovelDTOS);
         return agrupadorDTO;
     }
-
-
 
 
 }
