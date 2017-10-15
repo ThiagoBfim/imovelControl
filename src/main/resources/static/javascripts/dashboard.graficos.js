@@ -2,7 +2,7 @@ var ImovelControl = ImovelControl || {};
 
 ImovelControl.GraficoVendaPorMes = (function () {
 
-    var Chave = function(valor){
+    var Chave = function (valor) {
         this.valor = valor;
 
     };
@@ -34,72 +34,35 @@ ImovelControl.GraficoVendaPorMes = (function () {
         var data = new google.visualization.DataTable();
         data.addColumn('string', 'Meses');
 
-        vendaMes.listaNomeImoveis.forEach(function(nome){
-                console.log(nome);
-                data.addColumn('number', nome);
-                count++;
+        vendaMes.listaNomeImoveis.forEach(function (nome) {
+            console.log(nome);
+            data.addColumn('number', nome);
+            count++;
 
-            });
+        });
 
-        // data.addColumn('number', 'Mariana');
-        // data.addColumn('number', 'Imprensa');
+        vendaMes.meses.forEach(function (mes) {
+            var chaves = [];
 
-
-            // obj.graficoColunaImovelDTOS.forEach(function(obj){
-            //     console.log(obj.valor);
-            //   //  valores.add(obj.valor);
-            // });
-
-
-            var a = new Chave(10);
-            var b = new Chave(100);
-            vendaMes.meses.forEach(function(mes){
-                var chaves = [];
-
-                vendaMes.valores.forEach(function(valor){
-                    if (valor.mes == mes){
-                        chaves.push(valor.valor);
-                    }
-                });
-                moment.locale('pt-BR');
-                var mesText = moment(mes.toString(), 'MM').format('MMMM');
-                var a = [];
-                a.push(mesText);
-                chaves.forEach(function(c){
-                    a.push(c);
-                });
-                while ((count + 1) > a.length){
-                    console.log(a.length);
-                    a.push(0);
+            vendaMes.valores.forEach(function (valor) {
+                if (valor.mes == mes) {
+                    chaves.push(valor.valor);
                 }
-                console.log(a);
-                var teste = ['Agosto', 10, 100];
-                console.log(teste);
-                data.addRows([a]);
             });
-        // data.addRows([['1', a.valor,b.valor]]);
-        // data.addRows([['2', a.valor,b.valor]]);
+            moment.locale('pt-BR');
+            var mesText = moment(mes.toString(), 'MM').format('MMMM');
+            var a = [];
+            a.push(mesText);
+            chaves.forEach(function (c) {
+                a.push(c);
+            });
+            while ((count + 1) > a.length) {
+                console.log(a.length);
+                a.push(0);
+            }
+            data.addRows([a]);
+        });
 
-
-            // var objetoFina = []
-            // objetoFina.add(obj.mes);
-            //  data.addRows([obj.mes, valores]);
-
-        // data.addRows([  ['Junho', 1000,300], ['Junho',1170, 460], ['Agosto', 660, 1120], ['Setembro',1030,540]]);
-       //
-
-       // data.addRows([['2008', {id: 'Expenses',v: 0}, {id: 'Sales',v: 1000}]]);
-       // data.addRows(['2009', 1000])
-        //data.addRows([['2008', 1200]]);
-
-        // var objeto = [['2008', {id: 'Expenses',v: 0}, {id: 'Sales',v: 1000}]]
-         //objeto.push(['2009', 5, 10]);
-        //
-        //
-
-
-        console.log(vendaMes)
-        // data.addRows(vendaMes)
 
         var options = {
             chart: {
@@ -151,7 +114,11 @@ ImovelControl.GraficoVendaPorMes = (function () {
             is3D: true,
             titlePosition: 'center',
         };
-        var formatter = new google.visualization.NumberFormat({ prefix: 'R$: ',decimalSymbol: ',', groupingSymbol: '.' });
+        var formatter = new google.visualization.NumberFormat({
+            prefix: 'R$: ',
+            decimalSymbol: ',',
+            groupingSymbol: '.'
+        });
         formatter.format(data, 1);
         var chart = new google.visualization.PieChart(document.getElementById('chart'));
         chart.draw(data, options);

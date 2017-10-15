@@ -1,7 +1,9 @@
 package br.com.imovelcontrol.dto;
 
-import java.math.BigDecimal;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Created by marcosfellipec on 14/10/17.

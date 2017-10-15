@@ -1,22 +1,15 @@
 package br.com.imovelcontrol.dto;
 
-import br.com.imovelcontrol.model.InformacaoPagamento;
-
 import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.time.Month;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 /**
  * Created by marcosfellipec on 24/09/17.
  */
 
 public class GraficoColunaImovelDTO {
-   private Integer mes;
-   private BigDecimal valor;
-   private String nome;
+    private Integer mes;
+    private BigDecimal valor;
+    private String nome;
 
     public Integer getMes() {
         return mes;
