@@ -6,9 +6,6 @@ ImovelControl.LocatarioCadastroRapido = (function () {
     var hrefOrigin = document.location.origin;
 
     function LocatarioCadastroRapido() {
-        if(hrefOrigin.includes('8080')){
-            hrefOrigin += '/ImovelControl'
-        }
         this.botaoAdicionar = $('.js-modal-locatario');
         this.locatarioAluguel = $('#codigoAluguel');
         this.botaoExcluirClick = $('.js-modal-excluir');
@@ -31,7 +28,6 @@ ImovelControl.LocatarioCadastroRapido = (function () {
     function onBotaoExcluirClick() {
         event.preventDefault();
         var inputCodigo = $('#codigoLocatario');
-        console.log(inputCodigo.val());
         $.ajax({
             url: hrefOrigin + '/locatario/' + inputCodigo.val(),
             method: 'GET',

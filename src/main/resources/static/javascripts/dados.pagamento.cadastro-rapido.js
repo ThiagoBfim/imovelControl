@@ -6,9 +6,6 @@ ImovelControl.AluguelCadastroRapido = (function () {
     var hrefOrigin = document.location.origin;
 
     function AluguelCadastroRapido() {
-        if (hrefOrigin.includes('8080')) {
-            hrefOrigin += '/ImovelControl'
-        }
         this.botaoSalvar = $('.js-modal-pagamento');
         this.codigoAluguel = $('#codigoAluguelPagamento');
 
