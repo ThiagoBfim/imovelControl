@@ -2,11 +2,10 @@ package br.com.imovelcontrol.controller;
 
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import br.com.imovelcontrol.dto.AluguelGraficoDTO;
+import br.com.imovelcontrol.dto.GraficoColunaAgrupadorDTO;
 import br.com.imovelcontrol.dto.GraficoColunaImovelDTO;
 import br.com.imovelcontrol.dto.PeriodoRelatorioDTO;
 import br.com.imovelcontrol.model.Aluguel;
@@ -22,6 +21,7 @@ import br.com.imovelcontrol.service.InformacaoPagamentoService;
 import br.com.imovelcontrol.service.UsuarioLogadoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -108,11 +108,28 @@ public class DashBoardController {
 
     @GetMapping("/totalPorMesColuna")
     public @ResponseBody
-    List<GraficoColunaImovelDTO> listarTotalVendaPorMesColuna() {
+    GraficoColunaAgrupadorDTO listarTotalVendaPorMesColuna() {
+        List<GraficoColunaImovelDTO> graficoColunaImovelDTOS = imoveis.retrieveGraficoColunaDTO();
+        Set<Integer> meses = new LinkedHashSet<>();
+        Set<String> listaNomeImoveis = new LinkedHashSet<>();
+        List<String> resultadoGrafico = new ArrayList<>();
+        if (!CollectionUtils.isEmpty(graficoColunaImovelDTOS)){
+            graficoColunaImovelDTOS.forEach(g -> {
+                if (meses.isEmpty() || !meses.contains(g.getMes().toString())){
+                    resultadoGrafico.add(g.getMes().toString());
+                }
+                resultadoGrafico.add(g.getValor().toString());
+                meses.add(g.getMes());
+                listaNomeImoveis.add(g.getNome());
 
+            });
+        }
 
-
-        return imoveis.retrieveGraficoColunaDTO();
+        GraficoColunaAgrupadorDTO agrupadorDTO = new GraficoColunaAgrupadorDTO();
+        agrupadorDTO.setMeses(meses);
+        agrupadorDTO.setListaNomeImoveis(listaNomeImoveis);
+        agrupadorDTO.setValores(graficoColunaImovelDTOS);
+        return agrupadorDTO;
     }
 
 
