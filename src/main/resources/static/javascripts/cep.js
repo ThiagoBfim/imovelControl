@@ -1,6 +1,6 @@
-var Bomfim = Bomfim || {};
+var ImovelControl = ImovelControl || {};
 
-Bomfim.BuscarCep = (function () {
+ImovelControl.BuscarCep = (function () {
 
     var inputRua = $('input[id=rua]');
     var inputBairro = $('input[id=bairro]');
@@ -84,6 +84,6 @@ Bomfim.BuscarCep = (function () {
 }());
 
 $(function () {
-    var buscaCep = new Bomfim.BuscarCep();
+    var buscaCep = new ImovelControl.BuscarCep();
     buscaCep.iniciar();
 });

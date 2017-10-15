@@ -1,6 +1,6 @@
-var Bomfim = Bomfim || {};
+var ImovelControl = ImovelControl || {};
 
-Bomfim.UploadFoto = (function () {
+ImovelControl.UploadFoto = (function () {
 
     function UploadFoto() {
         this.inputNomeFoto = $('input[name=foto]');
@@ -83,6 +83,6 @@ Bomfim.UploadFoto = (function () {
 }());
 
 $(function () {
-    var uploadFoto = new Bomfim.UploadFoto();
+    var uploadFoto = new ImovelControl.UploadFoto();
     uploadFoto.iniciar();
 });
