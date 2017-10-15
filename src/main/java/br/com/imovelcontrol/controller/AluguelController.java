@@ -15,6 +15,7 @@ import br.com.imovelcontrol.model.enuns.TipoImovel;
 import br.com.imovelcontrol.model.enuns.TipoPiso;
 import br.com.imovelcontrol.repository.Alugueis;
 import br.com.imovelcontrol.repository.Imoveis;
+import br.com.imovelcontrol.repository.Locatarios;
 import br.com.imovelcontrol.service.CadastroAluguelService;
 import br.com.imovelcontrol.service.TemplateFormaPagamentoService;
 import br.com.imovelcontrol.service.UsuarioLogadoService;
@@ -42,6 +43,9 @@ public class AluguelController {
 
     @Autowired
     private Imoveis imoveis;
+
+    @Autowired
+    private Locatarios locatarios;
 
     @Autowired
     private TemplateFormaPagamentoService templateFormaPagamentoService;

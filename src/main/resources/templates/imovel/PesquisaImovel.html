@@ -97,7 +97,16 @@
                            data:objeto="${imovel.nome}">
                             <font color="#009900"> <i class="glyphicon glyphicon-remove"></i> </font>
                         </a>
-                        <a class="btn  btn-link  btn-xs js-tooltip " title="Adicionar Aluguel" href="#"
+                        <a th:if="${imovel.containsAluguel()}" class="btn  btn-link  btn-xs js-tooltip "
+                           title="Necessário adicionar pelo menos um aluguel" href="#"
+                           th:href="@{/imovel/aluguel/{codigo}(codigo=${imovel.codigo})}">
+                            <font color="#e00000">
+                                <i class="fa fa-exclamation-triangle"></i>
+                            </font>
+                        </a>
+
+                        <a th:if="${!imovel.containsAluguel()}" class="btn  btn-link  btn-xs js-tooltip "
+                           title="Adicionar novos alugueis" href="#"
                            th:href="@{/imovel/aluguel/{codigo}(codigo=${imovel.codigo})}">
                             <font color="#009900"> <i class="glyphicon glyphicon-plus"></i> </font>
                         </a>

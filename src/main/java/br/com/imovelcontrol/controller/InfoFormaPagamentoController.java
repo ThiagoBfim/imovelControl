@@ -59,7 +59,6 @@ public class InfoFormaPagamentoController {
             informacaoPagamento = informacaoPagamentoOptional.get();
         } else {
 
-            //TODO Utilizar Reflection
             informacaoPagamento.setValor(aluguel.getFormaPagamento().getValor());
             if (aluguel.getFormaPagamento().getAguaInclusa()) {
                 informacaoPagamento.setAguaInclusa(false);

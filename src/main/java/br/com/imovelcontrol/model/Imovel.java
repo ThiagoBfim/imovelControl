@@ -1,11 +1,14 @@
 package br.com.imovelcontrol.model;
 
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.Valid;
@@ -13,6 +16,7 @@ import javax.validation.constraints.Size;
 
 import br.com.imovelcontrol.service.event.imovel.ImovelListener;
 import org.hibernate.validator.constraints.NotBlank;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 @EntityListeners(ImovelListener.class)
@@ -39,6 +43,9 @@ public class Imovel extends BaseEntity {
     private Usuario donoImovel;
 
     private Boolean excluido = Boolean.FALSE;
+
+    @OneToMany(mappedBy = "imovel")
+    private List<Aluguel> aluguelList = new ArrayList<>();
 
     @Transient
     private String urlFoto;
@@ -127,5 +134,17 @@ public class Imovel extends BaseEntity {
 
     public void setExcluido(Boolean excluido) {
         this.excluido = excluido;
+    }
+
+    public List<Aluguel> getAluguelList() {
+        return aluguelList;
+    }
+
+    public void setAluguelList(List<Aluguel> aluguelList) {
+        this.aluguelList = aluguelList;
+    }
+
+    public boolean containsAluguel(){
+        return CollectionUtils.isEmpty(getAluguelList());
     }
 }
