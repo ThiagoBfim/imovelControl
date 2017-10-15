@@ -1,6 +1,6 @@
-var Brewer = Brewer || {};
+var ImovelControl = ImovelControl || {};
 
-Brewer.DialogoExcluir = (function () {
+ImovelControl.DialogoExcluir = (function () {
 
     function DialogoExcluir() {
         this.exclusaoBtn = $('.js-exclusao-btn');
@@ -55,6 +55,7 @@ Brewer.DialogoExcluir = (function () {
     }
 
     function onExcluidoSucesso(sair, usuarioExcluido) {
+        window.location = window.location.href;
         if (usuarioExcluido != null && usuarioExcluido == true) {
             $.ajax({
                 url: sair,
@@ -69,11 +70,11 @@ Brewer.DialogoExcluir = (function () {
                     showCancelButton: false,
                     confirmButtonText: 'OK'
                 },
-                onRemoveExcluido.bind(this, sair, usuarioExcluido));
+                onRemoveExcluido.bind(this));
         }
     }
 
-    function onRemoveExcluido(sair, usuarioExcluido) {
+    function onRemoveExcluido() {
         window.location = window.location.href;
     }
 
@@ -86,7 +87,7 @@ Brewer.DialogoExcluir = (function () {
 }());
 
 $(function () {
-    var dialogoExcluir = new Brewer.DialogoExcluir();
+    var dialogoExcluir = new ImovelControl.DialogoExcluir();
     dialogoExcluir.iniciar();
 
 });

@@ -1,6 +1,6 @@
-var Brewer = Brewer || {};
+var ImovelControl = ImovelControl || {};
 
-Brewer.MascaraCpfCnpj = (function() {
+ImovelControl.MascaraCpfCnpj = (function() {
 
 	function MascaraCpfCnpj() {
 		this.radioTipoPessoa = $('.js-raido-tipo-pessoa');
@@ -32,7 +32,7 @@ Brewer.MascaraCpfCnpj = (function() {
 }());
 
 $(function() {
-	var mascaraCpfCnpj = new Brewer.MascaraCpfCnpj();
+	var mascaraCpfCnpj = new ImovelControl.MascaraCpfCnpj();
 	mascaraCpfCnpj.iniciar();
 
 });

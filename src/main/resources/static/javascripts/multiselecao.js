@@ -1,6 +1,6 @@
-var Brewer = Brewer || {};
+var ImovelControl = ImovelControl || {};
 
-Brewer.MultiSelecao = (function() {
+ImovelControl.MultiSelecao = (function() {
 
 	function MultiSelecao() {
 		this.statusBtn = $('.js-status-btn');
@@ -73,6 +73,6 @@ Brewer.MultiSelecao = (function() {
 }());
 
 $(function() {
-	var multiSelecao = new Brewer.MultiSelecao();
+	var multiSelecao = new ImovelControl.MultiSelecao();
 	multiSelecao.iniciar();
 });

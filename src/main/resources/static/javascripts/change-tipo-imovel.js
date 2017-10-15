@@ -1,6 +1,6 @@
-var Bomfim = Bomfim || {};
+var ImovelControl = ImovelControl || {};
 
-Bomfim.ChangeTipoImovel = (function () {
+ImovelControl.ChangeTipoImovel = (function () {
 
     function ChangeTipoImovel() {
         this.radioTipoImovel = $('.js-radio-tipo-imovel');
@@ -93,7 +93,7 @@ Bomfim.ChangeTipoImovel = (function () {
 }());
 
 $(function () {
-    var changeTipoImovel = new Bomfim.ChangeTipoImovel();
+    var changeTipoImovel = new ImovelControl.ChangeTipoImovel();
     changeTipoImovel.iniciar();
 
 });

@@ -1,6 +1,6 @@
-var Brewer = Brewer || {};
+var ImovelControl = ImovelControl || {};
 
-Brewer.AluguelCadastroRapido = (function () {
+ImovelControl.AluguelCadastroRapido = (function () {
 
     var modal = $('#modalCadastroPagamento');
     var hrefOrigin = document.location.origin;
@@ -87,7 +87,7 @@ Brewer.AluguelCadastroRapido = (function () {
 }());
 
 $(function () {
-    var aluguelCadastroRapido = new Brewer.AluguelCadastroRapido();
+    var aluguelCadastroRapido = new ImovelControl.AluguelCadastroRapido();
     aluguelCadastroRapido.iniciar();
 
 });
