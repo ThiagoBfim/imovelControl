@@ -14,15 +14,15 @@ import java.util.List;
  */
 
 public class GraficoColunaImovelDTO {
-   private LocalDate mes;
+   private Integer mes;
    private BigDecimal valor;
    private String nome;
 
-    public LocalDate getMes() {
+    public Integer getMes() {
         return mes;
     }
 
-    public void setMes(LocalDate data) {
+    public void setMes(Integer data) {
         this.mes = data;
     }
 
@@ -42,7 +42,6 @@ public class GraficoColunaImovelDTO {
         this.nome = nome;
     }
 
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -50,11 +49,11 @@ public class GraficoColunaImovelDTO {
 
         GraficoColunaImovelDTO that = (GraficoColunaImovelDTO) o;
 
-        return mes.equals(that.mes);
+        return mes != null ? mes.equals(that.mes) : that.mes == null;
     }
 
     @Override
     public int hashCode() {
-        return mes.hashCode();
+        return mes != null ? mes.hashCode() : 0;
     }
 }
