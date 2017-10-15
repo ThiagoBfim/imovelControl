@@ -17,11 +17,7 @@ import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.transform.Transformers;
-import org.hibernate.type.BigDecimalType;
-import org.hibernate.type.BooleanType;
-import org.hibernate.type.DateType;
-import org.hibernate.type.LongType;
-import org.hibernate.type.StringType;
+import org.hibernate.type.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -298,7 +294,7 @@ public class ImoveisImpl implements ImoveisQuerys {
 
         sqlQuery.setResultTransformer(Transformers.aliasToBean(GraficoColunaImovelDTO.class));
         sqlQuery.addScalar("nome", StringType.INSTANCE)
-                .addScalar("mes", StringType.INSTANCE)
+                .addScalar("mes", IntegerType.INSTANCE)
                 .addScalar("valor", BigDecimalType.INSTANCE);
         return sqlQuery.list();
     }
