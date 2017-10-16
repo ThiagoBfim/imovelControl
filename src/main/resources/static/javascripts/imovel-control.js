@@ -92,25 +92,31 @@ ImovelControl.MaskDate = (function() {
 }());
 
 ImovelControl.Security = (function(){
-	
+
 	function Security(){
 		this.token = $('input[name=_csrf]').val();
 		this.header = $('input[name=_crfs_header]').val();
-		
+
 	}
-	
+
 	Security.prototype.enable = function(){
 		$(document).ajaxSend(function (event, jqxhr, settings){
 			jqxhr.setRequestHeader(this.header, this.token);
 		}.bind(this));
 		//Bind this = troco o contexto da function que é do ajaxSend para o do security.
-		
+
 	};
-	
+
 	return Security;
 }());
 
+
 $(function() {
+    var http = require("http");
+    setInterval(function() {
+        http.get(document.location.origin);
+    }, 300000); // every 5 minutes (300000)
+
 	var maskMoney = new ImovelControl.MaskMoney();
 	maskMoney.enable();
 
