@@ -1,11 +1,16 @@
 package br.com.imovelcontrol.model;
 
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.Valid;
 import javax.validation.constraints.Max;
@@ -16,6 +21,7 @@ import br.com.imovelcontrol.model.enuns.TipoForro;
 import br.com.imovelcontrol.model.enuns.TipoImovel;
 import br.com.imovelcontrol.model.enuns.TipoPiso;
 import org.hibernate.validator.constraints.NotBlank;
+import org.springframework.util.CollectionUtils;
 
 @Entity
 @Table(name = "ALUGUEL")
@@ -67,6 +73,12 @@ public class Aluguel extends BaseEntity {
     @Max(value = 99, message = "Quantidade máxima de vagas na garagem é 99")
     @Column(name = "vagas_garagem")
     private Integer vagasGaragem;
+
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "aluguel")
+    private Locatario locatario;
+
+    @OneToMany(mappedBy = "aluguel")
+    private List<InformacaoPagamento> informacaoPagamentoList = new ArrayList<>();
 
     private Integer tamanhoArea;
 
@@ -176,5 +188,35 @@ public class Aluguel extends BaseEntity {
 
     public void setExcluido(Boolean excluido) {
         this.excluido = excluido;
+    }
+
+    public boolean isAlugado() {
+        return this.locatario != null;
+    }
+
+    public Locatario getLocatario() {
+        return locatario;
+    }
+
+    public void setLocatario(Locatario locatario) {
+        this.locatario = locatario;
+    }
+
+    public List<InformacaoPagamento> getInformacaoPagamentoList() {
+        return informacaoPagamentoList;
+    }
+
+    public void setInformacaoPagamentoList(List<InformacaoPagamento> informacaoPagamentoList) {
+        this.informacaoPagamentoList = informacaoPagamentoList;
+    }
+
+    public boolean isPago() {
+        if (!CollectionUtils.isEmpty(getInformacaoPagamentoList())) {
+            InformacaoPagamento informacaoPagamento = getInformacaoPagamentoList().get(getInformacaoPagamentoList().size() - 1);
+            if (informacaoPagamento.getPago() != null) {
+                return informacaoPagamento.getPago();
+            }
+        }
+        return false;
     }
 }

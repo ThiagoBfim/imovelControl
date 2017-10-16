@@ -1,11 +1,13 @@
 package br.com.imovelcontrol.repository.helper.aluguel;
 
+import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import br.com.imovelcontrol.model.Aluguel;
 import br.com.imovelcontrol.repository.util.PaginacaoUtil;
 import org.hibernate.Criteria;
+import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
@@ -37,8 +39,12 @@ public class AlugueisImpl implements AlugueisQuerys {
         }
         criteria.add(Restrictions.eq("excluido", Boolean.FALSE));
 
+
         Long total = retrieveTotalByIdImovel(codigo);
         paginacaoUtil.paginacao(pageable, criteria);
+
+        List<Aluguel> filtrados = criteria.list();
+        filtrados.forEach(u -> Hibernate.initialize(u.getInformacaoPagamentoList()));
         return new PageImpl<>(criteria.list(), pageable, total);
     }
 
