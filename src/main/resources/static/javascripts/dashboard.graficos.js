@@ -91,7 +91,7 @@ ImovelControl.GraficoVendaPorMes = (function () {
 
     function onDadosRecebidosPizza(vendaMes) {
 
-        if (vendaMes.listaNomeImoveis.length > 0) {
+        if (vendaMes.length > 0) {
             var ganhos = [];
             var imoveis = [];
             vendaMes.forEach(function (obj) {
