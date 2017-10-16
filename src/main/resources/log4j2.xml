@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE xml>
-<Configuration status="WARN">
+<xml status="WARN">
 	<Appenders>
 		<Console name="Console" target="SYSTEM_OUT">
 			<PatternLayout pattern="%d{HH:mm:ss.SSS} %-5level %logger{36}: %msg%n" />
@@ -12,8 +12,8 @@
 		<Logger name="org.hibernate.SQL" level="debug"/>
 
 
-		<Root level="DEBUG">
+		<Root level="ERROR">
 			<AppenderRef ref="Console" />
 		</Root>
 	</Loggers>
-</Configuration>
+</xml>

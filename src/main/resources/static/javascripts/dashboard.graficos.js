@@ -63,8 +63,17 @@ ImovelControl.GraficoVendaPorMes = (function () {
                 subtitle: 'Ganhos mensais de todos os imóveis'
 
             },
-            vAxis: {format: ''}
+            vAxis: {format: 'decimal'}
         };
+        var formatter = new google.visualization.NumberFormat({
+            prefix: 'R$: ',
+            decimalSymbol: ',',
+            groupingSymbol: '.'
+        });
+        for (var i = 1; i <= count; i ++) {
+            formatter.format(data, i);
+        }
+
 
         var chart = new google.charts.Bar(document.getElementById('chart'));
         chart.draw(data, google.charts.Bar.convertOptions(options));
