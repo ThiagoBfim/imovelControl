@@ -1,17 +1,10 @@
 package br.com.imovelcontrol.service;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import br.com.imovelcontrol.model.Aluguel;
-import br.com.imovelcontrol.model.GastoAdicional;
-import br.com.imovelcontrol.model.InformacaoPagamento;
 import br.com.imovelcontrol.repository.Alugueis;
-import br.com.imovelcontrol.repository.FormasPagamentos;
-import br.com.imovelcontrol.repository.GastosAdicionais;
-import br.com.imovelcontrol.repository.InformacaoPagamentos;
 import br.com.imovelcontrol.service.exception.BusinessException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,16 +17,7 @@ public class CadastroAluguelService {
     private Alugueis alugueis;
 
     @Autowired
-    private FormasPagamentos formasPagamentos;
-
-    @Autowired
     private CadastroLocatarioService cadastroLocatarioService;
-
-    @Autowired
-    private GastosAdicionais gastosAdicionais;
-
-    @Autowired
-    InformacaoPagamentos informacaoPagamentos;
 
     @Transactional
     public Aluguel salvar(Aluguel aluguel) {
@@ -74,8 +58,6 @@ public class CadastroAluguelService {
 
         return aluguels.get();
     }
-
-
 
 
 }
