@@ -6,9 +6,6 @@ ImovelControl.AluguelCadastroRapido = (function () {
     var hrefOrigin = document.location.origin;
 
     function AluguelCadastroRapido() {
-        if (hrefOrigin.includes('8080')) {
-            hrefOrigin += '/ImovelControl'
-        }
         this.botaoSalvar = $('.js-modal-pagamento');
         this.codigoAluguel = $('#codigoAluguelPagamento');
 
@@ -54,7 +51,12 @@ ImovelControl.AluguelCadastroRapido = (function () {
         if (!("erro" in conteudo)) {
             inputCodigo.val(conteudo.codigo);
             var valor = conteudo.valor.toString();
-            if (valor.indexOf('.') != -1) {
+            var valores = valor.split('.');
+            if (valores[1] != null) {
+                if(valores[1] < 10){
+                    valores[1] *=10;
+                }
+                valor = valores[0] + ',' + valores[1];
                 inputValor.val(valor);
             } else {
                 inputValor.val(valor + ',00');

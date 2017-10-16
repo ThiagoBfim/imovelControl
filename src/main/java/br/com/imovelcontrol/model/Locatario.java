@@ -1,6 +1,7 @@
 package br.com.imovelcontrol.model;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
@@ -33,7 +34,7 @@ public class Locatario extends BaseEntity {
     @NotBlank(message = "Telefone Obrigatório")
     private String telefone;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "codigo_aluguel")
     private Aluguel aluguel = new Aluguel();
 
