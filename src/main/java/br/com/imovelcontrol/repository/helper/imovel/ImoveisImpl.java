@@ -302,7 +302,7 @@ public class ImoveisImpl implements ImoveisQuerys {
                 + " WHERE  mes >= (MONTH(now()) - 4)"
                 + " AND imovel.excluido = 0 "
                 + " AND imovel.codigo_usuario = :donoImovel"
-                + " GROUP BY tabela.mes, imovel.nome"
+                + " GROUP BY tabela.mes, imovel.nome, tabela.valor"
                 + " ORDER BY tabela.mes;"
         );
 
