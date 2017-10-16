@@ -53,8 +53,10 @@ public class DashBoardController {
 
     @GetMapping("/dashboard")
     public ModelAndView dashboard() {
+
         ModelAndView modelAndView = new ModelAndView("index");
         modelAndView.addObject(new PeriodoRelatorioDTO());
+
         return modelAndView;
     }
 
@@ -66,11 +68,14 @@ public class DashBoardController {
 
         List<AluguelGraficoDTO> aluguelGraficoDTOList = new ArrayList<>();
         Optional<List<Imovel>> listImovel = imoveis.findByDonoImovelAndExcluido(usuario, false);
+
         listImovel.ifPresent(imovels -> imovels.forEach((Imovel i) -> {
+
             AluguelGraficoDTO aluguelGraficoDTO = new AluguelGraficoDTO();
             aluguelGraficoDTO.setNomeImovel(i.getNome());
             aluguelGraficoDTO.setRendimento(valorTotal(i.getCodigo()));
             aluguelGraficoDTOList.add(aluguelGraficoDTO);
+
         }));
 
         return aluguelGraficoDTOList;
@@ -78,43 +83,58 @@ public class DashBoardController {
 
 
     private double valorTotal(Long codigo) {
+
         List<Aluguel> listAlgueis;
         double total = 0.0;
         listAlgueis = alugueis.findByImovel_Codigo(codigo).get();
+
         for (Aluguel i : listAlgueis) {
 
             if (informacaoPagamentoService.retrieveByAluguelAndData(Long.toString(i.getCodigo())).isPresent()) {
+
                 InformacaoPagamento informacaoPagamento = informacaoPagamentoService.retrieveByAluguelAndData(Long.toString(i.getCodigo())).get();
 
                 if (informacaoPagamento.getPago()) {
-                    total += informacaoPagamento.getValor().doubleValue();
-                }
-                List<GastoAdicional> gastoAdicionals = gastosAdicionais.findByInformacaoPagamento(informacaoPagamento).get();
 
-                for (GastoAdicional gastoAdicional : gastoAdicionals) {
-                    //  total -= gastoAdicional.getValorGasto().doubleValue();
+                    total += informacaoPagamento.getValor().doubleValue();
+
+                }
+
+                Optional<List<GastoAdicional>> gastoAdicionals = gastosAdicionais.findByInformacaoPagamento(informacaoPagamento);
+
+                if (gastoAdicionals.isPresent()){
+
+                    for (GastoAdicional gastoAdicional : gastoAdicionals.get()) {
+
+                        total -= gastoAdicional.getValorGasto().doubleValue();
+
+                    }
                 }
             }
         }
 
         if (total <= 0) {
-            // total = 1;
+             total = 1;
         }
 
-        DecimalFormat df = new DecimalFormat("0");
-        return Double.valueOf(df.format(total));
+        return total;
     }
 
     @GetMapping("/totalPorMesColuna")
     public @ResponseBody
     GraficoColunaAgrupadorDTO listarTotalVendaPorMesColuna() {
+
         List<GraficoColunaImovelDTO> graficoColunaImovelDTOS = imoveis.retrieveGraficoColunaDTO();
         Set<Integer> meses = new LinkedHashSet<>();
         Set<String> listaNomeImoveis = new LinkedHashSet<>();
+
         if (!CollectionUtils.isEmpty(graficoColunaImovelDTOS)) {
+
             graficoColunaImovelDTOS.forEach(g -> {
+
                 meses.add(g.getMes());
                 listaNomeImoveis.add(g.getNome());
+
             });
         }
 
@@ -122,7 +142,9 @@ public class DashBoardController {
         agrupadorDTO.setMeses(meses);
         agrupadorDTO.setListaNomeImoveis(listaNomeImoveis);
         agrupadorDTO.setValores(graficoColunaImovelDTOS);
+
         return agrupadorDTO;
+
     }
 
 
