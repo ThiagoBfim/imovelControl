@@ -90,6 +90,15 @@ public class InformacaoPagamentoService {
     }
 
     @Transactional
+    public Optional<List<InformacaoPagamento>> retrieveInforcamacoesPagamentoByAluguel(String codigo) {
+        Aluguel aluguel = new Aluguel();
+
+        aluguel.setCodigo(Long.parseLong(codigo));
+        return informacaoPagamentos.findByAluguel(aluguel);
+
+    }
+
+    @Transactional
     public  Optional<List<InformacaoPagamento>> findByAluguel(Aluguel aluguel){
         return informacaoPagamentos.findByAluguel(aluguel);
     }

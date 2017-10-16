@@ -1,6 +1,5 @@
 package br.com.imovelcontrol.controller;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -82,39 +81,44 @@ public class DashBoardController {
     }
 
 
+    double total = 0.0;
     private double valorTotal(Long codigo) {
-
+        total = 0;
         List<Aluguel> listAlgueis;
-        double total = 0.0;
         listAlgueis = alugueis.findByImovel_Codigo(codigo).get();
 
         for (Aluguel i : listAlgueis) {
 
-            if (informacaoPagamentoService.retrieveByAluguelAndData(Long.toString(i.getCodigo())).isPresent()) {
+            Optional<List<InformacaoPagamento>> informacaoPagamento = informacaoPagamentoService
+                    .retrieveInforcamacoesPagamentoByAluguel(Long.toString(i.getCodigo()));
 
-                InformacaoPagamento informacaoPagamento = informacaoPagamentoService.retrieveByAluguelAndData(Long.toString(i.getCodigo())).get();
+            if (informacaoPagamento.isPresent()) {
 
-                if (informacaoPagamento.getPago()) {
+                informacaoPagamento.get().forEach(p -> {
+                    if (p.getPago()) {
 
-                    total += informacaoPagamento.getValor().doubleValue();
-
-                }
-
-                Optional<List<GastoAdicional>> gastoAdicionals = gastosAdicionais.findByInformacaoPagamento(informacaoPagamento);
-
-                if (gastoAdicionals.isPresent()){
-
-                    for (GastoAdicional gastoAdicional : gastoAdicionals.get()) {
-
-                        total -= gastoAdicional.getValorGasto().doubleValue();
+                        total += p.getValor().doubleValue();
 
                     }
-                }
+
+                    Optional<List<GastoAdicional>> gastoAdicionals = gastosAdicionais.findByInformacaoPagamento(p);
+
+                    if (gastoAdicionals.isPresent()) {
+
+                        for (GastoAdicional gastoAdicional : gastoAdicionals.get()) {
+
+                            total -= gastoAdicional.getValorGasto().doubleValue();
+
+                        }
+                    }
+
+                });
+
             }
         }
 
-        if (total <= 0) {
-             total = 1;
+        if (total < 0) {
+            total = 0;
         }
 
         return total;
