@@ -112,11 +112,7 @@ ImovelControl.Security = (function(){
 
 
 $(function() {
-    // var http = require("http");
-   // setInterval(function() {
-   //     http.get(document.location.origin);
-   // }, 300000); // every 5 minutes (300000)
-
+    
 	var maskMoney = new ImovelControl.MaskMoney();
 	maskMoney.enable();
 
