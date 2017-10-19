@@ -48,6 +48,21 @@ public class ImoveisImpl implements ImoveisQuerys {
     @Autowired
     private UsuarioLogadoService usuarioLogadoService;
 
+
+    @Transactional(readOnly = true)
+    @Override
+    public Imovel findOneWithAluguelByUsuarioAndCodigo(Long codigo, Usuario usuario) {
+        Criteria criteria = entityManager.unwrap(Session.class).createCriteria(Imovel.class);
+        criteria.add(Restrictions.eq("donoImovel", usuario));
+        criteria.add(Restrictions.eq("codigo", codigo));
+
+        Imovel imovel = (Imovel) criteria.uniqueResult();
+        if(imovel != null) {
+            Hibernate.initialize(imovel.getAluguelList());
+        }
+        return imovel;
+    }
+
     @SuppressWarnings("unchecked")
     @Transactional(readOnly = true)
     @Override
