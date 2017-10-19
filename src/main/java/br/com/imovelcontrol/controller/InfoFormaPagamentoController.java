@@ -30,10 +30,6 @@ public class InfoFormaPagamentoController {
     @Autowired
     private InformacaoPagamentoService informacaoPagamentoService;
 
-    @RequestMapping("/novo")
-    public ModelAndView novo(InformacaoPagamento informacaoPagamento) {
-        return new ModelAndView();
-    }
 
     @RequestMapping(value = "/novo", method = RequestMethod.POST)
     public ModelAndView cadastrar(@Valid InformacaoPagamento informacaoPagamento, BindingResult result) {
@@ -50,7 +46,7 @@ public class InfoFormaPagamentoController {
     InformacaoPagamento getInformacaoPagamentoInJSON(@PathVariable String codigo) {
 
 
-        Aluguel aluguel = alugueis.findOne(Long.parseLong(codigo));
+        Aluguel aluguel = alugueis.findOneWithLocatariosByCodigo(Long.valueOf(codigo));
 
 
         Optional<InformacaoPagamento> informacaoPagamentoOptional = informacaoPagamentoService.retrieveByAluguelAndData(codigo);
@@ -80,6 +76,7 @@ public class InfoFormaPagamentoController {
 
         }
         informacaoPagamento.setAluguel(new Aluguel());
+        informacaoPagamento.setEstaAlugado(aluguel.isAlugado());
         return informacaoPagamento;
 
     }

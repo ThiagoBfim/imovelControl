@@ -31,8 +31,8 @@
               th:action="@{/usuario/alterarsenha}">
             <bomfim:message/>
             <div class=" col-sm-offset-3">
-                <input type="hidden" th:field="*{codigo}"/>
-                <input type="hidden" th:field="*{descricaoVerificador}"/>
+                <input th:hidden="true" type="text" th:field="*{codigo}"/>
+                <input th:hidden="true" type="text" th:field="*{descricaoVerificador}"/>
                 <div class="row">
                     <div class="col-sm-8 form-group bw-required" bomfim:classforerror="login">
                         <label for="login" class="control-label">Login</label>
@@ -63,7 +63,7 @@
                     </div>
                 </div>
 
-                <input type="hidden" th:field="*{codigoVerificador}"/>
+                <input th:hidden="true" type="text" th:field="*{codigoVerificador}"/>
                 <div class="form-group col-sm-8" style="text-align: right">
                     <a class="btn  btn-danger  js-exclusao-btn" href="#"
                        data:url="@{/usuario/{codigo}(codigo=${usuario.codigo})}"

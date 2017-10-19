@@ -26,6 +26,22 @@ public class AlugueisImpl implements AlugueisQuerys {
     @Autowired
     private PaginacaoUtil paginacaoUtil;
 
+
+    @Transactional(readOnly = true)
+    @Override
+    public Aluguel findOneWithLocatariosByCodigo(Long codigo) {
+        Criteria criteria = entityManager.unwrap(Session.class).createCriteria(Aluguel.class);
+        criteria.add(Restrictions.eq("codigo", codigo));
+
+        Aluguel aluguel = (Aluguel) criteria.uniqueResult();
+        if(aluguel != null) {
+            Hibernate.initialize(aluguel.getLocatarios());
+            Hibernate.initialize(aluguel.getInformacaoPagamentoList());
+        }
+        return aluguel;
+    }
+
+
     @SuppressWarnings("unchecked")
     @Transactional(readOnly = true)
     @Override
