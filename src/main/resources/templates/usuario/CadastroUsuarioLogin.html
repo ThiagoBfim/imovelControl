@@ -51,10 +51,10 @@
                         <label for="email" class="control-label">E-mail</label>
                         <input id="email" type="text" class="form-control" maxlength="100" th:field="*{email}"/>
                     </div>
-                    <div class="col-sm-6 form-group ">
+                    <div class="col-sm-6 form-group"  bomfim:classforerror="dataNascimento">
                         <label for="dataNascimento" class="control-label">Data de Nascimento</label>
                         <input id="dataNascimento" type="text" class="form-control js-date"
-                               th:field="*{dataNascimento}" autocomplete="off"/>
+                               th:field="*{dataNascimento}" autocomplete="off" readonly/>
                     </div>
                 </div>
 
