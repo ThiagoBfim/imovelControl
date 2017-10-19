@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.3.1.final using JasperReports Library version 6.3.1  -->
+<!-- 2017-10-19T18:27:01 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="relatorio_subReportInfoPagamento_gastos" pageWidth="780" pageHeight="595" orientation="Landscape" columnWidth="780" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="f703ff5a-f56d-4fd4-bdfc-c5f4c930254b">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<subDataset name="listaGastos" uuid="e1e2beab-fc11-4af3-90b7-91f8a1e4d197">
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+		<queryString>
+			<![CDATA[]]>
+		</queryString>
+		<field name="descricao" class="java.lang.String"/>
+		<field name="gasto" class="java.math.BigDecimal"/>
+	</subDataset>
+	<parameter name="gastosAdicionais" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="dataMensal" class="java.util.Date"/>
+	<field name="aguaInclusa" class="java.lang.Boolean"/>
+	<field name="luzInclusa" class="java.lang.Boolean"/>
+	<field name="iptuIncluso" class="java.lang.Boolean"/>
+	<field name="possuiCondominio" class="java.lang.Boolean"/>
+	<field name="valorAluguel" class="java.math.BigDecimal"/>
+	<field name="listaGastos" class="java.util.List"/>
+	<field name="internetInclusa" class="java.lang.Boolean"/>
+	<field name="pago" class="java.lang.Boolean"/>
+	<field name="nome" class="java.lang.String"/>
+	<detail>
+		<band height="50" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			<textField pattern="¤#,##0.00;¤-#,##0.00">
+				<reportElement stretchType="RelativeToTallestObject" x="490" y="0" width="90" height="50" uuid="c70beea2-f1ec-4c29-90ed-421f65599781">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{valorAluguel}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement stretchType="RelativeToTallestObject" x="78" y="0" width="80" height="50" uuid="d3cb6004-462a-46a2-b084-4659de161175"/>
+				<box>
+					<pen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("dd/MM/yyyy").format($F{dataMensal})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement stretchType="RelativeToTallestObject" x="332" y="0" width="80" height="50" uuid="30878d95-881c-4c09-95ec-0a05d1d9edca"/>
+				<box>
+					<pen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{possuiCondominio} == null ?  " - " :  $F{possuiCondominio} == true ? " Sim " : " Não "]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement stretchType="RelativeToTallestObject" x="158" y="0" width="42" height="50" uuid="85599c3e-2a8a-4a90-95d2-2f3181e7d3af">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{aguaInclusa} == null ?  " - " :  $F{aguaInclusa} == true ? " Sim " : " Não "]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement stretchType="RelativeToTallestObject" x="290" y="0" width="42" height="50" uuid="373a1b65-729f-4716-ada1-9641a0cee0a1">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{iptuIncluso} == null ?  " - " :  $F{iptuIncluso}== true ? " Sim " : " Não "]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement stretchType="RelativeToTallestObject" x="200" y="0" width="42" height="50" uuid="95e43fe8-57a7-4741-9ec8-00efdbfcd5d9">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{luzInclusa} == null ?  " - " :  $F{luzInclusa} == true ? " Sim " : " Não "]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement stretchType="RelativeToTallestObject" x="242" y="0" width="48" height="50" uuid="34fdade6-4117-436a-8241-8f5aba851bb9">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{internetInclusa} == null ?  " - " :  $F{internetInclusa} == true ? " Sim " : " Não "]]></textFieldExpression>
+			</textField>
+			<componentElement>
+				<reportElement isPrintRepeatedValues="false" x="580" y="0" width="200" height="50" isPrintWhenDetailOverflows="true" uuid="2700a456-dfb4-4ec7-be39-c2e518bca134">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<jr:list xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" printOrder="Vertical">
+					<datasetRun subDataset="listaGastos" uuid="84173b8c-b3fd-40ea-a57b-33eddc6c6da9">
+						<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{listaGastos})]]></dataSourceExpression>
+					</datasetRun>
+					<jr:listContents height="50" width="200">
+						<textField>
+							<reportElement x="70" y="0" width="130" height="50" uuid="30ccdcd7-f082-4cdf-ad6d-7d195250c067">
+								<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+								<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+							</reportElement>
+							<box>
+								<pen lineWidth="1.0"/>
+							</box>
+							<textElement textAlignment="Center" verticalAlignment="Middle">
+								<font fontName="SansSerif"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$F{descricao} == null ? " - " : $F{descricao}]]></textFieldExpression>
+						</textField>
+						<textField pattern="¤#,##0.00;¤-#,##0.00">
+							<reportElement stretchType="RelativeToTallestObject" x="0" y="0" width="70" height="50" uuid="0e193a93-72ac-4aad-9b70-a24e98542084">
+								<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+							</reportElement>
+							<box>
+								<pen lineWidth="1.0"/>
+							</box>
+							<textElement textAlignment="Center" verticalAlignment="Middle"/>
+							<textFieldExpression><![CDATA[$F{gasto} == null ?  " - " : $F{gasto}]]></textFieldExpression>
+						</textField>
+					</jr:listContents>
+				</jr:list>
+			</componentElement>
+			<textField>
+				<reportElement stretchType="RelativeToTallestObject" x="412" y="0" width="78" height="50" uuid="cf907bce-2549-4f9f-9a61-9a0f277a5c7d">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{pago} == null ?  " - " :  $F{pago} == true ? " Sim " : " Não "]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement stretchType="RelativeToTallestObject" x="0" y="0" width="78" height="50" uuid="8b214b5a-4559-4c59-9af3-14d883fcafb6"/>
+				<box>
+					<pen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{nome}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

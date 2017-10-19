@@ -19,6 +19,8 @@ public class SubRelatorioDetalhadoImovelDTO {
     private BigDecimal valorAluguel;
     private Long codigoPagamento;
     private Boolean pago;
+    private String nome;
+
     private List<GastosDetalhadoDTO> listaGastos = new ArrayList<>();
 
     public Date getDataMensal() {
@@ -99,5 +101,13 @@ public class SubRelatorioDetalhadoImovelDTO {
 
     public void setPago(Boolean pago) {
         this.pago = pago;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 }

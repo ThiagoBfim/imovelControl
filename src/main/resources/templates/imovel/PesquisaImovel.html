@@ -37,7 +37,8 @@
             <div class="row">
                 <div class="form-group  col-sm-12">
                     <label class="control-label" for="nome">Nome</label>
-                    <input type="text" class="form-control" id="nome" autofocus="autofocus" maxlength="100" th:field="*{nome}"/>
+                    <input type="text" class="form-control" id="nome" autofocus="autofocus" maxlength="100"
+                           th:field="*{nome}"/>
                 </div>
 
             </div>
@@ -56,8 +57,17 @@
                     <input type="text" class="form-control" id="bairro" th:field="*{endereco.bairro}" maxlength="100"/>
                 </div>
             </div>
+            <div class="row">
+                <div class="form-group  col-sm-2">
+                    <label class="control-label">Exibir os excluidos?</label>
+                        <input type="checkbox" class="js-status"
+                               th:field="*{mostrarExcluidos}"
+                               data-size="small" data-off-color="danger" data-on-text="Sim"
+                               data-off-text="Nao">
+                    </div>
+                <button type="submit" class="btn  btn-primary pull-right" style="margin-right: 15px;">Pesquisar</button>
+            </div>
 
-            <button type="submit" class="btn  btn-primary">Pesquisar</button>
         </form>
 
         <div class="table-responsive  bw-tabela-simples">

@@ -22,4 +22,5 @@ public interface Imoveis extends JpaRepository<Imovel, Long>, ImoveisQuerys {
 
     Optional<List<Imovel>> findByDonoImovelAndExcluido(Usuario usuario, Boolean excluido);
 
+    List<Imovel>  findByDonoImovel_Codigo(Long codigo);
 }
