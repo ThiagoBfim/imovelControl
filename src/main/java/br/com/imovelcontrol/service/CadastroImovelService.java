@@ -22,25 +22,7 @@ public class CadastroImovelService {
 
     @Transactional
     public Imovel salvar(Imovel imovel) {
-        Optional<Imovel> imovelRetrieve = imoveis.findByCepAndDonoImovel(imovel.getEndereco().getCep(),
-                imovel.getDonoImovel());
-
-        if (imovelRetrieve.isPresent() && !imovelRetrieve.get().equals(imovel)) {
-            throw new BusinessException("Já existe um imóvel cadastrado com este CEP", "endereco");
-        } else {
-            imovelRetrieve = imoveis.findByNomeAndDonoImovel(imovel.getNome(), imovel.getDonoImovel());
-            if (imovelRetrieve.isPresent() && !imovelRetrieve.get().equals(imovel)) {
-                throw new BusinessException("Já existe um imóvel cadastrado com este Nome", "nome");
-            }
-        }
-
-        /*Caso já possua um ID e esse ID não seja do usuario logado, então significa que alguem está
-        tentanto burlar o sistema, nesse caso será retornando uma mensagem.*/
-        if (imovel.getCodigo() != null
-                && !imovel.getDonoImovel().equals(imoveis.getOne(imovel.getCodigo()).getDonoImovel())) {
-            throw new BusinessException("Ocorreu um erro, aparentemente já existe um imovel igual no nosso sistema. "
-                    + "Favor entrar em contato com a equipe do ImovelControl", null);
-        }
+        validarBeforeSave(imovel);
         return imoveis.save(imovel);
     }
 
@@ -67,4 +49,36 @@ public class CadastroImovelService {
         return imovels.get();
     }
 
+    @Transactional
+    public void reativar(Imovel imovel) {
+        validarBeforeSave(imovel);
+        imovel.getAluguelList().forEach(a -> {
+            a.setExcluido(Boolean.FALSE);
+            cadastroAluguelService.salvar(a);
+        });
+        imoveis.save(imovel);
+    }
+
+    private void validarBeforeSave(Imovel imovel) {
+        Optional<Imovel> imovelRetrieve = imoveis.findByEndereco_CepAndDonoImovelAndExcluido(imovel.getEndereco().getCep(),
+                imovel.getDonoImovel(), Boolean.FALSE);
+
+        if (imovelRetrieve.isPresent() && !imovelRetrieve.get().equals(imovel)) {
+            throw new BusinessException("Já existe um imóvel cadastrado com este CEP", "endereco");
+        } else {
+            imovelRetrieve = imoveis.findByNomeAndDonoImovelAndExcluido(imovel.getNome(), imovel.getDonoImovel(),
+                    Boolean.FALSE);
+            if (imovelRetrieve.isPresent() && !imovelRetrieve.get().equals(imovel)){
+                throw new BusinessException("Já existe um imóvel cadastrado com este Nome", "nome");
+            }
+        }
+
+        /*Caso já possua um ID e esse ID não seja do usuario logado, então significa que alguem está
+        tentanto burlar o sistema, nesse caso será retornando uma mensagem.*/
+        if (imovel.getCodigo() != null
+                && !imovel.getDonoImovel().equals(imoveis.getOne(imovel.getCodigo()).getDonoImovel())) {
+            throw new BusinessException("Ocorreu um erro, aparentemente já existe um imovel igual no nosso sistema. "
+                    + "Favor entrar em contato com a equipe do ImovelControl", null);
+        }
+    }
 }

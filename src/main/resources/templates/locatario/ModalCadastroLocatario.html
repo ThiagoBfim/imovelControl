@@ -30,8 +30,8 @@
 
                 <div class="modal-body">
                     <bomfim:message/>
-                    <input type="hidden" id="codigoLocatario" th:field="*{codigo}"/>
-                    <input type="hidden" id="codigoAluguel" th:field="*{aluguel.codigo}"/>
+                    <input th:hidden="true" type="text" id="codigoLocatario" th:field="*{codigo}"/>
+                    <input th:hidden="true" type="text" id="codigoAluguel" th:field="*{aluguel.codigo}"/>
                     <div class="row">
                         <div class="col-sm-12  form-group bw-required">
                             <label for="nomeLocatario" class="control-label">Nome</label>

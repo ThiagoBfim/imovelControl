@@ -13,6 +13,7 @@ public class RelatorioImovelDTO {
     private String cep;
     private BigDecimal recebimento = BigDecimal.ZERO;
     private BigDecimal gastos = BigDecimal.ZERO;
+    private boolean excluido;
 
     public RelatorioImovelDTO() {
         //Construtor Vazio
@@ -63,5 +64,13 @@ public class RelatorioImovelDTO {
 
     public String getGastosFormat() {
         return FormatUtil.formatBigDecimal(gastos);
+    }
+
+    public boolean isExcluido() {
+        return excluido;
+    }
+
+    public void setExcluido(boolean excluido) {
+        this.excluido = excluido;
     }
 }

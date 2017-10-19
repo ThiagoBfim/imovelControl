@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.3.1.final using JasperReports Library version 6.3.1  -->
+<!-- 2017-10-19T18:15:18 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="relatorio_gastos" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="4611b849-2857-409a-ac7c-41da8571c1ef">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="ImovelControlAdapter"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<subDataset name="listGastos" uuid="31300bab-6e4b-4649-8da1-59c33bcff794">
+		<queryString>
+			<![CDATA[]]>
+		</queryString>
+		<field name="cep" class="java.lang.String"/>
+		<field name="nome" class="java.lang.String"/>
+		<field name="recebimentoFormat" class="java.lang.String"/>
+		<field name="gastosFormat" class="java.lang.String"/>
+		<field name="somaTotal" class="java.math.BigDecimal"/>
+		<field name="excluido" class="java.lang.Boolean"/>
+		<variable name="somaTotal" class="java.math.BigDecimal" calculation="Sum">
+			<variableExpression><![CDATA[$F{somaTotal}]]></variableExpression>
+		</variable>
+	</subDataset>
+	<parameter name="data_inicio" class="java.util.Date"/>
+	<parameter name="data_fim" class="java.util.Date"/>
+	<parameter name="dadosRelatorios" class="java.util.ArrayList">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+	</parameter>
+	<parameter name="usuario" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<variable name="somaTotal" class="java.math.BigDecimal"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="30" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="554" height="30" uuid="43fe59dc-300a-4fbd-97c0-0ca2b6776dbd">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font size="22" isBold="true"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[Relatório de Gastos Geral]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="30">
+			<textField>
+				<reportElement x="0" y="0" width="554" height="30" uuid="f7f0c997-a9e4-46fd-8aaa-4b4c548703c1"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA["Registros de " + new SimpleDateFormat("dd/MM/yyyy").format($P{data_inicio})  + " até "
++ new SimpleDateFormat("dd/MM/yyyy").format($P{data_fim})]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="30">
+			<staticText>
+				<reportElement mode="Opaque" x="260" y="0" width="100" height="30" forecolor="#000000" backcolor="#0A8F00" uuid="5f2ce5a0-baaf-4384-88c7-c1132ae2f187">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Recebimento]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="170" height="30" forecolor="#000000" backcolor="#0A8F00" uuid="449fda3d-dff6-4154-80fa-f953e1b08522"/>
+				<box>
+					<pen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nome do Imóvel]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="360" y="0" width="95" height="30" forecolor="#000000" backcolor="#0A8F00" uuid="77eab02c-31de-4262-b93c-c392e4d7204b">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Gastos]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="455" y="0" width="98" height="30" forecolor="#000000" backcolor="#0A8F00" uuid="225c1bed-ea5e-4412-bdc3-82cbc1e0aa54"/>
+				<box>
+					<pen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Lucro]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="170" y="0" width="90" height="30" forecolor="#000000" backcolor="#0A8F00" uuid="127dfedd-b06e-405d-b0a9-1bd87891da8e"/>
+				<box>
+					<pen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CEP]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="30" splitType="Stretch">
+			<componentElement>
+				<reportElement x="0" y="0" width="553" height="30" uuid="426f0361-1375-4829-a1ff-13bb0f66ee4d"/>
+				<jr:list xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" printOrder="Vertical">
+					<datasetRun subDataset="listGastos" uuid="eb24ac96-71d1-4d29-b6db-6416cbaf3ab0">
+						<parametersMapExpression><![CDATA[$V{somaTotal}]]></parametersMapExpression>
+						<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($P{dadosRelatorios})]]></dataSourceExpression>
+						<returnValue fromVariable="somaTotal" toVariable="somaTotal"/>
+					</datasetRun>
+					<jr:listContents height="30" width="554">
+						<textField>
+							<reportElement x="0" y="0" width="170" height="30" forecolor="#FF0400" uuid="abe5d49e-2675-4e03-97f3-2fbd0f413c3c">
+								<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+								<printWhenExpression><![CDATA[$F{excluido}]]></printWhenExpression>
+							</reportElement>
+							<box>
+								<pen lineWidth="1.0" lineColor="#030303"/>
+							</box>
+							<textElement textAlignment="Center"/>
+							<textFieldExpression><![CDATA[$F{nome}
+
+ ]]></textFieldExpression>
+						</textField>
+						<textField pattern="¤#,##0.00;¤-#,##0.00">
+							<reportElement x="360" y="0" width="95" height="30" uuid="e9ae3c26-7ee1-4608-9a4c-2e4786ec6940">
+								<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+							</reportElement>
+							<box>
+								<pen lineWidth="1.0"/>
+							</box>
+							<textElement textAlignment="Center"/>
+							<textFieldExpression><![CDATA[$F{gastosFormat}]]></textFieldExpression>
+						</textField>
+						<textField pattern="¤#,##0.00;¤-#,##0.00">
+							<reportElement x="455" y="0" width="98" height="30" uuid="256812b2-1355-4de9-9169-8a3b38c0bb7b"/>
+							<box>
+								<pen lineWidth="1.0"/>
+							</box>
+							<textElement textAlignment="Center"/>
+							<textFieldExpression><![CDATA[$F{somaTotal}]]></textFieldExpression>
+						</textField>
+						<textField pattern="¤#,##0.00;¤-#,##0.00">
+							<reportElement x="260" y="0" width="100" height="30" uuid="8eb2b804-fdad-4148-bed8-4f53a076ba70">
+								<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+							</reportElement>
+							<box>
+								<pen lineWidth="1.0"/>
+							</box>
+							<textElement textAlignment="Center"/>
+							<textFieldExpression><![CDATA[$F{recebimentoFormat}]]></textFieldExpression>
+						</textField>
+						<textField pattern="dd/MM/yyyy">
+							<reportElement x="170" y="0" width="90" height="30" uuid="a4e6bb6c-77c7-4e3c-bd21-5a7104bbb8ba">
+								<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+							</reportElement>
+							<box>
+								<pen lineWidth="1.0"/>
+							</box>
+							<textElement textAlignment="Center"/>
+							<textFieldExpression><![CDATA[$F{cep}]]></textFieldExpression>
+						</textField>
+						<textField>
+							<reportElement x="0" y="0" width="170" height="30" uuid="3797afb1-f6f7-48be-ba65-409297d89397">
+								<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+								<printWhenExpression><![CDATA[!$F{excluido}]]></printWhenExpression>
+							</reportElement>
+							<box>
+								<pen lineWidth="1.0"/>
+							</box>
+							<textElement textAlignment="Center"/>
+							<textFieldExpression><![CDATA[$F{nome}
+
+ ]]></textFieldExpression>
+						</textField>
+					</jr:listContents>
+				</jr:list>
+			</componentElement>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="40" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="554" height="20" uuid="0d78f3fa-a141-4dda-b841-9c974d2672c6"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Página " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="280" y="20" width="274" height="20" uuid="cd394253-46b4-4bdf-b779-78cb52d92fea"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Emitido por: " + $P{usuario}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="20" width="274" height="20" uuid="018dbf6e-7d62-4786-a46e-2c8a5bd94919"/>
+				<textElement textAlignment="Left"/>
+				<textFieldExpression><![CDATA["Data Emissão:" + new SimpleDateFormat("dd/MM/yyyy").format(new Date())]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="455" height="30" backcolor="#168016" uuid="0cba9ba3-37de-46e9-94b9-ae1876a76f20"/>
+				<box>
+					<pen lineWidth="1.0"/>
+				</box>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ Lucro Total:  ]]></text>
+			</staticText>
+			<textField pattern="¤ #,##0.00;¤-#,##0.00">
+				<reportElement mode="Opaque" x="455" y="0" width="98" height="30" backcolor="#168016" uuid="5f7642b6-2a6e-4c1b-b818-1ce3f306a6e4"/>
+				<box>
+					<pen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{somaTotal}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

@@ -8,11 +8,11 @@
 	</Appenders>
 
 	<Loggers>
-		<Logger name="br.com.imovelcontrol" level="ERROR"/>
+		<Logger name="br.com.imovelcontrol" level="debug"/>
 		<Logger name="org.hibernate.SQL" level="debug"/>
 
 
-		<Root level="ERROR">
+		<Root level="debug">
 			<AppenderRef ref="Console" />
 		</Root>
 	</Loggers>

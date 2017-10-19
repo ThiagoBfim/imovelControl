@@ -39,7 +39,7 @@
               th:action="@{/usuario/novo}">
             <bomfim:message/>
 
-            <input type="hidden" th:field="*{codigo}"/>
+            <input th:hidden="true" type="text" th:field="*{codigo}"/>
             <div class="row">
                 <div class="col-sm-6  form-group bw-required" bomfim:classforerror="login">
                     <label for="login" class="control-label">Login</label>

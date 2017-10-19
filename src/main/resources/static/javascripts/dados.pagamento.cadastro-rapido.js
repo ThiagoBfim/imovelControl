@@ -41,7 +41,6 @@ ImovelControl.AluguelCadastroRapido = (function () {
                 $(campoDiv).show();
             }
             $(codigo).bootstrapSwitch('state', valor);
-            $(codigo).bootstrapSwitch('disabled', valor);
         }
 
         var inputCodigo = $('#codigoPagamento');
@@ -53,8 +52,8 @@ ImovelControl.AluguelCadastroRapido = (function () {
             var valor = conteudo.valor.toString();
             var valores = valor.split('.');
             if (valores[1] != null) {
-                if(valores[1] < 10){
-                    valores[1] *=10;
+                if (valores[1] < 10) {
+                    valores[1] *= 10;
                 }
                 valor = valores[0] + ',' + valores[1];
                 inputValor.val(valor);
@@ -62,7 +61,13 @@ ImovelControl.AluguelCadastroRapido = (function () {
                 inputValor.val(valor + ',00');
             }
             checkMensalidade.prop('checked', conteudo.pago);
-            checkMensalidade.prop("disabled", conteudo.pago);
+
+            var dadoPagamento = $('.dadoPagamento');
+            if (conteudo.estaAlugado) {
+                dadoPagamento.show();
+            } else {
+                dadoPagamento.hide();
+            }
 
             changeBootstrapSwitch('#inputAguaInclusa', conteudo.aguaInclusa, '#aguaInclusa');
 

@@ -7,5 +7,7 @@ import org.springframework.data.domain.Pageable;
 public interface AlugueisQuerys {
 
     Page<Aluguel> filtrarByImovel(Long codigo, Pageable pageable);
-	
+
+    Aluguel findOneWithLocatariosByCodigo(Long codigo);
+
 }

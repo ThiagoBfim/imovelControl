@@ -56,6 +56,9 @@ public class Imovel extends BaseEntity {
     @Transient
     private boolean novaFoto;
 
+    @Transient
+    private boolean mostrarExcluidos;
+
     public String getNome() {
         return nome;
     }
@@ -146,5 +149,13 @@ public class Imovel extends BaseEntity {
 
     public boolean containsAluguel(){
         return CollectionUtils.isEmpty(getAluguelList());
+    }
+
+    public boolean isMostrarExcluidos() {
+        return mostrarExcluidos;
+    }
+
+    public void setMostrarExcluidos(boolean mostrarExcluidos) {
+        this.mostrarExcluidos = mostrarExcluidos;
     }
 }

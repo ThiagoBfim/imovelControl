@@ -1,5 +1,6 @@
 package br.com.imovelcontrol.service;
 
+import java.time.LocalDate;
 import java.util.Optional;
 
 import br.com.imovelcontrol.model.Aluguel;
@@ -29,12 +30,14 @@ public class CadastroLocatarioService {
                 && locatario.getCodigo() == null) {
             throw new BusinessException("Já existe um locatário cadastrado com esse telefone", "telefone");
         }
+        locatario.setDataInicio(LocalDate.now());
         return locatarios.save(locatario);
     }
 
     @Transactional
     public void excluirLogicamente(Locatario locatario) {
         locatario.setExcluido(Boolean.TRUE);
+        locatario.setDataFim(LocalDate.now());
         locatarios.save(locatario);
     }
 
@@ -59,6 +62,7 @@ public class CadastroLocatarioService {
             return;
         }
         locatario.get().setExcluido(Boolean.TRUE);
+        locatario.get().setDataFim(LocalDate.now());
         locatarios.save(locatario.get());
 
     }

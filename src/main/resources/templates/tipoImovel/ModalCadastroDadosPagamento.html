@@ -16,10 +16,10 @@
                   th:action="@{/pagamento/novo}">
                 <div class="modal-body">
                     <bomfim:message/>
-                    <input type="hidden" id="codigoPagamento" th:field="*{codigo}"/>
-                    <input type="hidden" id="codigoAluguelPagamento" th:field="*{aluguel.codigo}"/>
-                    <div class="row">
-                        <div class="form-group  col-sm-4 bw-required" bomfim:classforerror="valor">
+                    <input th:hidden="true" type="text" id="codigoPagamento" th:field="*{codigo}"/>
+                    <input th:hidden="true" type="text" id="codigoAluguelPagamento" th:field="*{aluguel.codigo}"/>
+                    <div class="row dadoPagamento" >
+                        <div class="form-group  col-sm-4 ">
                             <label class="control-label" for="valorMensal">Valor Pago pelo Locatario</label>
                             <div class="input-group">
                                 <div class="input-group-addon">R$</div>
@@ -28,8 +28,7 @@
                                        th:field="*{valor}" id="valorMensal"/>
                             </div>
                         </div>
-                        <div class="form-group col-sm-4"></div>
-                        <div class="form-group col-sm-4">
+                        <div class="form-group col-sm-4" >
                             <label class="control-label">&nbsp;</label>
                             <div class="input-group">
                                 <div class="checkbox  checkbox-inline">
@@ -40,7 +39,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row dadoPagamento"  >
                         <div class="form-group  col-sm-4" id="aguaInclusa">
                             <label class="control-label">Agua Foi Paga?</label>
                             <div>

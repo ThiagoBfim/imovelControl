@@ -58,22 +58,22 @@ public class InformacaoPagamentoService {
      */
     private void caseTrueChangeValue(InformacaoPagamento informacaoPagamento,
             InformacaoPagamento informacaoPagamentoRetrived) {
-        if (informacaoPagamento.getPago().equals(Boolean.TRUE)) {
+        if (Boolean.TRUE.equals(informacaoPagamento.getPago())) {
             informacaoPagamentoRetrived.setPago(Boolean.TRUE);
         }
-        if (informacaoPagamento.getAguaInclusa().equals(Boolean.TRUE)) {
+        if (Boolean.TRUE.equals(informacaoPagamento.getAguaInclusa())) {
             informacaoPagamentoRetrived.setAguaInclusa(Boolean.TRUE);
         }
-        if (informacaoPagamento.getInternetInclusa().equals(Boolean.TRUE)) {
+        if (Boolean.TRUE.equals(informacaoPagamento.getInternetInclusa())) {
             informacaoPagamentoRetrived.setInternetInclusa(Boolean.TRUE);
         }
-        if (informacaoPagamento.getIptuIncluso().equals(Boolean.TRUE)) {
+        if (Boolean.TRUE.equals(informacaoPagamento.getIptuIncluso())) {
             informacaoPagamentoRetrived.setIptuIncluso(Boolean.TRUE);
         }
-        if (informacaoPagamento.getLuzInclusa().equals(Boolean.TRUE)) {
+        if (Boolean.TRUE.equals(informacaoPagamento.getLuzInclusa())) {
             informacaoPagamentoRetrived.setLuzInclusa(Boolean.TRUE);
         }
-        if (informacaoPagamento.getPossuiCondominio().equals(Boolean.TRUE)) {
+        if (Boolean.TRUE.equals(informacaoPagamento.getPossuiCondominio())) {
             informacaoPagamentoRetrived.setPossuiCondominio(Boolean.TRUE);
         }
     }
