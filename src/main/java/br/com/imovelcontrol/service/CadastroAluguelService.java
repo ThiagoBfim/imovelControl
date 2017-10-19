@@ -59,5 +59,4 @@ public class CadastroAluguelService {
         return aluguels.get();
     }
 
-
 }
