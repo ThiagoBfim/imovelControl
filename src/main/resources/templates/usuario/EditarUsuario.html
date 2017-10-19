@@ -32,7 +32,7 @@
               th:action="@{/usuario/editar}">
             <bomfim:message/>
 
-            <input type="hidden" th:field="*{codigo}"/>
+            <input th:hidden="true" type="text" th:field="*{codigo}"/>
             <div class="row">
                 <div class="col-sm-6  form-group bw-required" bomfim:classforerror="login">
                     <label for="login" class="control-label">Login</label>
@@ -60,8 +60,8 @@
             <div class="row">
                 <div class="col-sm-6 form-group"
                      bomfim:classforerror="codigoVerificadorTemp" th:classappend="bw-required">
-                    <input type="hidden" th:field="*{codigoVerificador}"/>
-                    <input type="hidden" th:field="*{descricaoVerificador}"/>
+                    <input th:hidden="true" type="text" th:field="*{codigoVerificador}"/>
+                    <input th:hidden="true" type="text" th:field="*{descricaoVerificador}"/>
                     <label for="codigoVerificadorTemp" class="control-label">Código Verificador</label>
                     <input id="codigoVerificadorTemp" type="text" class="form-control codigoEspecial"
                            th:field="*{codigoVerificadorTemp}"

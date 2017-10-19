@@ -9,6 +9,7 @@ public class PeriodoRelatorioDTO {
     private Imovel imovel;
     private LocalDate dataInicio;
     private LocalDate dataFim;
+    private boolean mostrarExcluidos;
 
     public Imovel getImovel() {
         return imovel;
@@ -32,5 +33,13 @@ public class PeriodoRelatorioDTO {
 
     public void setDataFim(LocalDate dataFim) {
         this.dataFim = dataFim;
+    }
+
+    public boolean isMostrarExcluidos() {
+        return mostrarExcluidos;
+    }
+
+    public void setMostrarExcluidos(boolean mostrarExcluidos) {
+        this.mostrarExcluidos = mostrarExcluidos;
     }
 }

@@ -38,7 +38,7 @@
 
         <form method="POST" th:object="${imovel}" class="form-vertical  js-form-loading" th:action="@{/imovel/novo}">
             <bomfim:message/>
-            <input type="hidden" th:field="*{codigo}">
+            <input th:hidden="true" type="text" th:field="*{codigo}">
 
             <div class="row">
                 <div class="col-sm-12  form-group bw-required" bomfim:classforerror="nome">
@@ -93,10 +93,10 @@
 
             <div class="row">
                 <div class="form-group  col-sm-12">
-                    <input type="hidden" th:field="*{foto}">
-                    <input type="hidden" th:field="*{contentType}">
-                    <input type="hidden" th:field="*{novaFoto}">
-                    <input type="hidden" th:field="*{urlFoto}">
+                    <input th:hidden="true" type="text" th:field="*{foto}">
+                    <input th:hidden="true" type="text" th:field="*{contentType}">
+                    <input th:hidden="true" type="text" th:field="*{novaFoto}">
+                    <input th:hidden="true" type="text" th:field="*{urlFoto}">
                     <label class="control-label">Foto</label>
 
                     <div class="js-container-foto-imovel" th:attr="data-url-fotos=@{/fotos}">

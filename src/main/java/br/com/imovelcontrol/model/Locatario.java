@@ -1,5 +1,6 @@
 package br.com.imovelcontrol.model;
 
+import java.time.LocalDate;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
@@ -39,6 +40,10 @@ public class Locatario extends BaseEntity {
     private Aluguel aluguel = new Aluguel();
 
     private Boolean excluido = Boolean.FALSE;
+
+    private LocalDate dataInicio;
+
+    private LocalDate dataFim;
 
     @PrePersist
     @PreUpdate
@@ -85,5 +90,21 @@ public class Locatario extends BaseEntity {
 
     public void setExcluido(Boolean excluido) {
         this.excluido = excluido;
+    }
+
+    public LocalDate getDataInicio() {
+        return dataInicio;
+    }
+
+    public void setDataInicio(LocalDate dataInicio) {
+        this.dataInicio = dataInicio;
+    }
+
+    public LocalDate getDataFim() {
+        return dataFim;
+    }
+
+    public void setDataFim(LocalDate dataFim) {
+        this.dataFim = dataFim;
     }
 }

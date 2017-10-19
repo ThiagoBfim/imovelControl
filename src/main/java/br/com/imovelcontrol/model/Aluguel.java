@@ -6,11 +6,9 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.Valid;
 import javax.validation.constraints.Max;
@@ -74,8 +72,8 @@ public class Aluguel extends BaseEntity {
     @Column(name = "vagas_garagem")
     private Integer vagasGaragem;
 
-    @OneToOne(fetch = FetchType.LAZY, mappedBy = "aluguel")
-    private Locatario locatario;
+    @OneToMany(mappedBy = "aluguel")
+    private List<Locatario> locatarios = new ArrayList<>();
 
     @OneToMany(mappedBy = "aluguel")
     private List<InformacaoPagamento> informacaoPagamentoList = new ArrayList<>();
@@ -191,15 +189,19 @@ public class Aluguel extends BaseEntity {
     }
 
     public boolean isAlugado() {
-        return this.locatario != null;
+        if (!CollectionUtils.isEmpty(getLocatarios())) {
+            getLocatarios().removeIf(l -> l.getExcluido());
+            return !getLocatarios().isEmpty();
+        }
+        return false;
     }
 
-    public Locatario getLocatario() {
-        return locatario;
+    public List<Locatario> getLocatarios() {
+        return locatarios;
     }
 
-    public void setLocatario(Locatario locatario) {
-        this.locatario = locatario;
+    public void setLocatarios(List<Locatario> locatarios) {
+        this.locatarios = locatarios;
     }
 
     public List<InformacaoPagamento> getInformacaoPagamentoList() {

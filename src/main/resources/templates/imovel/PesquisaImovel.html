@@ -9,6 +9,14 @@
 <head>
     <title>Pesquisa de Imóveis</title>
 
+    <style>
+        .alert {
+            padding: 5px;
+            margin-bottom: 5px;
+            border: 1px solid transparent;
+            border-radius: 2px;
+        }
+    </style>
 </head>
 
 <body>
@@ -37,7 +45,8 @@
             <div class="row">
                 <div class="form-group  col-sm-12">
                     <label class="control-label" for="nome">Nome</label>
-                    <input type="text" class="form-control" id="nome" autofocus="autofocus" maxlength="100" th:field="*{nome}"/>
+                    <input type="text" class="form-control" id="nome" autofocus="autofocus" maxlength="100"
+                           th:field="*{nome}"/>
                 </div>
 
             </div>
@@ -56,8 +65,17 @@
                     <input type="text" class="form-control" id="bairro" th:field="*{endereco.bairro}" maxlength="100"/>
                 </div>
             </div>
+            <div class="row">
+                <div class="form-group  col-sm-2">
+                    <label class="control-label">Exibir os excluidos?</label>
+                        <input type="checkbox" class="js-status"
+                               th:field="*{mostrarExcluidos}"
+                               data-size="small" data-off-color="danger" data-on-text="Sim"
+                               data-off-text="Nao">
+                    </div>
+                <button type="submit" class="btn  btn-primary pull-right" style="margin-right: 15px;">Pesquisar</button>
+            </div>
 
-            <button type="submit" class="btn  btn-primary">Pesquisar</button>
         </form>
 
         <div class="table-responsive  bw-tabela-simples">
@@ -86,7 +104,7 @@
                     <td th:text="|${imovel.endereco.cep} - ${imovel.endereco.cidade} - ${imovel.endereco.bairro}|">
                         Taguatinga
                     </td>
-                    <td class="text-center">
+                    <td class="text-center" th:if="${!imovel.excluido}">
                         <a class="btn  btn-link  btn-xs  js-tooltip" title="Editar"
                            th:href="@{/imovel/{codigo}(codigo=${imovel.codigo})}">
                             <font color="#009900"> <i class="glyphicon glyphicon-pencil"></i> </font>
@@ -94,7 +112,8 @@
                         <a class="btn  btn-link  btn-xs js-tooltip   js-exclusao-btn" title="Excluir" href="#"
                            data:url="@{/imovel/{codigo}(codigo=${imovel.codigo})}"
                            data:codigo="${imovel.codigo}"
-                           data:objeto="${imovel.nome}">
+                           data:objeto="${imovel.nome}"
+                        data:exclusao="false">
                             <font color="#009900"> <i class="glyphicon glyphicon-remove"></i> </font>
                         </a>
                         <a th:if="${imovel.containsAluguel()}" class="btn  btn-link  btn-xs js-tooltip "
@@ -109,6 +128,17 @@
                            title="Adicionar novos alugueis" href="#"
                            th:href="@{/imovel/aluguel/{codigo}(codigo=${imovel.codigo})}">
                             <font color="#009900"> <i class="glyphicon glyphicon-plus"></i> </font>
+                        </a>
+                    </td>
+                    <td class="text-center" th:if="${imovel.excluido}">
+                        <span class="alert alert-danger">Registro excluido</span>
+                        <a class="btn  btn-link  btn-xs js-tooltip   js-exclusao-btn" title="Reativar o registro" href="#"
+                           style="text-decoration: none;"
+                           data:url="@{/imovel/reativar/{codigo}(codigo=${imovel.codigo})}"
+                           data:codigo="${imovel.codigo}"
+                           data:objeto="${imovel.nome}"
+                           data:exclusao="reativar">
+                            <span class="alert alert-success">Reativar</span>
                         </a>
                     </td>
                 </tr>

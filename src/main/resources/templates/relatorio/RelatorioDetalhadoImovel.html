@@ -7,6 +7,12 @@
 
 <head>
     <title>Relatório - Imóvel</title>
+
+    <style>
+        .true {
+            color: red;
+        }
+    </style>
 </head>
 
 <section layout:fragment="conteudo">
@@ -31,7 +37,7 @@
                         <select id="nomeImovel" class="form-control" th:field="*{imovel}">
                             <option value="">Selecione o Imovel</option>
                             <option th:each="imovel : ${imoveis}" th:value="${imovel.codigo}"
-                                    th:text="${imovel.nome}"></option>
+                                    th:text="${imovel.nome}" th:class="${imovel.excluido}"></option>
                         </select></div>
                 </div>
                 <br>

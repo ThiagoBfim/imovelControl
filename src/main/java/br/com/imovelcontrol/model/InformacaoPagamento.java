@@ -25,6 +25,9 @@ public class InformacaoPagamento extends TemplateFormaPagamento {
     @Transient
     private GastoAdicional gastoAdicional;
 
+    @Transient
+    private boolean estaAlugado;
+
     public Boolean getPago() {
         return pago;
     }
@@ -55,6 +58,14 @@ public class InformacaoPagamento extends TemplateFormaPagamento {
 
     public void setAluguel(Aluguel aluguel) {
         this.aluguel = aluguel;
+    }
+
+    public boolean isEstaAlugado() {
+        return estaAlugado;
+    }
+
+    public void setEstaAlugado(boolean estaAlugado) {
+        this.estaAlugado = estaAlugado;
     }
 }
 
