@@ -44,6 +44,7 @@ public class AlugueisImpl implements AlugueisQuerys {
         paginacaoUtil.paginacao(pageable, criteria);
 
         List<Aluguel> filtrados = criteria.list();
+        filtrados.forEach(u -> Hibernate.initialize(u.getLocatarios()));
         filtrados.forEach(u -> Hibernate.initialize(u.getInformacaoPagamentoList()));
         return new PageImpl<>(criteria.list(), pageable, total);
     }

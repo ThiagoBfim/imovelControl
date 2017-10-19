@@ -14,6 +14,7 @@ import br.com.imovelcontrol.controller.converter.FormatUtil;
 import br.com.imovelcontrol.dto.PeriodoRelatorioDTO;
 import br.com.imovelcontrol.dto.RelatorioDetalhadoImovelDTO;
 import br.com.imovelcontrol.dto.RelatorioImovelDTO;
+import br.com.imovelcontrol.model.Imovel;
 import br.com.imovelcontrol.repository.Imoveis;
 import br.com.imovelcontrol.service.UsuarioLogadoService;
 import net.sf.jasperreports.engine.JREmptyDataSource;
@@ -43,8 +44,14 @@ public class RelatorioController {
     @RequestMapping("/detalhado")
     public ModelAndView novoDetalahdo(PeriodoRelatorioDTO periodoRelatorioDTO) {
         ModelAndView modelAndView = new ModelAndView("relatorio/RelatorioDetalhadoImovel");
-        modelAndView.addObject("imoveis", imoveis.findByDonoImovel_CodigoAndExcluido(usuarioLogadoService
-                .getUsuario().getCodigo(), Boolean.FALSE).get());
+        List<Imovel> imoveisList = imoveis.findByDonoImovel_Codigo(usuarioLogadoService
+                .getUsuario().getCodigo());
+        imoveisList.forEach(i -> {
+            if(i.getExcluido()){
+                i.setNome( i.getNome() + " - [Excluido]" );
+            }
+        });
+        modelAndView.addObject("imoveis", imoveisList);
         return modelAndView;
     }
 
@@ -65,11 +72,11 @@ public class RelatorioController {
 
     @PostMapping("/gastosDetalhadoImovel")
     public ModelAndView gerarRelatorioDetalhado(PeriodoRelatorioDTO periodoRelatorioDTO, BindingResult result) {
-
+        periodoRelatorioDTO.setMostrarExcluidos(Boolean.TRUE);
         if (periodoRelatorioDTO.getImovel() != null) {
             periodoRelatorioDTO.setImovel(imoveis.findOne(periodoRelatorioDTO.getImovel().getCodigo()));
             Map<String, Object> parametros = createParametersToReport(periodoRelatorioDTO);
-
+            periodoRelatorioDTO.setMostrarExcluidos(periodoRelatorioDTO.getImovel().getExcluido());
             parametros.put("nomeImovel", FormatUtil
                     .inserirCepMascara(periodoRelatorioDTO.getImovel().getNome()
                             + " - " + periodoRelatorioDTO.getImovel().getEndereco().getCep()));

@@ -25,18 +25,29 @@
 
             <bomfim:message/>
             <div class="form-group col-sm-12" bomfim:classforerror="dataInicio">
-                <div class="row" bomfim:classforerror="dataInicio">
-                    <label class="col-sm-3" style="text-align: right" for="dataInicio">Data da mensalidade: </label>
+                <div class="col-sm-8">
+                    <div class="row" bomfim:classforerror="dataInicio">
+                        <label class="col-sm-3" style="text-align: right" for="dataInicio">Data da mensalidade: </label>
+                        <div class="form-inline">
+                            <input type="text" class="form-control  js-date aw-form-control-inline-sm"
+                                   id="dataInicio" th:field="*{dataInicio}" autocomplete="off"/>
+                            <label class="aw-form-label-between">a</label>
+                            <input type="text" class="form-control  js-date js-date aw-form-control-inline-sm"
+                                   id="dataFim" th:field="*{dataFim}" autocomplete="off"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <label class="col-sm-6" style="text-align: right">Exibir os excluidos?</label>
                     <div class="form-inline">
-                        <input type="text" class="form-control  js-date aw-form-control-inline-sm"
-                               id="dataInicio" th:field="*{dataInicio}" autocomplete="off"/>
-                        <label class="aw-form-label-between">a</label>
-                        <input type="text" class="form-control  js-date js-date aw-form-control-inline-sm"
-                               id="dataFim" th:field="*{dataFim}" autocomplete="off"/>
+                        <input type="checkbox" class="js-status"
+                               th:field="*{mostrarExcluidos}"
+                               data-size="small" data-off-color="danger" data-on-text="Sim"
+                               data-off-text="Nao">
                     </div>
                 </div>
             </div>
-            <button class="btn  btn-primary" type="submit" target="blank_">Emitir</button>
+            <button class="btn  btn-primary pull-right" type="submit" target="blank_">Emitir</button>
         </form>
     </div>
 </section>

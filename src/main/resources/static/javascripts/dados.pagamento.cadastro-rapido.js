@@ -41,7 +41,6 @@ ImovelControl.AluguelCadastroRapido = (function () {
                 $(campoDiv).show();
             }
             $(codigo).bootstrapSwitch('state', valor);
-            $(codigo).bootstrapSwitch('disabled', valor);
         }
 
         var inputCodigo = $('#codigoPagamento');
@@ -62,7 +61,6 @@ ImovelControl.AluguelCadastroRapido = (function () {
                 inputValor.val(valor + ',00');
             }
             checkMensalidade.prop('checked', conteudo.pago);
-            checkMensalidade.prop("disabled", conteudo.pago);
 
             changeBootstrapSwitch('#inputAguaInclusa', conteudo.aguaInclusa, '#aguaInclusa');
 
