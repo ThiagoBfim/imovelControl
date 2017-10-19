@@ -21,6 +21,7 @@ ImovelControl.DialogoExcluir = (function () {
         var botaoClicado = $(evento.currentTarget);
         var url = botaoClicado.data('url');
         var objeto = botaoClicado.data('objeto');
+        var exclusao = botaoClicado.data('exclusao');
 
         var verificador = botaoClicado.data('verificador');
         var usuarioExcluido = botaoClicado.data('usuarioexcluido');
@@ -33,29 +34,42 @@ ImovelControl.DialogoExcluir = (function () {
                 return
             }
         }
+        var texto = 'Excluir ' + objeto + ' ? ';
+        var method = 'DELETE';
+        var textoButton = 'Sim, exclua agora!';
+        var colorButton = '#DD6855';
+        var msgSucesso = 'Excluído com sucesso!';
+        if (exclusao == null) {
+            texto += ' Você não poderá recuperar depois.';
+        } else if (exclusao == 'reativar') {
+            texto = 'Reativar ' + objeto + ' ? ';
+            method = 'GET';
+            textoButton = " Sim, recuperar agora!";
+            colorButton = '#22d31f';
+            msgSucesso = 'Reativado com sucesso!';
+        }
+
         swal({
             title: 'Tem certeza?',
-            text: 'Excluir "' + objeto
-            + '"? Você não poderá recuperar depois.',
+            text: texto,
             showCancelButton: true,
-            confirmButtonColor: '#DD6855',
-            confirmButtonText: 'Sim, exclua agora!',
+            confirmButtonColor: colorButton,
+            confirmButtonText: textoButton,
             closeOnConfirm: false
-        }, onExcluirConfirmado.bind(this, url, usuarioExcluido, sair));
+        }, onExcluirConfirmado.bind(this, url, usuarioExcluido, sair, method, msgSucesso));
 
     }
 
-    function onExcluirConfirmado(url, usuarioExcluido, sair) {
+    function onExcluirConfirmado(url, usuarioExcluido, sair, method, msgSucesso) {
         $.ajax({
             url: url,
-            method: 'DELETE',
-            success: onExcluidoSucesso.bind(this, sair, usuarioExcluido),
+            method: method,
+            success: onExcluidoSucesso.bind(this, sair, usuarioExcluido, msgSucesso),
             error: onErrorExcluir.bind(this)
         })
     }
 
-    function onExcluidoSucesso(sair, usuarioExcluido) {
-        window.location = window.location.href;
+    function onExcluidoSucesso(sair, usuarioExcluido, msgSucesso) {
         if (usuarioExcluido != null && usuarioExcluido == true) {
             $.ajax({
                 url: sair,
@@ -66,7 +80,7 @@ ImovelControl.DialogoExcluir = (function () {
         } else {
             swal({
                     title: 'Pronto',
-                    text: 'Excluído com sucesso!',
+                    text: msgSucesso,
                     showCancelButton: false,
                     confirmButtonText: 'OK'
                 },

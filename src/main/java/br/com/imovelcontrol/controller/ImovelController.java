@@ -72,7 +72,7 @@ public class ImovelController {
             result.rejectValue(e.getField(), e.getMessage(), e.getMessage());
             return novo(imovel);
         }
-        
+
         mAndView.addObject("imovel", imovel);
         mAndView.addObject("mensagem", "Imovel Salvo com sucesso!");
         return mAndView;
@@ -112,6 +112,21 @@ public class ImovelController {
         ModelAndView mAndView = new ModelAndView("imovel/CadastroImovel");
         mAndView.addObject(imovel);
         return mAndView;
+    }
+
+    @GetMapping("/reativar/{codigo}")
+    public ResponseEntity<?> reativar(@PathVariable Long codigo) {
+        Imovel imovel = imoveis.findOneWithAluguelByUsuarioAndCodigo(codigo, usuarioLogadoService.getUsuario());
+        if (imovel == null) {
+            return ResponseEntity.notFound().build();
+        }
+        imovel.setExcluido(Boolean.FALSE);
+        try {
+            cadastroImovelService.reativar(imovel);
+        } catch (BusinessException e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+        return ResponseEntity.ok().build();
     }
 
 }

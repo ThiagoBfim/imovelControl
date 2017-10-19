@@ -7,16 +7,14 @@ import br.com.imovelcontrol.model.Imovel;
 import br.com.imovelcontrol.model.Usuario;
 import br.com.imovelcontrol.repository.helper.imovel.ImoveisQuerys;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 @Repository
 public interface Imoveis extends JpaRepository<Imovel, Long>, ImoveisQuerys {
 
-    @Query(value = "select * from IMOVEL  where cep = ?1 and codigo_usuario = ?2", nativeQuery = true)
-    Optional<Imovel> findByCepAndDonoImovel(String cep, Usuario usuario);
+    Optional<Imovel> findByEndereco_CepAndDonoImovelAndExcluido(String cep, Usuario usuario, Boolean excluido);
 
-    Optional<Imovel> findByNomeAndDonoImovel(String nome, Usuario usuario);
+    Optional<Imovel> findByNomeAndDonoImovelAndExcluido(String nome, Usuario usuario, Boolean excluido);
 
     Optional<List<Imovel>> findByDonoImovel_CodigoAndExcluido(Long codigo, Boolean excluido);
 
