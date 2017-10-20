@@ -1,8 +1,5 @@
 package br.com.imovelcontrol.dto;
 
-import java.util.Date;
-import java.util.List;
-
 /**
  * Created by Thiago on 01/06/2017.
  */
