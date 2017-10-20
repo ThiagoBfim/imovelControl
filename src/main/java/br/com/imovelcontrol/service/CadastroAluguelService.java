@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import br.com.imovelcontrol.model.Aluguel;
 import br.com.imovelcontrol.repository.Alugueis;
+import br.com.imovelcontrol.repository.FormasPagamentos;
 import br.com.imovelcontrol.service.exception.BusinessException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,6 +16,9 @@ public class CadastroAluguelService {
 
     @Autowired
     private Alugueis alugueis;
+
+    @Autowired
+    private FormasPagamentos formasPagamentos;
 
     @Autowired
     private CadastroLocatarioService cadastroLocatarioService;
@@ -36,6 +40,8 @@ public class CadastroAluguelService {
                         + "Favor entrar em contato com a equipe do ImovelControl", null);
             }
             aluguel.getFormaPagamento().setCodigo(alugueis.getOne(aluguel.getCodigo()).getFormaPagamento().getCodigo());
+            formasPagamentos.save(aluguel.getFormaPagamento());
+
         }
         return alugueis.save(aluguel);
     }
