@@ -54,6 +54,14 @@
                         <span th:if="${pagina.vazia}">Tipo do Imovel</span>
                         <bomfim:order page="${pagina}" field="tipoImovel" text="Tipo do Imóvel"/>
                     </th>
+                    <th>
+                        <span th:if="${pagina.vazia}">Valor</span>
+                        <bomfim:order page="${pagina}" field="valor" text="Valor"/>
+                    </th>
+                    <th>
+                        <span th:if="${pagina.vazia}">Locatário</span>
+                        <bomfim:order page="${pagina}" field="locatario" text="Locatário"/>
+                    </th>
                     <th class="table-col-acoes-alguel"></th>
                 </tr>
                 </thead>
@@ -63,6 +71,8 @@
 
                     <td th:text="${aluguel.nome}">Aluguel Taguatinga</td>
                     <td th:text="${aluguel.tipoImovel.descricao}">Casa</td>
+                    <td th:text="${aluguel.valorFormat}">R$:10,00</td>
+                    <td th:text="${aluguel.locatorioAtual}">Thiago</td>
                     <td class="text-center">
                         <a class="btn  btn-link  btn-xs  js-tooltip" title="Editar"
                            th:href="@{/imovel/aluguel/editar/{codigo}(codigo=${aluguel.codigo})}">

@@ -15,6 +15,7 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import br.com.imovelcontrol.controller.converter.FormatUtil;
 import br.com.imovelcontrol.model.enuns.TipoForro;
 import br.com.imovelcontrol.model.enuns.TipoImovel;
 import br.com.imovelcontrol.model.enuns.TipoPiso;
@@ -220,5 +221,20 @@ public class Aluguel extends BaseEntity {
             }
         }
         return false;
+    }
+
+    public String getLocatorioAtual() {
+        if (!CollectionUtils.isEmpty(getLocatarios())) {
+            for (Locatario locatario : getLocatarios()) {
+                if (!locatario.getExcluido()) {
+                    return locatario.getNome();
+                }
+            }
+        }
+        return " - ";
+    }
+
+    public String getValorFormat() {
+        return FormatUtil.formatBigDecimal(getFormaPagamento().getValor());
     }
 }
