@@ -235,6 +235,9 @@ public class Aluguel extends BaseEntity {
     }
 
     public String getValorFormat() {
-        return FormatUtil.formatBigDecimal(getFormaPagamento().getValor());
+        if (getFormaPagamento() != null) {
+            return FormatUtil.formatBigDecimal(getFormaPagamento().getValor());
+        }
+        return " - ";
     }
 }
