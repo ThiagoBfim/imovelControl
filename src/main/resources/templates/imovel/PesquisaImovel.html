@@ -68,10 +68,8 @@
             <div class="row">
                 <div class="form-group  col-sm-2">
                     <label class="control-label">Exibir os excluidos?</label>
-                        <input type="checkbox" class="js-status"
-                               th:field="*{mostrarExcluidos}"
-                               data-size="small" data-off-color="danger" data-on-text="Sim"
-                               data-off-text="Nao">
+                        <input type="checkbox"
+                               th:field="*{mostrarExcluidos}"th:value="${mostrarExcluidos}">
                     </div>
                 <button type="submit" class="btn  btn-primary pull-right" style="margin-right: 15px;">Pesquisar</button>
             </div>

@@ -38,12 +38,11 @@
                     </div>
                 </div>
                 <div class="col-sm-4">
-                    <label class="col-sm-6" style="text-align: right">Exibir os excluidos?</label>
+                    <label class="col-sm-8" style="text-align: right">Exibir os excluidos?</label>
                     <div class="form-inline">
-                        <input type="checkbox" class="js-status"
+                        <input type="checkbox"
                                th:field="*{mostrarExcluidos}"
-                               data-size="small" data-off-color="danger" data-on-text="Sim"
-                               data-off-text="Nao">
+                              th:value="${mostrarExcluidos}">
                     </div>
                 </div>
             </div>
