@@ -28,25 +28,16 @@ public abstract class BaseEntity implements Serializable {
     }
 
     @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (this.getCodigo() != null ? this.getCodigo().hashCode() : 0);
-
-        return hash;
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof BaseEntity)) return false;
+        BaseEntity that = (BaseEntity) o;
+        return Objects.equals(getCodigo(), that.getCodigo());
     }
 
     @Override
-    public boolean equals(Object object) {
-        if (this == object)
-            return true;
-        if (object == null)
-            return false;
-        if (getClass() != object.getClass())
-            return false;
-
-        BaseEntity other = (BaseEntity) object;
-        return !(!Objects.equals(this.getCodigo(), other.getCodigo())
-                && (this.getCodigo() == null || !this.getCodigo().equals(other.getCodigo())));
+    public int hashCode() {
+        return Objects.hash(getCodigo());
     }
 
     @Override
