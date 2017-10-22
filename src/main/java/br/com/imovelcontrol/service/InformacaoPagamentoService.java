@@ -37,7 +37,7 @@ public class InformacaoPagamentoService {
             * não permitir que o usuario burle o sistema com JavaScript. */
             InformacaoPagamento informacaoPagamentoRetrived = informacaoPagamentos.findOne(informacaoPagamento.getCodigo());
             caseTrueChangeValue(informacaoPagamento, informacaoPagamentoRetrived);
-            informacaoPagamento = informacaoPagamentoRetrived;
+            informacaoPagamento.setDataMensal(informacaoPagamentoRetrived.getDataMensal());
 
         }
         InformacaoPagamento informacaoPagamentoRetrived = informacaoPagamentos.save(informacaoPagamento);
@@ -51,30 +51,28 @@ public class InformacaoPagamentoService {
     }
 
     /**
-     * Logica para alterar os valores de pagamento apenas no caso do usuario selecionar como pago(TRUE).
+     * Logica para manter as informacoes de pagamento igual o template de forma de pagamento gerado mensalmente.
      *
      * @param informacaoPagamento         Informação de pagamento provinda da tela.
      * @param informacaoPagamentoRetrived Informação de pagamento no banco de dados.
      */
     private void caseTrueChangeValue(InformacaoPagamento informacaoPagamento,
             InformacaoPagamento informacaoPagamentoRetrived) {
-        if (Boolean.TRUE.equals(informacaoPagamento.getPago())) {
-            informacaoPagamentoRetrived.setPago(Boolean.TRUE);
+
+        if (informacaoPagamentoRetrived.getAguaInclusa() == null) {
+            informacaoPagamento.setAguaInclusa(null);
         }
-        if (Boolean.TRUE.equals(informacaoPagamento.getAguaInclusa())) {
-            informacaoPagamentoRetrived.setAguaInclusa(Boolean.TRUE);
+        if (informacaoPagamentoRetrived.getInternetInclusa() == null) {
+            informacaoPagamento.setInternetInclusa(null);
         }
-        if (Boolean.TRUE.equals(informacaoPagamento.getInternetInclusa())) {
-            informacaoPagamentoRetrived.setInternetInclusa(Boolean.TRUE);
+        if (informacaoPagamentoRetrived.getIptuIncluso() == null) {
+            informacaoPagamento.setIptuIncluso(null);
         }
-        if (Boolean.TRUE.equals(informacaoPagamento.getIptuIncluso())) {
-            informacaoPagamentoRetrived.setIptuIncluso(Boolean.TRUE);
+        if (informacaoPagamentoRetrived.getLuzInclusa() == null) {
+            informacaoPagamento.setLuzInclusa(null);
         }
-        if (Boolean.TRUE.equals(informacaoPagamento.getLuzInclusa())) {
-            informacaoPagamentoRetrived.setLuzInclusa(Boolean.TRUE);
-        }
-        if (Boolean.TRUE.equals(informacaoPagamento.getPossuiCondominio())) {
-            informacaoPagamentoRetrived.setPossuiCondominio(Boolean.TRUE);
+        if (informacaoPagamentoRetrived.getPossuiCondominio() == null) {
+            informacaoPagamento.setPossuiCondominio(null);
         }
     }
 
@@ -99,19 +97,19 @@ public class InformacaoPagamentoService {
     }
 
     @Transactional
-    public  Optional<List<InformacaoPagamento>> findByAluguel(Aluguel aluguel){
+    public Optional<List<InformacaoPagamento>> findByAluguel(Aluguel aluguel) {
         return informacaoPagamentos.findByAluguel(aluguel);
     }
 
     @Transactional
-    public Optional<List<InformacaoPagamento>> findByAluguelToGraficoBarrra(Aluguel aluguel){
+    public Optional<List<InformacaoPagamento>> findByAluguelToGraficoBarrra(Aluguel aluguel) {
         Optional<List<InformacaoPagamento>> retorno = Optional.of(new ArrayList<>());
         List<InformacaoPagamento> informacaoPagamentoList = informacaoPagamentos.findByAluguel(aluguel).get();
 
         informacaoPagamentoList.forEach((InformacaoPagamento info) -> {
             Optional<List<GastoAdicional>> gastoAdicionalList = gastosAdicionaisService.findByInformaçãoPagamento(info);
             InformacaoPagamento informacaoPagamento = info;
-            for (GastoAdicional gasto: gastoAdicionalList.get()){
+            for (GastoAdicional gasto : gastoAdicionalList.get()) {
                 informacaoPagamento.setValor(informacaoPagamento.getValor().add(gasto.getValorGasto()));
             }
             retorno.get().add(informacaoPagamento);
