@@ -20,6 +20,7 @@ import org.hibernate.Hibernate;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.criterion.MatchMode;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.transform.Transformers;
@@ -67,10 +68,14 @@ public class ImoveisImpl implements ImoveisQuerys {
     @Transactional(readOnly = true)
     @Override
     public Page<Imovel> filtrar(Imovel filtro, Usuario usuario, Pageable pageable) {
+
         Criteria criteria = entityManager.unwrap(Session.class).createCriteria(Imovel.class);
         adicionarFiltro(filtro, usuario, criteria);
         paginacaoUtil.paginacao(pageable, criteria);
-
+        if(StringUtils.isEmpty(pageable.getSort())){
+            criteria.addOrder(Order.asc("excluido"));
+            criteria.addOrder(Order.asc("nome"));
+        }
         List<Imovel> filtrados = criteria.list();
         filtrados.forEach(u -> Hibernate.initialize(u.getAluguelList()));
         return new PageImpl<>(criteria.list(), pageable, total(filtro, usuario));
