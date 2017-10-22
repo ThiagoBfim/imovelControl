@@ -254,14 +254,11 @@ public class UsuarioController {
             result.rejectValue("confirmacaoSenha", "Confirmação da senha está em branco", "Confirmação da Senha é obrigatório");
             return alterarSenha(usuario);
         }
-        if (!usuario.getSenha().equals(usuario.getConfirmacaoSenha())) {
-            result.rejectValue("confirmacaoSenha", "Confirmação da senha está incorreta", "Confirmação da senha está incorreta");
-            return alterarSenha(usuario);
-        }
         usuarioRetrived.setSenha(usuario.getSenha());
         usuarioRetrived.setConfirmacaoSenha(usuario.getConfirmacaoSenha());
         usuarioRetrived.setCodigoVerificadorTemp(usuario.getCodigoVerificadorTemp());
-        if (salvarOuAlterarUsuario(usuarioRetrived, result)) return alterarSenha(usuarioRetrived);
+        usuario.setNome(usuarioRetrived.getNome());
+        if (salvarOuAlterarUsuario(usuarioRetrived, result)) return alterarSenha(usuario);
         modelAndView.addObject("mensagem", "Senha alterada com Sucessso!");
         modelAndView.addObject(usuarioRetrived);
         return modelAndView;
