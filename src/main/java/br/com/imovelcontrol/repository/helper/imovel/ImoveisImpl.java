@@ -274,7 +274,7 @@ public class ImoveisImpl implements ImoveisQuerys {
         }
         sql.append("  GROUP BY  imovel.nome, imovel.cep, imovel.codigo_usuario, imovel.excluido ");
         if (detalhar) {
-            sql.append(" , informacaoPagamento.dataMensal , informacaoPagamento.codigo "
+            sql.append(" ,locatario.nome, informacaoPagamento.dataMensal , informacaoPagamento.codigo "
                     + " ORDER BY imovel.nome, aluguel.nome, informacaoPagamento.dataMensal");
         }
 
