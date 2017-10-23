@@ -7,6 +7,8 @@ ImovelControl.GraficoVendaPorMes = (function () {
         google.charts.load('current', {packages: ['bar']});
         this.btnGraficoPizza = $('#pizzaBtn');
         this.btnGraficoColuna = $('#colunaBtn');
+        google.charts.setOnLoadCallback(drawPizzaChart.bind(this));
+
     }
 
     GraficoVendaPorMes.prototype.iniciar = function () {
@@ -21,11 +23,12 @@ ImovelControl.GraficoVendaPorMes = (function () {
             method: 'GET',
             success: onDadosRecebidosColuna.bind(this)
         });
-
     }
 
     function onDadosRecebidosColuna(vendaMes) {
+
         if (vendaMes.listaNomeImoveis.length > 0) {
+
             var count = 0;
             var data = new google.visualization.DataTable();
             data.addColumn('string', 'Meses');
@@ -90,8 +93,14 @@ ImovelControl.GraficoVendaPorMes = (function () {
     }
 
     function onDadosRecebidosPizza(vendaMes) {
+        var somaTotal = 0;
 
-        if (vendaMes.length > 0) {
+        vendaMes.forEach(function(obj){
+            somaTotal = somaTotal + obj.rendimento;
+        })
+        console.log(somaTotal);
+        if (vendaMes.length > 0 && somaTotal != 0) {
+
             var ganhos = [];
             var imoveis = [];
             vendaMes.forEach(function (obj) {
@@ -102,7 +111,6 @@ ImovelControl.GraficoVendaPorMes = (function () {
                 ganhos.push(obj.rendimento)
 
             });
-
             data = new google.visualization.DataTable();
             data.addColumn('string', 'Imovel');
             data.addColumn('number', 'Ganhos');
@@ -110,7 +118,6 @@ ImovelControl.GraficoVendaPorMes = (function () {
             for (var i = 0; i < imoveis.length; i++) {
                 data.addRows([[imoveis[i], ganhos[i]]]);
             }
-
             var options = {
                 title: 'Ganho Geral do Imóvel',
                 titleTextStyle: {
@@ -127,9 +134,12 @@ ImovelControl.GraficoVendaPorMes = (function () {
             formatter.format(data, 1);
             var chart = new google.visualization.PieChart(document.getElementById('chart'));
             chart.draw(data, options);
-        }
-    }
 
+        }else{
+            document.getElementById("mensagemErro").style.visibility = 'visible';
+        }
+
+    }
     return GraficoVendaPorMes;
 
 }());

@@ -31,11 +31,19 @@
             <button class="btn btn-primary  ic-styleButton" id="pizzaBtn">Gráfico de Pizza</button>
             <button class="btn btn-danger  ic-styleButton" id="colunaBtn">Gráfico de Colunas</button>
             <div class="row">
+                <div style="visibility: hidden" th:id="mensagemErro">
+                    <h1>Nenhuma informação de pagamento encontrada!
+                        </br>
+                        <h2>Não foi possível gerar o gráfico!x</h2></h1>
+                </div>
                 <div class="col-sm-6 col-sm-offset-3">
                     <div id="chart" style="height: 400px;"></div>
+
                 </div>
             </div>
         </div>
+
+
     </div>
 </section>
 
