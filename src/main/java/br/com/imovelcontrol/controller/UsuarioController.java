@@ -246,6 +246,7 @@ public class UsuarioController {
     public ModelAndView alterarSenha(Usuario usuario, BindingResult result) {
         ModelAndView modelAndView = new ModelAndView("usuario/AlterarSenha");
         Usuario usuarioRetrived = usuarios.buscarComGrupos(usuario.getCodigo());
+        usuario.setNome(usuarioRetrived.getNome());
         if (StringUtils.isEmpty(usuario.getSenha())) {
             result.rejectValue("senha", "Senha deve ter no máximo 30 caracteres e no mínimo 6", "Senha é Obrigatório");
             return alterarSenha(usuario);
@@ -257,7 +258,6 @@ public class UsuarioController {
         usuarioRetrived.setSenha(usuario.getSenha());
         usuarioRetrived.setConfirmacaoSenha(usuario.getConfirmacaoSenha());
         usuarioRetrived.setCodigoVerificadorTemp(usuario.getCodigoVerificadorTemp());
-        usuario.setNome(usuarioRetrived.getNome());
         if (salvarOuAlterarUsuario(usuarioRetrived, result)) return alterarSenha(usuario);
         modelAndView.addObject("mensagem", "Senha alterada com Sucessso!");
         modelAndView.addObject(usuarioRetrived);
