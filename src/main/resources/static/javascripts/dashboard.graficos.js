@@ -3,8 +3,7 @@ var ImovelControl = ImovelControl || {};
 ImovelControl.GraficoVendaPorMes = (function () {
 
     function GraficoVendaPorMes() {
-        google.charts.load("current", {packages: ["corechart"]});
-        google.charts.load('current', {packages: ['bar']});
+        google.charts.load('current', {packages: ["corechart"], language: 'pt-BR'});
         this.btnGraficoPizza = $('#pizzaBtn');
         this.btnGraficoColuna = $('#colunaBtn');
     }
@@ -64,7 +63,7 @@ ImovelControl.GraficoVendaPorMes = (function () {
                     subtitle: 'Ganhos mensais de todos os imóveis'
 
                 },
-                vAxis: {format: 'decimal'}
+                vAxis: {format: 'currency'}
             };
             var formatter = new google.visualization.NumberFormat({
                 prefix: 'R$: ',
@@ -76,8 +75,8 @@ ImovelControl.GraficoVendaPorMes = (function () {
             }
 
 
-            var chart = new google.charts.Bar(document.getElementById('chart'));
-            chart.draw(data, google.charts.Bar.convertOptions(options));
+            var chart = new google.visualization.ColumnChart(document.getElementById('chart'));
+            chart.draw(data, options);
         }
     }
 
