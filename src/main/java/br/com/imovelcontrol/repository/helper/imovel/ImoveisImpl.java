@@ -176,10 +176,13 @@ public class ImoveisImpl implements ImoveisQuerys {
     public List<RelatorioDetalhadoImovelDTO> retrieveRelatorioDetalhadoImovelDTO(PeriodoRelatorioDTO periodoRelatorioDTO) {
 
         String sql = "SELECT DISTINCT imovel.nome as nome, imovel.cep as cep, "
-                + " aluguel.nome as nomeAluguel, aluguel.codigo as codigoAluguel, loc.excluido as estaAlugado"
+                + " aluguel.nome as nomeAluguel, aluguel.codigo as codigoAluguel,"
+                + " locatarioTemp.excluido as estaDesalugado, aluguel.excluido as excluido"
                 + " FROM  IMOVEL imovel"
                 + " INNER JOIN ALUGUEL aluguel on aluguel.codigo_imovel = imovel.codigo  "
-                + " LEFT JOIN locatario loc on loc.codigo_aluguel = aluguel.codigo "
+                + " LEFT JOIN (Select loc.excluido, loc.codigo_aluguel from locatario loc "
+                + " where loc.dataFim is null group by loc.codigo_aluguel) "
+                + " as locatarioTemp on locatarioTemp.codigo_aluguel = aluguel.codigo "
                 + " WHERE imovel.codigo_usuario = :donoImovel "
                 + " AND imovel.codigo =:imovel ";
         SQLQuery sqlQuery = entityManager.createNativeQuery(sql).unwrap(SQLQuery.class);
@@ -191,7 +194,8 @@ public class ImoveisImpl implements ImoveisQuerys {
                 .addScalar("cep", StringType.INSTANCE)
                 .addScalar("codigoAluguel", LongType.INSTANCE)
                 .addScalar("nomeAluguel", StringType.INSTANCE)
-                .addScalar("estaAlugado", BooleanType.INSTANCE);
+                .addScalar("excluido", BooleanType.INSTANCE)
+                .addScalar("estaDesalugado", BooleanType.INSTANCE);
 
         List<RelatorioDetalhadoImovelDTO> listaDetalhadoImovelDTOS = sqlQuery.list();
         if (!CollectionUtils.isEmpty(listaDetalhadoImovelDTOS)) {
@@ -200,6 +204,18 @@ public class ImoveisImpl implements ImoveisQuerys {
                             l.getCodigoAluguel())));
         }
         return listaDetalhadoImovelDTOS;
+    }
+
+    private List<GastosDetalhadoDTO> retrieveGastosByCodigoPagamento(Long codigoPagamento) {
+        String sql = "SELECT gasto.valorGasto as gasto, gasto.comentarioGasto as descricao "
+                + " FROM GASTO_ADICIONAL gasto"
+                + " WHERE gasto.codPagamento = :codigoPagamento";
+        SQLQuery sqlQuery = entityManager.createNativeQuery(sql).unwrap(SQLQuery.class);
+        sqlQuery.setParameter("codigoPagamento", codigoPagamento);
+        sqlQuery.setResultTransformer(Transformers.aliasToBean(GastosDetalhadoDTO.class));
+        sqlQuery.addScalar("gasto", BigDecimalType.INSTANCE)
+                .addScalar("descricao", StringType.INSTANCE);
+        return sqlQuery.list();
     }
 
     private List<SubRelatorioDetalhadoImovelDTO> retrieveSubRelatorioDetalhado(PeriodoRelatorioDTO periodoRelatorioDTO,
@@ -223,6 +239,7 @@ public class ImoveisImpl implements ImoveisQuerys {
                 + " AND aluguel.codigo = :codigoAluguel"
         );
 
+        periodoRelatorioDTO.setMostrarExcluidos(Boolean.TRUE);
         SQLQuery sqlQuery = appendFiltros(periodoRelatorioDTO, sql, true);
         sqlQuery.setParameter("codigoAluguel", codigoAluguel);
 
@@ -252,18 +269,6 @@ public class ImoveisImpl implements ImoveisQuerys {
         }
 
         return subRelatorioDetalhadoImovelDTOS;
-    }
-
-    private List<GastosDetalhadoDTO> retrieveGastosByCodigoPagamento(Long codigoPagamento) {
-        String sql = "SELECT gasto.valorGasto as gasto, gasto.comentarioGasto as descricao "
-                + " FROM GASTO_ADICIONAL gasto"
-                + " WHERE gasto.codPagamento = :codigoPagamento";
-        SQLQuery sqlQuery = entityManager.createNativeQuery(sql).unwrap(SQLQuery.class);
-        sqlQuery.setParameter("codigoPagamento", codigoPagamento);
-        sqlQuery.setResultTransformer(Transformers.aliasToBean(GastosDetalhadoDTO.class));
-        sqlQuery.addScalar("gasto", BigDecimalType.INSTANCE)
-                .addScalar("descricao", StringType.INSTANCE);
-        return sqlQuery.list();
     }
 
 

@@ -13,9 +13,10 @@ public class RelatorioDetalhadoImovelDTO {
     private String cep;
     private String nomeAluguel;
     private Long codigoAluguel;
-    private BigDecimal lucro = BigDecimal.ZERO;
     private List<SubRelatorioDetalhadoImovelDTO> subRelatorioDetalhadoImovelDTOS = new ArrayList<>();
-    private Boolean estaAlugado = Boolean.FALSE;
+    private Boolean estaDesalugado = Boolean.TRUE;
+    private Boolean excluido = Boolean.TRUE;
+    private BigDecimal lucro = BigDecimal.ZERO;
 
     /*Método chamado pelo relatorio, para obter o lucroTotal dealhado.*/
     public BigDecimal getLucroTotal() {
@@ -73,12 +74,20 @@ public class RelatorioDetalhadoImovelDTO {
         this.codigoAluguel = codigoAluguel;
     }
 
-    public Boolean getEstaAlugado() {
-        return estaAlugado == null ? Boolean.FALSE : estaAlugado;
+    public Boolean getEstaDesalugado() {
+        return estaDesalugado;
     }
 
-    public void setEstaAlugado(Boolean estaAlugado) {
-        this.estaAlugado = estaAlugado;
+    public void setEstaDesalugado(Boolean estaDesalugado) {
+        this.estaDesalugado = estaDesalugado;
+    }
+
+    public Boolean getExcluido() {
+        return excluido;
+    }
+
+    public void setExcluido(Boolean excluido) {
+        this.excluido = excluido;
     }
 
     @Override

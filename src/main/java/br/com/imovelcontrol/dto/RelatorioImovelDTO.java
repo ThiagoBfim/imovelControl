@@ -2,8 +2,6 @@ package br.com.imovelcontrol.dto;
 
 import java.math.BigDecimal;
 
-import br.com.imovelcontrol.controller.converter.FormatUtil;
-
 /**
  * Created by Thiago on 01/06/2017.
  */
@@ -56,14 +54,6 @@ public class RelatorioImovelDTO {
 
     public BigDecimal getSomaTotal() {
         return recebimento.subtract(getGastos());
-    }
-
-    public String getRecebimentoFormat() {
-        return FormatUtil.formatBigDecimal(recebimento);
-    }
-
-    public String getGastosFormat() {
-        return FormatUtil.formatBigDecimal(gastos);
     }
 
     public boolean isExcluido() {

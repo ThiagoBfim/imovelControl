@@ -23,13 +23,6 @@ public class CadastroLocatarioService {
 
     @Transactional
     public Locatario salvar(Locatario locatario) {
-        if (locatarios.findByCpfAndExcluido(locatario.getCpf(), Boolean.FALSE).isPresent()
-                && locatario.getCodigo() == null) {
-            throw new BusinessException("Já existe um Locatário cadastrado com esse CPF", "cpf");
-        } else if (locatarios.findByTelefoneAndExcluido(locatario.getTelefone(), Boolean.FALSE).isPresent()
-                && locatario.getCodigo() == null) {
-            throw new BusinessException("Já existe um locatário cadastrado com esse telefone", "telefone");
-        }
         locatario.setDataInicio(LocalDate.now());
         return locatarios.save(locatario);
     }
@@ -61,9 +54,7 @@ public class CadastroLocatarioService {
         if (!locatario.isPresent()) {
             return;
         }
-        locatario.get().setExcluido(Boolean.TRUE);
-        locatario.get().setDataFim(LocalDate.now());
-        locatarios.save(locatario.get());
+        throw new BusinessException("Não é possível deletar um aluguel que esteja alugado.", "locatário");
 
     }
 
