@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.3.1.final using JasperReports Library version 6.3.1  -->
-<!-- 2017-10-19T18:15:18 -->
+<!-- 2017-10-23T17:59:06 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="relatorio_gastos" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="4611b849-2857-409a-ac7c-41da8571c1ef">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="ImovelControlAdapter"/>
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
@@ -10,8 +10,8 @@
 		</queryString>
 		<field name="cep" class="java.lang.String"/>
 		<field name="nome" class="java.lang.String"/>
-		<field name="recebimentoFormat" class="java.lang.String"/>
-		<field name="gastosFormat" class="java.lang.String"/>
+		<field name="recebimento" class="java.math.BigDecimal"/>
+		<field name="gastos" class="java.math.BigDecimal"/>
 		<field name="somaTotal" class="java.math.BigDecimal"/>
 		<field name="excluido" class="java.lang.Boolean"/>
 		<variable name="somaTotal" class="java.math.BigDecimal" calculation="Sum">
@@ -133,9 +133,7 @@
 								<pen lineWidth="1.0" lineColor="#030303"/>
 							</box>
 							<textElement textAlignment="Center"/>
-							<textFieldExpression><![CDATA[$F{nome}
-
- ]]></textFieldExpression>
+							<textFieldExpression><![CDATA[$F{nome}]]></textFieldExpression>
 						</textField>
 						<textField pattern="¤#,##0.00;¤-#,##0.00">
 							<reportElement x="360" y="0" width="95" height="30" uuid="e9ae3c26-7ee1-4608-9a4c-2e4786ec6940">
@@ -145,7 +143,7 @@
 								<pen lineWidth="1.0"/>
 							</box>
 							<textElement textAlignment="Center"/>
-							<textFieldExpression><![CDATA[$F{gastosFormat}]]></textFieldExpression>
+							<textFieldExpression><![CDATA[$F{gastos}]]></textFieldExpression>
 						</textField>
 						<textField pattern="¤#,##0.00;¤-#,##0.00">
 							<reportElement x="455" y="0" width="98" height="30" uuid="256812b2-1355-4de9-9169-8a3b38c0bb7b"/>
@@ -163,7 +161,7 @@
 								<pen lineWidth="1.0"/>
 							</box>
 							<textElement textAlignment="Center"/>
-							<textFieldExpression><![CDATA[$F{recebimentoFormat}]]></textFieldExpression>
+							<textFieldExpression><![CDATA[$F{recebimento}]]></textFieldExpression>
 						</textField>
 						<textField pattern="dd/MM/yyyy">
 							<reportElement x="170" y="0" width="90" height="30" uuid="a4e6bb6c-77c7-4e3c-bd21-5a7104bbb8ba">
@@ -184,9 +182,7 @@
 								<pen lineWidth="1.0"/>
 							</box>
 							<textElement textAlignment="Center"/>
-							<textFieldExpression><![CDATA[$F{nome}
-
- ]]></textFieldExpression>
+							<textFieldExpression><![CDATA[$F{nome}]]></textFieldExpression>
 						</textField>
 					</jr:listContents>
 				</jr:list>

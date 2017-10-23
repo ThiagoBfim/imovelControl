@@ -7,12 +7,16 @@ import br.com.imovelcontrol.model.Aluguel;
 import br.com.imovelcontrol.repository.Alugueis;
 import br.com.imovelcontrol.repository.FormasPagamentos;
 import br.com.imovelcontrol.service.exception.BusinessException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class CadastroAluguelService {
+
+    private static final Logger logger = LoggerFactory.getLogger(CadastroAluguelService.class);
 
     @Autowired
     private Alugueis alugueis;
@@ -36,8 +40,10 @@ public class CadastroAluguelService {
              /*Caso já possua um ID e esse ID não seja de outro imovel, então significa que alguem está
              tentanto burlar o sistema, nesse caso será retornando uma mensagem.*/
             if (!aluguel.getImovel().equals(aluguelSameId.getImovel())) {
-                throw new BusinessException("Ocorreu um erro, aparentemente já existe um aluguel igual no nosso sistema. "
+                BusinessException exception = new BusinessException("Ocorreu um erro, aparentemente já existe um aluguel igual no nosso sistema. "
                         + "Favor entrar em contato com a equipe do ImovelControl", null);
+                logger.error("Tentativa de burlar o sistema", exception);
+                throw exception;
             }
             aluguel.getFormaPagamento().setCodigo(alugueis.getOne(aluguel.getCodigo()).getFormaPagamento().getCodigo());
             formasPagamentos.save(aluguel.getFormaPagamento());

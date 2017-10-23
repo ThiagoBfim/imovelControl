@@ -2,6 +2,7 @@ package br.com.imovelcontrol.controller.converter;
 
 import java.math.BigDecimal;
 import java.text.NumberFormat;
+import java.util.Locale;
 
 /**
  * Created by Thiago on 23/06/2017.
@@ -36,6 +37,7 @@ public class FormatUtil {
         if (valor == null) {
             valor = BigDecimal.ZERO;
         }
-        return NumberFormat.getCurrencyInstance().format(valor);
+        Locale ptBR = new Locale("pt", "BR");
+        return NumberFormat.getCurrencyInstance(ptBR).format(valor);
     }
 }

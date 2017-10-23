@@ -7,12 +7,16 @@ import br.com.imovelcontrol.model.Aluguel;
 import br.com.imovelcontrol.model.Imovel;
 import br.com.imovelcontrol.repository.Imoveis;
 import br.com.imovelcontrol.service.exception.BusinessException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class CadastroImovelService {
+
+    private static final Logger logger = LoggerFactory.getLogger(CadastroImovelService.class);
 
     @Autowired
     private Imoveis imoveis;
@@ -68,7 +72,7 @@ public class CadastroImovelService {
         } else {
             imovelRetrieve = imoveis.findByNomeAndDonoImovelAndExcluido(imovel.getNome(), imovel.getDonoImovel(),
                     Boolean.FALSE);
-            if (imovelRetrieve.isPresent() && !imovelRetrieve.get().equals(imovel)){
+            if (imovelRetrieve.isPresent() && !imovelRetrieve.get().equals(imovel)) {
                 throw new BusinessException("Já existe um imóvel cadastrado com este Nome", "nome");
             }
         }
@@ -77,8 +81,10 @@ public class CadastroImovelService {
         tentanto burlar o sistema, nesse caso será retornando uma mensagem.*/
         if (imovel.getCodigo() != null
                 && !imovel.getDonoImovel().equals(imoveis.getOne(imovel.getCodigo()).getDonoImovel())) {
-            throw new BusinessException("Ocorreu um erro, aparentemente já existe um imovel igual no nosso sistema. "
+            BusinessException exception = new BusinessException("Ocorreu um erro, aparentemente já existe um imovel igual no nosso sistema. "
                     + "Favor entrar em contato com a equipe do ImovelControl", null);
+            logger.error("Tentativa de burlar o sistema", exception);
+            throw exception;
         }
     }
 }
