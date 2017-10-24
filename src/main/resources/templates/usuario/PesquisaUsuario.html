@@ -131,13 +131,6 @@
                            th:href="@{/usuario/{codigo}(codigo=${usuario.codigo})}">
                             <i class="glyphicon glyphicon-pencil"></i>
                         </a>
-                        <a class="btn  btn-link  btn-xs js-tooltip   js-exclusao-btn" title="Excluir" href="#"
-                           data:url="@{/usuario/{codigo}(codigo=${usuario.codigo})}"
-                           data:codigo="${usuario.codigo}"
-                           data:objeto="${usuario.nome}"
-                           th:if="${#authentication.principal.usuario.codigo != usuario.codigo}">
-                            <i class="glyphicon glyphicon-remove"></i>
-                        </a>
                     </td>
                 </tr>
                 <tr th:if="${pagina.vazia}">
