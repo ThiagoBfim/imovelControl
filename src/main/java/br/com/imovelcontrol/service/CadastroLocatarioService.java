@@ -1,10 +1,12 @@
 package br.com.imovelcontrol.service;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 import br.com.imovelcontrol.model.Aluguel;
 import br.com.imovelcontrol.model.Locatario;
+import br.com.imovelcontrol.repository.Alugueis;
 import br.com.imovelcontrol.repository.Locatarios;
 import br.com.imovelcontrol.service.exception.BusinessException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +25,13 @@ public class CadastroLocatarioService {
 
     @Transactional
     public Locatario salvar(Locatario locatario) {
+        if(locatario.getCodigo() != null) {
+            Optional<Locatario> locatarioRetrived = locatarios
+                    .findByAluguelAndExcluido(locatario.getAluguel(), Boolean.FALSE);
+            if(locatarioRetrived.isPresent()) {
+                locatario.setCodigo(locatarioRetrived.get().getCodigo());
+            }
+        }
         locatario.setDataInicio(LocalDate.now());
         return locatarios.save(locatario);
     }
@@ -54,7 +63,8 @@ public class CadastroLocatarioService {
         if (!locatario.isPresent()) {
             return;
         }
-        throw new BusinessException("Não é possível deletar um aluguel que esteja alugado.", "locatário");
+        throw new BusinessException("Não é possível deletar, pois existe um locatário vinculado "
+                + "ao aluguel : " + aluguel.getNome() + "!", "locatário");
 
     }
 
