@@ -79,7 +79,7 @@ public class UsuarioController {
             return novo(usuario);
         }
         try {
-            cadastroUsuarioService.salvar(usuario);
+            cadastroUsuarioService.salvar(usuario, true);
         } catch (BusinessException e) {
             result.rejectValue(e.getField(), e.getMessage(), e.getMessage());
             return novo(usuario);
@@ -194,7 +194,7 @@ public class UsuarioController {
      */
     @GetMapping("/{codigo}")
     public ModelAndView editar(@PathVariable Long codigo) {
-        Usuario usuario = usuarios.buscarComGrupos(codigo);
+        Usuario usuario = usuarios.buscarComGrupos(codigo, Boolean.FALSE);
         if (!usuarioLogadoService.getUsuario().getGrupos().contains(new Grupo(Grupo.ADMIN))) {
             return new ModelAndView("/404");
         }
@@ -245,7 +245,7 @@ public class UsuarioController {
     @RequestMapping(value = {"/alterarsenha"}, method = RequestMethod.POST)
     public ModelAndView alterarSenha(Usuario usuario, BindingResult result) {
         ModelAndView modelAndView = new ModelAndView("usuario/AlterarSenha");
-        Usuario usuarioRetrived = usuarios.buscarComGrupos(usuario.getCodigo());
+        Usuario usuarioRetrived = usuarios.buscarComGrupos(usuario.getCodigo(), Boolean.TRUE);
         usuario.setNome(usuarioRetrived.getNome());
         if (StringUtils.isEmpty(usuario.getSenha())) {
             result.rejectValue("senha", "Senha deve ter no máximo 30 caracteres e no mínimo 6", "Senha é Obrigatório");
@@ -303,7 +303,7 @@ public class UsuarioController {
                 result.rejectValue("codigoVerificadorTemp", "Código Verificador Incorreto", "Código Verificador Incorreto");
                 return true;
             }
-            cadastroUsuarioService.salvar(usuario);
+            cadastroUsuarioService.salvar(usuario, false);
         } catch (BusinessException e) {
             result.rejectValue(e.getField(), e.getMessage(), e.getMessage());
             return true;

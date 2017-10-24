@@ -78,16 +78,27 @@
 
                 <div class="col-sm-6  form-group bw-required"
                      bomfim:classforerror="grupos">
-                    <label class="control-label" for="grupo">Grupos</label>
-                    <div>
-                        <th:block th:each="grupo : ${grupos}">
-                            <div class="checkbox  checkbox-inline">
-                                <input type="checkbox" th:id="|id_${grupo.nome}|" name="grupo" id="grupo"
-                                       th:field="*{grupos}" th:value="${grupo.codigo}">
-                                <label class="control-label" th:for="|id_${grupo.nome}|"
-                                       th:text="${grupo.nome}">Física</label>
-                            </div>
-                        </th:block>
+                    <div class="col-sm-6">
+                        <label class="control-label" for="grupo">Grupos</label>
+                        <div>
+                            <th:block th:each="grupo : ${grupos}">
+                                <div class="checkbox  checkbox-inline">
+                                    <input type="checkbox" th:id="|id_${grupo.nome}|" name="grupo" id="grupo"
+                                           th:field="*{grupos}" th:value="${grupo.codigo}">
+                                    <label class="control-label" th:for="|id_${grupo.nome}|"
+                                           th:text="${grupo.nome}">Física</label>
+                                </div>
+                            </th:block>
+                        </div>
+                    </div>
+                    <div class="col-sm-6  form-group "
+                         th:if="${#authentication.principal.usuario.codigo != usuario.codigo}">
+                        <label for="status" class="control-label">Status</label>
+                        <div>
+                            <input type="checkbox" class="js-status" id="status" th:field="*{ativo}"
+                                   data-size="small" data-off-color="danger"
+                                   data-on-text="Ativo" data-off-text="Inativo">
+                        </div>
                     </div>
                 </div>
             </div>

@@ -98,11 +98,13 @@ public class UsuariosImpl implements UsuariosQueries {
 
     @Transactional(readOnly = true)
     @Override
-    public Usuario buscarComGrupos(Long codigo) {
+    public Usuario buscarComGrupos(Long codigo, Boolean findJustExcluido) {
         Criteria criteria = entityManager.unwrap(Session.class).createCriteria(Usuario.class);
         criteria.createAlias("grupos", "g", JoinType.LEFT_OUTER_JOIN);
         criteria.add(Restrictions.eq("codigo", codigo));
-        criteria.add(Restrictions.eq("ativo", Boolean.TRUE));
+        if(findJustExcluido != null && findJustExcluido) {
+            criteria.add(Restrictions.eq("ativo", findJustExcluido));
+        }
         criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
         return (Usuario) criteria.uniqueResult();
     }
