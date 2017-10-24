@@ -31,40 +31,13 @@ ImovelControl.LocatarioCadastroRapido = (function () {
         $.ajax({
             url: hrefOrigin + '/locatario/' + inputCodigo.val(),
             method: 'GET',
-            success: onExcluidoSucesso.bind(this),
+            success: eventTargetPage.bind(this),
             error: onErrorExcluir.bind(this)
         });
 
     }
 
-    function onExcluidoSucesso() {
-        modal.hide();
-        swal({
-                title: 'Pronto',
-                text: 'Excluído com sucesso!',
-                showCancelButton: false,
-                confirmButtonText: 'OK'
-            },
-            onRemoveExcluido.bind(this));
-
-    }
-
-    function onSalvarSucesso(){
-        console.log("salvo");
-        modal.hide();
-        swal({
-            title: 'Pronto',
-            text: 'Salvo com Sucesso',
-            showCancelButton: false,
-            confirmButtonTexto: 'OK'
-        }, onRemoveSalvo.bind(this));
-    }
-
-    function onRemoveExcluido() {
-        window.location = window.location.href;
-    }
-
-    function onRemoveSalvo(){
+    function eventTargetPage(){
         window.location = window.location.href;
     }
 
@@ -78,9 +51,8 @@ ImovelControl.LocatarioCadastroRapido = (function () {
     }
 
     function onErrorSalvar(e){
-        console.log(e);
         if(e.status == 200){
-            onSalvarSucesso();
+            eventTargetPage();
         } else {
             swal('Erro!',e.responseText, 'error');
         }
@@ -116,7 +88,7 @@ ImovelControl.LocatarioCadastroRapido = (function () {
             dataType : 'json',
             url: hrefOrigin + '/locatario/novo/',
             data: JSON.stringify(locatario),
-            success: onSalvarSucesso.bind(this),
+            success: eventTargetPage.bind(this),
             error:onErrorSalvar.bind(this)
         });
     }

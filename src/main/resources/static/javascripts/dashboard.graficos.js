@@ -61,12 +61,12 @@ ImovelControl.GraficoVendaPorMes = (function () {
 
 
             var options = {
-                chart: {
-                    title: 'Ganhos Mensais',
-                    subtitle: 'Ganhos mensais de todos os imóveis'
-
-                },
-                vAxis: {format: 'currency'}
+                title: 'Ganhos Mensais dos Imóveis',
+                vAxis: {format: 'currency'},
+                titleTextStyle: {
+                    fontSize: 20,
+                    textAlign: 'center'
+                }
             };
             var formatter = new google.visualization.NumberFormat({
                 prefix: 'R$: ',
@@ -94,10 +94,9 @@ ImovelControl.GraficoVendaPorMes = (function () {
     function onDadosRecebidosPizza(vendaMes) {
         var somaTotal = 0;
 
-        vendaMes.forEach(function(obj){
+        vendaMes.forEach(function (obj) {
             somaTotal = somaTotal + obj.rendimento;
         })
-        console.log(somaTotal);
         if (vendaMes.length > 0 && somaTotal != 0) {
 
             var ganhos = [];
@@ -134,11 +133,13 @@ ImovelControl.GraficoVendaPorMes = (function () {
             var chart = new google.visualization.PieChart(document.getElementById('chart'));
             chart.draw(data, options);
 
-        }else{
-            document.getElementById("mensagemErro").style.visibility = 'visible';
+        } else {
+            var mensagemSemResult = $('#mensagemErro');
+            mensagemSemResult.show();
         }
 
     }
+
     return GraficoVendaPorMes;
 
 }());
