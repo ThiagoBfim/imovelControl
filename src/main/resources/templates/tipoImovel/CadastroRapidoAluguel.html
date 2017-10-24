@@ -49,11 +49,12 @@
                         <div>
                             <th:block th:each="tipoImovel : ${tiposImoveis}">
                                 <div class="radio  radio-inline">
+
                                     <input type="radio" th:id="|id_${tipoImovel.codigo}|"
                                            name="tipoImovel" th:value="${tipoImovel}"
                                            class="js-radio-tipo-imovel" th:field="*{tipoImovel}"
-                                           data:documento="${tipoImovel.descricao}"> <label
-                                        class="control-label" th:for="|id_${tipoImovel.descricao}|"
+                                           data:documento="${tipoImovel.descricao}">
+                                    <label  class="control-label" th:for="|id_${tipoImovel.codigo}|"
                                         th:text="${tipoImovel.descricao}">Casa</label>
                                 </div>
                             </th:block>
