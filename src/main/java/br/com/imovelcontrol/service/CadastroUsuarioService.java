@@ -32,12 +32,18 @@ public class CadastroUsuarioService {
     CadastroImovelService cadastroImovelService;
 
     @Transactional
-    public Usuario salvar(Usuario usuario) {
+    public Usuario salvar(Usuario usuario, boolean buscarExcluidos) {
         Optional<Usuario> usuarioRetrived = usuarios.findByEmailAndAtivo(usuario.getEmail(), Boolean.TRUE);
+        if (!usuarioRetrived.isPresent() && buscarExcluidos) {
+            usuarioRetrived = usuarios.findByEmailAndAtivo(usuario.getEmail(), Boolean.FALSE);
+        }
         if (usuarioRetrived.isPresent() && !usuarioRetrived.get().equals(usuario)) {
             throw new BusinessException("E-mail já cadastrado", "email");
         }
         usuarioRetrived = usuarios.findByLoginAndAtivo(usuario.getLogin(), Boolean.TRUE);
+        if (!usuarioRetrived.isPresent() && buscarExcluidos) {
+            usuarioRetrived = usuarios.findByLoginAndAtivo(usuario.getLogin(), Boolean.FALSE);
+        }
         if (usuarioRetrived.isPresent() && !usuarioRetrived.get().equals(usuario)) {
             throw new BusinessException("Login já cadastrado", "login");
         }

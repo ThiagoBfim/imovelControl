@@ -11,9 +11,9 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface Usuarios extends JpaRepository<Usuario, Long>, UsuariosQueries {
 
-	Optional<Usuario> findByEmailAndAtivo(String email, Boolean aTrue);
+	Optional<Usuario> findByEmailAndAtivo(String email, Boolean ativo);
 	
 	List<Usuario> findByCodigoIn(Long[] codigos);
 
-    Optional<Usuario> findByLoginAndAtivo(String login, Boolean aTrue);
+    Optional<Usuario> findByLoginAndAtivo(String login, Boolean ativo);
 }

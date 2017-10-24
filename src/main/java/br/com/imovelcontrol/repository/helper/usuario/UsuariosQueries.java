@@ -15,7 +15,7 @@ public interface UsuariosQueries {
 
     List<String> permissoes(Usuario usuario);
 
-    Usuario buscarComGrupos(Long codigo);
+    Usuario buscarComGrupos(Long codigo, Boolean findJustExcluido);
 
     Usuario buscarComGruposByLogin(String name);
 }
