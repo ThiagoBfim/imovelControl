@@ -45,6 +45,7 @@ public class JPAConfig {
         String password = jdbUri.getUserInfo().split(":")[1];
         String port = String.valueOf(jdbUri.getPort());
         String jdbUrl = "jdbc:mysql://" + jdbUri.getHost() + ":" + port + jdbUri.getPath() + "?useSSL=false";
+        System.out.println(jdbUrl + "\n\n" );
 
         BasicDataSource dataSource = new BasicDataSource();
         dataSource.setUrl(jdbUrl);
