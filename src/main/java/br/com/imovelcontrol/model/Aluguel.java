@@ -1,5 +1,6 @@
 package br.com.imovelcontrol.model;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Column;
@@ -214,9 +215,13 @@ public class Aluguel extends BaseEntity {
     }
 
     public boolean isPago() {
+        LocalDate dataAtual = LocalDate.now();
+        LocalDate dataInicioMesAtual = LocalDate.of(dataAtual.getYear(), dataAtual.getMonth(), 1);
         if (!CollectionUtils.isEmpty(getInformacaoPagamentoList())) {
             InformacaoPagamento informacaoPagamento = getInformacaoPagamentoList().get(getInformacaoPagamentoList().size() - 1);
-            if (informacaoPagamento.getPago() != null) {
+
+            if (informacaoPagamento.getPago() != null
+                    && informacaoPagamento.getDataMensal().isAfter(dataInicioMesAtual)) {
                 return informacaoPagamento.getPago();
             }
         }
