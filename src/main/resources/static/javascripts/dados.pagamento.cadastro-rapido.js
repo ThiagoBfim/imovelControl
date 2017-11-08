@@ -66,7 +66,7 @@ ImovelControl.AluguelCadastroRapido = (function () {
             var mes = conteudo.dataMensal.monthValue;
             var ano = conteudo.dataMensal.year;
 
-            mensalidade.text("Mensalidade: " +  01 + "/" + mes + "/" + ano );
+            mensalidade.text("Mensalidade: " +  "01/" + mes + "/" + ano );
 
 
             var dadoPagamento = $('.dadoPagamento');
