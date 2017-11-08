@@ -63,13 +63,10 @@ ImovelControl.AluguelCadastroRapido = (function () {
             }
             checkMensalidade.prop('checked', conteudo.pago);
 
-            var dia = conteudo.dataMensal.dayOfMonth;
             var mes = conteudo.dataMensal.monthValue;
             var ano = conteudo.dataMensal.year;
-           if(dia < 10){
-               dia = "0" + dia;
-           }
-            mensalidade.text("Mensalidade: " +  dia + "/" + mes + "/" + ano );
+
+            mensalidade.text("Mensalidade: " +  01 + "/" + mes + "/" + ano );
 
 
             var dadoPagamento = $('.dadoPagamento');
