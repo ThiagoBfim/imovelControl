@@ -110,6 +110,22 @@ ImovelControl.Security = (function(){
 	return Security;
 }());
 
+ImovelControl.AnoAtual = (function () {
+
+    function AnoAtual() {
+        this.yearAtual = (new Date()).getFullYear();
+        this.variavelAno = $('.ano-atual-js');
+        console.log(this.variavelAno);
+    }
+
+    AnoAtual.prototype.changeAno = function () {
+        console.log(this.variavelAno);
+        this.variavelAno.text(this.yearAtual);
+    };
+
+    return AnoAtual;
+}());
+
 
 $(function() {
     
@@ -130,6 +146,9 @@ $(function() {
 
 	var security = new ImovelControl.Security();
 	security.enable();
+
+    var anoAtual = new ImovelControl.AnoAtual();
+    anoAtual.changeAno();
 
 
 

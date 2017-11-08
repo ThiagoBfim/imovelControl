@@ -27,16 +27,23 @@
 
     <div class="container-fluid">
 
+        <div class="form-group" style="text-align: right">
+            <button type="button" class="btn btn-info"
+                    data-toggle="modal" data-target="#myModal">Tutorial
+            </button>
+        </div>
+
+
         <div style="text-align: center;">
             <button class="btn btn-primary  ic-styleButton" id="pizzaBtn">Gráfico de Pizza</button>
             <button class="btn btn-danger  ic-styleButton" id="colunaBtn">Gráfico de Colunas</button>
             <div class="row">
                 <div class="row" style="color:red" th:hidden="true" th:id="mensagemErro">
                     <h1>Nenhuma informação de pagamento encontrada!
-                       <h2> Não foi possível gerar o gráfico!</h2>
+                        <h2> Não foi possível gerar o gráfico!</h2>
                     </h1>
                 </div>
-                <div class="col-sm-6 col-sm-offset-3">
+                <div class="col-sm-8 col-sm-offset-2">
                     <div id="chart" style="height: 400px;"></div>
 
                 </div>
@@ -45,11 +52,45 @@
 
 
     </div>
+
+    <div class="modal fade" id="myModal" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content" data-backdrop="static" data-toggle="modal">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">
+                        <i class="fa fa-video-camera" aria-hidden="true"></i>
+                        Tutorial
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <div align="center">
+                        <video controls height="300">
+                            <source th:src="@{/video/mov_bbb.mp4}" type="video/mp4">
+                            <source th:src="@{/video/mov_bbb.mp4}" type="video/ogg">
+                            Seu browser não suporta o video.
+                        </video>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    </div>
+
 </section>
 
 <th:block layout:fragment="javascript-extra">
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script th:src="@{/javascripts/dashboard.graficos.js}"></script>
+
+
 </th:block>
 
 

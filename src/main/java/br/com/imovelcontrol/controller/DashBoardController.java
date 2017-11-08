@@ -81,38 +81,27 @@ public class DashBoardController {
     }
 
 
-    double total = 0.0;
     private double valorTotal(Long codigo) {
-        total = 0;
+        double total = 0;
         List<Aluguel> listAlgueis;
         listAlgueis = alugueis.findByImovel_Codigo(codigo).get();
-
         for (Aluguel i : listAlgueis) {
-
             Optional<List<InformacaoPagamento>> informacaoPagamento = informacaoPagamentoService
                     .retrieveInforcamacoesPagamentoByAluguel(Long.toString(i.getCodigo()));
 
             if (informacaoPagamento.isPresent()) {
-
-                informacaoPagamento.get().forEach(p -> {
-                    if (p.getPago()) {
-
-                        total += p.getValor().doubleValue();
-
+                for (InformacaoPagamento pagamento : informacaoPagamento.get()) {
+                    if (pagamento.getPago()) {
+                        total += pagamento.getValor().doubleValue();
                     }
-
-                    Optional<List<GastoAdicional>> gastoAdicionals = gastosAdicionais.findByInformacaoPagamento(p);
-
+                    Optional<List<GastoAdicional>> gastoAdicionals = gastosAdicionais
+                            .findByInformacaoPagamento(pagamento);
                     if (gastoAdicionals.isPresent()) {
-
                         for (GastoAdicional gastoAdicional : gastoAdicionals.get()) {
-
                             total -= gastoAdicional.getValorGasto().doubleValue();
-
                         }
                     }
-
-                });
+                }
 
             }
         }

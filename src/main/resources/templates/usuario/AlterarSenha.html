@@ -65,6 +65,7 @@
 
                 <input th:hidden="true" type="text" th:field="*{codigoVerificador}"/>
                 <div class="form-group col-sm-8" style="text-align: right">
+                    <a href="javascript:history.back()" class="btn  btn-default">Voltar</a>
                     <a class="btn  btn-danger  js-exclusao-btn" href="#"
                        data:url="@{/usuario/{codigo}(codigo=${usuario.codigo})}"
                        data:sair="@{/logout}"
