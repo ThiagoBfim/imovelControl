@@ -67,5 +67,9 @@ public class InformacaoPagamento extends TemplateFormaPagamento {
     public void setEstaAlugado(boolean estaAlugado) {
         this.estaAlugado = estaAlugado;
     }
+
+    public void getDataMensalFormat(){
+        dataMensal.toString();
+    }
 }
 
