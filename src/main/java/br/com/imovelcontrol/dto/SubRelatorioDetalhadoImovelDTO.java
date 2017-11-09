@@ -5,23 +5,42 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.util.CollectionUtils;
+
 /**
  * Created by Thiago on 03/09/2017.
  */
 public class SubRelatorioDetalhadoImovelDTO {
 
     private Date dataMensal;
+    private Date dataPagamento;
     private Boolean aguaInclusa;
     private Boolean internetInclusa;
     private Boolean iptuIncluso;
     private Boolean possuiCondominio;
     private Boolean luzInclusa;
     private BigDecimal valorAluguel;
+    private BigDecimal multa;
     private Long codigoPagamento;
     private Boolean pago;
     private String nome;
-
     private List<GastosDetalhadoDTO> listaGastos = new ArrayList<>();
+
+    public BigDecimal getLucroMensal(){
+        BigDecimal lucro = BigDecimal.ZERO;
+        if(pago != null && pago){
+            lucro = lucro.add(valorAluguel);
+        }
+        lucro = lucro.add(multa);
+        if(!CollectionUtils.isEmpty(listaGastos)) {
+            for (GastosDetalhadoDTO gasto : listaGastos) {
+                if(gasto.getGasto() != null) {
+                    lucro = lucro.subtract(gasto.getGasto());
+                }
+            }
+        }
+        return lucro;
+    }
 
     public Date getDataMensal() {
         return dataMensal;
@@ -109,5 +128,21 @@ public class SubRelatorioDetalhadoImovelDTO {
 
     public void setNome(String nome) {
         this.nome = nome;
+    }
+
+    public BigDecimal getMulta() {
+        return multa;
+    }
+
+    public void setMulta(BigDecimal multa) {
+        this.multa = multa;
+    }
+
+    public Date getDataPagamento() {
+        return dataPagamento;
+    }
+
+    public void setDataPagamento(Date dataPagamento) {
+        this.dataPagamento = dataPagamento;
     }
 }

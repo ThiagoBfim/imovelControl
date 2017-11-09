@@ -11,7 +11,7 @@ public interface UsuariosQueries {
 
     Page<Usuario> filtrar(Usuario filtro, Pageable pageable);
 
-    Optional<Usuario> retrieveLoginAtivo(String email);
+    Optional<Usuario> retrieveLogin(String email);
 
     List<String> permissoes(Usuario usuario);
 

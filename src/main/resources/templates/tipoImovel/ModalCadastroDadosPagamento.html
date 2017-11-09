@@ -17,15 +17,31 @@
                 <div class="modal-body">
 
 
-                    <select id="informacoesPagamentoVencidas" class="form-control">
-                        <option value="">Mensalidades Vencidas</option>
-                    </select>
+                    <div class="selectContainer">
+                        <select id="informacoesPagamentoVencidas" class="form-control">
+                            <option value="">Mensalidades Vencidas</option>
+                        </select>
+                    </div>
 
                     <bomfim:message/>
                     <input th:hidden="true" type="text" id="codigoPagamento" th:field="*{codigo}"/>
                     <input th:hidden="true" type="text" id="codigoAluguelPagamento" th:field="*{aluguel.codigo}"/>
+                    <input th:hidden="true" type="text" id="vencido" th:field="*{atrasado}"/>
+
                     <h4 style="text-align: center;" id="mensalidade"> aa</h4>
-                    <div class="row dadoPagamento" >
+
+                    <div class="row multaRow" style="display: none;">
+                        <div class="form-group  col-sm-4 ">
+                            <label class="control-label" for="multa">Multa</label>
+                            <div class="input-group">
+                                <div class="input-group-addon">R$</div>
+                                <input autofocus type="text" class="form-control js-decimal" maxlength="10"
+                                       th:field="*{multa}" id="multa"/>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row dadoPagamento">
                         <div class="form-group  col-sm-4 ">
                             <label class="control-label" for="valorMensal">Valor Pago pelo Locatario</label>
                             <div class="input-group">
@@ -35,7 +51,7 @@
                                        th:field="*{valor}" id="valorMensal"/>
                             </div>
                         </div>
-                        <div class="form-group col-sm-4" >
+                        <div class="form-group col-sm-4 ">
                             <label class="control-label">&nbsp;</label>
                             <div class="input-group">
                                 <div class="checkbox  checkbox-inline">
@@ -46,7 +62,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row dadoPagamento"  >
+                    <div class="row dadoPagamento">
                         <div class="form-group  col-sm-4" id="aguaInclusa">
                             <label class="control-label">Agua Foi Paga?</label>
                             <div>
@@ -81,7 +97,7 @@
                             </div>
                         </div>
                         <div class="form-group  col-sm-4" id="possuiCondominio">
-                            <label class="control-label">Condominio foi Pago?</label>
+                            <label class="control-label">Condomínio foi Pago?</label>
                             <div>
                                 <input type="checkbox" class="js-status" id="inputPossuiCondominio"
                                        th:field="*{possuiCondominio}"

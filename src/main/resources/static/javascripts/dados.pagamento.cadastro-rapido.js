@@ -22,19 +22,19 @@ ImovelControl.AluguelCadastroRapido = (function () {
         this.informacoesPagamentoVencidas.on('change', onSelectChange.bind(this));
     };
 
-    function  onSelectChange(evento) {
-
-        var botaoClicado = $(evento.currentTarget);
-        var codigoAluguel = botaoClicado.data('codigo');
-        $.getJSON(hrefOrigin + '/pagamento/'
-            + this.informacoesPagamentoVencidas.val(), function (data) {
-            meu_callback_select(data);
-        });
+    function onSelectChange() {
+        var codigoInformacaoPagamento = this.informacoesPagamentoVencidas.val();
+        if (codigoInformacaoPagamento != '') {
+            $.getJSON(hrefOrigin + '/pagamento/'
+                + this.informacoesPagamentoVencidas.val(), function (data) {
+                meu_callback_select(data);
+            });
+        }
     }
 
     function onModalPagamentoClick(evento) {
         this.informacoesPagamentoVencidas.empty();
-        this.informacoesPagamentoVencidas.append($("<option>").attr('value',"").text("Mensalidades Vencidas"));
+        this.informacoesPagamentoVencidas.append($("<option>").attr('value', "").text("Mensalidades Vencidas"));
         var botaoClicado = $(evento.currentTarget);
         var codigoAluguel = botaoClicado.data('codigo');
         $.getJSON(hrefOrigin + '/pagamento/aluguel/'
@@ -46,7 +46,17 @@ ImovelControl.AluguelCadastroRapido = (function () {
     }
 
 
-    function meu_callback_select(conteudo){
+    function meu_callback_select(conteudo) {
+        var vencido = $('#vencido');
+        var multaRow = $('.multaRow');
+        var multa = $('#multa');
+        vencido.val(conteudo.atrasado);
+        createMaskForMoney(conteudo.multa, multa);
+        if (conteudo.atrasado) {
+            multaRow.show();
+        } else {
+            multaRow.hide();
+        }
 
         populateInformacaoPagamento(conteudo);
 
@@ -54,19 +64,23 @@ ImovelControl.AluguelCadastroRapido = (function () {
 
 
     function meu_callback_open_modal(informacaoPagamentoModal) {
-
         var informacoesPagamentoVencidas = $('#informacoesPagamentoVencidas');
 
 
-        informacaoPagamentoModal.informacaoPagamentoList.forEach(function(e) {
+        informacaoPagamentoModal.informacaoPagamentoList.forEach(function (e) {
             var mes = e.dataMensal.monthValue;
             var ano = e.dataMensal.year;
-            if(mes < 10){
+            if (mes < 10) {
                 mes = "0" + mes;
             }
-            var mensalidade = "01/"+ mes + "/" + ano;
-            informacoesPagamentoVencidas.append($("<option>").attr('value', e.codigo ).text(mensalidade));
+            var mensalidade = "01/" + mes + "/" + ano;
+            informacoesPagamentoVencidas.append($("<option>").attr('value', e.codigo).text(mensalidade));
         });
+
+        /*Se so tiver um elemento significa que so tem a mensalidade atual, então não preciso exibir esse select*/
+        if (informacaoPagamentoModal.informacaoPagamentoList.length <= 1) {
+            $('.selectContainer').hide();
+        }
 
         var conteudo = informacaoPagamentoModal.informacaoPagamento;
 
@@ -82,6 +96,20 @@ ImovelControl.AluguelCadastroRapido = (function () {
         $(codigo).bootstrapSwitch('state', valor);
     }
 
+    function createMaskForMoney(conteudo, inputValor) {
+        var valor = conteudo.toString();
+        var valores = valor.split('.');
+        if (valores[1] != null) {
+            if (valores[1] < 10) {
+                valores[1] *= 10;
+            }
+            valor = valores[0] + ',' + valores[1];
+            inputValor.val(valor);
+        } else {
+            inputValor.val(valor + ',00');
+        }
+    }
+
     function populateInformacaoPagamento(conteudo) {
         var inputCodigo = $('#codigoPagamento');
         var inputValor = $('#valorMensal');
@@ -90,23 +118,13 @@ ImovelControl.AluguelCadastroRapido = (function () {
 
         if (!("erro" in conteudo)) {
             inputCodigo.val(conteudo.codigo);
-            var valor = conteudo.valor.toString();
-            var valores = valor.split('.');
-            if (valores[1] != null) {
-                if (valores[1] < 10) {
-                    valores[1] *= 10;
-                }
-                valor = valores[0] + ',' + valores[1];
-                inputValor.val(valor);
-            } else {
-                inputValor.val(valor + ',00');
-            }
+            createMaskForMoney(conteudo.valor, inputValor);
             checkMensalidade.prop('checked', conteudo.pago);
 
             var mes = conteudo.dataMensal.monthValue;
             var ano = conteudo.dataMensal.year;
 
-            if(mes < 10){
+            if (mes < 10) {
                 mes = "0" + mes;
             }
 

@@ -115,11 +115,9 @@ ImovelControl.AnoAtual = (function () {
     function AnoAtual() {
         this.yearAtual = (new Date()).getFullYear();
         this.variavelAno = $('.ano-atual-js');
-        console.log(this.variavelAno);
     }
 
     AnoAtual.prototype.changeAno = function () {
-        console.log(this.variavelAno);
         this.variavelAno.text(this.yearAtual);
     };
 

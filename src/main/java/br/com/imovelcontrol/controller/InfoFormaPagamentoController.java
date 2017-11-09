@@ -1,5 +1,6 @@
 package br.com.imovelcontrol.controller;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import javax.validation.Valid;
@@ -88,7 +89,13 @@ public class InfoFormaPagamentoController {
                 .retrieveInformacaoPagamentoVencidoByAluguel(Long.valueOf(codigo));
 
         if (!alugueisRetrived.isEmpty()) {
-            alugueisRetrived.forEach(a -> a.setAluguel(aluguelWithCodigo));
+            alugueisRetrived.forEach(a -> {
+                a.setAluguel(aluguelWithCodigo);
+                a.setAtrasado(Boolean.TRUE);
+            });
+            if (!alugueisRetrived.contains(informacaoPagamento)) {
+                alugueisRetrived.add(informacaoPagamento);
+            }
             informacaoPagamentoModalDTO.setInformacaoPagamentoList(alugueisRetrived);
         }
 
@@ -109,6 +116,9 @@ public class InfoFormaPagamentoController {
         Aluguel aluguel = alugueis.findOneWithLocatariosByCodigo(informacaoPagamento.getAluguel().getCodigo());
         informacaoPagamento.setAluguel(aluguelWithCodigo);
         informacaoPagamento.setEstaAlugado(aluguel.isAlugado());
+        if (LocalDate.now().getMonthValue() > informacaoPagamento.getDataMensal().getMonthValue()) {
+            informacaoPagamento.setAtrasado(Boolean.TRUE);
+        }
         return informacaoPagamento;
     }
 }

@@ -124,7 +124,7 @@ public class ImoveisImpl implements ImoveisQuerys {
 
 
         StringBuilder sql = new StringBuilder("SELECT imovel.nome as nome, imovel.cep as cep, "
-                + " SUM(CASE WHEN informacaoPagamento.pago = 1 then informacaoPagamento.valor else 0 end) as recebimento,"
+                + " SUM(CASE WHEN informacaoPagamento.pago = 1 then informacaoPagamento.valor + informacaoPagamento.multa else 0 end) as recebimento,"
                 + " SUM(tabelaGastos.valorGasto) as gastos , imovel.excluido as excluido"
                 + " FROM  INFORMACAO_PAGAMENTO informacaoPagamento"
                 + " INNER JOIN ALUGUEL aluguel"
@@ -222,7 +222,8 @@ public class ImoveisImpl implements ImoveisQuerys {
             Long codigoAluguel) {
         StringBuilder sql = new StringBuilder("SELECT informacaoPagamento.aguaInclusa as aguaInclusa, "
                 + " informacaoPagamento.internetInclusa as internetInclusa, informacaoPagamento.pago as pago, "
-                + " locatario.nome as nome, "
+                + " locatario.nome as nome, informacaoPagamento.multa as multa, "
+                + " informacaoPagamento.dataPagamento as dataPagamento, "
                 + " informacaoPagamento.codigo as codigoPagamento, "
                 + " informacaoPagamento.iptuIncluso as iptuIncluso, "
                 + " informacaoPagamento.possuiCondominio as possuiCondominio, "
@@ -250,7 +251,9 @@ public class ImoveisImpl implements ImoveisQuerys {
                 .addScalar("possuiCondominio", BooleanType.INSTANCE)
                 .addScalar("luzInclusa", BooleanType.INSTANCE)
                 .addScalar("dataMensal", DateType.INSTANCE)
+                .addScalar("dataPagamento", DateType.INSTANCE)
                 .addScalar("valorAluguel", BigDecimalType.INSTANCE)
+                .addScalar("multa", BigDecimalType.INSTANCE)
                 .addScalar("codigoPagamento", LongType.INSTANCE)
                 .addScalar("pago", BooleanType.INSTANCE)
                 .addScalar("nome", StringType.INSTANCE);
@@ -312,7 +315,7 @@ public class ImoveisImpl implements ImoveisQuerys {
                 + " tabela.valor as valor"
                 + " FROM IMOVEL imovel"
                 + " INNER JOIN("
-                + "   SELECT  SUM(CASE WHEN i.pago = 1  THEN (i.valor - case when valorPG.valor "
+                + "   SELECT  SUM(CASE WHEN i.pago = 1  THEN ((i.valor + i.multa) - case when valorPG.valor "
                 + "   is null then 0 else valorPG.valor END)"
                 + "   ELSE - case when valorPG.valor is null then 0 else valorPG.valor END END) as valor,"
                 + "   MONTH(i.dataMensal) as mes,  a.codigo_imovel as codigo_imovel"
