@@ -9,7 +9,7 @@ import br.com.imovelcontrol.model.Aluguel;
 import br.com.imovelcontrol.model.GastoAdicional;
 import br.com.imovelcontrol.model.InformacaoPagamento;
 import br.com.imovelcontrol.repository.GastosAdicionais;
-import br.com.imovelcontrol.repository.InformacaoPagamentos;
+import br.com.imovelcontrol.repository.InformacoesPagamentos;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,7 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class InformacaoPagamentoService {
 
     @Autowired
-    private InformacaoPagamentos informacaoPagamentos;
+    private InformacoesPagamentos informacaoPagamentos;
 
     @Autowired
     private GastosAdicionais gastosAdicionais;
@@ -115,5 +115,14 @@ public class InformacaoPagamentoService {
             retorno.get().add(informacaoPagamento);
         });
         return retorno;
+    }
+
+    @Transactional
+    public InformacaoPagamento retrieveById(String codigo) {
+        return informacaoPagamentos.findOne(Long.parseLong(codigo));
+    }
+
+    public List<InformacaoPagamento> retrieveInformacaoPagamentoVencidoByAluguel(Long codigoAluguel) {
+        return informacaoPagamentos.retrieveInformacaoPagamentoVencidoByAluguel(codigoAluguel);
     }
 }
