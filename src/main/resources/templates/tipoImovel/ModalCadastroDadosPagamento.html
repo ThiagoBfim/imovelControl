@@ -15,6 +15,12 @@
             <form method="POST" th:object="${informacaoPagamento}" class="form-vertical  js-form-loading"
                   th:action="@{/pagamento/novo}">
                 <div class="modal-body">
+
+
+                    <select id="informacoesPagamentoVencidas" class="form-control">
+                        <option value="">Mensalidades Vencidas</option>
+                    </select>
+
                     <bomfim:message/>
                     <input th:hidden="true" type="text" id="codigoPagamento" th:field="*{codigo}"/>
                     <input th:hidden="true" type="text" id="codigoAluguelPagamento" th:field="*{aluguel.codigo}"/>

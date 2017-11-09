@@ -1,8 +1,10 @@
 package br.com.imovelcontrol.controller;
 
+import java.util.List;
 import java.util.Optional;
 import javax.validation.Valid;
 
+import br.com.imovelcontrol.dto.InformacaoPagamentoModalDTO;
 import br.com.imovelcontrol.model.Aluguel;
 import br.com.imovelcontrol.model.InformacaoPagamento;
 import br.com.imovelcontrol.repository.Alugueis;
@@ -35,15 +37,14 @@ public class InfoFormaPagamentoController {
     public ModelAndView cadastrar(@Valid InformacaoPagamento informacaoPagamento, BindingResult result) {
 
         informacaoPagamentoService.salvar(informacaoPagamento);
-
         return new ModelAndView("redirect:/imovel/aluguel/" + alugueis.findOne(informacaoPagamento.getAluguel()
                 .getCodigo()).getImovel().getCodigo());
     }
 
     @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE,
-            value = "/{codigo}", method = RequestMethod.GET)
+            value = "/aluguel/{codigo}", method = RequestMethod.GET)
     public @ResponseBody
-    InformacaoPagamento getInformacaoPagamentoInJSON(@PathVariable String codigo) {
+    InformacaoPagamentoModalDTO getInformacaoPagamentoInJsonByCodAluguel(@PathVariable String codigo) {
 
 
         Aluguel aluguel = alugueis.findOneWithLocatariosByCodigo(Long.valueOf(codigo));
@@ -77,7 +78,37 @@ public class InfoFormaPagamentoController {
         }
         informacaoPagamento.setAluguel(new Aluguel());
         informacaoPagamento.setEstaAlugado(aluguel.isAlugado());
-        return informacaoPagamento;
 
+        InformacaoPagamentoModalDTO informacaoPagamentoModalDTO = new InformacaoPagamentoModalDTO();
+        informacaoPagamentoModalDTO.setInformacaoPagamento(informacaoPagamento);
+
+        Aluguel aluguelWithCodigo = new Aluguel();
+        aluguelWithCodigo.setCodigo(Long.valueOf(codigo));
+        List<InformacaoPagamento> alugueisRetrived = informacaoPagamentoService
+                .retrieveInformacaoPagamentoVencidoByAluguel(Long.valueOf(codigo));
+
+        if (!alugueisRetrived.isEmpty()) {
+            alugueisRetrived.forEach(a -> a.setAluguel(aluguelWithCodigo));
+            informacaoPagamentoModalDTO.setInformacaoPagamentoList(alugueisRetrived);
+        }
+
+        return informacaoPagamentoModalDTO;
+
+    }
+
+
+    @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE,
+            value = "/{codigo}", method = RequestMethod.GET)
+    public @ResponseBody
+    InformacaoPagamento getInformacaoPagamentoInJsonByCodPagamento(@PathVariable String codigo) {
+
+
+        InformacaoPagamento informacaoPagamento = informacaoPagamentoService.retrieveById(codigo);
+        Aluguel aluguelWithCodigo = new Aluguel();
+        aluguelWithCodigo.setCodigo(informacaoPagamento.getAluguel().getCodigo());
+        Aluguel aluguel = alugueis.findOneWithLocatariosByCodigo(informacaoPagamento.getAluguel().getCodigo());
+        informacaoPagamento.setAluguel(aluguelWithCodigo);
+        informacaoPagamento.setEstaAlugado(aluguel.isAlugado());
+        return informacaoPagamento;
     }
 }
