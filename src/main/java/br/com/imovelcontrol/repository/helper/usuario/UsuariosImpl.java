@@ -37,10 +37,10 @@ public class UsuariosImpl implements UsuariosQueries {
     private PaginacaoUtil paginacaoUtil;
 
     @Override
-    public Optional<Usuario> retrieveLoginAtivo(String email) {
+    public Optional<Usuario> retrieveLogin(String login) {
         return entityManager.createQuery("select u from " + Usuario.class.getName()
                 + " u where lower(u.login) =:login and u.ativo= true", Usuario.class)
-                .setParameter("login", email.toLowerCase()).getResultList().stream().findFirst();
+                .setParameter("login", login.toLowerCase()).getResultList().stream().findFirst();
     }
 
     @Override

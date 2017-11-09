@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.3.1.final using JasperReports Library version 6.3.1  -->
-<!-- 2017-10-22T20:16:27 -->
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="relatorio_subReportDetalhado_gastos" pageWidth="920" pageHeight="50" orientation="Landscape" columnWidth="920" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="f5c24c3c-afe7-420f-8bd3-06f231028a68">
+<!-- 2017-11-09T21:08:47 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="relatorio_subReportDetalhado_gastos" pageWidth="1100" pageHeight="50" orientation="Landscape" columnWidth="1100" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="f5c24c3c-afe7-420f-8bd3-06f231028a68">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="ImovelControlAdapter"/>
 	<subDataset name="subList" uuid="5f58a7fb-9855-4ad4-9c29-9e30e4549e5a">
@@ -38,7 +38,7 @@
 	<field name="nomeAluguel" class="java.lang.String"/>
 	<field name="subRelatorioDetalhadoImovelDTOS" class="java.util.List"/>
 	<field name="lucroTotal" class="java.math.BigDecimal"/>
-	<field name="estaAlugado" class="java.lang.Boolean"/>
+	<field name="estaDesalugado" class="java.lang.Boolean"/>
 	<field name="excluido" class="java.lang.Boolean"/>
 	<variable name="lucroTotal" class="java.math.BigDecimal" calculation="Sum">
 		<variableExpression><![CDATA[$F{lucroTotal}]]></variableExpression>
@@ -47,7 +47,7 @@
 		<band height="50" splitType="Stretch">
 			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 			<textField pattern="dd/MM/yyyy">
-				<reportElement stretchType="RelativeToTallestObject" isPrintRepeatedValues="false" x="0" y="0" width="80" height="50" uuid="20485d57-74c1-4494-ac4c-0a714bb07a47">
+				<reportElement stretchType="RelativeToTallestObject" isPrintRepeatedValues="false" x="0" y="0" width="80" height="50" isPrintWhenDetailOverflows="true" uuid="20485d57-74c1-4494-ac4c-0a714bb07a47">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 					<printWhenExpression><![CDATA[!$F{excluido}]]></printWhenExpression>
@@ -59,7 +59,7 @@
 				<textFieldExpression><![CDATA[$F{nomeAluguel}]]></textFieldExpression>
 			</textField>
 			<subreport>
-				<reportElement x="140" y="0" width="780" height="50" uuid="70f041d9-bd0d-48ed-90f5-bb49de38df00"/>
+				<reportElement positionType="Float" x="140" y="0" width="960" height="50" isPrintWhenDetailOverflows="true" uuid="70f041d9-bd0d-48ed-90f5-bb49de38df00"/>
 				<subreportParameter name="gastosAdicionais">
 					<subreportParameterExpression><![CDATA[$F{subRelatorioDetalhadoImovelDTOS}]]></subreportParameterExpression>
 				</subreportParameter>
@@ -67,17 +67,17 @@
 				<subreportExpression><![CDATA[$P{subReportGastosAdicionais}]]></subreportExpression>
 			</subreport>
 			<textField pattern="dd/MM/yyyy">
-				<reportElement stretchType="RelativeToTallestObject" x="80" y="0" width="60" height="50" uuid="f79581b9-9ebc-4eb5-8b79-7b6e83dd3c31">
+				<reportElement stretchType="RelativeToTallestObject" x="80" y="0" width="60" height="50" isPrintWhenDetailOverflows="true" uuid="f79581b9-9ebc-4eb5-8b79-7b6e83dd3c31">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 				</reportElement>
 				<box>
 					<pen lineWidth="1.0"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{estaAlugado} != null && $F{estaAlugado} == false ? "Sim" : "Não" + $F{estaAlugado}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{estaDesalugado}  != null && $F{estaDesalugado} == false ? "Sim"   : "Não"]]></textFieldExpression>
 			</textField>
 			<textField pattern="dd/MM/yyyy">
-				<reportElement stretchType="RelativeToTallestObject" isPrintRepeatedValues="false" x="0" y="0" width="80" height="50" forecolor="#FF0400" uuid="71d51565-92c0-4402-abab-3346a6d4d85d">
+				<reportElement stretchType="RelativeToTallestObject" isPrintRepeatedValues="false" x="0" y="0" width="80" height="50" isPrintWhenDetailOverflows="true" forecolor="#FF0400" uuid="71d51565-92c0-4402-abab-3346a6d4d85d">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 					<printWhenExpression><![CDATA[$F{excluido}]]></printWhenExpression>

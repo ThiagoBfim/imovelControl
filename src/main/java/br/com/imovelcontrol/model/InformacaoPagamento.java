@@ -1,5 +1,6 @@
 package br.com.imovelcontrol.model;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -17,6 +18,12 @@ public class InformacaoPagamento extends TemplateFormaPagamento {
     private Boolean pago;
 
     private LocalDate dataMensal;
+
+    private LocalDate dataPagamento;
+
+    private BigDecimal multa = BigDecimal.ZERO;
+
+    private Boolean atrasado = Boolean.FALSE;
 
     @OneToOne
     @JoinColumn(name = "codigo_aluguel")
@@ -68,8 +75,28 @@ public class InformacaoPagamento extends TemplateFormaPagamento {
         this.estaAlugado = estaAlugado;
     }
 
-    public void getDataMensalFormat(){
-        dataMensal.toString();
+    public LocalDate getDataPagamento() {
+        return dataPagamento;
+    }
+
+    public void setDataPagamento(LocalDate dataPagamento) {
+        this.dataPagamento = dataPagamento;
+    }
+
+    public BigDecimal getMulta() {
+        return multa;
+    }
+
+    public void setMulta(BigDecimal multa) {
+        this.multa = multa;
+    }
+
+    public Boolean getAtrasado() {
+        return atrasado;
+    }
+
+    public void setAtrasado(Boolean atrasado) {
+        this.atrasado = atrasado;
     }
 }
 

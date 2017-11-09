@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.3.1.final using JasperReports Library version 6.3.1  -->
-<!-- 2017-10-19T18:27:01 -->
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="relatorio_subReportInfoPagamento_gastos" pageWidth="780" pageHeight="595" orientation="Landscape" columnWidth="780" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="f703ff5a-f56d-4fd4-bdfc-c5f4c930254b">
+<!-- 2017-11-09T21:08:47 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="relatorio_subReportInfoPagamento_gastos" pageWidth="960" pageHeight="595" orientation="Landscape" columnWidth="960" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="f703ff5a-f56d-4fd4-bdfc-c5f4c930254b">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
 	<subDataset name="listaGastos" uuid="e1e2beab-fc11-4af3-90b7-91f8a1e4d197">
 		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
@@ -25,18 +25,21 @@
 	<field name="internetInclusa" class="java.lang.Boolean"/>
 	<field name="pago" class="java.lang.Boolean"/>
 	<field name="nome" class="java.lang.String"/>
+	<field name="multa" class="java.math.BigDecimal"/>
+	<field name="dataPagamento" class="java.util.Date"/>
+	<field name="lucroMensal" class="java.math.BigDecimal"/>
 	<detail>
 		<band height="50" splitType="Stretch">
 			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 			<textField pattern="¤#,##0.00;¤-#,##0.00">
-				<reportElement stretchType="RelativeToTallestObject" x="490" y="0" width="90" height="50" uuid="c70beea2-f1ec-4c29-90ed-421f65599781">
+				<reportElement stretchType="RelativeToTallestObject" x="560" y="0" width="60" height="50" uuid="c70beea2-f1ec-4c29-90ed-421f65599781">
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 				</reportElement>
 				<box>
 					<pen lineWidth="1.0"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{valorAluguel}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{multa}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement stretchType="RelativeToTallestObject" x="78" y="0" width="80" height="50" uuid="d3cb6004-462a-46a2-b084-4659de161175"/>
@@ -95,7 +98,7 @@
 				<textFieldExpression><![CDATA[$F{internetInclusa} == null ?  " - " :  $F{internetInclusa} == true ? " Sim " : " Não "]]></textFieldExpression>
 			</textField>
 			<componentElement>
-				<reportElement isPrintRepeatedValues="false" x="580" y="0" width="200" height="50" isPrintWhenDetailOverflows="true" uuid="2700a456-dfb4-4ec7-be39-c2e518bca134">
+				<reportElement isPrintRepeatedValues="false" x="690" y="0" width="200" height="50" isPrintWhenDetailOverflows="true" uuid="2700a456-dfb4-4ec7-be39-c2e518bca134">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 				</reportElement>
@@ -146,7 +149,35 @@
 					<pen lineWidth="1.0"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{nome}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{nome} == null ? " - " :  $F{nome}]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤#,##0.00;¤-#,##0.00">
+				<reportElement stretchType="RelativeToTallestObject" x="620" y="0" width="70" height="50" uuid="25bf7c00-2bf7-4658-8b60-96b7ac94f2d0">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{valorAluguel}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement stretchType="RelativeToTallestObject" x="490" y="0" width="70" height="50" uuid="8ba35a66-f985-4e02-a592-52c659ed6a52"/>
+				<box>
+					<pen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{dataPagamento} == null  ? "-" : new SimpleDateFormat("dd/MM/yyyy").format($F{dataPagamento})]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤#,##0.00;¤-#,##0.00">
+				<reportElement stretchType="RelativeToTallestObject" x="890" y="0" width="70" height="50" uuid="691761e5-4363-4339-b7a0-9b04a156bb9f">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{lucroMensal}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

@@ -24,6 +24,9 @@ public class RelatorioDetalhadoImovelDTO {
             if (s.getPago() != null && s.getPago() != Boolean.FALSE) {
                 lucro = lucro.add(s.getValorAluguel());
             }
+            if(s.getMulta() != null){
+                lucro = lucro.add(s.getMulta());
+            }
             s.getListaGastos().stream().filter(g -> g.getGasto() != null)
                     .forEach(g -> lucro = lucro.subtract(g.getGasto()));
         });

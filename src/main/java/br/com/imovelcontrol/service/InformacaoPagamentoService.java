@@ -40,6 +40,10 @@ public class InformacaoPagamentoService {
             informacaoPagamento.setDataMensal(informacaoPagamentoRetrived.getDataMensal());
 
         }
+        //Caso tenha pagado, então eu coloco da data de pagamento.
+        if(informacaoPagamento.getPago()) {
+            informacaoPagamento.setDataPagamento(LocalDate.now());
+        }
         InformacaoPagamento informacaoPagamentoRetrived = informacaoPagamentos.save(informacaoPagamento);
         if (gastoAdicional != null && gastoAdicional.getValorGasto() != null) {
             gastoAdicional.setInformacaoPagamento(informacaoPagamentoRetrived);

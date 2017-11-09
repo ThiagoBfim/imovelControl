@@ -24,7 +24,7 @@ public class AppUserDetailsService implements UserDetailsService {
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		Optional<Usuario> usuarioRetrived = usuarios.retrieveLoginAtivo(username);
+		Optional<Usuario> usuarioRetrived = usuarios.retrieveLogin(username);
 		Usuario usuario = usuarioRetrived
 				.orElseThrow(() -> new UsernameNotFoundException("Login e/ou senha incorretos"));
 		return new UsuarioSistema(usuario, getPermissoes(usuario));
