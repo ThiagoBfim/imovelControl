@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.3.1.final using JasperReports Library version 6.3.1  -->
-<!-- 2017-11-09T21:08:47 -->
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="relatorio_subReportDetalhado_gastos" pageWidth="1100" pageHeight="50" orientation="Landscape" columnWidth="1100" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="f5c24c3c-afe7-420f-8bd3-06f231028a68">
+<!-- 2017-11-10T18:42:01 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="relatorio_subReportDetalhado_gastos" pageWidth="1110" pageHeight="50" orientation="Landscape" columnWidth="1110" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="f5c24c3c-afe7-420f-8bd3-06f231028a68">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="ImovelControlAdapter"/>
 	<subDataset name="subList" uuid="5f58a7fb-9855-4ad4-9c29-9e30e4549e5a">
@@ -59,7 +59,7 @@
 				<textFieldExpression><![CDATA[$F{nomeAluguel}]]></textFieldExpression>
 			</textField>
 			<subreport>
-				<reportElement positionType="Float" x="140" y="0" width="960" height="50" isPrintWhenDetailOverflows="true" uuid="70f041d9-bd0d-48ed-90f5-bb49de38df00"/>
+				<reportElement positionType="Float" x="140" y="0" width="970" height="50" isPrintWhenDetailOverflows="true" uuid="70f041d9-bd0d-48ed-90f5-bb49de38df00"/>
 				<subreportParameter name="gastosAdicionais">
 					<subreportParameterExpression><![CDATA[$F{subRelatorioDetalhadoImovelDTOS}]]></subreportParameterExpression>
 				</subreportParameter>
