@@ -25,14 +25,16 @@ public class CadastroLocatarioService {
 
     @Transactional
     public Locatario salvar(Locatario locatario) {
-        if(locatario.getCodigo() != null) {
+        if (locatario.getCodigo() != null) {
             Optional<Locatario> locatarioRetrived = locatarios
                     .findByAluguelAndExcluido(locatario.getAluguel(), Boolean.FALSE);
-            if(locatarioRetrived.isPresent()) {
+            if (locatarioRetrived.isPresent()) {
                 locatario.setCodigo(locatarioRetrived.get().getCodigo());
             }
+        } else {
+            locatario.setDataInicio(LocalDate.now());
         }
-        locatario.setDataInicio(LocalDate.now());
+
         return locatarios.save(locatario);
     }
 

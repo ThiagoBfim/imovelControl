@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.3.1.final using JasperReports Library version 6.3.1  -->
-<!-- 2017-11-09T21:08:47 -->
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="relatorio_gastos" pageWidth="1140" pageHeight="842" orientation="Landscape" columnWidth="1100" leftMargin="20" rightMargin="20" topMargin="30" bottomMargin="20" uuid="4611b849-2857-409a-ac7c-41da8571c1ef">
+<!-- 2017-11-10T18:33:40 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="relatorio_gastos" pageWidth="1140" pageHeight="842" orientation="Landscape" columnWidth="1100" leftMargin="20" rightMargin="20" topMargin="32" bottomMargin="20" uuid="4611b849-2857-409a-ac7c-41da8571c1ef">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="ImovelControlAdapter"/>
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<subDataset name="listGastos" uuid="31300bab-6e4b-4649-8da1-59c33bcff794">
@@ -44,7 +44,7 @@
 	<title>
 		<band height="80" splitType="Stretch">
 			<staticText>
-				<reportElement x="0" y="0" width="1030" height="40" uuid="43fe59dc-300a-4fbd-97c0-0ca2b6776dbd">
+				<reportElement x="0" y="0" width="1100" height="40" uuid="43fe59dc-300a-4fbd-97c0-0ca2b6776dbd">
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 				</reportElement>
@@ -55,8 +55,9 @@
 				<text><![CDATA[Relatório de Gastos Detalhado do imóvel:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="0" y="40" width="1030" height="40" uuid="9c678d21-3118-42b3-aecf-9e96daff1f37">
+				<reportElement x="0" y="40" width="1100" height="40" uuid="9c678d21-3118-42b3-aecf-9e96daff1f37">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 				</reportElement>
 				<textElement textAlignment="Center" verticalAlignment="Top">
 					<font size="22" isBold="true" isItalic="true"/>
@@ -68,7 +69,7 @@
 	<pageHeader>
 		<band height="30">
 			<textField>
-				<reportElement x="0" y="0" width="1030" height="30" uuid="f7f0c997-a9e4-46fd-8aaa-4b4c548703c1"/>
+				<reportElement x="0" y="0" width="1100" height="30" uuid="f7f0c997-a9e4-46fd-8aaa-4b4c548703c1"/>
 				<textElement textAlignment="Center"/>
 				<textFieldExpression><![CDATA["Registros de " + new SimpleDateFormat("dd/MM/yyyy").format($P{data_inicio})  + " até "
 + new SimpleDateFormat("dd/MM/yyyy").format($P{data_fim})]]></textFieldExpression>
@@ -233,7 +234,7 @@
 				<text><![CDATA[Locatário]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="630" y="0" width="70" height="40" forecolor="#000000" backcolor="#0A8F00" uuid="3c8c8775-be28-47ab-aa5b-2081af23d7f2">
+				<reportElement mode="Opaque" x="630" y="0" width="75" height="40" forecolor="#000000" backcolor="#0A8F00" uuid="3c8c8775-be28-47ab-aa5b-2081af23d7f2">
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 				</reportElement>
 				<box>
@@ -245,7 +246,7 @@
 				<text><![CDATA[Data Pagamento]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="700" y="0" width="60" height="40" forecolor="#000000" backcolor="#0A8F00" uuid="223ebf0f-fb21-42ca-8bff-d69af6e29b73">
+				<reportElement mode="Opaque" x="705" y="0" width="55" height="40" forecolor="#000000" backcolor="#0A8F00" uuid="223ebf0f-fb21-42ca-8bff-d69af6e29b73">
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 				</reportElement>
@@ -268,7 +269,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="12" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Soma Mensal]]></text>
+				<text><![CDATA[Lucro Mensal]]></text>
 			</staticText>
 		</band>
 	</columnHeader>
@@ -316,7 +317,7 @@
 	<summary>
 		<band height="42" splitType="Stretch">
 			<staticText>
-				<reportElement mode="Opaque" x="0" y="0" width="700" height="30" backcolor="#168016" uuid="0cba9ba3-37de-46e9-94b9-ae1876a76f20">
+				<reportElement mode="Opaque" x="0" y="0" width="705" height="30" backcolor="#168016" uuid="0cba9ba3-37de-46e9-94b9-ae1876a76f20">
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 				</reportElement>
 				<box>
@@ -328,7 +329,7 @@
 				<text><![CDATA[ Lucro Total:  ]]></text>
 			</staticText>
 			<textField pattern="¤ #,##0.00;¤-#,##0.00">
-				<reportElement mode="Opaque" x="700" y="0" width="400" height="30" backcolor="#168016" uuid="5f7642b6-2a6e-4c1b-b818-1ce3f306a6e4"/>
+				<reportElement mode="Opaque" x="705" y="0" width="394" height="30" backcolor="#168016" uuid="5f7642b6-2a6e-4c1b-b818-1ce3f306a6e4"/>
 				<box>
 					<pen lineWidth="1.0"/>
 				</box>
