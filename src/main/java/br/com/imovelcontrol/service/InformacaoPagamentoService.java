@@ -1,5 +1,6 @@
 package br.com.imovelcontrol.service;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -8,6 +9,8 @@ import java.util.Optional;
 import br.com.imovelcontrol.model.Aluguel;
 import br.com.imovelcontrol.model.GastoAdicional;
 import br.com.imovelcontrol.model.InformacaoPagamento;
+import br.com.imovelcontrol.model.Locatario;
+import br.com.imovelcontrol.repository.Alugueis;
 import br.com.imovelcontrol.repository.GastosAdicionais;
 import br.com.imovelcontrol.repository.InformacoesPagamentos;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,22 +29,36 @@ public class InformacaoPagamentoService {
     @Autowired
     private GastoAdicionalService gastosAdicionaisService;
 
+    @Autowired
+    private Alugueis alugueis;
+
     @Transactional
     public InformacaoPagamento salvar(InformacaoPagamento informacaoPagamento) {
         GastoAdicional gastoAdicional = informacaoPagamento.getGastoAdicional();
         if (informacaoPagamento.getCodigo() == null) {
-            informacaoPagamento.setDataMensal(LocalDate.now());
+
+            if (informacaoPagamento.getDataMensal() == null) {
+                informacaoPagamento.setDataMensal(LocalDate.now());
+            }
+
+            //Atualizar a data mensal.
+            atualizarDataWithLocatario(informacaoPagamento);
             informacaoPagamento.setPago(Boolean.FALSE);
         } else {
             /*Logica para garantir que o sistema continue com os dados de forma integra, ou seja,
             * não permitir que o usuario burle o sistema com JavaScript. */
             InformacaoPagamento informacaoPagamentoRetrived = informacaoPagamentos.findOne(informacaoPagamento.getCodigo());
             caseTrueChangeValue(informacaoPagamento, informacaoPagamentoRetrived);
+
             informacaoPagamento.setDataMensal(informacaoPagamentoRetrived.getDataMensal());
+            //Atualizar a data mensal.
+            atualizarDataWithLocatario(informacaoPagamento);
 
         }
+
+
         //Caso tenha pagado, então eu coloco da data de pagamento.
-        if(informacaoPagamento.getPago()) {
+        if (informacaoPagamento.getPago()) {
             informacaoPagamento.setDataPagamento(LocalDate.now());
         }
         InformacaoPagamento informacaoPagamentoRetrived = informacaoPagamentos.save(informacaoPagamento);
@@ -54,6 +71,20 @@ public class InformacaoPagamentoService {
         return informacaoPagamentoRetrived;
     }
 
+    private void atualizarDataWithLocatario(InformacaoPagamento informacaoPagamento) {
+        if (informacaoPagamento.getPago() != null
+                && informacaoPagamento.getPago()) {
+            Aluguel aluguelWithLocatarios = alugueis.findOneWithLocatariosByCodigo(Long
+                    .valueOf(informacaoPagamento.getAluguel().getCodigo()));
+            Locatario locatario = aluguelWithLocatarios
+                    .getLocatarioAtualByMensalidade(informacaoPagamento.getDataMensal());
+            if (locatario != null) {
+                informacaoPagamento.setDataMensal(LocalDate.of(informacaoPagamento.getDataMensal().getYear(),
+                        informacaoPagamento.getDataMensal().getMonthValue(), locatario.getDataInicio().getDayOfMonth()));
+            }
+        }
+    }
+
     /**
      * Logica para manter as informacoes de pagamento igual o template de forma de pagamento gerado mensalmente.
      *
@@ -62,6 +93,10 @@ public class InformacaoPagamentoService {
      */
     private void caseTrueChangeValue(InformacaoPagamento informacaoPagamento,
             InformacaoPagamento informacaoPagamentoRetrived) {
+
+        if (informacaoPagamento.getMulta() == null) {
+            informacaoPagamento.setMulta(BigDecimal.ZERO);
+        }
 
         if (informacaoPagamentoRetrived.getAguaInclusa() == null) {
             informacaoPagamento.setAguaInclusa(null);

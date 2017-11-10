@@ -3,11 +3,11 @@ ImovelControl.AluguelCadastroRapido = (function () {
 
     var modal = $('#modalCadastroPagamento');
     var hrefOrigin = document.location.origin;
+    var multaRow = $('.multaRow');
 
     function AluguelCadastroRapido() {
         this.modalPagamento = $('.js-modal-pagamento');
         this.codigoAluguel = $('#codigoAluguelPagamento');
-
         this.informacoesPagamentoVencidas = $('#informacoesPagamentoVencidas');
 
         var token = $("input[name='_crsf']").val();
@@ -33,6 +33,7 @@ ImovelControl.AluguelCadastroRapido = (function () {
     }
 
     function onModalPagamentoClick(evento) {
+        multaRow.hide();
         this.informacoesPagamentoVencidas.empty();
         this.informacoesPagamentoVencidas.append($("<option>").attr('value', "").text("Mensalidades Vencidas"));
         var botaoClicado = $(evento.currentTarget);
@@ -48,7 +49,6 @@ ImovelControl.AluguelCadastroRapido = (function () {
 
     function meu_callback_select(conteudo) {
         var vencido = $('#vencido');
-        var multaRow = $('.multaRow');
         var multa = $('#multa');
         vencido.val(conteudo.atrasado);
         createMaskForMoney(conteudo.multa, multa);
@@ -73,13 +73,18 @@ ImovelControl.AluguelCadastroRapido = (function () {
             if (mes < 10) {
                 mes = "0" + mes;
             }
-            var mensalidade = "01/" + mes + "/" + ano;
+            var mensalidade =  mes + "/" + ano;
+            if(e.locatario.nome != null) {
+                mensalidade += " - " + e.locatario.nome;
+            }
             informacoesPagamentoVencidas.append($("<option>").attr('value', e.codigo).text(mensalidade));
         });
 
         /*Se so tiver um elemento significa que so tem a mensalidade atual, então não preciso exibir esse select*/
         if (informacaoPagamentoModal.informacaoPagamentoList.length <= 1) {
             $('.selectContainer').hide();
+        } else {
+            $('.selectContainer').show();
         }
 
         var conteudo = informacaoPagamentoModal.informacaoPagamento;
@@ -108,6 +113,7 @@ ImovelControl.AluguelCadastroRapido = (function () {
         } else {
             inputValor.val(valor + ',00');
         }
+        inputValor.focus();
     }
 
     function populateInformacaoPagamento(conteudo) {
@@ -128,7 +134,7 @@ ImovelControl.AluguelCadastroRapido = (function () {
                 mes = "0" + mes;
             }
 
-            mensalidade.text("Mensalidade: " + "01/" + mes + "/" + ano);
+            mensalidade.text("Mensalidade: " + mes + "/" + ano);
 
 
             var dadoPagamento = $('.dadoPagamento');

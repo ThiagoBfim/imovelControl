@@ -16,6 +16,8 @@
             <form method="POST" th:object="${locatario}" class="form-vertical  js-form-loading"
                   th:action="@{/locatario/novo}">
 
+                <h4 style="text-align: center;" id="entradaMes">01/11/2017</h4>
+
 
                 <div class="alert alert-sucess" th:text="${mensagem}"
                 th:if="${not #strings.isEmpty(mensagem)}"></div>
