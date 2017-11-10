@@ -94,6 +94,9 @@ public class DashBoardController {
                     if (pagamento.getPago()) {
                         total += pagamento.getValor().doubleValue();
                     }
+                    if(pagamento.getMulta() != null) {
+                        total += pagamento.getMulta().doubleValue();
+                    }
                     Optional<List<GastoAdicional>> gastoAdicionals = gastosAdicionais
                             .findByInformacaoPagamento(pagamento);
                     if (gastoAdicionals.isPresent()) {

@@ -22,7 +22,7 @@ ImovelControl.LocatarioCadastroRapido = (function () {
     LocatarioCadastroRapido.prototype.iniciar = function () {
         this.botaoAdicionar.on('click', onBotaoAdicionarClick.bind(this));
         this.botaoExcluirClick.on('click', onBotaoExcluirClick.bind(this));
-        this.botaoSalvar.on('click',onBotaoSalvarClick.bind(this));
+        this.botaoSalvar.on('click', onBotaoSalvarClick.bind(this));
     };
 
     function onBotaoExcluirClick() {
@@ -37,24 +37,24 @@ ImovelControl.LocatarioCadastroRapido = (function () {
 
     }
 
-    function eventTargetPage(){
+    function eventTargetPage() {
         window.location = window.location.href;
     }
 
     function onErrorExcluir(e) {
         var codigo = $('#codigoLocatario');
-        if (codigo.val() == ''){
+        if (codigo.val() == '') {
             swal('Erro!', 'Não há locatário para excluir', 'error');
-        }else{
+        } else {
             swal('Erro!', e.responseText, 'error');
         }
     }
 
-    function onErrorSalvar(e){
-        if(e.status == 200){
+    function onErrorSalvar(e) {
+        if (e.status == 200) {
             eventTargetPage();
         } else {
-            swal('Erro!',e.responseText, 'error');
+            swal('Erro!', e.responseText, 'error');
         }
     }
 
@@ -68,8 +68,8 @@ ImovelControl.LocatarioCadastroRapido = (function () {
 
         this.locatarioAluguel.val(codigoAluguel);
     }
-    function onBotaoSalvarClick(evento) {
-        var botaoClicado = $(evento.currentTarget);
+
+    function onBotaoSalvarClick() {
         var nome = $('#nomeLocatario').val();
         var telefone = $('#telefone').val();
         var cpf = $('#cpf').val();
@@ -81,15 +81,21 @@ ImovelControl.LocatarioCadastroRapido = (function () {
 
         telefone = telefone.replace(/\D/g, '');
 
-        var locatario = {"codigo": codigo,"nome": nome, "telefone": telefone, "cpf": cpf, "aluguel":{"codigo":aluguel }};
+        var locatario = {
+            "codigo": codigo,
+            "nome": nome,
+            "telefone": telefone,
+            "cpf": cpf,
+            "aluguel": {"codigo": aluguel}
+        };
         $.ajax({
             type: "POST",
-            contentType : 'application/json; charset=utf-8',
-            dataType : 'json',
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
             url: hrefOrigin + '/locatario/novo/',
             data: JSON.stringify(locatario),
             success: eventTargetPage.bind(this),
-            error:onErrorSalvar.bind(this)
+            error: onErrorSalvar.bind(this)
         });
     }
 
@@ -99,6 +105,7 @@ ImovelControl.LocatarioCadastroRapido = (function () {
         var inputCpf = $('#cpf');
         var inputTelefone = $('#telefone');
         var inputCodigo = $('#codigoLocatario');
+        var dataEntrada = $('#entradaMes');
 
         if (!("erro" in conteudo)) {
             //Atualiza os campos com os valores.
@@ -106,6 +113,25 @@ ImovelControl.LocatarioCadastroRapido = (function () {
             inputNome.val(conteudo.nome);
             inputCpf.val(conteudo.cpf);
             inputTelefone.val(conteudo.telefone);
+
+            if (conteudo.dataInicio != null) {
+
+                var dia = conteudo.dataInicio.dayOfMonth;
+                var mes = conteudo.dataInicio.monthValue;
+                var ano = conteudo.dataInicio.year;
+                if (mes < 10) {
+                    mes = "0" + mes;
+                }
+                if (dia < 10) {
+                    dia = "0" + dia;
+                }
+                var data = dia + "/" + mes + "/" + ano;
+            dataEntrada.text("Data da locação: " + data);
+                dataEntrada.show();
+            } else {
+                dataEntrada.hide();
+            }
+
             modal.modal();
         } //end if.
         else {

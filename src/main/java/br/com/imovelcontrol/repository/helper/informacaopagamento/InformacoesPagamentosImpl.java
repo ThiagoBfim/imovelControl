@@ -24,6 +24,7 @@ public class InformacoesPagamentosImpl implements InformacoesPagamentosQuerys {
                         + " LEFT JOIN aluguel.locatarios locatario "
                         + " WHERE informacaoPgt.pago = false AND  aluguel.codigo =:codAluguel"
                         + " AND locatario.dataInicio <= informacaoPgt.dataMensal"
+                        + " AND locatario.dataFim >= informacaoPgt.dataMensal"
                         + " ORDER BY informacaoPgt.dataMensal",
                 InformacaoPagamento.class)
                 .setParameter("codAluguel", codAluguel)

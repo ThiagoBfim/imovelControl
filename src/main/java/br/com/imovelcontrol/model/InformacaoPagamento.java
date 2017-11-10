@@ -25,6 +25,9 @@ public class InformacaoPagamento extends TemplateFormaPagamento {
 
     private Boolean atrasado = Boolean.FALSE;
 
+    @Transient
+    private Locatario locatario = new Locatario();
+
     @OneToOne
     @JoinColumn(name = "codigo_aluguel")
     private Aluguel aluguel = new Aluguel();
@@ -97,6 +100,14 @@ public class InformacaoPagamento extends TemplateFormaPagamento {
 
     public void setAtrasado(Boolean atrasado) {
         this.atrasado = atrasado;
+    }
+
+    public Locatario getLocatario() {
+        return locatario;
+    }
+
+    public void setLocatario(Locatario locatario) {
+        this.locatario = locatario;
     }
 }
 

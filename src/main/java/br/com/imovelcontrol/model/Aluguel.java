@@ -3,6 +3,7 @@ package br.com.imovelcontrol.model;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -192,10 +193,35 @@ public class Aluguel extends BaseEntity {
 
     public boolean isAlugado() {
         if (!CollectionUtils.isEmpty(getLocatarios())) {
-            getLocatarios().removeIf(l -> l.getExcluido());
-            return !getLocatarios().isEmpty();
+            return getLocatarios().stream().filter(l -> !l.getExcluido()).findAny().isPresent();
         }
         return false;
+    }
+
+    public Locatario getLocatarioAtualByMensalidade(LocalDate dataMensalidade) {
+        if (!CollectionUtils.isEmpty(getLocatarios())) {
+            /* A busca aqui acontece da seguinte maneira:
+            *   É passada a data mensal da mensalidade, e é procurado na lista de locatarios, se existe alguem que possua
+            *   a data inicial da mensalidade (dia/mes/ano - 23:59) é antes do que a data mensal do locatario (01/mes/ano - 00:00)
+            *   caso seja, é vista a data final, caso tenha data final, é verificado se
+            *   a data final da mensalidade (dia_entrada/mes/ano) é anterior a data final do contrato.
+            * */
+
+            LocalDate dataMensalidadeFinal = dataMensalidade.minusDays(dataMensalidade.getDayOfMonth() + 1);
+            Optional<Locatario> locatarioOptional = getLocatarios().stream().filter(l ->
+                    dataMensalidade.atTime(23, 59)
+                            .isAfter(l.getDataInicio().minusDays(l.getDataInicio().getDayOfMonth() - 1).atStartOfDay())
+                            && (l.getDataFim() != null
+                            ? dataMensalidadeFinal.plusDays(l.getDataInicio().getDayOfMonth()).isBefore(l.getDataFim())
+                            : true)).findFirst();
+            if (locatarioOptional.isPresent()) {
+                return locatarioOptional.get();
+            } else {
+                return null;
+            }
+
+        }
+        return null;
     }
 
     public List<Locatario> getLocatarios() {

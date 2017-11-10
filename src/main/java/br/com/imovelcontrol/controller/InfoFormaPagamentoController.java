@@ -8,6 +8,7 @@ import javax.validation.Valid;
 import br.com.imovelcontrol.dto.InformacaoPagamentoModalDTO;
 import br.com.imovelcontrol.model.Aluguel;
 import br.com.imovelcontrol.model.InformacaoPagamento;
+import br.com.imovelcontrol.model.Locatario;
 import br.com.imovelcontrol.repository.Alugueis;
 import br.com.imovelcontrol.service.InformacaoPagamentoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -92,6 +93,11 @@ public class InfoFormaPagamentoController {
             alugueisRetrived.forEach(a -> {
                 a.setAluguel(aluguelWithCodigo);
                 a.setAtrasado(Boolean.TRUE);
+                Locatario locatario = aluguel.getLocatarioAtualByMensalidade(a.getDataMensal());
+                if(locatario != null) {
+                    locatario.setAluguel(aluguelWithCodigo);
+                    a.setLocatario(locatario);
+                }
             });
             if (!alugueisRetrived.contains(informacaoPagamento)) {
                 alugueisRetrived.add(informacaoPagamento);
@@ -118,6 +124,7 @@ public class InfoFormaPagamentoController {
         informacaoPagamento.setEstaAlugado(aluguel.isAlugado());
         if (LocalDate.now().getMonthValue() > informacaoPagamento.getDataMensal().getMonthValue()) {
             informacaoPagamento.setAtrasado(Boolean.TRUE);
+            informacaoPagamento.setEstaAlugado(Boolean.TRUE);
         }
         return informacaoPagamento;
     }
