@@ -64,17 +64,10 @@ public class CadastroImovelService {
     }
 
     private void validarBeforeSave(Imovel imovel) {
-        Optional<Imovel> imovelRetrieve = imoveis.findByEndereco_CepAndDonoImovelAndExcluido(imovel.getEndereco().getCep(),
-                imovel.getDonoImovel(), Boolean.FALSE);
-
+        Optional<Imovel> imovelRetrieve = imoveis.findByNomeAndDonoImovelAndExcluido(imovel.getNome(), imovel.getDonoImovel(),
+                Boolean.FALSE);
         if (imovelRetrieve.isPresent() && !imovelRetrieve.get().equals(imovel)) {
-            throw new BusinessException("Já existe um imóvel cadastrado com este CEP", "endereco");
-        } else {
-            imovelRetrieve = imoveis.findByNomeAndDonoImovelAndExcluido(imovel.getNome(), imovel.getDonoImovel(),
-                    Boolean.FALSE);
-            if (imovelRetrieve.isPresent() && !imovelRetrieve.get().equals(imovel)) {
-                throw new BusinessException("Já existe um imóvel cadastrado com este Nome", "nome");
-            }
+            throw new BusinessException("Já existe um imóvel cadastrado com este Nome", "nome");
         }
 
         /*Caso já possua um ID e esse ID não seja do usuario logado, então significa que alguem está
