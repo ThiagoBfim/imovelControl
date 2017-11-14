@@ -35,31 +35,26 @@
                     <input th:hidden="true" type="text" id="codigoLocatario" th:field="*{codigo}"/>
                     <input th:hidden="true" type="text" id="codigoAluguel" th:field="*{aluguel.codigo}"/>
                     <div class="row">
-                        <div class="col-sm-12  form-group bw-required">
+                        <div class="col-sm-6 form-group bw-required">
                             <label for="nomeLocatario" class="control-label">Nome</label>
                             <input id="nomeLocatario" type="text" class="form-control" th:field="*{nome}"
                                    maxlength="100"/>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-12  form-group bw-required">
+                        <div class="col-sm-6  form-group bw-required">
                             <label for="cpf" class="control-label">CPF</label>
                             <input id="cpf" type="text" class="form-control js-mascara-cpf" th:field="*{cpf}"
                                    maxlength="14"/>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-sm-12  form-group bw-required">
+                        <div class="col-sm-6  form-group bw-required">
                             <label for="telefone" class="control-label">Telefone</label>
                             <input id="telefone" type="text" class="form-control js-phone-number" th:field="*{telefone}"
                                    maxlength="15"/>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-12  form-group bw-required">
-                            <label for="telefone" class="control-label">Data da locação</label>
-                            <input id="telefone" type="text" class="form-control js-phone-number" th:field="*{telefone}"
-                                   maxlength="15"/>
+                        <div class="col-sm-6  form-group bw-required dataInclusao">
+                            <label for="dataInicio" class="control-label">Data da locação</label>
+                            <input id="dataInicio" type="text" class="form-control js-date" th:field="*{dataInicio}"/>
                         </div>
                     </div>
                 </div>

@@ -49,6 +49,7 @@ public class LocatarioController {
             locatarioRetrieve.setNome(locatario.getNome());
             locatarioRetrieve.setCpf(locatario.getCpf());
             locatarioRetrieve.setTelefone(locatario.getTelefone());
+            locatarioRetrieve.setDataInicioJson(locatario.getDataInicioJson());
         }
 
         if (result.hasErrors()) {

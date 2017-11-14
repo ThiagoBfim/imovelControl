@@ -1,5 +1,7 @@
 package br.com.imovelcontrol.repository;
 
+import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 import br.com.imovelcontrol.model.Aluguel;
@@ -10,7 +12,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface Locatarios extends JpaRepository<Locatario, Long> {
 
-    Optional<Locatario> findByCpfAndExcluido(String cpf, Boolean aFalse);
-    Optional<Locatario> findByTelefoneAndExcluido(String telefone, Boolean aFalse);
     Optional<Locatario> findByAluguelAndExcluido(Aluguel aluguel, Boolean aFalse);
+
+    List<Locatario> findByDataFimGreaterThanAndAluguel(LocalDate dataInicio, Aluguel aluguel);
 }

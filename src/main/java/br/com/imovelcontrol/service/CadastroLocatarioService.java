@@ -1,17 +1,19 @@
 package br.com.imovelcontrol.service;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 
 import br.com.imovelcontrol.model.Aluguel;
 import br.com.imovelcontrol.model.Locatario;
-import br.com.imovelcontrol.repository.Alugueis;
 import br.com.imovelcontrol.repository.Locatarios;
 import br.com.imovelcontrol.service.exception.BusinessException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
 /**
  * Created by marcosfellipec on 18/05/17.
@@ -31,10 +33,23 @@ public class CadastroLocatarioService {
             if (locatarioRetrived.isPresent()) {
                 locatario.setCodigo(locatarioRetrived.get().getCodigo());
             }
-        } else {
-            locatario.setDataInicio(LocalDate.now());
         }
-
+        if (locatario.getDataInicioJson() != null) {
+            DateTimeFormatter formater = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            formater.withLocale(new Locale("pt", "BR"));
+            LocalDate date = LocalDate.parse(locatario.getDataInicioJson(), formater);
+            locatario.setDataInicio(date);
+            if(date.isAfter(LocalDate.now())){
+                throw new BusinessException("Datá de locação inválida! Não é aceita data maior que a data atual.", "data");
+            }
+            List<Locatario> locatarioList = locatarios
+                    .findByDataFimGreaterThanAndAluguel(locatario.getDataInicio(), locatario.getAluguel());
+            if (!CollectionUtils.isEmpty(locatarioList)) {
+                throw new BusinessException("Datá de locação inválida, favor colocar um data mais recente.", "data");
+            }
+        } else {
+            throw new BusinessException("Datá de locação inválida, favor colocar um data mais recente.", "data");
+        }
         return locatarios.save(locatario);
     }
 
