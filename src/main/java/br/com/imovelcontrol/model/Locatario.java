@@ -8,6 +8,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.Size;
 
 import br.com.imovelcontrol.controller.converter.FormatUtil;
@@ -44,6 +45,9 @@ public class Locatario extends BaseEntity {
     private LocalDate dataInicio;
 
     private LocalDate dataFim;
+
+    @Transient
+    private String dataInicioJson;
 
     @PrePersist
     @PreUpdate
@@ -106,5 +110,13 @@ public class Locatario extends BaseEntity {
 
     public void setDataFim(LocalDate dataFim) {
         this.dataFim = dataFim;
+    }
+
+    public String getDataInicioJson() {
+        return dataInicioJson;
+    }
+
+    public void setDataInicioJson(String dataInicioJson) {
+        this.dataInicioJson = dataInicioJson;
     }
 }

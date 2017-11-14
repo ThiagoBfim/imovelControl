@@ -76,17 +76,20 @@ ImovelControl.LocatarioCadastroRapido = (function () {
         var codigo = $('#codigoLocatario').val();
         var cpf = $('#cpf').val();
         var aluguel = $('#codigoAluguel').val();
+        var data = $('#dataInicio').val();
 
         cpf = cpf.replace(/\D/g, '');
 
         telefone = telefone.replace(/\D/g, '');
 
+        console.log(data);
         var locatario = {
             "codigo": codigo,
             "nome": nome,
             "telefone": telefone,
             "cpf": cpf,
-            "aluguel": {"codigo": aluguel}
+            "dataInicioJson": data,
+            "aluguel": {"codigo": aluguel},
         };
         $.ajax({
             type: "POST",
@@ -99,6 +102,20 @@ ImovelControl.LocatarioCadastroRapido = (function () {
         });
     }
 
+    function createMaskData(conteudo) {
+        var dia = conteudo.dataInicio.dayOfMonth;
+        var mes = conteudo.dataInicio.monthValue;
+        var ano = conteudo.dataInicio.year;
+        if (mes < 10) {
+            mes = "0" + mes;
+        }
+        if (dia < 10) {
+            dia = "0" + dia;
+        }
+        var data = dia + "/" + mes + "/" + ano;
+        return data;
+    }
+
     function meu_callback(conteudo) {
 
         var inputNome = $('#nomeLocatario');
@@ -106,27 +123,20 @@ ImovelControl.LocatarioCadastroRapido = (function () {
         var inputTelefone = $('#telefone');
         var inputCodigo = $('#codigoLocatario');
         var dataEntrada = $('#entradaMes');
+        var dataInicio = $('#dataInicio');
+
 
         if (!("erro" in conteudo)) {
             //Atualiza os campos com os valores.
+
             inputCodigo.val(conteudo.codigo);
             inputNome.val(conteudo.nome);
             inputCpf.val(conteudo.cpf);
             inputTelefone.val(conteudo.telefone);
-
             if (conteudo.dataInicio != null) {
-
-                var dia = conteudo.dataInicio.dayOfMonth;
-                var mes = conteudo.dataInicio.monthValue;
-                var ano = conteudo.dataInicio.year;
-                if (mes < 10) {
-                    mes = "0" + mes;
-                }
-                if (dia < 10) {
-                    dia = "0" + dia;
-                }
-                var data = dia + "/" + mes + "/" + ano;
-            dataEntrada.text("Data da locação: " + data);
+                var data = createMaskData(conteudo);
+                dataEntrada.text("Data da locação: " + data);
+                dataInicio.val(data);
                 dataEntrada.show();
             } else {
                 dataEntrada.hide();
