@@ -82,6 +82,7 @@ ImovelControl.AluguelCadastroRapido = (function () {
 
         /*Se so tiver um elemento significa que so tem a mensalidade atual, então não preciso exibir esse select*/
         if (informacaoPagamentoModal.informacaoPagamentoList.length <= 1) {
+            console.log(informacaoPagamentoModal.informacaoPagamentoList.length);
             $('.selectContainer').hide();
         } else {
             $('.selectContainer').show();
