@@ -39,12 +39,13 @@ public class CadastroLocatarioService {
             formater.withLocale(new Locale("pt", "BR"));
             LocalDate date = LocalDate.parse(locatario.getDataInicioJson(), formater);
             locatario.setDataInicio(date);
-            if(date.isAfter(LocalDate.now())){
+            LocalDate dataAtual = LocalDate.now();
+            if(date.isAfter(dataAtual)){
                 throw new BusinessException("Datá de locação inválida! Não é aceita data maior que a data atual.", "data");
             }
             List<Locatario> locatarioList = locatarios
                     .findByDataFimGreaterThanAndAluguel(locatario.getDataInicio(), locatario.getAluguel());
-            if (!CollectionUtils.isEmpty(locatarioList)) {
+            if (!CollectionUtils.isEmpty(locatarioList) || date.getMonthValue() < dataAtual.getMonthValue()) {
                 throw new BusinessException("Datá de locação inválida, favor colocar um data mais recente.", "data");
             }
         } else {
