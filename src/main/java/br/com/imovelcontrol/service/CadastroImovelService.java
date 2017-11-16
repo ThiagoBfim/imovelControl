@@ -64,10 +64,10 @@ public class CadastroImovelService {
     }
 
     private void validarBeforeSave(Imovel imovel) {
-        Optional<Imovel> imovelRetrieve = imoveis.findByNomeAndDonoImovelAndExcluido(imovel.getNome(), imovel.getDonoImovel(),
+        Optional<Imovel> imovelRetrieve = imoveis.findByNomeAndDonoImovelAndExcluido(imovel.getNome().trim(), imovel.getDonoImovel(),
                 Boolean.FALSE);
         if (imovelRetrieve.isPresent() && !imovelRetrieve.get().equals(imovel)) {
-            throw new BusinessException("Já existe um imóvel cadastrado com este Nome", "nome");
+            throw new BusinessException("Já existe um imóvel cadastrado com este nome", "nome");
         }
 
         /*Caso já possua um ID e esse ID não seja do usuario logado, então significa que alguem está

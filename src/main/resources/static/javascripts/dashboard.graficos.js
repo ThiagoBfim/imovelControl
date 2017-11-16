@@ -81,8 +81,12 @@ ImovelControl.GraficoVendaPorMes = (function () {
 
             var chart = new google.visualization.ColumnChart(document.getElementById('chart'));
             chart.draw(data, options);
+            this.btnGraficoPizza.show();
+            this.btnGraficoColuna.show();
             this.mensagemSemResult.hide();
         } else {
+            this.btnGraficoPizza.hide();
+            this.btnGraficoColuna.hide();
             this.mensagemSemResult.show();
         }
     }
@@ -137,8 +141,11 @@ ImovelControl.GraficoVendaPorMes = (function () {
             var chart = new google.visualization.PieChart(document.getElementById('chart'));
             chart.draw(data, options);
             this.mensagemSemResult.hide();
-
+            this.btnGraficoColuna.show();
+            this.btnGraficoPizza.show();
         } else {
+            this.btnGraficoPizza.hide();
+            this.btnGraficoColuna.hide();
             this.mensagemSemResult.show();
         }
 
