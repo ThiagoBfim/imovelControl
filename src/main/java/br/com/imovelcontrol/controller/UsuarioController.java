@@ -79,7 +79,7 @@ public class UsuarioController {
             return novo(usuario);
         }
         try {
-            cadastroUsuarioService.salvar(usuario, true);
+            cadastroUsuarioService.salvar(usuario);
         } catch (BusinessException e) {
             result.rejectValue(e.getField(), e.getMessage(), e.getMessage());
             return novo(usuario);
@@ -303,7 +303,7 @@ public class UsuarioController {
                 result.rejectValue("codigoVerificadorTemp", "Código Verificador Incorreto", "Código Verificador Incorreto");
                 return true;
             }
-            cadastroUsuarioService.salvar(usuario, false);
+            cadastroUsuarioService.salvar(usuario);
         } catch (BusinessException e) {
             result.rejectValue(e.getField(), e.getMessage(), e.getMessage());
             return true;
