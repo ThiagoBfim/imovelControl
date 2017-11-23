@@ -8,12 +8,12 @@ ImovelControl.GraficoVendaPorMes = (function () {
         this.btnGraficoColuna = $('#colunaBtn');
         this.mensagemSemResult = $('#mensagemErro');
         this.tutorialContainer = $('#tutorialContainer');
+        this.modalVideo = $('#myModal');
         google.charts.setOnLoadCallback(drawPizzaChart.bind(this));
 
     }
 
     GraficoVendaPorMes.prototype.iniciar = function () {
-        this.tutorialContainer.hide();
         this.btnGraficoPizza.on('click', drawPizzaChart.bind(this));
         this.btnGraficoColuna.on('click', drawColunaChart.bind(this));
     };
@@ -83,13 +83,8 @@ ImovelControl.GraficoVendaPorMes = (function () {
 
             var chart = new google.visualization.ColumnChart(document.getElementById('chart'));
             chart.draw(data, options);
-            this.btnGraficoPizza.show();
-            this.btnGraficoColuna.show();
-            this.mensagemSemResult.hide();
         } else {
-            this.btnGraficoPizza.hide();
-            this.btnGraficoColuna.hide();
-            this.mensagemSemResult.show();
+            //Esconder os menus que é feito quando carrega o grafico de pizza.
         }
     }
 
@@ -145,7 +140,10 @@ ImovelControl.GraficoVendaPorMes = (function () {
             this.mensagemSemResult.hide();
             this.btnGraficoColuna.show();
             this.btnGraficoPizza.show();
+            this.tutorialContainer.hide();
         } else {
+            this.modalVideo.modal('show');
+            this.tutorialContainer.show();
             this.btnGraficoPizza.hide();
             this.btnGraficoColuna.hide();
             this.mensagemSemResult.show();
