@@ -78,11 +78,6 @@ public class CadastroUsuarioService {
 
     @Transactional
     public void excluir(Usuario usuario) {
-        List<Imovel> imovels = cadastroImovelService.findByDonoImovel(usuario.getCodigo());
-
-        for (Imovel item : imovels) {
-            cadastroImovelService.excluirLogicamente(item);
-        }
         usuario.setAtivo(Boolean.FALSE);
         usuarios.save(usuario);
     }
