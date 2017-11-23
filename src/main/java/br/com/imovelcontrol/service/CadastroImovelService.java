@@ -32,12 +32,6 @@ public class CadastroImovelService {
 
     @Transactional
     public void excluirLogicamente(Imovel imovel) {
-        List<Aluguel> aluguel;
-        aluguel = cadastroAluguelService.findByImovel(imovel.getCodigo());
-
-        for (Aluguel item : aluguel) {
-            cadastroAluguelService.excluirLogicamente(item);
-        }
         imovel.setExcluido(Boolean.TRUE);
         imoveis.save(imovel);
     }
@@ -56,10 +50,6 @@ public class CadastroImovelService {
     @Transactional
     public void reativar(Imovel imovel) {
         validarBeforeSave(imovel);
-        imovel.getAluguelList().forEach(a -> {
-            a.setExcluido(Boolean.FALSE);
-            cadastroAluguelService.salvar(a);
-        });
         imoveis.save(imovel);
     }
 
