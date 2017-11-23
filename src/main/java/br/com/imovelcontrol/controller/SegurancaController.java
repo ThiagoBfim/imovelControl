@@ -21,12 +21,6 @@ public class SegurancaController {
 
     }
 
-    @PostMapping("/login")
-    public String loginPost() {
-        return "Login";
-    }
-
-
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public ModelAndView paginaInicial(@AuthenticationPrincipal User user) {
         if (user != null) {
