@@ -15,4 +15,6 @@ public interface Locatarios extends JpaRepository<Locatario, Long> {
     Optional<Locatario> findByAluguelAndExcluido(Aluguel aluguel, Boolean aFalse);
 
     List<Locatario> findByDataFimGreaterThanAndAluguel(LocalDate dataInicio, Aluguel aluguel);
+
+    List<Locatario> findByDataInicioGreaterThanEqualAndAluguel(LocalDate dataInicio, Aluguel aluguel);
 }
