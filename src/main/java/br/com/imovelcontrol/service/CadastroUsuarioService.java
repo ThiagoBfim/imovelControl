@@ -1,11 +1,9 @@
 package br.com.imovelcontrol.service;
 
 import java.time.LocalDate;
-import java.util.List;
 import java.util.Optional;
 
 import br.com.imovelcontrol.mail.EmailSenderConfigure;
-import br.com.imovelcontrol.model.Imovel;
 import br.com.imovelcontrol.model.Usuario;
 import br.com.imovelcontrol.model.enuns.StatusUsuario;
 import br.com.imovelcontrol.repository.Usuarios;
