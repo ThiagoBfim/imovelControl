@@ -211,9 +211,7 @@ public class Aluguel extends BaseEntity {
             Optional<Locatario> locatarioOptional = getLocatarios().stream().filter(l ->
                     dataMensalidade.atTime(23, 59)
                             .isAfter(l.getDataInicio().minusDays(l.getDataInicio().getDayOfMonth() - 1).atStartOfDay())
-                            && (l.getDataFim() != null
-                            ? dataMensalidadeFinal.plusDays(l.getDataInicio().getDayOfMonth()).isBefore(l.getDataFim())
-                            : true)).findFirst();
+                            && (l.getDataFim() == null || dataMensalidadeFinal.plusDays(l.getDataInicio().getDayOfMonth()).isBefore(l.getDataFim()))).findFirst();
             if (locatarioOptional.isPresent()) {
                 return locatarioOptional.get();
             } else {

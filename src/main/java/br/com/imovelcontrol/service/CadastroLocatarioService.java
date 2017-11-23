@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 
 /**
  * Created by marcosfellipec on 18/05/17.
@@ -27,29 +28,42 @@ public class CadastroLocatarioService {
 
     @Transactional
     public Locatario salvar(Locatario locatario) {
+        LocalDate dataInicioLocacao = null;
         if (locatario.getCodigo() != null) {
             Optional<Locatario> locatarioRetrived = locatarios
                     .findByAluguelAndExcluido(locatario.getAluguel(), Boolean.FALSE);
             if (locatarioRetrived.isPresent()) {
                 locatario.setCodigo(locatarioRetrived.get().getCodigo());
+
+                dataInicioLocacao = locatarioRetrived.get().getDataInicio();
             }
         }
-        if (locatario.getDataInicioJson() != null) {
+        if (!StringUtils.isEmpty(locatario.getDataInicioJson())) {
             DateTimeFormatter formater = DateTimeFormatter.ofPattern("dd/MM/yyyy");
             formater.withLocale(new Locale("pt", "BR"));
             LocalDate date = LocalDate.parse(locatario.getDataInicioJson(), formater);
-            locatario.setDataInicio(date);
             LocalDate dataAtual = LocalDate.now();
-            if(date.isAfter(dataAtual)){
-                throw new BusinessException("Datá de locação inválida! Não é aceita data maior que a data atual.", "data");
+            /*Caso não tenha nenhuma data cadastrada, então a data precisa ser menor que a atual.*/
+            if (dataInicioLocacao == null && date.isAfter(dataAtual)) {
+                throw new BusinessException("Data de locação inválida! Não é aceita data maior que a data atual.", "data");
             }
+            /*Caso já tenha uma data cadastrada, essa data precisa estar no mesmo mes do cadastro.*/
+            if (dataInicioLocacao != null
+                    && dataInicioLocacao.getMonthValue() != date.getMonthValue()) {
+                throw new BusinessException("Data de locação inválida!", "data");
+            }
+            /*Caso exista algum locatario que possua uma data que faz conflito com a data escolhida.
+            * Ou se o mes escolhido for menor que o mes atual.*/
             List<Locatario> locatarioList = locatarios
                     .findByDataFimGreaterThanAndAluguel(locatario.getDataInicio(), locatario.getAluguel());
-            if (!CollectionUtils.isEmpty(locatarioList) || date.getMonthValue() < dataAtual.getMonthValue()) {
-                throw new BusinessException("Datá de locação inválida, favor colocar um data mais recente.", "data");
+            if (!CollectionUtils.isEmpty(locatarioList) ||
+                    (date.getMonthValue() < dataAtual.getMonthValue() && dataInicioLocacao == null)) {
+                throw new BusinessException("Data de locação inválida, favor colocar um data mais recente.", "data");
             }
+
+            locatario.setDataInicio(date);
         } else {
-            throw new BusinessException("Datá de locação inválida, favor colocar um data mais recente.", "data");
+            throw new BusinessException("Data de locação inválida, favor colocar um data mais recente.", "data");
         }
         return locatarios.save(locatario);
     }
