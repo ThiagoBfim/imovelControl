@@ -330,7 +330,6 @@ public class ImoveisImpl implements ImoveisQuerys {
                 + "       GROUP BY  ia.codigo, MONTH(ia.dataMensal),  ia.codigo_aluguel"
                 + "   ) valorPG "
                 + "   ON valorPG.codigo = i.codigo AND valorPG.codigoAluguel = i.codigo_aluguel"
-                + "   WHERE a.excluido = 0"
                 + "   GROUP BY MONTH(i.dataMensal), a.codigo_imovel"
                 + " ) as tabela"
                 + " ON tabela.codigo_imovel = imovel.codigo"
