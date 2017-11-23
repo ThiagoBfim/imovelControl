@@ -83,34 +83,36 @@ public class DashBoardController {
 
     private double valorTotal(Long codigo) {
         double total = 0;
-        List<Aluguel> listAlgueis;
-        listAlgueis = alugueis.findByImovel_Codigo(codigo).get();
-        for (Aluguel i : listAlgueis) {
-            Optional<List<InformacaoPagamento>> informacaoPagamento = informacaoPagamentoService
-                    .retrieveInforcamacoesPagamentoByAluguel(Long.toString(i.getCodigo()));
+        Optional<List<Aluguel>> listAlgueis = alugueis.findByImovel_Codigo(codigo);
+        if (listAlgueis.isPresent()) {
+            listAlgueis.get().removeIf(a -> a.getExcluido());
+            for (Aluguel i : listAlgueis.get()) {
+                Optional<List<InformacaoPagamento>> informacaoPagamento = informacaoPagamentoService
+                        .retrieveInforcamacoesPagamentoByAluguel(Long.toString(i.getCodigo()));
 
-            if (informacaoPagamento.isPresent()) {
-                for (InformacaoPagamento pagamento : informacaoPagamento.get()) {
-                    if (pagamento.getPago()) {
-                        total += pagamento.getValor().doubleValue();
-                    }
-                    if(pagamento.getMulta() != null) {
-                        total += pagamento.getMulta().doubleValue();
-                    }
-                    Optional<List<GastoAdicional>> gastoAdicionals = gastosAdicionais
-                            .findByInformacaoPagamento(pagamento);
-                    if (gastoAdicionals.isPresent()) {
-                        for (GastoAdicional gastoAdicional : gastoAdicionals.get()) {
-                            total -= gastoAdicional.getValorGasto().doubleValue();
+                if (informacaoPagamento.isPresent()) {
+                    for (InformacaoPagamento pagamento : informacaoPagamento.get()) {
+                        if (pagamento.getPago()) {
+                            total += pagamento.getValor().doubleValue();
+                        }
+                        if (pagamento.getMulta() != null) {
+                            total += pagamento.getMulta().doubleValue();
+                        }
+                        Optional<List<GastoAdicional>> gastoAdicionals = gastosAdicionais
+                                .findByInformacaoPagamento(pagamento);
+                        if (gastoAdicionals.isPresent()) {
+                            for (GastoAdicional gastoAdicional : gastoAdicionals.get()) {
+                                total -= gastoAdicional.getValorGasto().doubleValue();
+                            }
                         }
                     }
+
                 }
-
             }
-        }
 
-        if (total < 0) {
-            total = 0;
+            if (total < 0) {
+                total = 0;
+            }
         }
 
         return total;
