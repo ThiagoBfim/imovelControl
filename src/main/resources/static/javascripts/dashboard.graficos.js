@@ -10,7 +10,6 @@ ImovelControl.GraficoVendaPorMes = (function () {
         this.tutorialContainer = $('#tutorialContainer');
         this.modalVideo = $('#myModal');
         google.charts.setOnLoadCallback(drawPizzaChart.bind(this));
-
     }
 
     GraficoVendaPorMes.prototype.iniciar = function () {
