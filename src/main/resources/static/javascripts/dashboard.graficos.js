@@ -100,7 +100,7 @@ ImovelControl.GraficoVendaPorMes = (function () {
 
         vendaMes.forEach(function (obj) {
             somaTotal = somaTotal + obj.rendimento;
-        })
+        });
         if (vendaMes.length > 0 && somaTotal != 0) {
 
             var ganhos = [];
