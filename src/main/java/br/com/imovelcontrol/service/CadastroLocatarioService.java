@@ -61,6 +61,12 @@ public class CadastroLocatarioService {
                 throw new BusinessException("Data de locação inválida, favor colocar um data mais recente.", "data");
             }
 
+            List<Locatario> locatarioListInicio = locatarios
+                    .findByDataInicioGreaterThanEqualAndAluguel(date, locatario.getAluguel());
+            if (!CollectionUtils.isEmpty(locatarioListInicio) && dataInicioLocacao == null) {
+                throw new BusinessException("Data de locação inválida. Um locatario já foi incluido nesse dia.", "data");
+            }
+
             locatario.setDataInicio(date);
         } else {
             throw new BusinessException("Data de locação inválida, favor colocar um data mais recente.", "data");
