@@ -27,13 +27,13 @@ public class RecuperarSenhaController {
         return new ModelAndView("RecuperarSenha");
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/pesquisa")
-    public ModelAndView pesquisar(Usuario usuario, BindingResult result) {
+    @RequestMapping(method = RequestMethod.GET, value = "/recuperar")
+    public ModelAndView recuperarSenha(Usuario usuario, BindingResult result) {
         ModelAndView modelAndView = new ModelAndView("RecuperarSenha");
 
         try {
-            usuario = cadastroUsuarioService.findByLogin(usuario.getLogin());
-            cadastroUsuarioService.enviarNovaSenha(usuario);
+            usuario = cadastroUsuarioService.findByEmail(usuario.getLogin());
+            cadastroUsuarioService.enviarNovaSenhaAndActiveConta(usuario);
             modelAndView.addObject("mensagem", "Nova senha foi enviada ao seu E-mail cadastrado no sistema.");
 
         } catch (BusinessException e) {

@@ -32,18 +32,12 @@ public class CadastroUsuarioService {
     CadastroImovelService cadastroImovelService;
 
     @Transactional
-    public Usuario salvar(Usuario usuario, boolean buscarExcluidos) {
-        Optional<Usuario> usuarioRetrived = usuarios.findByEmailAndAtivo(usuario.getEmail(), Boolean.TRUE);
-        if (!usuarioRetrived.isPresent() && buscarExcluidos) {
-            usuarioRetrived = usuarios.findByEmailAndAtivo(usuario.getEmail(), Boolean.FALSE);
-        }
+    public Usuario salvar(Usuario usuario) {
+        Optional<Usuario> usuarioRetrived = usuarios.findByEmail(usuario.getEmail());
         if (usuarioRetrived.isPresent() && !usuarioRetrived.get().equals(usuario)) {
             throw new BusinessException("E-mail já cadastrado", "email");
         }
-        usuarioRetrived = usuarios.findByLoginAndAtivo(usuario.getLogin(), Boolean.TRUE);
-        if (!usuarioRetrived.isPresent() && buscarExcluidos) {
-            usuarioRetrived = usuarios.findByLoginAndAtivo(usuario.getLogin(), Boolean.FALSE);
-        }
+        usuarioRetrived = usuarios.findByLogin(usuario.getLogin());
         if (usuarioRetrived.isPresent() && !usuarioRetrived.get().equals(usuario)) {
             throw new BusinessException("Login já cadastrado", "login");
         }
@@ -95,8 +89,9 @@ public class CadastroUsuarioService {
 
 
     @Transactional
-    public Usuario findByLogin(String login) {
-        Optional<Usuario> usuario = usuarios.findByEmailAndAtivo(login, Boolean.TRUE);
+    public Usuario findByEmail(String login) {
+        Optional<Usuario> usuario = usuarios.findByEmail(login);
+
         if (!usuario.isPresent()) {
             throw new BusinessException("E-mail do usuário não encontrado no sistema", "login");
         } else {
@@ -105,7 +100,10 @@ public class CadastroUsuarioService {
     }
 
     @Transactional
-    public void enviarNovaSenha(Usuario usuario) {
+    public void enviarNovaSenhaAndActiveConta(Usuario usuario) {
+        if (!usuario.getAtivo()) {
+            usuario.setAtivo(Boolean.TRUE);
+        }
         String senha = generateSenha(usuario);
         usuario.setSenha(this.passwordEncoder.encode(senha));
         usuarios.save(usuario);
