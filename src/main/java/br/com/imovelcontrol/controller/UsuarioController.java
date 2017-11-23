@@ -247,12 +247,12 @@ public class UsuarioController {
         ModelAndView modelAndView = new ModelAndView("usuario/AlterarSenha");
         Usuario usuarioRetrived = usuarios.buscarComGrupos(usuario.getCodigo(), Boolean.TRUE);
         usuario.setNome(usuarioRetrived.getNome());
-        if (StringUtils.isEmpty(usuario.getSenha())) {
-            result.rejectValue("senha", "Senha deve ter no máximo 30 caracteres e no mínimo 6", "Senha é Obrigatório");
-            return alterarSenha(usuario);
-        }
         if (StringUtils.isEmpty(usuario.getConfirmacaoSenha())) {
             result.rejectValue("confirmacaoSenha", "Confirmação da senha está em branco", "Confirmação da Senha é obrigatório");
+            return alterarSenha(usuario);
+        }
+        if (!usuario.getConfirmacaoSenha().equals(usuario.getSenha())) {
+            result.rejectValue("confirmacaoSenha", "Confirmação da senha não confere.", "Confirmação da senha não confere.");
             return alterarSenha(usuario);
         }
         usuarioRetrived.setSenha(usuario.getSenha());

@@ -21,9 +21,6 @@ public class CadastroImovelService {
     @Autowired
     private Imoveis imoveis;
 
-    @Autowired
-    private CadastroAluguelService cadastroAluguelService;
-
     @Transactional
     public Imovel salvar(Imovel imovel) {
         validarBeforeSave(imovel);
