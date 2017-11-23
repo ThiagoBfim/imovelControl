@@ -85,7 +85,6 @@ public class DashBoardController {
         double total = 0;
         Optional<List<Aluguel>> listAlgueis = alugueis.findByImovel_Codigo(codigo);
         if (listAlgueis.isPresent()) {
-            listAlgueis.get().removeIf(a -> a.getExcluido());
             for (Aluguel i : listAlgueis.get()) {
                 Optional<List<InformacaoPagamento>> informacaoPagamento = informacaoPagamentoService
                         .retrieveInforcamacoesPagamentoByAluguel(Long.toString(i.getCodigo()));
