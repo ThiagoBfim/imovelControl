@@ -55,7 +55,7 @@ public class CadastroLocatarioService {
             /*Caso exista algum locatario que possua uma data que faz conflito com a data escolhida.
             * Ou se o mes escolhido for menor que o mes atual.*/
             List<Locatario> locatarioList = locatarios
-                    .findByDataFimGreaterThanAndAluguel(locatario.getDataInicio(), locatario.getAluguel());
+                    .findByDataFimGreaterThanAndAluguel(date, locatario.getAluguel());
             if (!CollectionUtils.isEmpty(locatarioList) ||
                     (date.getMonthValue() < dataAtual.getMonthValue() && dataInicioLocacao == null)) {
                 throw new BusinessException("Data de locação inválida, favor colocar um data mais recente.", "data");
