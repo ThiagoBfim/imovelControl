@@ -283,7 +283,7 @@ public class ImoveisImpl implements ImoveisQuerys {
             sql.append(" AND  imovel.codigo = :id");
         }
         if (!periodoRelatorioDTO.isMostrarExcluidos()) {
-            sql.append(" AND imovel.excluido = 0 AND aluguel.excluido = 0 ");
+            sql.append(" AND imovel.excluido = 0");
         }
         sql.append("  GROUP BY  imovel.nome, imovel.cep, imovel.codigo_usuario, imovel.excluido ");
         if (detalhar) {
