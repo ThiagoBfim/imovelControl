@@ -1,11 +1,13 @@
  # Sistema para o trabalho final da faculdade #
  
-Foi utilziado as seguintes ferramentas:
- Spring data;
- Spring security;
- Spring MVC;
- JasperReport;
- Thymeleaf para template engine;
- Bootstrap;
- Versionamento de script com flyway;
- MySQL;
+Foi utilizado as seguintes ferramentas:
+<ul>
+  <li>Spring data</li>
+  <li>Spring security</li>
+  <li>Spring MVC</li>
+  <li>JasperReport</li>
+  <li>Thymeleaf para template engine</li>
+  <li>Bootstrap</li>
+  <li>Versionamento de script com flyway</li>
+  <li>MySQL</li>
+</ul>
